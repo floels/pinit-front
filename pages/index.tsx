@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { API_BASE_URL, TOKEN_REFRESH_ENDPOINT } from "@/lib/constants";
 import { GetServerSidePropsContext } from "next";
-import { useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -48,7 +48,6 @@ export const getServerSideProps = async (
 };
 
 export default function Home() {
-  const intl = useIntl();
   return (
     <>
       <Head>
@@ -58,10 +57,10 @@ export default function Home() {
       </Head>
       <main>
         <div>
-          {intl.formatMessage({
-            defaultMessage: "Welcome to Pint!",
-            description: "Home: Welcome to Pint",
-          })}
+          <FormattedMessage
+            id="homeWelcome"
+            defaultMessage="Welcome to Pint!"
+          />
         </div>
       </main>
     </>

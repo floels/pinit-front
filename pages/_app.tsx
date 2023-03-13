@@ -1,21 +1,27 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 import { IntlProvider } from "react-intl";
+import English from "../lang/en.json";
 
-// Internationalization: see example at https://github.com/vercel/next.js/blob/canary/examples/with-react-intl/pages/_app.tsx
-type MessageConfig = Record<string, string>;
-
-export default function App({
-  Component,
-  pageProps,
-}: AppProps<{ intlMessages: MessageConfig }>) {
+export default function App({ Component, pageProps }: AppProps) {
   const { locale, defaultLocale } = useRouter();
+
+  const messages = useMemo(() => {
+    switch (locale) {
+      case "en":
+        return English;
+      default:
+        return English;
+    }
+  }, [locale]);
+
   return (
     <IntlProvider
       locale={locale as string}
       defaultLocale={defaultLocale}
-      messages={pageProps.intlMessages}
+      messages={messages as Record<string, string>}
     >
       <Component {...pageProps} />
     </IntlProvider>
