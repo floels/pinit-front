@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  width: 268px;
+}
+
+.emailInputContainer,
+.passwordInputContainer {
+  margin-bottom: 8px;
+}
+
+.submitButton {
+  margin-top: 16px;
+  border-radius: 24px;
+  background-color: var(--g-color-red);
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  width: 100%;
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-semibold);
+}
+
+.submitButton:hover {
+  background-color: var(--g-color-red-dark);
+}

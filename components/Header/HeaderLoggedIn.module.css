@@ -1,7 +1,11 @@
+.container {
+  height: 100%;
+}
+
 .headerItemsContainer {
   display: flex;
-  height: 80px;
-  padding: 0 16px;
+  align-items: center;
+  height: 100%;
 }
 
 .searchBarContainer {
@@ -16,7 +20,7 @@
 }
 
 .accountOptionsButton {
-  border-radius: 12px;
+  border-radius: 50%;
   border: none;
   height: 24px;
   display: flex;

@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import { FaAngleDown } from "react-icons/fa";
-import AccountOptionsFlyout, { UserInfo } from "./AccountOptionsFlyout";
-import styles from "./Header.module.css";
+import AccountOptionsFlyout, { UserInformation } from "./AccountOptionsFlyout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import styles from "./HeaderLoggedIn.module.css";
 
-type HeaderProps = UserInfo;
+type HeaderLoggedInProps = {
+  userInformation: UserInformation;
+};
 
-const Header = (props: HeaderProps) => {
+const HeaderLoggedIn = ({ userInformation }: HeaderLoggedInProps) => {
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
 
   const [isAccountOptionsFlyoutOpen, setAccountOptionsFlyoutOpen] =
@@ -15,7 +18,7 @@ const Header = (props: HeaderProps) => {
     setAccountOptionsFlyoutOpen(true);
   };
 
-  const handleClickOutsideAccountOptionsFlyout = (event: MouseEvent) => {
+  const handleClickDocument = (event: MouseEvent) => {
     if (
       accountOptionsFlyoutRef.current &&
       !accountOptionsFlyoutRef.current.contains(event.target as Node)
@@ -25,21 +28,15 @@ const Header = (props: HeaderProps) => {
   };
 
   useEffect(() => {
-    document.addEventListener(
-      "mousedown",
-      handleClickOutsideAccountOptionsFlyout
-    );
+    document.addEventListener("mousedown", handleClickDocument);
 
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutsideAccountOptionsFlyout
-      );
+      document.removeEventListener("mousedown", handleClickDocument);
     };
   });
 
   return (
-    <header>
+    <div className={styles.container}>
       <div className={styles.headerItemsContainer}>
         <div className={styles.searchBarContainer}></div>
         <div className={styles.accountOptionsButtonContainer}>
@@ -47,15 +44,18 @@ const Header = (props: HeaderProps) => {
             className={styles.accountOptionsButton}
             onClick={handleClickAccountOptionsButton}
           >
-            <FaAngleDown />
+            <FontAwesomeIcon icon={faAngleDown} />
           </button>
         </div>
       </div>
       {isAccountOptionsFlyoutOpen && (
-        <AccountOptionsFlyout ref={accountOptionsFlyoutRef} {...props} />
+        <AccountOptionsFlyout
+          ref={accountOptionsFlyoutRef}
+          userInformation={userInformation}
+        />
       )}
-    </header>
+    </div>
   );
 };
 
-export default Header;
+export default HeaderLoggedIn;

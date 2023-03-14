@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import Header from "@/components/Header/Header";
-import { UserInfo } from "@/components/Header/AccountOptionsFlyout";
+import HomePage, { HomePageProps } from "@/components/HomePage/HomePage";
+import { useState } from "react";
 
 const fetchUserInformation = async (accessToken: string) => {
   // TODO: make an actual API call to retrieve user info
@@ -17,39 +17,35 @@ export const getServerSideProps = async (
 ) => {
   const accessToken = context.req.cookies.accessToken;
 
-  const responseRedirect = {
-    redirect: {
-      destination: "/login",
-      permanent: false,
-    },
-  };
-
   if (!accessToken) {
-    return responseRedirect;
+    return {
+      props: {
+        isLoggedIn: false,
+      },
+    };
   }
 
   const userInformation = await fetchUserInformation(accessToken);
 
   return {
-    props: { userInformation },
+    props: {
+      isLoggedIn: true,
+      userInformation,
+    },
   };
 };
 
-type HomeProps = {
-  userInfo: UserInfo;
-};
-
-export default function Home(props: HomeProps) {
+export default function Home(props: HomePageProps) {
   return (
     <>
       <Head>
-        <title>Pint</title>
+        <title>PinIt</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Header {...props.userInfo} />
-      </main>
+      <div>
+        <HomePage {...props} />
+      </div>
     </>
   );
 }

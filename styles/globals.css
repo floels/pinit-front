@@ -1,13 +1,20 @@
 :root {
-  --color-background-secondary: #e9e9e9;
+  --g-color-red: #e60023;
+  --g-color-red-dark: #ad081b;
+  --color-gray-400: #a5a5a5;
 
+  --color-background-primary: #fff;
+  --color-background-secondary: #e9e9e9;
   --color-text-default: #111;
+  --color-text-inverse: #fff;
 
   --font-size-100: 12px;
   --font-size-300: 16px;
 
   --font-weight-normal: 400;
   --font-weight-semibold: 600;
+
+  --color-border-container: #cdcdcd;
 
   --elevation-floating: 0 0 8px rgba(0, 0, 0, 0.1);
 }
