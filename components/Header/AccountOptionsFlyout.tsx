@@ -1,4 +1,6 @@
 import React from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import { FormattedMessage } from "react-intl";
 import styles from "./AccountOptionsFlyout.module.css";
 
@@ -14,6 +16,15 @@ const AccountOptionsFlyout = React.forwardRef<
   HTMLDivElement,
   AccountOptionsFlyoutProps
 >((props, ref) => {
+  const router = useRouter();
+
+  const handleClickLogOut = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+
+    router.push("/login");
+  };
+
   return (
     <div ref={ref} className={styles.accountOptionsFlyout}>
       <div>
@@ -28,7 +39,7 @@ const AccountOptionsFlyout = React.forwardRef<
             defaultMessage="More options"
           />
         </div>
-        <div className={styles.sectionItem}>
+        <div onClick={handleClickLogOut} className={styles.sectionItem}>
           <FormattedMessage id="logOut" defaultMessage="Log out" />
         </div>
       </div>
