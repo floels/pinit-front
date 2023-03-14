@@ -1,7 +1,16 @@
 import Head from "next/head";
-import { API_BASE_URL, TOKEN_REFRESH_ENDPOINT } from "@/lib/constants";
 import { GetServerSidePropsContext } from "next";
-import { FormattedMessage } from "react-intl";
+import Header from "@/components/Header/Header";
+import { UserInfo } from "@/components/Header/AccountOptionsFlyout";
+
+const fetchUserInformation = async (accessToken: string) => {
+  // TODO: make an actual API call to retrieve user info
+  return {
+    username: "john.doe@example.com",
+    userFirstName: "John",
+    userLastName: "Doe",
+  };
+};
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -19,35 +28,18 @@ export const getServerSideProps = async (
     return responseRedirect;
   }
 
-  // Make a call to the API
-  // TODO: for now we only try to refresh the JWT token, but that's not the final use case
-  const refreshToken = context.req.cookies.refreshToken;
-
-  const responseRefreshToken = await fetch(
-    `${API_BASE_URL}/${TOKEN_REFRESH_ENDPOINT}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refresh: refreshToken }),
-    }
-  );
-
-  if (!responseRefreshToken.ok) {
-    return responseRedirect;
-  }
-
-  const dataRefreshToken = await responseRefreshToken.json();
+  const userInformation = await fetchUserInformation(accessToken);
 
   return {
-    props: {
-      accessToken: dataRefreshToken.access,
-    },
+    props: { userInformation },
   };
 };
 
-export default function Home() {
+type HomeProps = {
+  userInfo: UserInfo;
+};
+
+export default function Home(props: HomeProps) {
   return (
     <>
       <Head>
@@ -56,12 +48,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>
-          <FormattedMessage
-            id="homeWelcome"
-            defaultMessage="Welcome to Pint!"
-          />
-        </div>
+        <Header {...props.userInfo} />
       </main>
     </>
   );

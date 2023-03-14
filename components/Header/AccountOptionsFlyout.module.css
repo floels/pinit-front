@@ -1,0 +1,31 @@
+.accountOptionsFlyout {
+  position: absolute;
+  top: 60px;
+  width: 200px;
+  left: calc(
+    100vw - 218px
+  ); /* because 200px width + 16px padding + 2px margin */
+  min-height: 100px;
+  border-radius: 16px;
+  box-shadow: var(--elevation-floating);
+  padding: 8px;
+}
+
+.sectionHeader {
+  padding: 8px;
+  color: var(--color-text-default);
+  font-size: var(--font-size-100);
+  font-weight: var(--font-weight-normal);
+}
+
+.sectionItem {
+  padding: 8px;
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-semibold);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sectionItem:hover {
+  background-color: var(--color-background-secondary);
+}
