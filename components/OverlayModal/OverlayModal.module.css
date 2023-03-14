@@ -1,0 +1,49 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modal {
+  min-height: 400px;
+  width: 500px;
+  position: relative;
+  background-color: var(--color-background-primary);
+  border-radius: 32px;
+  padding: 20px 10px 24px;
+}
+
+.closeButtonContainer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 16px 16px 0 16px;
+}
+
+.closeButton {
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background-color: var(--color-background-secondary);
+}
+
+.content {
+}

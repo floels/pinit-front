@@ -4,13 +4,15 @@ import { useRouter } from "next/router";
 import { FormattedMessage } from "react-intl";
 import styles from "./AccountOptionsFlyout.module.css";
 
-export type UserInfo = {
+export type UserInformation = {
   username: string;
   userFirstName: string;
   userLastName: string;
 };
 
-type AccountOptionsFlyoutProps = UserInfo;
+type AccountOptionsFlyoutProps = {
+  userInformation: UserInformation;
+};
 
 const AccountOptionsFlyout = React.forwardRef<
   HTMLDivElement,
@@ -22,7 +24,7 @@ const AccountOptionsFlyout = React.forwardRef<
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
 
-    router.push("/login");
+    router.push("/");
   };
 
   return (
