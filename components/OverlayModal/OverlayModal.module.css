@@ -12,7 +12,6 @@
 }
 
 .modal {
-  min-height: 400px;
   width: 500px;
   position: relative;
   background-color: var(--color-background-primary);

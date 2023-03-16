@@ -1,39 +1,66 @@
 import { API_BASE_URL, TOKEN_OBTAIN_ENDPOINT } from "@/lib/constants";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import { FormattedMessage } from "react-intl";
+import Image from "next/image";
+import { isValidEmail } from "@/lib/helpers";
 
 type LoginFormProps = {
   onLoginSuccess: () => void;
 };
 
+const computeFormErrors = (values: { email: string; password: string }) => {
+  if (!values.email) {
+    return { email: "MISSING_EMAIL" };
+  }
+
+  if (!isValidEmail(values.email)) {
+    return { email: "WRONG_EMAIL_FORMAT" };
+  }
+
+  return {};
+};
+
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
-
+  const [formErrors, setFormErrors] = useState<{
+    email?: string;
+    password?: string;
+  }>({ email: "MISSING_EMAIL" });
+  const [showFormErrors, setShowFormErrors] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [fetchError, setFetchError] = useState(false);
   const [serverError, setServerError] = useState(false);
 
-  const router = useRouter();
+  useEffect(() => {
+    emailInputRef.current?.focus();
+  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setCredentials((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-    // Reset login error state when user types into input field
+
+    const newValues = { ...credentials, [name]: value };
+    setCredentials(newValues);
+    setFormErrors(computeFormErrors(newValues));
     setLoginError(false);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (Object.keys(formErrors).length) {
+      setShowFormErrors(true);
+      return;
+    }
 
     let response;
 
@@ -69,27 +96,48 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
     }
   };
 
+  const emailMessage = {
+    id: "email",
+    defaultMessage: "E-mail",
+  };
+  const passwordMessage = {
+    id: "password",
+    defaultMessage: "Password",
+  };
+
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <Image
+        src="/logo.svg"
+        alt="PinIt logo"
+        width={40}
+        height={40}
+        className={styles.logo}
+      />
+      <h1 className={styles.title}>
+        <FormattedMessage
+          id="welcomeToPinIt"
+          defaultMessage={"Welcome to PinIt!"}
+        />
+      </h1>
+      <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
-            labelMessage={{
-              id: "email",
-              defaultMessage: "E-mail",
-            }}
+            labelMessage={emailMessage}
+            placeholderMessage={emailMessage}
             name="email"
             type="email"
             value={credentials.email}
+            errorMessageId={showFormErrors ? formErrors.email : ""}
             onChange={handleInputChange}
+            autoComplete="email"
+            ref={emailInputRef}
           />
         </div>
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
-            labelMessage={{
-              id: "password",
-              defaultMessage: "Password",
-            }}
+            labelMessage={passwordMessage}
+            placeholderMessage={passwordMessage}
             name="password"
             type="password"
             value={credentials.password}
@@ -101,7 +149,7 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
           <div>Incorrect email or password. Please try again.</div>
         )}
         <button type="submit" className={styles.submitButton}>
-          <FormattedMessage id="signIn" defaultMessage="Sign in" />
+          <FormattedMessage id="SIGN_IN" />
         </button>
       </form>
     </div>

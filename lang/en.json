@@ -1,1 +1,8 @@
-{}
+{
+  "MISSING_EMAIL": "Oops! Don't forget to type in your email.",
+  "WRONG_EMAIL_FORMAT": "This email address looks wrong.",
+  "CURRENTLY_IN": "Currently in",
+  "ACCOUNT_OPTIONS_MORE_OPTIONS": "More options",
+  "SIGN_IN": "Sign in",
+  "LOG_OUT": "Log out"
+}
