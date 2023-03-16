@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { UserInformation } from "../Header/AccountOptionsFlyout";
 import HeaderLoggedIn from "../Header/HeaderLoggedIn";
 import HeaderNotLoggedIn from "../Header/HeaderNotLoggedIn";
 import HomePageContentNotLoggedIn from "./HomePageContentNotLoggedIn";
 import HomePageContentLoggedIn from "./HomePageContentLoggedIn";
-import LoginForm from "../LoginForm/LoginForm";
+import LoginForm, { LoginFormProps } from "../LoginForm/LoginForm";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import styles from "./HomePage.module.css";
 
@@ -28,7 +28,12 @@ const HomePage = ({ isLoggedIn, userInformation }: HomePageProps) => {
     <div>
       {isLoginModalOpen && (
         <OverlayModal onClose={handleModalClose}>
-          <LoginForm onLoginSuccess={handleModalClose} />
+          <LoginForm
+            {
+              ...({ onLoginSuccess: handleModalClose } as LoginFormProps)
+              /* setIsLoading will be injected by <OverlayModal />*/
+            }
+          />
         </OverlayModal>
       )}
       <header className={styles.header}>

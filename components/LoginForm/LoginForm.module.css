@@ -25,6 +25,18 @@
   margin-bottom: 8px;
 }
 
+.otherErrorMessage {
+  font-size: var(--font-size-100);
+  color: var(--color-text-error);
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.otherErrorText {
+  margin: 6px;
+}
+
 .submitButton {
   margin-top: 16px;
   border-radius: 24px;

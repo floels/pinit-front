@@ -1,16 +1,23 @@
-import { API_BASE_URL, TOKEN_OBTAIN_ENDPOINT } from "@/lib/constants";
 import { useRef, useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import {
+  API_BASE_URL,
+  ENDPOINT_OBTAIN_TOKEN,
+  ERROR_CODE_INVALID_PASSWORD,
+  ERROR_CODE_INVALID_USERNAME,
+} from "@/lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import { FormattedMessage } from "react-intl";
 import Image from "next/image";
 import { isValidEmail, isValidPassword } from "@/lib/helpers";
 
-type LoginFormProps = {
-  setModalIsLoading: (isLoading: boolean) => void;
+export type LoginFormProps = {
   onLoginSuccess: () => void;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
 const computeFormErrors = (values: { email: string; password: string }) => {
@@ -19,17 +26,17 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   }
 
   if (!isValidEmail(values.email)) {
-    return { email: "WRONG_EMAIL" };
+    return { email: "INVALID_EMAIL_INPUT" };
   }
 
   if (!isValidPassword(values.password)) {
-    return { password: "WRONG_PASSWORD" };
+    return { password: "INVALID_PASSWORD_INPUT" };
   }
 
   return {};
 };
 
-const LoginForm = ({ setModalIsLoading, onLoginSuccess }: LoginFormProps) => {
+const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -40,11 +47,9 @@ const LoginForm = ({ setModalIsLoading, onLoginSuccess }: LoginFormProps) => {
   const [formErrors, setFormErrors] = useState<{
     email?: string;
     password?: string;
+    other?: string;
   }>({ email: "MISSING_EMAIL" });
   const [showFormErrors, setShowFormErrors] = useState(false);
-  const [loginError, setLoginError] = useState(false);
-  const [fetchError, setFetchError] = useState(false);
-  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     emailInputRef.current?.focus();
@@ -56,23 +61,24 @@ const LoginForm = ({ setModalIsLoading, onLoginSuccess }: LoginFormProps) => {
     const newValues = { ...credentials, [name]: value };
     setCredentials(newValues);
     setFormErrors(computeFormErrors(newValues));
-    setLoginError(false);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (Object.keys(formErrors).length) {
-      setShowFormErrors(true);
+    setShowFormErrors(true);
+
+    if (formErrors.email || formErrors.password) {
+      // Invalid inputs: no need to make a request
       return;
     }
 
-    setModalIsLoading(true);
+    setIsLoading(true);
 
-    let response;
+    let data, response;
 
     try {
-      response = await fetch(`${API_BASE_URL}/${TOKEN_OBTAIN_ENDPOINT}`, {
+      response = await fetch(`${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,23 +88,29 @@ const LoginForm = ({ setModalIsLoading, onLoginSuccess }: LoginFormProps) => {
           password: credentials.password,
         }),
       });
+
+      data = await response.json();
     } catch (error) {
-      setModalIsLoading(false);
-      setFetchError(true); // TODO: display error in DOM
+      setFormErrors({ other: "CONNECTION_ERROR" });
       return;
+    } finally {
+      setIsLoading(false);
     }
 
     if (!response.ok) {
       if (response.status == 401) {
-        setLoginError(true);
+        if (data.errors[0].code == ERROR_CODE_INVALID_USERNAME) {
+          setFormErrors({ email: "INVALID_USERNAME" });
+        } else if (data.errors[0].code == ERROR_CODE_INVALID_PASSWORD) {
+          setFormErrors({ password: "INVALID_PASSWORD" });
+        } else {
+          setFormErrors({ other: "UNFORESEEN_ERROR" });
+        }
       } else {
-        setServerError(true); // TODO: display error in DOM
+        setFormErrors({ other: "UNFORESEEN_ERROR" });
       }
-      setModalIsLoading(false);
       return;
     }
-
-    const data = await response.json();
 
     Cookies.set("accessToken", data.access);
     Cookies.set("refreshToken", data.refresh);
@@ -158,8 +170,13 @@ const LoginForm = ({ setModalIsLoading, onLoginSuccess }: LoginFormProps) => {
             withPasswordShowIcon={true}
           />
         </div>
-        {loginError && (
-          <div>Incorrect email or password. Please try again.</div>
+        {showFormErrors && formErrors.other && (
+          <div className={styles.otherErrorMessage}>
+            <FontAwesomeIcon icon={faCircleXmark} />
+            <div className={styles.otherErrorText}>
+              <FormattedMessage id={formErrors.other} />
+            </div>
+          </div>
         )}
         <button type="submit" className={styles.submitButton}>
           <FormattedMessage id="SIGN_IN" />

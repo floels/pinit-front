@@ -11,8 +11,14 @@ type OverlayModalProps = {
 const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleClickOut = () => {
+    if (!isLoading) {
+      onClose();
+    }
+  };
+
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div className={styles.overlay} onClick={handleClickOut}>
       <div
         className={styles.modal}
         onClick={
@@ -36,7 +42,7 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
         </div>
         {React.Children.map(children, (child) => {
           return React.cloneElement(child as React.ReactElement<any>, {
-            setModalIsLoading: setIsLoading,
+            setIsLoading,
           });
         })}
       </div>

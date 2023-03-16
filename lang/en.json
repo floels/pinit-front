@@ -1,9 +1,13 @@
 {
   "MISSING_EMAIL": "Oops! Don't forget to type in your email.",
-  "WRONG_EMAIL": "The email address you entered is incorrect.",
-  "WRONG_PASSWORD": "The password you entered is incorrect.",
+  "INVALID_EMAIL_INPUT": "The email address you entered is incorrect.",
+  "INVALID_PASSWORD_INPUT": "The password you entered is incorrect.",
+  "INVALID_USERNAME": "The email address you entered is not associated with any account.",
+  "INVALID_PASSWORD": "The password you entered is incorrect. Please try again.",
   "CURRENTLY_IN": "Currently in",
   "ACCOUNT_OPTIONS_MORE_OPTIONS": "More options",
   "SIGN_IN": "Sign in",
-  "LOG_OUT": "Log out"
+  "LOG_OUT": "Log out",
+  "CONNECTION_ERROR": "We couldn't reach the server. Please check your Internet connection and try again.",
+  "UNFORESEEN_ERROR": "An unforeseen error happened. Please try again later."
 }
