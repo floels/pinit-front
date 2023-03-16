@@ -6,7 +6,7 @@ import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import { FormattedMessage } from "react-intl";
 import Image from "next/image";
-import { isValidEmail } from "@/lib/helpers";
+import { isValidEmail, isValidPassword } from "@/lib/helpers";
 
 type LoginFormProps = {
   onLoginSuccess: () => void;
@@ -18,7 +18,11 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   }
 
   if (!isValidEmail(values.email)) {
-    return { email: "WRONG_EMAIL_FORMAT" };
+    return { email: "WRONG_EMAIL" };
+  }
+
+  if (!isValidPassword(values.password)) {
+    return { password: "WRONG_PASSWORD" };
   }
 
   return {};
@@ -141,6 +145,7 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
             name="password"
             type="password"
             value={credentials.password}
+            errorMessageId={showFormErrors ? formErrors.password : ""}
             onChange={handleInputChange}
             withPasswordShowIcon={true}
           />

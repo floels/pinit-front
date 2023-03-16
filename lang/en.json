@@ -1,6 +1,7 @@
 {
   "MISSING_EMAIL": "Oops! Don't forget to type in your email.",
-  "WRONG_EMAIL_FORMAT": "This email address looks wrong.",
+  "WRONG_EMAIL": "The email address you entered is incorrect.",
+  "WRONG_PASSWORD": "The password you entered is incorrect.",
   "CURRENTLY_IN": "Currently in",
   "ACCOUNT_OPTIONS_MORE_OPTIONS": "More options",
   "SIGN_IN": "Sign in",
