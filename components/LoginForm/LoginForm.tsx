@@ -9,6 +9,7 @@ import Image from "next/image";
 import { isValidEmail, isValidPassword } from "@/lib/helpers";
 
 type LoginFormProps = {
+  setModalIsLoading: (isLoading: boolean) => void;
   onLoginSuccess: () => void;
 };
 
@@ -28,7 +29,7 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   return {};
 };
 
-const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
+const LoginForm = ({ setModalIsLoading, onLoginSuccess }: LoginFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -66,6 +67,8 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
       return;
     }
 
+    setModalIsLoading(true);
+
     let response;
 
     try {
@@ -80,24 +83,29 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
         }),
       });
     } catch (error) {
+      setModalIsLoading(false);
       setFetchError(true); // TODO: display error in DOM
       return;
     }
 
-    if (response.status == 401) {
-      setLoginError(true);
-    } else if (!response.ok) {
-      setServerError(true); // TODO: display error in DOM
-    } else {
-      const data = await response.json();
-
-      Cookies.set("accessToken", data.access);
-      Cookies.set("refreshToken", data.refresh);
-
-      onLoginSuccess();
-
-      router.push("/");
+    if (!response.ok) {
+      if (response.status == 401) {
+        setLoginError(true);
+      } else {
+        setServerError(true); // TODO: display error in DOM
+      }
+      setModalIsLoading(false);
+      return;
     }
+
+    const data = await response.json();
+
+    Cookies.set("accessToken", data.access);
+    Cookies.set("refreshToken", data.refresh);
+
+    onLoginSuccess();
+
+    router.push("/");
   };
 
   const emailMessage = {
