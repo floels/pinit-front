@@ -2,11 +2,16 @@
   --g-color-red: #e60023;
   --g-color-red-dark: #ad081b;
   --color-gray-400: #a5a5a5;
+  --color-gray-500: #767676;
 
   --color-background-primary: #fff;
   --color-background-secondary: #e9e9e9;
+
+  --color-border-error: #c00;
+
   --color-text-default: #111;
   --color-text-inverse: #fff;
+  --color-text-error: #c00;
 
   --font-size-100: 12px;
   --font-size-300: 16px;

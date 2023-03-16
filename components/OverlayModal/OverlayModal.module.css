@@ -9,15 +9,33 @@
   align-items: center;
   justify-content: center;
   z-index: 10000;
+  --border-radius: 32px;
 }
 
 .modal {
-  min-height: 400px;
   width: 500px;
   position: relative;
   background-color: var(--color-background-primary);
-  border-radius: 32px;
+  border-radius: var(--border-radius);
   padding: 20px 10px 24px;
+}
+
+.loadingOverlay {
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  color: var(--color-gray-500);
 }
 
 .closeButtonContainer {

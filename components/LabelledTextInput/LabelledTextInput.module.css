@@ -33,6 +33,10 @@
   border-color: var(--color-gray-400);
 }
 
+.inputError {
+  border-color: var(--color-border-error);
+}
+
 .showPasswordIconContainer {
   position: absolute;
   top: 0;
@@ -41,4 +45,15 @@
   margin-right: 8px;
   display: flex;
   align-items: center;
+}
+
+.errorMessage {
+  font-size: var(--font-size-100);
+  color: var(--color-text-error);
+  display: flex;
+  align-items: center;
+}
+
+.errorText {
+  margin: 6px;
 }

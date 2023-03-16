@@ -12,7 +12,7 @@ const HeaderNotLoggedIn = ({
     <div className={styles.container}>
       <div className={styles.logoContainer}></div>
       <button className={styles.signInButton} onClick={handleClickSignInButton}>
-        <FormattedMessage id="signIn" defaultMessage="Sign in" />
+        <FormattedMessage id="SIGN_IN" />
       </button>
     </div>
   );

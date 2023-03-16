@@ -31,18 +31,15 @@ const AccountOptionsFlyout = React.forwardRef<
     <div ref={ref} className={styles.accountOptionsFlyout}>
       <div>
         <div className={styles.sectionHeader}>
-          <FormattedMessage id="currentlyIn" defaultMessage="Currently in" />
+          <FormattedMessage id="CURRENTLY_IN" />
         </div>
       </div>
       <div>
         <div className={styles.sectionHeader}>
-          <FormattedMessage
-            id="accountOptionsMoreOptions"
-            defaultMessage="More options"
-          />
+          <FormattedMessage id="ACCOUNT_OPTIONS_MORE_OPTIONS" />
         </div>
         <div onClick={handleClickLogOut} className={styles.sectionItem}>
-          <FormattedMessage id="logOut" defaultMessage="Log out" />
+          <FormattedMessage id="LOG_OUT" />
         </div>
       </div>
     </div>
