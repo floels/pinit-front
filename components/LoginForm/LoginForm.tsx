@@ -91,7 +91,6 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
 
       data = await response.json();
     } catch (error) {
-      console.error(error); // TODO remove
       setFormErrors({ other: "CONNECTION_ERROR" });
       return;
     } finally {
