@@ -1,4 +1,4 @@
-import { FormattedMessage } from "react-intl";
+import { useIntl } from "react-intl";
 import styles from "./HeaderNotLoggedIn.module.css";
 
 type HeaderNotLoggedInProps = {
@@ -8,11 +8,13 @@ type HeaderNotLoggedInProps = {
 const HeaderNotLoggedIn = ({
   handleClickSignInButton,
 }: HeaderNotLoggedInProps) => {
+  const intl = useIntl();
+
   return (
     <div className={styles.container}>
       <div className={styles.logoContainer}></div>
       <button className={styles.signInButton} onClick={handleClickSignInButton}>
-        <FormattedMessage id="SIGN_IN" />
+        {intl.formatMessage({ id: "SIGN_IN" })}
       </button>
     </div>
   );

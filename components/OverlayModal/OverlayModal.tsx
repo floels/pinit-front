@@ -26,7 +26,10 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
         }
       >
         {isLoading && (
-          <div className={styles.loadingOverlay}>
+          <div
+            className={styles.loadingOverlay}
+            data-testid="overlay-modal-loading-overlay"
+          >
             <FontAwesomeIcon
               icon={faSpinner}
               size="2x"

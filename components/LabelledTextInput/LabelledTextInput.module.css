@@ -3,13 +3,10 @@
   flex-direction: column;
 }
 
-.labelContainer {
+.labelText {
   margin-left: 8px;
   margin-bottom: 4px;
   font-size: var(--font-size-200);
-}
-
-.label {
   cursor: pointer;
 }
 

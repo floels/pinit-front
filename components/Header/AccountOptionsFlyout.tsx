@@ -1,7 +1,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { FormattedMessage } from "react-intl";
+import { useIntl } from "react-intl";
 import styles from "./AccountOptionsFlyout.module.css";
 
 export type UserInformation = {
@@ -17,8 +17,9 @@ type AccountOptionsFlyoutProps = {
 const AccountOptionsFlyout = React.forwardRef<
   HTMLDivElement,
   AccountOptionsFlyoutProps
->((props, ref) => {
+>((_, ref) => {
   const router = useRouter();
+  const intl = useIntl();
 
   const handleClickLogOut = () => {
     Cookies.remove("accessToken");
@@ -31,15 +32,15 @@ const AccountOptionsFlyout = React.forwardRef<
     <div ref={ref} className={styles.accountOptionsFlyout}>
       <div>
         <div className={styles.sectionHeader}>
-          <FormattedMessage id="CURRENTLY_IN" />
+          {intl.formatMessage({ id: "CURRENTLY_IN" })}
         </div>
       </div>
       <div>
         <div className={styles.sectionHeader}>
-          <FormattedMessage id="ACCOUNT_OPTIONS_MORE_OPTIONS" />
+          {intl.formatMessage({ id: "ACCOUNT_OPTIONS_MORE_OPTIONS" })}
         </div>
         <div onClick={handleClickLogOut} className={styles.sectionItem}>
-          <FormattedMessage id="LOG_OUT" />
+          {intl.formatMessage({ id: "LOG_OUT" })}
         </div>
       </div>
     </div>

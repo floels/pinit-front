@@ -1,4 +1,5 @@
 {
+  "WELCOME_TO_PINIT": "Welcome to PinIt!",
   "MISSING_EMAIL": "Oops! Don't forget to type in your email.",
   "INVALID_EMAIL_INPUT": "The email address you entered is incorrect.",
   "INVALID_PASSWORD_INPUT": "The password you entered is incorrect.",
@@ -9,5 +10,7 @@
   "SIGN_IN": "Sign in",
   "LOG_OUT": "Log out",
   "CONNECTION_ERROR": "We couldn't reach the server. Please check your Internet connection and try again.",
-  "UNFORESEEN_ERROR": "An unforeseen error happened. Please try again later."
+  "UNFORESEEN_ERROR": "An unforeseen error happened. Please try again later.",
+  "EMAIL": "E-mail",
+  "PASSWORD": "Password"
 }
