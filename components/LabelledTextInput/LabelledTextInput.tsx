@@ -5,14 +5,14 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./LabelledTextInput.module.css";
-import { FormattedMessage, MessageDescriptor, useIntl } from "react-intl";
-import React, { forwardRef, useState } from "react";
+import { useIntl } from "react-intl";
+import React, { useState } from "react";
 
 type LabelledTextInputProps = {
   name: string;
   type: "text" | "email" | "password";
-  labelMessage?: MessageDescriptor;
-  placeholderMessage?: MessageDescriptor;
+  labelMessageId?: string;
+  placeholderMessageId?: string;
   errorMessageId?: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -27,8 +27,8 @@ const LabelledTextInput = React.forwardRef<
     {
       name,
       type,
-      labelMessage,
-      placeholderMessage,
+      labelMessageId,
+      placeholderMessageId,
       value,
       errorMessageId,
       onChange,
@@ -49,41 +49,43 @@ const LabelledTextInput = React.forwardRef<
 
     return (
       <div className={styles.container}>
-        <div className={styles.labelContainer}>
-          <label htmlFor={name} className={styles.label}>
-            {labelMessage ? intl.formatMessage(labelMessage) : ""}
-          </label>
-        </div>
-        <div className={styles.inputContainer}>
-          <input
-            type={type == "password" && showPassword ? "text" : type}
-            name={name}
-            placeholder={
-              placeholderMessage ? intl.formatMessage(placeholderMessage) : ""
-            }
-            value={value}
-            onChange={onChange}
-            {...otherInputProps}
-            className={`${styles.input} ${
-              errorMessageId ? styles.inputError : ""
-            }`}
-            ref={inputRef}
-          />
-          {displayPasswordShowIcon && (
-            <div className={styles.showPasswordIconContainer}>
-              <FontAwesomeIcon
-                icon={showPassword ? faEyeSlash : faEye}
-                onClick={toggleShowPassword}
-                size="xs"
-              />
-            </div>
-          )}
-        </div>
+        <label>
+          <div className={styles.labelText}>
+            {labelMessageId ? intl.formatMessage({ id: labelMessageId }) : ""}
+          </div>
+          <div className={styles.inputContainer}>
+            <input
+              name={name}
+              type={type == "password" && showPassword ? "text" : type}
+              placeholder={
+                placeholderMessageId
+                  ? intl.formatMessage({ id: placeholderMessageId })
+                  : ""
+              }
+              value={value}
+              onChange={onChange}
+              {...otherInputProps}
+              className={`${styles.input} ${
+                errorMessageId ? styles.inputError : ""
+              }`}
+              ref={inputRef}
+            />
+            {displayPasswordShowIcon && (
+              <div className={styles.showPasswordIconContainer}>
+                <FontAwesomeIcon
+                  icon={showPassword ? faEyeSlash : faEye}
+                  onClick={toggleShowPassword}
+                  size="xs"
+                />
+              </div>
+            )}
+          </div>
+        </label>
         {errorMessageId && (
           <div className={styles.errorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.errorText}>
-              <FormattedMessage id={errorMessageId} />
+              {intl.formatMessage({ id: errorMessageId })}
             </div>
           </div>
         )}

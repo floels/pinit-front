@@ -11,7 +11,7 @@ import {
 } from "@/lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
-import { FormattedMessage } from "react-intl";
+import { useIntl } from "react-intl";
 import Image from "next/image";
 import { isValidEmail, isValidPassword } from "@/lib/helpers";
 
@@ -120,14 +120,7 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
     router.push("/");
   };
 
-  const emailMessage = {
-    id: "email",
-    defaultMessage: "E-mail",
-  };
-  const passwordMessage = {
-    id: "password",
-    defaultMessage: "Password",
-  };
+  const intl = useIntl();
 
   return (
     <div className={styles.container}>
@@ -139,17 +132,14 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
         className={styles.logo}
       />
       <h1 className={styles.title}>
-        <FormattedMessage
-          id="welcomeToPinIt"
-          defaultMessage={"Welcome to PinIt!"}
-        />
+        {intl.formatMessage({ id: "WELCOME_TO_PINIT" })}
       </h1>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
-            labelMessage={emailMessage}
-            placeholderMessage={emailMessage}
             name="email"
+            labelMessageId={"EMAIL"}
+            placeholderMessageId={"EMAIL"}
             type="email"
             value={credentials.email}
             errorMessageId={showFormErrors ? formErrors.email : ""}
@@ -160,9 +150,9 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
         </div>
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
-            labelMessage={passwordMessage}
-            placeholderMessage={passwordMessage}
             name="password"
+            labelMessageId={"PASSWORD"}
+            placeholderMessageId={"PASSWORD"}
             type="password"
             value={credentials.password}
             errorMessageId={showFormErrors ? formErrors.password : ""}
@@ -174,12 +164,12 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
           <div className={styles.otherErrorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.otherErrorText}>
-              <FormattedMessage id={formErrors.other} />
+              {intl.formatMessage({ id: formErrors.other })}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          <FormattedMessage id="SIGN_IN" />
+          {intl.formatMessage({ id: "SIGN_IN" })}
         </button>
       </form>
     </div>
