@@ -91,6 +91,7 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
 
       data = await response.json();
     } catch (error) {
+      console.error(error); // TODO remove
       setFormErrors({ other: "CONNECTION_ERROR" });
       return;
     } finally {
@@ -104,16 +105,26 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
         } else if (data.errors[0].code == ERROR_CODE_INVALID_PASSWORD) {
           setFormErrors({ password: "INVALID_PASSWORD" });
         } else {
+          // Unknown error code
           setFormErrors({ other: "UNFORESEEN_ERROR" });
         }
       } else {
+        // Unknown status code
         setFormErrors({ other: "UNFORESEEN_ERROR" });
       }
       return;
     }
 
-    Cookies.set("accessToken", data.access);
-    Cookies.set("refreshToken", data.refresh);
+    const { access, refresh } = data;
+
+    if (!access || !refresh) {
+      // Abnormal response
+      setFormErrors({ other: "UNFORESEEN_ERROR" });
+      return;
+    }
+
+    Cookies.set("accessToken", access);
+    Cookies.set("refreshToken", refresh);
 
     onLoginSuccess();
 

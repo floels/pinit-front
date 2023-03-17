@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import fetchMock from "jest-fetch-mock";
 import LoginForm from "./LoginForm";
-import "@testing-library/jest-dom";
 import en from "../../lang/en.json";
 
 jest.mock("next/router", () => require("next-router-mock"));
@@ -10,8 +10,12 @@ const setIsLoading = jest.fn();
 const onLoginSuccess = jest.fn();
 
 describe("LoginForm", () => {
-  it("displays relevant input errors and sends request only when inputs are valid", async () => {
+  it("should display relevant input errors and should send request only when inputs are valid", async () => {
     const user = userEvent.setup();
+
+    fetchMock.mockResponseOnce(
+      JSON.stringify({ access: "access", refresh: "refresh" })
+    );
 
     render(
       <LoginForm setIsLoading={setIsLoading} onLoginSuccess={onLoginSuccess} />
@@ -35,9 +39,12 @@ describe("LoginForm", () => {
     expect(screen.queryByText(en.INVALID_EMAIL_INPUT)).toBeNull();
     screen.getByText(en.INVALID_PASSWORD_INPUT);
 
-    // Fix password and submit:
+    // Fix password input:
     await user.type(passwordInput, "w0rd");
     expect(screen.queryByText(en.INVALID_PASSWORD)).toBeNull();
+
+    // Submit with correct inputs:
     await user.click(submitButton);
+    expect(onLoginSuccess).toHaveBeenCalledTimes(1);
   });
 });
