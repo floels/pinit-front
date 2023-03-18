@@ -50,18 +50,13 @@
 }
 
 .closeButton {
-  border: none;
   border-radius: 50%;
   padding: 0;
   height: 40px;
   width: 40px;
   background-color: transparent;
-  cursor: pointer;
 }
 
 .closeButton:hover {
   background-color: var(--color-background-secondary);
-}
-
-.content {
 }

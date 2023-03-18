@@ -21,13 +21,11 @@
 
 .accountOptionsButton {
   border-radius: 50%;
-  border: none;
   height: 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: transparent;
-  cursor: pointer;
 }
 
 .accountOptionsButton:hover {
