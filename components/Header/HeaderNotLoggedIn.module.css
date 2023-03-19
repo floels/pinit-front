@@ -9,12 +9,10 @@
 }
 
 .signInButton {
+  padding: 8px 12px;
   border-radius: 24px;
   background-color: var(--g-color-red);
-  border: none;
-  cursor: pointer;
   height: 40px;
-  width: 100px;
   color: var(--color-text-inverse);
   font-size: var(--font-size-300);
   font-weight: var(--font-weight-semibold);

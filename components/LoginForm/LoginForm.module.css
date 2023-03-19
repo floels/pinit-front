@@ -41,8 +41,6 @@
   margin-top: 16px;
   border-radius: 24px;
   background-color: var(--g-color-red);
-  border: none;
-  cursor: pointer;
   height: 40px;
   width: 100%;
   color: var(--color-text-inverse);

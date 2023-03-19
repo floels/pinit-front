@@ -135,7 +135,7 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
   return (
     <div className={styles.container}>
       <Image
-        src="/logo.svg"
+        src="/images/logo.svg"
         alt="PinIt logo"
         width={40}
         height={40}

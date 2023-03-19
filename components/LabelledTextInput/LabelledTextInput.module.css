@@ -30,7 +30,7 @@
   border-color: var(--color-gray-400);
 }
 
-.inputError {
+.input.inputError {
   border-color: var(--color-border-error);
 }
 
