@@ -122,8 +122,8 @@ const LoginForm = ({ setIsLoading, onLoginSuccess }: LoginFormProps) => {
       return;
     }
 
-    Cookies.set("accessToken", access);
-    Cookies.set("refreshToken", refresh);
+    Cookies.set("accessToken", access, { httpOnly: true });
+    Cookies.set("refreshToken", refresh, { httpOnly: true });
 
     onLoginSuccess();
 
