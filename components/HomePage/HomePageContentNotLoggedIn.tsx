@@ -43,15 +43,6 @@ const renderSliderImage = (
   imageNumber: number,
   state: HomePageContentLoggedInState
 ) => {
-  // TODO: remove once we have pictures for all topics
-  let fakeTopicIndex = topicIndex;
-  if (topicIndex === 0) {
-    fakeTopicIndex = 2;
-  } else if (topicIndex === 3) {
-    fakeTopicIndex = 1;
-  }
-  //
-
   const { timeSinceLastStepChange, currentStep, previousStep } = state;
 
   const laggedTimeSinceLastStepChange =
@@ -85,9 +76,9 @@ const renderSliderImage = (
   return (
     <Image
       src={`/images/landing/landing_${TOPICS[
-        fakeTopicIndex
+        topicIndex
       ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
-      alt={TOPICS[fakeTopicIndex]}
+      alt={TOPICS[topicIndex]}
       width={236}
       height={350}
       className={styles.sliderPicture}
