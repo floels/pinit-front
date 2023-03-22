@@ -6,6 +6,15 @@
 
 .logoContainer {
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.logoHeader {
+  color: var(--g-color-red);
+  font-size: var(--font-size-400);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 0 8px;
 }
 
 .signInButton {
