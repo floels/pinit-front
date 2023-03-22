@@ -9,7 +9,6 @@
 
 .sliderHeaderAndStepper {
   height: 50%;
-  /* TODO: add min-height? For small screens */
   display: flex;
   flex-direction: column;
 }
@@ -24,8 +23,17 @@
 }
 
 .topicHeadersContainer {
-  height: 70px;
   margin-top: 10px;
+  height: 70px;
+}
+
+/* We have to set a higher fixed height depending on small-width viewports,
+because then the header text is displayed on two lines instead of one. */
+
+@media (max-width: 640px) {
+  .topicHeadersContainer {
+    height: 140px;
+  }
 }
 
 .headerFixedSentence {
