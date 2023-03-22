@@ -1,20 +1,16 @@
-.hero {
-  height: calc(100vh - 80px);
-}
 
 .slider {
   height: calc(100vh - 80px - 60px);
   position: relative;
 }
 
-.sliderHeaderAndStepper {
+.headerAndStepper {
   height: 50%;
-  /* TODO: add min-height? For small screens */
   display: flex;
   flex-direction: column;
 }
 
-.sliderHeadersContainer {
+.headersContainer {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -24,8 +20,17 @@
 }
 
 .topicHeadersContainer {
-  height: 70px;
   margin-top: 10px;
+  height: 70px;
+}
+
+/* We have to set a higher fixed height depending on small-width viewports,
+because then the header text is displayed on two lines instead of one. */
+
+@media (max-width: 640px) {
+  .topicHeadersContainer {
+    height: 140px;
+  }
 }
 
 .headerFixedSentence {
@@ -47,7 +52,7 @@
   opacity: 1;
 }
 
-.sliderStepper {
+.stepper {
   display: flex;
   justify-content: center;
   padding: 0;
@@ -56,11 +61,11 @@
   z-index: 1;
 }
 
-.sliderStepperListItem {
+.stepperListItem {
   list-style: none;
 }
 
-.sliderStepperButton {
+.stepperButton {
   height: 10px;
   width: 10px;
   border-radius: 50%;
@@ -71,7 +76,7 @@
   background: rgb(225, 225, 225);
 }
 
-.sliderPicturesContainer {
+.picturesContainer {
   height: 75%;
   width: 100%;
   position: absolute;
@@ -79,7 +84,7 @@
   overflow: hidden;
 }
 
-.sliderTopicPicturesContainer {
+.topicPicturesContainer {
   height: 100%;
   position: absolute;
   left: 50%;
@@ -88,20 +93,20 @@
   justify-content: center;
 }
 
-.sliderPicturesColumn {
+.picturesColumn {
   width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.sliderPicture {
+.picture {
   margin: 16px 0;
   object-fit: cover;
   border-radius: 16px;
 }
 
-.heroFooterCarretAndBlur {
+.footerCarretAndBlur {
   height: 200px;
   width: 100%;
   position: absolute;
@@ -110,17 +115,33 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
 }
 
-.heroFooter {
+.carret {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carretIcon {
+  color: var(--color-white);
+}
+
+.footer {
   height: 60px;
+  width: 100%;
   background: rgb(255, 253, 146);
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.heroFooterTextAndIcon {
+.footerTextAndIcon {
   display: flex;
   justify-content: center;
   font-size: var(--font-size-300);

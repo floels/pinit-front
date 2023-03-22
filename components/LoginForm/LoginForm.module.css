@@ -40,7 +40,7 @@
 .submitButton {
   margin-top: 16px;
   border-radius: 24px;
-  background-color: var(--g-color-red);
+  background-color: var(--color-red);
   height: 40px;
   width: 100%;
   color: var(--color-text-inverse);
@@ -49,5 +49,5 @@
 }
 
 .submitButton:hover {
-  background-color: var(--g-color-red-dark);
+  background-color: var(--color-red-dark);
 }
