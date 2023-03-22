@@ -11,7 +11,7 @@
 }
 
 .logoHeader {
-  color: var(--g-color-red);
+  color: var(--color-red);
   font-size: var(--font-size-400);
   font-weight: var(--font-weight-semibold);
   margin: 0 0 0 8px;
@@ -20,7 +20,7 @@
 .signInButton {
   padding: 8px 12px;
   border-radius: 24px;
-  background-color: var(--g-color-red);
+  background-color: var(--color-red);
   height: 40px;
   color: var(--color-text-inverse);
   font-size: var(--font-size-300);
@@ -28,5 +28,5 @@
 }
 
 .signInButton:hover {
-  background-color: var(--g-color-red-dark);
+  background-color: var(--color-red-dark);
 }

@@ -1,7 +1,12 @@
 import PictureSlider from "./PictureSlider";
+import styles from "./HomePageContentNotLoggedIn.module.css";
 
 const HomePageContentLoggedIn = () => {
-  return <PictureSlider />;
+  return (
+    <div className={styles.hero}>
+      <PictureSlider />
+    </div>
+  );
 };
 
 export default HomePageContentLoggedIn;

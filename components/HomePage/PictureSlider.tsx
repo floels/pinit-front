@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
 
 import styles from "./PictureSlider.module.css";
 
@@ -81,7 +81,7 @@ const renderSliderImage = (
       alt={TOPICS[topicIndex]}
       width={236}
       height={350}
-      className={styles.sliderPicture}
+      className={styles.picture}
       style={{ opacity, transform: `translateY(${yTranslationPx}px)` }}
     />
   );
@@ -158,10 +158,10 @@ const PictureSlider = () => {
   };
 
   return (
-    <div className={styles.hero}>
+    <div className={styles.container}>
       <div className={styles.slider}>
-        <div className={styles.sliderHeaderAndStepper}>
-          <div className={styles.sliderHeadersContainer}>
+        <div className={styles.headerAndStepper}>
+          <div className={styles.headersContainer}>
             <p className={styles.headerFixedSentence}>
               {intl.formatMessage({ id: "GET_YOUR_NEXT" })}
             </p>
@@ -186,17 +186,17 @@ const PictureSlider = () => {
               ))}
             </div>
           </div>
-          <ul className={styles.sliderStepper}>
+          <ul className={styles.stepper}>
             {TOPICS.map((topic, index) => (
               <li
                 key={`stepper-button-${index + 1}`}
-                className={styles.sliderStepperListItem}
+                className={styles.stepperListItem}
               >
                 <button
                   onClick={() => {
                     moveToStep(index + 1);
                   }}
-                  className={styles.sliderStepperButton}
+                  className={styles.stepperButton}
                   style={
                     index === state.currentStep - 1
                       ? { backgroundColor: TOPIC_COLORS[topic] }
@@ -207,51 +207,51 @@ const PictureSlider = () => {
             ))}
           </ul>
         </div>
-        <div className={styles.sliderPicturesContainer}>
+        <div className={styles.picturesContainer}>
           {TOPICS.map((topic, index) => (
             <div
               key={`pictures-container-${topic.toLowerCase()}`}
-              className={styles.sliderTopicPicturesContainer}
+              className={styles.topicPicturesContainer}
             >
-              <div className={styles.sliderPicturesColumn}>
+              <div className={styles.picturesColumn}>
                 {renderSliderImage(index, 1, state)}
                 {renderSliderImage(index, 2, state)}
               </div>
               <div
-                className={styles.sliderPicturesColumn}
+                className={styles.picturesColumn}
                 style={{ paddingTop: 120 }}
               >
                 {renderSliderImage(index, 3, state)}
                 {renderSliderImage(index, 4, state)}
               </div>
               <div
-                className={styles.sliderPicturesColumn}
+                className={styles.picturesColumn}
                 style={{ paddingTop: 200 }}
               >
                 {renderSliderImage(index, 5, state)}
                 {renderSliderImage(index, 6, state)}
               </div>
               <div
-                className={styles.sliderPicturesColumn}
+                className={styles.picturesColumn}
                 style={{ paddingTop: 360 }}
               >
                 {renderSliderImage(index, 7, state)}
               </div>
               <div
-                className={styles.sliderPicturesColumn}
+                className={styles.picturesColumn}
                 style={{ paddingTop: 200 }}
               >
                 {renderSliderImage(index, 8, state)}
                 {renderSliderImage(index, 9, state)}
               </div>
               <div
-                className={styles.sliderPicturesColumn}
+                className={styles.picturesColumn}
                 style={{ paddingTop: 120 }}
               >
                 {renderSliderImage(index, 10, state)}
                 {renderSliderImage(index, 11, state)}
               </div>
-              <div className={styles.sliderPicturesColumn}>
+              <div className={styles.picturesColumn}>
                 {renderSliderImage(index, 12, state)}
                 {renderSliderImage(index, 13, state)}
               </div>
@@ -259,17 +259,23 @@ const PictureSlider = () => {
           ))}
         </div>
       </div>
-      <div className={styles.heroFooterCarretAndBlur}>
-        <div>
-          {/* animated carret here */}
-          <div className={styles.heroFooter}>
-            <div className={styles.heroFooterTextAndIcon}>
-              {intl.formatMessage({ id: "HOW_IT_WORKS" })}
-              <FontAwesomeIcon
-                icon={faAngleDown}
-                className={styles.footerIcon}
-              />
-            </div>
+      <div className={styles.footerCarretAndBlur}>
+        <div
+          className={styles.carret}
+          style={{
+            backgroundColor: TOPIC_COLORS[TOPICS[state.currentStep - 1]],
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faAngleDown}
+            className={styles.carretIcon}
+            size="2x"
+          />
+        </div>
+        <div className={styles.footer}>
+          <div className={styles.footerTextAndIcon}>
+            {intl.formatMessage({ id: "HOW_IT_WORKS" })}
+            <FontAwesomeIcon icon={faAngleDown} className={styles.footerIcon} />
           </div>
         </div>
       </div>
