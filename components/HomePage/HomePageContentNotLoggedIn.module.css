@@ -2,3 +2,7 @@
 .hero {
   height: calc(100vh - 80px);
 }
+
+.section {
+  height: 100vh;
+}
