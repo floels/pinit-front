@@ -56,7 +56,7 @@ const HomePageContentNotLoggedIn = () => {
       <div className={styles.hero}>
         <PictureSlider />
       </div>
-      <div className={styles.section} id="search"></div>
+      <div className={styles.sectionSearch} id="search"></div>
     </div>
   );
 };
