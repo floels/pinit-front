@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import AccountOptionsFlyout, { UserInformation } from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import styles from "./HeaderLoggedIn.module.css";
+import styles from "./HeaderAuthenticated.module.css";
 
-type HeaderLoggedInProps = {
+type HeaderAuthenticatedProps = {
   userInformation: UserInformation;
 };
 
-const HeaderAuthenticated = ({ userInformation }: HeaderLoggedInProps) => {
+const HeaderAuthenticated = ({ userInformation }: HeaderAuthenticatedProps) => {
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
 
   const [isAccountOptionsFlyoutOpen, setAccountOptionsFlyoutOpen] =

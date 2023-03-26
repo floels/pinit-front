@@ -47,7 +47,7 @@ because then the header text is displayed on two lines instead of one. */
 .topicHeader {
   text-align: center;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
   position: absolute;
   width: 100%;
   margin: 0;
@@ -105,10 +105,17 @@ because then the header text is displayed on two lines instead of one. */
   align-items: center;
 }
 
-.picture {
+.pictureContainer {
   margin: 16px 0;
-  object-fit: cover;
+  width: 236px;
+  min-height: 350px;
+  position: relative;
+}
+
+.picture {
   border-radius: 16px;
+  object-fit: cover;
+  transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
 }
 
 .footerCarretAndBlur {

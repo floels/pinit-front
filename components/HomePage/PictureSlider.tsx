@@ -17,7 +17,11 @@ type TopicColorsType = {
   GARDENING: string;
 };
 
-type HomePageContentLoggedInState = {
+type PictureSliderProps = {
+  onCarretClick: () => void;
+};
+
+type PictureSliderState = {
   previousStep: number | null;
   currentStep: number;
   timeSinceLastStepChange: number;
@@ -31,66 +35,71 @@ const TOPIC_COLORS: TopicColorsType = {
 };
 
 const TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS = 5000;
-const DURATION_TRANSITION_HEADERS_MS = 500;
-const DURATION_TRANSITION_IMAGES_MS = 500;
+const DURATION_TRANSITION_OUT_HEADERS_MS = 1500;
+const DURATION_TRANSITION_OUT_IMAGES_MS = 1500;
 const IMAGE_FADE_LAG_UNIT_MS = 100;
 const MAX_TRANSLATION_HEADERS_PX = 40;
 const MAX_TRANSLATION_IMAGES_PX = 40;
-const TIMER_TIME_STEP_MS = 10;
+const TIMER_TIME_STEP_MS = 100;
 
 const renderSliderImage = (
   topicIndex: number,
   imageNumber: number,
-  state: HomePageContentLoggedInState
+  state: PictureSliderState
 ) => {
   const { timeSinceLastStepChange, currentStep, previousStep } = state;
 
   const laggedTimeSinceLastStepChange =
     timeSinceLastStepChange - (imageNumber - 1) * IMAGE_FADE_LAG_UNIT_MS;
 
-  const fadePercentage = Math.max(
-    0,
-    Math.min(1, laggedTimeSinceLastStepChange / DURATION_TRANSITION_IMAGES_MS)
-  );
-
   let opacity = 0;
-
-  if (topicIndex === currentStep - 1) {
-    // topic is currently active
-    opacity = fadePercentage;
-  } else if (previousStep && topicIndex === previousStep - 1) {
-    // topic was active previously
-    opacity = 1 - fadePercentage;
-  }
-
   let yTranslationPx = MAX_TRANSLATION_IMAGES_PX;
 
-  if (topicIndex === currentStep - 1) {
-    // topic is currently active
-    yTranslationPx = (1 - fadePercentage) * MAX_TRANSLATION_IMAGES_PX;
-  } else if (previousStep && topicIndex === previousStep - 1) {
-    // topic was active previously
-    yTranslationPx = -fadePercentage * MAX_TRANSLATION_IMAGES_PX;
+  if (topicIndex === currentStep - 1 && laggedTimeSinceLastStepChange > 0) {
+    // Topic is active and lag is elapsed => display picture at the middle
+    opacity = 1;
+    yTranslationPx = 0;
+  } else if (
+    previousStep &&
+    topicIndex === previousStep - 1 &&
+    laggedTimeSinceLastStepChange < 0
+  ) {
+    // Topic was just active and lag is not elapsed => same
+    opacity = 1;
+    yTranslationPx = 0;
+  } else if (
+    previousStep &&
+    topicIndex === previousStep - 1 &&
+    laggedTimeSinceLastStepChange < DURATION_TRANSITION_OUT_IMAGES_MS
+  ) {
+    // Topic was just active, lag is elapsed but not the transition => send to top
+    yTranslationPx = -MAX_TRANSLATION_IMAGES_PX;
   }
 
   return (
-    <Image
-      src={`/images/landing/landing_${TOPICS[
-        topicIndex
-      ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
-      alt={TOPICS[topicIndex]}
-      width={236}
-      height={350}
-      className={styles.picture}
-      style={{ opacity, transform: `translateY(${yTranslationPx}px)` }}
-    />
+    <div className={styles.pictureContainer}>
+      <Image
+        src={`/images/landing/landing_hero_${TOPICS[
+          topicIndex
+        ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
+        alt={TOPICS[topicIndex]}
+        fill
+        sizes="236px"
+        className={styles.picture}
+        style={{ opacity, transform: `translateY(${yTranslationPx}px)` }}
+        priority={
+          topicIndex ===
+          0 /* Pre-load images of first topic to improve performance */
+        }
+      />
+    </div>
   );
 };
 
-const PictureSlider = () => {
+const PictureSlider = ({ onCarretClick }: PictureSliderProps) => {
   const intl = useIntl();
 
-  const [state, setState] = useState<HomePageContentLoggedInState>({
+  const [state, setState] = useState<PictureSliderState>({
     previousStep: null,
     currentStep: 1,
     timeSinceLastStepChange: 0,
@@ -133,27 +142,18 @@ const PictureSlider = () => {
 
   const computeHeaderTranslatePx = (index: number) => {
     if (index === state.currentStep - 1) {
-      // Header of active step: move up linearly to the middle
-      if (state.timeSinceLastStepChange > DURATION_TRANSITION_HEADERS_MS) {
-        return 0;
-      }
-      return (
-        MAX_TRANSLATION_HEADERS_PX *
-        (1 - state.timeSinceLastStepChange / DURATION_TRANSITION_HEADERS_MS)
-      );
+      // Header of active step: put at the middle
+      return 0;
     }
 
     if (state.previousStep && index === state.previousStep - 1) {
-      // Header of previously active step: move up linearly to the top
-      if (state.timeSinceLastStepChange > DURATION_TRANSITION_HEADERS_MS) {
-        return MAX_TRANSLATION_HEADERS_PX;
+      // Header of previously active step: put at the the top until DURATION_TRANSITION_HEADERS_MS has elapsed
+      if (state.timeSinceLastStepChange < DURATION_TRANSITION_OUT_HEADERS_MS) {
+        return -MAX_TRANSLATION_HEADERS_PX;
       }
-      return (
-        -MAX_TRANSLATION_HEADERS_PX *
-        (state.timeSinceLastStepChange / DURATION_TRANSITION_HEADERS_MS)
-      );
     }
 
+    // None of the above: put down
     return MAX_TRANSLATION_HEADERS_PX;
   };
 
@@ -265,6 +265,7 @@ const PictureSlider = () => {
           style={{
             backgroundColor: TOPIC_COLORS[TOPICS[state.currentStep - 1]],
           }}
+          onClick={onCarretClick}
         >
           <FontAwesomeIcon
             icon={faAngleDown}

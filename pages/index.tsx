@@ -1,9 +1,13 @@
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import HomePageUnauthenticated, {
-  HomePageProps,
-} from "@/components/HomePage/HomePageUnauthenticated";
-import { useState } from "react";
+import HomePageUnauthenticated from "@/components/HomePage/HomePageUnauthenticated";
+import HomePageAuthenticated from "@/components/HomePage/HomePageAuthenticated";
+import { UserInformation } from "@/components/Header/AccountOptionsFlyout";
+
+type HomePageProps = {
+  isAuthenticated: boolean;
+  userInformation?: UserInformation;
+};
 
 const fetchUserInformation = async (accessToken: string) => {
   // TODO: make an actual API call to retrieve user info
@@ -22,7 +26,7 @@ export const getServerSideProps = async (
   if (!accessToken) {
     return {
       props: {
-        isLoggedIn: false,
+        isAuthenticated: false,
       },
     };
   }
@@ -31,14 +35,14 @@ export const getServerSideProps = async (
 
   return {
     props: {
-      isLoggedIn: true,
+      isAuthenticated: true,
       userInformation,
     },
   };
 };
 
 export default function Home(props: HomePageProps) {
-  const { isLoggedIn, userInformation } = props;
+  const { isAuthenticated, userInformation } = props;
 
   return (
     <>
@@ -48,8 +52,10 @@ export default function Home(props: HomePageProps) {
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <div>
-        {isLoggedIn ? (
-          <HomePageAuthenticated userInformation={userInformation} />
+        {isAuthenticated ? (
+          <HomePageAuthenticated
+            userInformation={userInformation as UserInformation}
+          />
         ) : (
           <HomePageUnauthenticated />
         )}
