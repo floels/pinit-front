@@ -24,10 +24,15 @@
   min-height: 48px;
   padding: 8px 16px;
   font-size: var(--font-size-300);
+  font-family: inherit; /* otherwise some browsers will use monospace for input type="date" */
 }
 
 .input:hover {
   border-color: var(--color-gray-400);
+}
+
+.input::placeholder {
+  color: #b5b5b5;
 }
 
 .input.inputError {

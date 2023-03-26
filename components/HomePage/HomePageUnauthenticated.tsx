@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useIntl } from "react-intl";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faS, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import LoginForm, { LoginFormProps } from "../LoginForm/LoginForm";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import styles from "./HomePageUnauthenticated.module.css";
 import PictureSlider from "./PictureSlider";
+import SignupForm, { SignupFormProps } from "../SignupForm/SignupForm";
 
 const NUMBER_FOLDS = 2;
 
@@ -15,14 +16,33 @@ const HomePageUnauthenticated = () => {
   const intl = useIntl();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [currentFold, setCurrentFold] = useState(1);
 
-  const handleClickSignInButton = () => {
+  const handleClickLoginButton = () => {
     setIsLoginModalOpen(true);
   };
 
-  const handleModalClose = () => {
+  const handleClickSignUpButton = () => {
+    setIsSignupModalOpen(true);
+  };
+
+  const handleClickNoAccountYet = () => {
     setIsLoginModalOpen(false);
+    setIsSignupModalOpen(true);
+  };
+
+  const handleCloseLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleClickAlreadyHaveAccount = () => {
+    setIsSignupModalOpen(false);
+    setIsLoginModalOpen(true);
+  };
+
+  const handleCloseSignupModal = () => {
+    setIsSignupModalOpen(false);
   };
 
   const handleMouseWheel = (event: any) => {
@@ -39,7 +59,7 @@ const HomePageUnauthenticated = () => {
     }
   };
 
-  const handleCarretClick = () => {
+  const handleClickCarret = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
   };
 
@@ -54,10 +74,26 @@ const HomePageUnauthenticated = () => {
   return (
     <div className={styles.container}>
       {isLoginModalOpen && (
-        <OverlayModal onClose={handleModalClose}>
+        <OverlayModal onClose={handleCloseLoginModal}>
           <LoginForm
             {
-              ...({ onLoginSuccess: handleModalClose } as LoginFormProps)
+              ...({
+                onLoginSuccess: handleCloseLoginModal,
+                onClickNoAccountYet: handleClickNoAccountYet,
+              } as LoginFormProps)
+              /* setIsLoading will be injected by <OverlayModal />*/
+            }
+          />
+        </OverlayModal>
+      )}
+      {isSignupModalOpen && (
+        <OverlayModal onClose={handleCloseSignupModal}>
+          <SignupForm
+            {
+              ...({
+                onSignupSuccess: handleCloseSignupModal,
+                onClickAlreadyHaveAccount: handleClickAlreadyHaveAccount,
+              } as SignupFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/
             }
           />
@@ -69,10 +105,11 @@ const HomePageUnauthenticated = () => {
       >
         <div className={styles.hero}>
           <HeaderUnauthenticated
-            handleClickSignInButton={handleClickSignInButton}
+            handleClickLoginButton={handleClickLoginButton}
+            handleClickSignUpButton={handleClickSignUpButton}
           />
           <div className={styles.pictureSlider}>
-            <PictureSlider onCarretClick={handleCarretClick} />
+            <PictureSlider onCarretClick={handleClickCarret} />
           </div>
         </div>
         <div className={styles.sectionSearch}>

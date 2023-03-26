@@ -10,11 +10,12 @@ import React, { useState } from "react";
 
 type LabelledTextInputProps = {
   name: string;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "date";
   labelMessageId?: string;
   placeholderMessageId?: string;
   errorMessageId?: string;
   value: string;
+  autoComplete?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   withPasswordShowIcon?: boolean;
 };
@@ -29,8 +30,9 @@ const LabelledTextInput = React.forwardRef<
       type,
       labelMessageId,
       placeholderMessageId,
-      value,
       errorMessageId,
+      value,
+      autoComplete,
       onChange,
       withPasswordShowIcon,
       ...otherInputProps
@@ -63,6 +65,7 @@ const LabelledTextInput = React.forwardRef<
                   : ""
               }
               value={value}
+              autoComplete={autoComplete}
               onChange={onChange}
               {...otherInputProps}
               className={`${styles.input} ${

@@ -20,7 +20,7 @@
   height: 100vh;
   background-color: rgb(255, 253, 146);
   display: flex;
-  justify-content: end; /* so that the text on the right pushes the pictures out to the left of the screen on small-width viewports */
+  justify-content: flex-end; /* so that the text on the right pushes the pictures out to the left of the screen on small-width viewports */
   align-items: center;
 }
 
