@@ -1,4 +1,9 @@
 
+.container {
+  height: 100%;
+  position: relative;
+}
+
 .slider {
   height: calc(100vh - 80px - 60px);
   position: relative;
@@ -132,6 +137,7 @@ because then the header text is displayed on two lines instead of one. */
   animation-name: bouncing-carret;
   animation-duration: 2s;
   animation-iteration-count: infinite;
+  cursor: pointer;
 }
 
 @keyframes bouncing-carret {

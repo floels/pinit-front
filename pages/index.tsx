@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import HomePage, { HomePageProps } from "@/components/HomePage/HomePage";
+import HomePageUnauthenticated, {
+  HomePageProps,
+} from "@/components/HomePage/HomePageUnauthenticated";
 import { useState } from "react";
 
 const fetchUserInformation = async (accessToken: string) => {
@@ -36,6 +38,8 @@ export const getServerSideProps = async (
 };
 
 export default function Home(props: HomePageProps) {
+  const { isLoggedIn, userInformation } = props;
+
   return (
     <>
       <Head>
@@ -44,7 +48,11 @@ export default function Home(props: HomePageProps) {
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <div>
-        <HomePage {...props} />
+        {isLoggedIn ? (
+          <HomePageAuthenticated userInformation={userInformation} />
+        ) : (
+          <HomePageUnauthenticated />
+        )}
       </div>
     </>
   );

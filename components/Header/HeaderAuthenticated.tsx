@@ -8,7 +8,7 @@ type HeaderLoggedInProps = {
   userInformation: UserInformation;
 };
 
-const HeaderLoggedIn = ({ userInformation }: HeaderLoggedInProps) => {
+const HeaderAuthenticated = ({ userInformation }: HeaderLoggedInProps) => {
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
 
   const [isAccountOptionsFlyoutOpen, setAccountOptionsFlyoutOpen] =
@@ -58,4 +58,4 @@ const HeaderLoggedIn = ({ userInformation }: HeaderLoggedInProps) => {
   );
 };
 
-export default HeaderLoggedIn;
+export default HeaderAuthenticated;

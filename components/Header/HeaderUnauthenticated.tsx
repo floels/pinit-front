@@ -1,14 +1,14 @@
 import { useIntl } from "react-intl";
 import Image from "next/image";
-import styles from "./HeaderNotLoggedIn.module.css";
+import styles from "./HeaderUnauthenticated.module.css";
 
-type HeaderNotLoggedInProps = {
+type HeaderUnauthenticatedProps = {
   handleClickSignInButton: () => void;
 };
 
-const HeaderNotLoggedIn = ({
+const HeaderUnauthenticated = ({
   handleClickSignInButton,
-}: HeaderNotLoggedInProps) => {
+}: HeaderUnauthenticatedProps) => {
   const intl = useIntl();
 
   return (
@@ -24,4 +24,4 @@ const HeaderNotLoggedIn = ({
   );
 };
 
-export default HeaderNotLoggedIn;
+export default HeaderUnauthenticated;
