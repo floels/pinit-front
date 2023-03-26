@@ -5,7 +5,7 @@
 }
 
 .content {
-  transition: transform 700ms ease 0s;
+  transition: transform 1s ease;
 }
 
 .hero {
