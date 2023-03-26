@@ -79,7 +79,7 @@ const renderSliderImage = (
   return (
     <div className={styles.pictureContainer}>
       <Image
-        src={`/images/landing/landing_${TOPICS[
+        src={`/images/landing/landing_hero_${TOPICS[
           topicIndex
         ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
         alt={TOPICS[topicIndex]}
