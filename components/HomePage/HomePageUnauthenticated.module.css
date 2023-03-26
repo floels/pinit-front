@@ -1,0 +1,22 @@
+
+.container {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.content {
+  transition: transform 700ms ease 0s;
+}
+
+.hero {
+  height: 100vh;
+}
+
+.pictureSlider {
+  height: calc(100vh - 80px);
+}
+
+.sectionSearch {
+  height: 100vh;
+  background-color: rgb(255, 253, 146);
+}
