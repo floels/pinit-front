@@ -2,6 +2,8 @@
   --color-red: #e60023;
   --color-red-dark: #ad081b;
   --color-purple-dark: rgb(195, 25, 82);
+  --color-gray-100: #efefef;
+  --color-gray-200: #e2e2e2;
   --color-gray-400: #a5a5a5;
   --color-gray-500: #767676;
   --color-white: #fff;
@@ -16,6 +18,7 @@
   --color-text-error: #c00;
 
   --font-size-100: 12px;
+  --font-size-200: 14px;
   --font-size-300: 16px;
   --font-size-400: 20px;
 

@@ -1,27 +1,24 @@
 import { useRef, useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
-import {
-  API_BASE_URL,
-  ENDPOINT_OBTAIN_TOKEN,
-  ERROR_CODE_INVALID_PASSWORD,
-  ERROR_CODE_INVALID_EMAIL,
-} from "@/lib/constants";
+import { API_BASE_URL, ENDPOINT_SIGN_UP } from "@/lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
-import styles from "./LoginForm.module.css";
+import styles from "./SignupForm.module.css";
 import { useIntl } from "react-intl";
 import Image from "next/image";
-import { isValidEmail, isValidPassword } from "@/lib/helpers";
+import { isValidBirthdate, isValidEmail, isValidPassword } from "@/lib/helpers";
 
-export type LoginFormProps = {
-  onLoginSuccess: () => void;
+export type SignupFormProps = {
+  onSignupSuccess: () => void;
   setIsLoading: (isLoading: boolean) => void;
-  onClickNoAccountYet: () => void;
+  onClickAlreadyHaveAccount: () => void;
 };
 
-const computeFormErrors = (values: { email: string; password: string }) => {
+const computeFormErrors = (values: {
+  email: string;
+  password: string;
+  birthdate: string;
+}) => {
   if (!values.email) {
     return { email: "MISSING_EMAIL" };
   }
@@ -34,25 +31,31 @@ const computeFormErrors = (values: { email: string; password: string }) => {
     return { password: "INVALID_PASSWORD_INPUT" };
   }
 
+  if (!isValidBirthdate(values.birthdate)) {
+    return { birthdate: "INVALID_BIRTHDATE_INPUT" };
+  }
+
   return {};
 };
 
-const LoginForm = ({
+const SignupForm = ({
   setIsLoading,
-  onLoginSuccess,
-  onClickNoAccountYet,
-}: LoginFormProps) => {
+  onSignupSuccess,
+  onClickAlreadyHaveAccount,
+}: SignupFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
 
-  const [credentials, setCredentials] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
+    birthdate: "",
   });
   const [formErrors, setFormErrors] = useState<{
     email?: string;
     password?: string;
+    birthdate?: string;
     other?: string;
   }>({ email: "MISSING_EMAIL" });
   const [showFormErrors, setShowFormErrors] = useState(false);
@@ -64,9 +67,9 @@ const LoginForm = ({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    const newValues = { ...credentials, [name]: value };
-    setCredentials(newValues);
-    setFormErrors(computeFormErrors(newValues));
+    const newFormData = { ...formData, [name]: value };
+    setFormData(newFormData);
+    setFormErrors(computeFormErrors(newFormData));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +77,7 @@ const LoginForm = ({
 
     setShowFormErrors(true);
 
-    if (formErrors.email || formErrors.password) {
+    if (formErrors.email || formErrors.password || formErrors.birthdate) {
       // Invalid inputs: no need to make a request
       return;
     }
@@ -84,15 +87,12 @@ const LoginForm = ({
     let data, response;
 
     try {
-      response = await fetch(`${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`, {
+      response = await fetch(`${API_BASE_URL}/${ENDPOINT_SIGN_UP}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: credentials.email,
-          password: credentials.password,
-        }),
+        body: JSON.stringify(formData),
       });
 
       data = await response.json();
@@ -104,11 +104,9 @@ const LoginForm = ({
     }
 
     if (!response.ok) {
-      if (response.status === 401) {
-        if (data.errors[0].code == ERROR_CODE_INVALID_EMAIL) {
-          setFormErrors({ email: "INVALID_EMAIL" });
-        } else if (data.errors[0].code == ERROR_CODE_INVALID_PASSWORD) {
-          setFormErrors({ password: "INVALID_PASSWORD" });
+      if (response.status == 401) {
+        if (true) {
+          // TODO: display errors
         } else {
           // Unknown error code
           setFormErrors({ other: "UNFORESEEN_ERROR" });
@@ -131,7 +129,7 @@ const LoginForm = ({
     Cookies.set("accessToken", access, { httpOnly: true });
     Cookies.set("refreshToken", refresh, { httpOnly: true });
 
-    onLoginSuccess();
+    onSignupSuccess();
 
     router.push("/");
   };
@@ -150,6 +148,9 @@ const LoginForm = ({
       <h1 className={styles.title}>
         {intl.formatMessage({ id: "WELCOME_TO_PINIT" })}
       </h1>
+      <div className={styles.subtitle}>
+        {intl.formatMessage({ id: "FIND_NEW_IDEAS" })}
+      </div>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
@@ -157,10 +158,10 @@ const LoginForm = ({
             labelMessageId={"EMAIL"}
             placeholderMessageId={"EMAIL"}
             type="email"
-            value={credentials.email}
+            value={formData.email}
+            autoComplete="email"
             errorMessageId={showFormErrors ? formErrors.email : ""}
             onChange={handleInputChange}
-            autoComplete="email"
             ref={emailInputRef}
           />
         </div>
@@ -168,37 +169,48 @@ const LoginForm = ({
           <LabelledTextInput
             name="password"
             labelMessageId={"PASSWORD"}
-            placeholderMessageId={"PASSWORD"}
+            placeholderMessageId={"CREATE_PASSWORD"}
             type="password"
-            value={credentials.password}
+            value={formData.password}
+            autoComplete="new-password"
             errorMessageId={showFormErrors ? formErrors.password : ""}
             onChange={handleInputChange}
             withPasswordShowIcon={true}
           />
         </div>
+        <div className={styles.birthdateInputContainer}>
+          <LabelledTextInput
+            name="birthdate"
+            labelMessageId={"BIRTHDATE"}
+            type="date"
+            value={formData.birthdate}
+            autoComplete="bday"
+            errorMessageId={showFormErrors ? formErrors.birthdate : ""}
+            onChange={handleInputChange}
+          />
+        </div>
         {showFormErrors && formErrors.other && (
           <div className={styles.otherErrorMessage}>
-            <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.otherErrorText}>
               {intl.formatMessage({ id: formErrors.other })}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {intl.formatMessage({ id: "LOG_IN" })}
+          {intl.formatMessage({ id: "CONTINUE" })}
         </button>
       </form>
-      <div className={styles.noAccountYet}>
-        {intl.formatMessage({ id: "NO_ACCOUNT_YET" })}
+      <div className={styles.alreadyHaveAccount}>
+        {intl.formatMessage({ id: "ALREADY_HAVE_ACCOUNT" })}
         <button
-          className={styles.noAccountYetButton}
-          onClick={onClickNoAccountYet}
+          className={styles.alreadyHaveAccountButton}
+          onClick={onClickAlreadyHaveAccount}
         >
-          {intl.formatMessage({ id: "SIGN_UP" })}
+          {intl.formatMessage({ id: "LOG_IN" })}
         </button>
       </div>
     </div>
   );
 };
 
-export default LoginForm;
+export default SignupForm;

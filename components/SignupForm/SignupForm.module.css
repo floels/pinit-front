@@ -17,7 +17,12 @@
   font-size: 32px;
   font-weight: 600;
   margin-top: 0;
-  margin-bottom: 22px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--color-text-default);
+  margin-bottom: 16px;
 }
 
 .emailInputContainer,
@@ -52,13 +57,13 @@
   background-color: var(--color-red-dark);
 }
 
-.noAccountYet {
+.alreadyHaveAccount {
   margin-top: 20px;
   display: inline-block;
   font-size: var(--font-size-100);
 }
 
-.noAccountYetButton {
+.alreadyHaveAccountButton {
   background-color: transparent;
   font-weight: bold;
 }
