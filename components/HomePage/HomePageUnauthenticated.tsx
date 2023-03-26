@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useIntl } from "react-intl";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import LoginForm, { LoginFormProps } from "../LoginForm/LoginForm";
 import OverlayModal from "../OverlayModal/OverlayModal";
@@ -8,6 +9,8 @@ import PictureSlider from "./PictureSlider";
 const NUMBER_FOLDS = 2;
 
 const HomePageUnauthenticated = () => {
+  const intl = useIntl();
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [currentFold, setCurrentFold] = useState(1);
 
@@ -30,7 +33,6 @@ const HomePageUnauthenticated = () => {
 
     if (newFold !== currentFold) {
       setCurrentFold(newFold);
-      console.log(`New fold: ${newFold}`);
     }
   };
 
@@ -70,7 +72,17 @@ const HomePageUnauthenticated = () => {
             <PictureSlider onCarretClick={handleCarretClick} />
           </div>
         </div>
-        <div className={styles.sectionSearch}></div>
+        <div className={styles.sectionSearch}>
+          <div className={styles.sectionSearchPicturesContainer}></div>
+          <div className={styles.sectionSearchTextContainer}>
+            <div className={styles.sectionSearchHeader}>
+              {intl.formatMessage({ id: "SEARCH_FOR_AN_IDEA" })}
+            </div>
+            <div className={styles.sectionSearchParagraph}>
+              {intl.formatMessage({ id: "WHAT_DO_YOU_WANT_TO_TRY_NEXT" })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

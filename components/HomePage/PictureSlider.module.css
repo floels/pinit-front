@@ -105,10 +105,16 @@ because then the header text is displayed on two lines instead of one. */
   align-items: center;
 }
 
-.picture {
+.pictureContainer {
   margin: 16px 0;
-  object-fit: cover;
+  width: 236px;
+  min-height: 350px;
+  position: relative;
+}
+
+.picture {
   border-radius: 16px;
+  object-fit: cover;
 }
 
 .footerCarretAndBlur {

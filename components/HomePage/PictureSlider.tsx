@@ -78,16 +78,22 @@ const renderSliderImage = (
   }
 
   return (
-    <Image
-      src={`/images/landing/landing_${TOPICS[
-        topicIndex
-      ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
-      alt={TOPICS[topicIndex]}
-      width={236}
-      height={350}
-      className={styles.picture}
-      style={{ opacity, transform: `translateY(${yTranslationPx}px)` }}
-    />
+    <div className={styles.pictureContainer}>
+      <Image
+        src={`/images/landing/landing_${TOPICS[
+          topicIndex
+        ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
+        alt={TOPICS[topicIndex]}
+        fill
+        sizes="236px"
+        className={styles.picture}
+        style={{ opacity, transform: `translateY(${yTranslationPx}px)` }}
+        priority={
+          topicIndex ===
+          0 /* Pre-load images of first topic to improve performance */
+        }
+      />
+    </div>
   );
 };
 

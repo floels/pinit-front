@@ -19,4 +19,25 @@
 .sectionSearch {
   height: 100vh;
   background-color: rgb(255, 253, 146);
+  display: flex;
+  align-items: center;
+}
+
+.sectionSearchPicturesContainer {
+  flex-grow: 1;
+}
+
+.sectionSearchTextContainer {
+  flex-grow: 1;
+  font-size: 60px;
+  color: var(--color-purple-dark);
+}
+
+.sectionSearchHeader {
+  font-size: 6Opx;
+  font-weight: bold;
+}
+
+.sectionSearchParagraph {
+  font-size: 24px;
 }
