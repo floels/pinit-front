@@ -34,6 +34,10 @@ const HomePageUnauthenticated = () => {
     }
   };
 
+  const handleCarretClick = () => {
+    setCurrentFold(2); // i.e. move down from picture slider to search section
+  };
+
   useEffect(() => {
     document.addEventListener("mousewheel", handleMouseWheel);
 
@@ -63,7 +67,7 @@ const HomePageUnauthenticated = () => {
             handleClickSignInButton={handleClickSignInButton}
           />
           <div className={styles.pictureSlider}>
-            <PictureSlider />
+            <PictureSlider onCarretClick={handleCarretClick} />
           </div>
         </div>
         <div className={styles.sectionSearch}></div>

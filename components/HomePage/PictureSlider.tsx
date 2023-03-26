@@ -17,7 +17,11 @@ type TopicColorsType = {
   GARDENING: string;
 };
 
-type HomePageContentLoggedInState = {
+type PictureSliderProps = {
+  onCarretClick: () => void;
+};
+
+type PictureSliderState = {
   previousStep: number | null;
   currentStep: number;
   timeSinceLastStepChange: number;
@@ -41,7 +45,7 @@ const TIMER_TIME_STEP_MS = 10;
 const renderSliderImage = (
   topicIndex: number,
   imageNumber: number,
-  state: HomePageContentLoggedInState
+  state: PictureSliderState
 ) => {
   const { timeSinceLastStepChange, currentStep, previousStep } = state;
 
@@ -87,10 +91,10 @@ const renderSliderImage = (
   );
 };
 
-const PictureSlider = () => {
+const PictureSlider = ({ onCarretClick }: PictureSliderProps) => {
   const intl = useIntl();
 
-  const [state, setState] = useState<HomePageContentLoggedInState>({
+  const [state, setState] = useState<PictureSliderState>({
     previousStep: null,
     currentStep: 1,
     timeSinceLastStepChange: 0,
@@ -265,6 +269,7 @@ const PictureSlider = () => {
           style={{
             backgroundColor: TOPIC_COLORS[TOPICS[state.currentStep - 1]],
           }}
+          onClick={onCarretClick}
         >
           <FontAwesomeIcon
             icon={faAngleDown}
