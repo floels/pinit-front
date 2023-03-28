@@ -7,3 +7,4 @@ export const ENDPOINT_SIGN_UP = "signup/";
 // Error codes
 export const ERROR_CODE_INVALID_EMAIL = "invalid_email";
 export const ERROR_CODE_INVALID_PASSWORD = "invalid_password";
+export const ERROR_CODE_INVALID_BIRTHDATE = "invalid_birthdate";

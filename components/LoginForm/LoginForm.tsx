@@ -8,12 +8,12 @@ import {
   ENDPOINT_OBTAIN_TOKEN,
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
-} from "@/lib/constants";
+} from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import { useIntl } from "react-intl";
 import Image from "next/image";
-import { isValidEmail, isValidPassword } from "@/lib/helpers";
+import { isValidEmail, isValidPassword } from "../../lib/helpers";
 
 export type LoginFormProps = {
   onLoginSuccess: () => void;
@@ -105,16 +105,18 @@ const LoginForm = ({
 
     if (!response.ok) {
       if (response.status === 401) {
-        if (data.errors[0].code == ERROR_CODE_INVALID_EMAIL) {
-          setFormErrors({ email: "INVALID_EMAIL" });
-        } else if (data.errors[0].code == ERROR_CODE_INVALID_PASSWORD) {
+        const firstErrorCode = data.errors[0].code;
+
+        if (firstErrorCode === ERROR_CODE_INVALID_EMAIL) {
+          setFormErrors({ email: "INVALID_EMAIL_LOGIN" });
+        } else if (firstErrorCode === ERROR_CODE_INVALID_PASSWORD) {
           setFormErrors({ password: "INVALID_PASSWORD" });
         } else {
           // Unknown error code
           setFormErrors({ other: "UNFORESEEN_ERROR" });
         }
       } else {
-        // Unknown status code
+        // Unknown response status code
         setFormErrors({ other: "UNFORESEEN_ERROR" });
       }
       return;
