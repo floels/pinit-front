@@ -1,12 +1,22 @@
 import { useRef, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { API_BASE_URL, ENDPOINT_SIGN_UP } from "@/lib/constants";
+import {
+  API_BASE_URL,
+  ENDPOINT_SIGN_UP,
+  ERROR_CODE_INVALID_BIRTHDATE,
+  ERROR_CODE_INVALID_EMAIL,
+  ERROR_CODE_INVALID_PASSWORD,
+} from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./SignupForm.module.css";
 import { useIntl } from "react-intl";
 import Image from "next/image";
-import { isValidBirthdate, isValidEmail, isValidPassword } from "@/lib/helpers";
+import {
+  isValidBirthdate,
+  isValidEmail,
+  isValidPassword,
+} from "../../lib/helpers";
 
 export type SignupFormProps = {
   onSignupSuccess: () => void;
@@ -104,15 +114,21 @@ const SignupForm = ({
     }
 
     if (!response.ok) {
-      if (response.status == 401) {
-        if (true) {
-          // TODO: display errors
+      if (response.status === 400) {
+        const firstErrorCode = data.errors[0].code;
+
+        if (firstErrorCode === ERROR_CODE_INVALID_EMAIL) {
+          setFormErrors({ email: "INVALID_EMAIL_SIGNUP" });
+        } else if (firstErrorCode === ERROR_CODE_INVALID_PASSWORD) {
+          setFormErrors({ password: "INVALID_PASSWORD_SIGNUP" });
+        } else if (firstErrorCode === ERROR_CODE_INVALID_BIRTHDATE) {
+          setFormErrors({ birthdate: "INVALID_BIRTHDATE_SIGNUP" });
         } else {
           // Unknown error code
           setFormErrors({ other: "UNFORESEEN_ERROR" });
         }
       } else {
-        // Unknown status code
+        // Unknown response status code
         setFormErrors({ other: "UNFORESEEN_ERROR" });
       }
       return;
