@@ -8,6 +8,7 @@ jest.mock("next/router", () => require("next-router-mock"));
 
 const setIsLoading = jest.fn();
 const onLoginSuccess = jest.fn();
+const onClickNoAccountYet = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
 describe("LoginForm", () => {
   beforeEach(() => {
@@ -24,12 +25,16 @@ describe("LoginForm", () => {
     );
 
     render(
-      <LoginForm setIsLoading={setIsLoading} onLoginSuccess={onLoginSuccess} />
+      <LoginForm
+        setIsLoading={setIsLoading}
+        onLoginSuccess={onLoginSuccess}
+        onClickNoAccountYet={onClickNoAccountYet}
+      />
     );
 
     const emailInput = screen.getByLabelText(en.EMAIL);
     const passwordInput = screen.getByLabelText(en.PASSWORD);
-    const submitButton = screen.getByText(en.SIGN_IN);
+    const submitButton = screen.getByText(en.LOG_IN);
 
     // Fill form with invalid email and pasword and submit:
     await user.type(emailInput, "test@example");
@@ -56,27 +61,31 @@ describe("LoginForm", () => {
     expect(onLoginSuccess).toHaveBeenCalledTimes(1);
   });
 
-  it("should display relevant error when receiving invalid_username response", async () => {
+  it("should display relevant error when receiving invalid_email response", async () => {
     const user = userEvent.setup();
 
     render(
-      <LoginForm setIsLoading={setIsLoading} onLoginSuccess={onLoginSuccess} />
+      <LoginForm
+        setIsLoading={setIsLoading}
+        onLoginSuccess={onLoginSuccess}
+        onClickNoAccountYet={onClickNoAccountYet}
+      />
     );
 
     const emailInput = screen.getByLabelText(en.EMAIL);
     const passwordInput = screen.getByLabelText(en.PASSWORD);
-    const submitButton = screen.getByText(en.SIGN_IN);
+    const submitButton = screen.getByText(en.LOG_IN);
 
     await user.type(emailInput, "test@example.com");
     await user.type(passwordInput, "Pa$$w0rd");
 
     fetchMock.mockResponseOnce(
-      JSON.stringify({ errors: [{ code: "invalid_username" }] }),
+      JSON.stringify({ errors: [{ code: "invalid_email" }] }),
       { status: 401 }
     );
     await user.click(submitButton);
 
-    screen.getByText(en.INVALID_USERNAME);
+    screen.getByText(en.INVALID_EMAIL_LOGIN);
     expect(onLoginSuccess).toHaveBeenCalledTimes(0);
 
     fetchMock.mockResponseOnce(
