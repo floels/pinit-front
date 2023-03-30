@@ -1,6 +1,7 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
+import en from "../../lang/en.json";
 
 jest.mock("next/router", () => require("next-router-mock"));
 
@@ -23,5 +24,7 @@ describe("SignupForm", () => {
         onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
       />
     );
+
+    screen.getByText(en.FIND_NEW_IDEAS);
   });
 });

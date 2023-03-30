@@ -32,6 +32,8 @@ describe("LoginForm", () => {
       />
     );
 
+    screen.getByText(en.WELCOME_TO_PINIT);
+
     const emailInput = screen.getByLabelText(en.EMAIL);
     const passwordInput = screen.getByLabelText(en.PASSWORD);
     const submitButton = screen.getByText(en.LOG_IN);
