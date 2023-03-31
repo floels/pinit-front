@@ -10,6 +10,14 @@ const setIsLoading = jest.fn();
 const onLoginSuccess = jest.fn();
 const onClickNoAccountYet = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
+const loginForm = (
+  <LoginForm
+    setIsLoading={setIsLoading}
+    onLoginSuccess={onLoginSuccess}
+    onClickNoAccountYet={onClickNoAccountYet}
+  />
+);
+
 describe("LoginForm", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
@@ -24,13 +32,7 @@ describe("LoginForm", () => {
       JSON.stringify({ access: "access", refresh: "refresh" })
     );
 
-    render(
-      <LoginForm
-        setIsLoading={setIsLoading}
-        onLoginSuccess={onLoginSuccess}
-        onClickNoAccountYet={onClickNoAccountYet}
-      />
-    );
+    render(loginForm);
 
     screen.getByText(en.WELCOME_TO_PINIT);
 
@@ -54,7 +56,7 @@ describe("LoginForm", () => {
 
     // Fix password input:
     await user.type(passwordInput, "w0rd");
-    expect(screen.queryByText(en.INVALID_PASSWORD)).toBeNull();
+    expect(screen.queryByText(en.INVALID_PASSWORD_INPUT)).toBeNull();
 
     // Submit with correct inputs:
     expect(setIsLoading).toHaveBeenCalledTimes(0);
@@ -63,16 +65,10 @@ describe("LoginForm", () => {
     expect(onLoginSuccess).toHaveBeenCalledTimes(1);
   });
 
-  it("should display relevant error when receiving invalid_email response", async () => {
+  it("should display relevant error when receiving a 401 response", async () => {
     const user = userEvent.setup();
 
-    render(
-      <LoginForm
-        setIsLoading={setIsLoading}
-        onLoginSuccess={onLoginSuccess}
-        onClickNoAccountYet={onClickNoAccountYet}
-      />
-    );
+    render(loginForm);
 
     const emailInput = screen.getByLabelText(en.EMAIL);
     const passwordInput = screen.getByLabelText(en.PASSWORD);
@@ -97,7 +93,7 @@ describe("LoginForm", () => {
     await user.type(passwordInput, "IsWr0ng");
     await user.click(submitButton);
 
-    screen.getByText(en.INVALID_PASSWORD);
+    screen.getByText(en.INVALID_PASSWORD_LOGIN);
     expect(onLoginSuccess).toHaveBeenCalledTimes(0);
   });
 });

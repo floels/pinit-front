@@ -110,7 +110,7 @@ const LoginForm = ({
         if (firstErrorCode === ERROR_CODE_INVALID_EMAIL) {
           setFormErrors({ email: "INVALID_EMAIL_LOGIN" });
         } else if (firstErrorCode === ERROR_CODE_INVALID_PASSWORD) {
-          setFormErrors({ password: "INVALID_PASSWORD" });
+          setFormErrors({ password: "INVALID_PASSWORD_LOGIN" });
         } else {
           // Unknown error code
           setFormErrors({ other: "UNFORESEEN_ERROR" });
