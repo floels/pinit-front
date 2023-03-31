@@ -9,7 +9,21 @@ const setIsLoading = jest.fn();
 const onSignupSuccess = jest.fn();
 const onClickAlreadyHaveAccount = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
+const signupForm = (
+  <SignupForm
+    setIsLoading={setIsLoading}
+    onSignupSuccess={onSignupSuccess}
+    onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
+  />
+);
+
 describe("SignupForm", () => {
+  beforeEach(() => {
+    fetchMock.resetMocks();
+    setIsLoading.mockClear();
+    onSignupSuccess.mockClear();
+  });
+
   it("should display relevant input errors and should send request only when inputs are valid", async () => {
     const user = userEvent.setup();
 
@@ -17,13 +31,7 @@ describe("SignupForm", () => {
       JSON.stringify({ access: "access", refresh: "refresh" })
     );
 
-    render(
-      <SignupForm
-        setIsLoading={setIsLoading}
-        onSignupSuccess={onSignupSuccess}
-        onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
-      />
-    );
+    render(signupForm);
 
     screen.getByText(en.FIND_NEW_IDEAS);
 
@@ -48,7 +56,7 @@ describe("SignupForm", () => {
 
     // Fix password input but not birthdate:
     await user.type(passwordInput, "w0rd");
-    expect(screen.queryByText(en.INVALID_PASSWORD)).toBeNull();
+    expect(screen.queryByText(en.INVALID_PASSWORD_INPUT)).toBeNull();
     screen.getByText(en.INVALID_BIRTHDATE_INPUT);
 
     // Fix birthdate ipnut:
@@ -60,5 +68,49 @@ describe("SignupForm", () => {
     await user.click(submitButton);
     expect(setIsLoading).toHaveBeenCalledWith(true);
     expect(onSignupSuccess).toHaveBeenCalledTimes(1);
+  });
+
+  it("should display relevant error when receiving a 400 response", async () => {
+    const user = userEvent.setup();
+
+    render(signupForm);
+
+    const emailInput = screen.getByLabelText(en.EMAIL);
+    const passwordInput = screen.getByLabelText(en.PASSWORD);
+    const birthdateInput = screen.getByLabelText(en.BIRTHDATE);
+    const submitButton = screen.getByText(en.CONTINUE);
+
+    await user.type(emailInput, "test@example.com");
+    await user.type(passwordInput, "Pa$$w0rd");
+    await user.type(birthdateInput, "1970-01-01");
+
+    fetchMock.mockResponseOnce(
+      JSON.stringify({ errors: [{ code: "invalid_email" }] }),
+      { status: 400 }
+    );
+    await user.click(submitButton);
+
+    screen.getByText(en.INVALID_EMAIL_SIGNUP);
+    expect(onSignupSuccess).toHaveBeenCalledTimes(0);
+
+    fetchMock.mockResponseOnce(
+      JSON.stringify({ errors: [{ code: "invalid_password" }] }),
+      { status: 400 }
+    );
+    await user.type(passwordInput, "IsWr0ng");
+    await user.click(submitButton);
+
+    screen.getByText(en.INVALID_PASSWORD_SIGNUP);
+    expect(onSignupSuccess).toHaveBeenCalledTimes(0);
+
+    fetchMock.mockResponseOnce(
+      JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
+      { status: 400 }
+    );
+    await user.type(passwordInput, "IsNowRight");
+    await user.click(submitButton);
+
+    screen.getByText(en.INVALID_BIRTHDATE_SIGNUP);
+    expect(onSignupSuccess).toHaveBeenCalledTimes(0);
   });
 });
