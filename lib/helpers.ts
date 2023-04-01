@@ -15,7 +15,7 @@ export const isValidBirthdate = (input: string) => {
 
   const dateObject = new Date(input);
   const dateNow = new Date();
-  
+
   const year = dateObject.getFullYear();
   const month = dateObject.getMonth() + 1;
   const day = dateObject.getDate();
@@ -24,7 +24,8 @@ export const isValidBirthdate = (input: string) => {
   const inputMonth = parseInt(input.slice(5, 7));
   const inputDay = parseInt(input.slice(8, 10));
 
-  const dateObjectMatchesInputs = year === inputYear && month === inputMonth && day === inputDay;
+  const dateObjectMatchesInputs =
+    year === inputYear && month === inputMonth && day === inputDay;
 
   return dateObjectMatchesInputs && year > 1880 && dateObject < dateNow;
 };
