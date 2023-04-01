@@ -266,6 +266,7 @@ const PictureSlider = ({ onCarretClick }: PictureSliderProps) => {
             backgroundColor: TOPIC_COLORS[TOPICS[state.currentStep - 1]],
           }}
           onClick={onCarretClick}
+          data-testid="picture-slider-carret"
         >
           <FontAwesomeIcon
             icon={faAngleDown}

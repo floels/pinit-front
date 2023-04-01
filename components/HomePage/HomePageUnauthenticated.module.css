@@ -1,4 +1,3 @@
-
 .container {
   height: 100vh;
   overflow-y: hidden;
@@ -80,7 +79,7 @@
   height: 100px;
   width: 316px;
   line-height: 100px;
-  color: rgb(110, 15, 60);;
+  color: rgb(110, 15, 60);
   background-color: var(--color-white);
   border-radius: 100px;
   font-weight: bold;

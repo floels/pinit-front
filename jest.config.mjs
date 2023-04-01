@@ -1,15 +1,15 @@
 // see https://nextjs.org/docs/testing#setting-up-jest-with-the-rust-compiler
-import nextJest from 'next/jest.js'
+import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
-  dir: './',
-})
+  dir: "./",
+});
 
 /** @type {import('jest').Config} */
 const config = {
-  setupFilesAfterEnv: ['./mocks/globalMocks.js'],
-  testEnvironment: 'jest-environment-jsdom',
-}
+  setupFilesAfterEnv: ["./mocks/globalMocks.js"],
+  testEnvironment: "jest-environment-jsdom",
+};
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-export default createJestConfig(config)
+export default createJestConfig(config);
