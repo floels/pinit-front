@@ -39,7 +39,11 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
           </div>
         )}
         <div className={styles.closeButtonContainer}>
-          <button className={styles.closeButton} onClick={onClose}>
+          <button
+            className={styles.closeButton}
+            onClick={onClose}
+            data-testid="overlay-modal-close-button"
+          >
             <FontAwesomeIcon icon={faXmark} size="2x" />
           </button>
         </div>
