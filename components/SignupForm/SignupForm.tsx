@@ -142,8 +142,8 @@ const SignupForm = ({
       return;
     }
 
-    Cookies.set("accessToken", access, { httpOnly: true });
-    Cookies.set("refreshToken", refresh, { httpOnly: true });
+    Cookies.set("accessToken", access);
+    Cookies.set("refreshToken", refresh);
 
     onSignupSuccess();
 
