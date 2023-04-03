@@ -45,12 +45,12 @@ const HomePageUnauthenticated = () => {
     setIsSignupModalOpen(false);
   };
 
-  const handleMouseWheel = (event: any) => {
+  const handleMouseWheel = (event: WheelEvent) => {
     let newFold = currentFold;
 
-    if (event.wheelDelta < 0 && currentFold !== NUMBER_FOLDS) {
+    if (event.deltaY > 0 && currentFold !== NUMBER_FOLDS) {
       newFold = currentFold + 1;
-    } else if (event.wheelDelta > 0 && currentFold > 1) {
+    } else if (event.deltaY < 0 && currentFold > 1) {
       newFold = currentFold - 1;
     }
 
@@ -59,15 +59,15 @@ const HomePageUnauthenticated = () => {
     }
   };
 
-  const handleClickCarret = () => {
+  const handleClickSeeBelow = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
   };
 
   useEffect(() => {
-    document.addEventListener("mousewheel", handleMouseWheel);
+    document.addEventListener("wheel", handleMouseWheel);
 
     return () => {
-      document.removeEventListener("mousewheel", handleMouseWheel);
+      document.removeEventListener("wheel", handleMouseWheel);
     };
   });
 
@@ -102,6 +102,7 @@ const HomePageUnauthenticated = () => {
       <div
         className={styles.content}
         style={{ transform: `translateY(-${(currentFold - 1) * 100}vh)` }}
+        data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero}>
           <HeaderUnauthenticated
@@ -109,7 +110,7 @@ const HomePageUnauthenticated = () => {
             handleClickSignUpButton={handleClickSignUpButton}
           />
           <div className={styles.pictureSlider}>
-            <PictureSlider onCarretClick={handleClickCarret} />
+            <PictureSlider onClickSeeBelow={handleClickSeeBelow} />
           </div>
         </div>
         <div className={styles.sectionSearch}>

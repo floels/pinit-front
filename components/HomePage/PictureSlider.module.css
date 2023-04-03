@@ -172,6 +172,7 @@ because then the header text is displayed on two lines instead of one. */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  cursor: pointer;
 }
 
 .footerTextAndIcon {
