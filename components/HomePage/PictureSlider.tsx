@@ -18,7 +18,7 @@ type TopicColorsType = {
 };
 
 type PictureSliderProps = {
-  onCarretClick: () => void;
+  onClickSeeBelow: () => void;
 };
 
 type PictureSliderState = {
@@ -96,7 +96,7 @@ const renderSliderImage = (
   );
 };
 
-const PictureSlider = ({ onCarretClick }: PictureSliderProps) => {
+const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
   const intl = useIntl();
 
   const [state, setState] = useState<PictureSliderState>({
@@ -265,7 +265,7 @@ const PictureSlider = ({ onCarretClick }: PictureSliderProps) => {
           style={{
             backgroundColor: TOPIC_COLORS[TOPICS[state.currentStep - 1]],
           }}
-          onClick={onCarretClick}
+          onClick={onClickSeeBelow}
           data-testid="picture-slider-carret"
         >
           <FontAwesomeIcon
@@ -274,7 +274,7 @@ const PictureSlider = ({ onCarretClick }: PictureSliderProps) => {
             size="2x"
           />
         </div>
-        <div className={styles.footer}>
+        <div className={styles.footer} onClick={onClickSeeBelow}>
           <div className={styles.footerTextAndIcon}>
             {intl.formatMessage({ id: "HOW_IT_WORKS" })}
             <FontAwesomeIcon icon={faAngleDown} className={styles.footerIcon} />

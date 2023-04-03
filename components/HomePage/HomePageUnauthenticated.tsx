@@ -59,7 +59,7 @@ const HomePageUnauthenticated = () => {
     }
   };
 
-  const handleClickCarret = () => {
+  const handleClickSeeBelow = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
   };
 
@@ -109,7 +109,7 @@ const HomePageUnauthenticated = () => {
             handleClickSignUpButton={handleClickSignUpButton}
           />
           <div className={styles.pictureSlider}>
-            <PictureSlider onCarretClick={handleClickCarret} />
+            <PictureSlider onClickSeeBelow={handleClickSeeBelow} />
           </div>
         </div>
         <div className={styles.sectionSearch}>
