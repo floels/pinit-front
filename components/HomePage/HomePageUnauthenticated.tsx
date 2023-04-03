@@ -45,12 +45,12 @@ const HomePageUnauthenticated = () => {
     setIsSignupModalOpen(false);
   };
 
-  const handleMouseWheel = (event: any) => {
+  const handleMouseWheel = (event: WheelEvent) => {
     let newFold = currentFold;
 
-    if (event.wheelDelta < 0 && currentFold !== NUMBER_FOLDS) {
+    if (event.deltaY > 0 && currentFold !== NUMBER_FOLDS) {
       newFold = currentFold + 1;
-    } else if (event.wheelDelta > 0 && currentFold > 1) {
+    } else if (event.deltaY < 0 && currentFold > 1) {
       newFold = currentFold - 1;
     }
 
@@ -64,10 +64,10 @@ const HomePageUnauthenticated = () => {
   };
 
   useEffect(() => {
-    document.addEventListener("mousewheel", handleMouseWheel);
+    document.addEventListener("wheel", handleMouseWheel);
 
     return () => {
-      document.removeEventListener("mousewheel", handleMouseWheel);
+      document.removeEventListener("wheel", handleMouseWheel);
     };
   });
 
@@ -102,6 +102,7 @@ const HomePageUnauthenticated = () => {
       <div
         className={styles.content}
         style={{ transform: `translateY(-${(currentFold - 1) * 100}vh)` }}
+        data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero}>
           <HeaderUnauthenticated
