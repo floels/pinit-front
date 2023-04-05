@@ -10,18 +10,25 @@ type HeaderAuthenticatedProps = {
 
 const HeaderAuthenticated = ({ userInformation }: HeaderAuthenticatedProps) => {
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
+  const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
 
   const [isAccountOptionsFlyoutOpen, setAccountOptionsFlyoutOpen] =
     useState(false);
 
-  const handleClickAccountOptionsButton = () => {
-    setAccountOptionsFlyoutOpen(true);
+  const handleClickAccountOptionsButton = (event: any) => {
+    setAccountOptionsFlyoutOpen(!isAccountOptionsFlyoutOpen);
   };
 
   const handleClickDocument = (event: MouseEvent) => {
+    const target = event.target as Node;
+
     if (
       accountOptionsFlyoutRef.current &&
-      !accountOptionsFlyoutRef.current.contains(event.target as Node)
+      !accountOptionsFlyoutRef.current.contains(target) &&
+      accountOptionsButtonRef.current &&
+      !accountOptionsButtonRef.current.contains(target)
+      // NB: we don't do anything if the user clicks on the account options button
+      // as this click is managed by the `handleClickAccountOptionsButton` function above
     ) {
       setAccountOptionsFlyoutOpen(false);
     }
@@ -39,14 +46,12 @@ const HeaderAuthenticated = ({ userInformation }: HeaderAuthenticatedProps) => {
     <div className={styles.container}>
       <div className={styles.headerItemsContainer}>
         <div className={styles.searchBarContainer}></div>
-        <div className={styles.accountOptionsButtonContainer}>
-          <button
-            className={styles.accountOptionsButton}
-            onClick={handleClickAccountOptionsButton}
-          >
-            <FontAwesomeIcon icon={faAngleDown} />
-          </button>
-        </div>
+        <button
+          className={styles.accountOptionsButton}
+          onClick={handleClickAccountOptionsButton}
+        >
+          <FontAwesomeIcon icon={faAngleDown} />
+        </button>
       </div>
       {isAccountOptionsFlyoutOpen && (
         <AccountOptionsFlyout
