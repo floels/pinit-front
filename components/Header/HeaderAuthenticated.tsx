@@ -6,9 +6,13 @@ import styles from "./HeaderAuthenticated.module.css";
 
 type HeaderAuthenticatedProps = {
   userInformation: UserInformation;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 };
 
-const HeaderAuthenticated = ({ userInformation }: HeaderAuthenticatedProps) => {
+const HeaderAuthenticated = ({
+  userInformation,
+  setIsAuthenticated,
+}: HeaderAuthenticatedProps) => {
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
 
@@ -57,6 +61,7 @@ const HeaderAuthenticated = ({ userInformation }: HeaderAuthenticatedProps) => {
         <AccountOptionsFlyout
           ref={accountOptionsFlyoutRef}
           userInformation={userInformation}
+          setIsAuthenticated={setIsAuthenticated}
         />
       )}
     </div>

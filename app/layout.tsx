@@ -1,34 +1,43 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
+"use client";
+
 import { useMemo } from "react";
 import { IntlProvider } from "react-intl";
-import English from "../lang/en.json";
+import en from "../lang/en.json";
+import "../styles/globals.css";
 
 // See https://fontawesome.com/v5/docs/web/use-with/react#next-js
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
-export default function App({ Component, pageProps }: AppProps) {
-  const { locale, defaultLocale } = useRouter();
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const locale = "en"; // TODO: base locale on request headers
 
   const messages = useMemo(() => {
     switch (locale) {
       case "en":
-        return English;
+        return en;
       default:
-        return English;
+        return en;
     }
   }, [locale]);
 
   return (
     <IntlProvider
       locale={locale as string}
-      defaultLocale={defaultLocale}
       messages={messages as Record<string, string>}
     >
-      <Component {...pageProps} />
+      <html lang={locale}>
+        <body>{children}</body>
+      </html>
     </IntlProvider>
   );
 }
+
+export const metadata = {
+  title: "PintIt",
+};

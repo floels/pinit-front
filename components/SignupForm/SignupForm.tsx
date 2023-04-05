@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   API_BASE_URL,
   ENDPOINT_SIGN_UP,

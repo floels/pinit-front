@@ -15,7 +15,7 @@ const HeaderUnauthenticated = ({
 
   return (
     <div className={styles.container}>
-      <a href="#" className={styles.logoContainer}>
+      <a href="/" className={styles.logoContainer}>
         <Image src="/images/logo.svg" alt="PinIt logo" width={32} height={32} />
         <h1 className={styles.logoHeader}>PinIt</h1>
       </a>

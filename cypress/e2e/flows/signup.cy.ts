@@ -32,5 +32,9 @@ describe("Signup", () => {
     cy.contains(en.CONTINUE).click();
 
     // TODO: examine content of authenticated homepage
+
+    // TODO: check presence of authentication cookies
+    // cy.getCookie("accessToken").should("exist");
+    // cy.getCookie("refreshToken").should("exist");
   });
 });
