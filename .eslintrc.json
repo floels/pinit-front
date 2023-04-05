@@ -1,3 +1,4 @@
 {
-  "extends": "next/core-web-vitals"
+  // https://stackoverflow.com/a/68193974
+  "extends": ["next/babel","next/core-web-vitals"]
 }

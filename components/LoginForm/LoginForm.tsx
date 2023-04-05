@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/router";
 import {
   API_BASE_URL,
   ENDPOINT_OBTAIN_TOKEN,
@@ -43,8 +42,6 @@ const LoginForm = ({
   onClickNoAccountYet,
 }: LoginFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
-
-  const router = useRouter();
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -134,8 +131,6 @@ const LoginForm = ({
     Cookies.set("refreshToken", refresh);
 
     onLoginSuccess();
-
-    router.push("/");
   };
 
   const intl = useIntl();

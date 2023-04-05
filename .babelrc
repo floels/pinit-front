@@ -1,0 +1,5 @@
+// https://stackoverflow.com/a/68193974
+{
+  "presets": ["next/babel"],
+  "plugins": []
+}

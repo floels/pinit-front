@@ -1,31 +1,30 @@
 import React from "react";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useIntl } from "react-intl";
 import styles from "./AccountOptionsFlyout.module.css";
 
 export type UserInformation = {
   username: string;
-  userFirstName: string;
-  userLastName: string;
+  firstName: string;
+  lastName: string;
 };
 
 type AccountOptionsFlyoutProps = {
   userInformation: UserInformation;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 };
 
 const AccountOptionsFlyout = React.forwardRef<
   HTMLDivElement,
   AccountOptionsFlyoutProps
->((_, ref) => {
-  const router = useRouter();
+>(({ userInformation, setIsAuthenticated }, ref) => {
   const intl = useIntl();
 
   const handleClickLogOut = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
-
-    router.push("/");
+    setIsAuthenticated(false);
   };
 
   return (

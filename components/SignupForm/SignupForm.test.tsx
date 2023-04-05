@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
 import en from "../../lang/en.json";
 
-jest.mock("next/router", () => require("next-router-mock"));
+jest.mock("next/navigation", () => require("next-router-mock"));
 
 const setIsLoading = jest.fn();
 const onSignupSuccess = jest.fn();

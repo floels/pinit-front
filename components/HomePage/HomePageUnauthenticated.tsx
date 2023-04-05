@@ -12,7 +12,13 @@ import SignupForm, { SignupFormProps } from "../SignupForm/SignupForm";
 
 const NUMBER_FOLDS = 2;
 
-const HomePageUnauthenticated = () => {
+type HomePageUnauthenticatedProps = {
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+};
+
+const HomePageUnauthenticated = ({
+  setIsAuthenticated,
+}: HomePageUnauthenticatedProps) => {
   const intl = useIntl();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -41,7 +47,17 @@ const HomePageUnauthenticated = () => {
     setIsLoginModalOpen(true);
   };
 
+  const handleSuccessfulLogin = () => {
+    setIsAuthenticated(true);
+    setIsLoginModalOpen(false);
+  };
+
   const handleCloseSignupModal = () => {
+    setIsSignupModalOpen(false);
+  };
+
+  const handleSuccessfulSignup = () => {
+    setIsAuthenticated(true);
     setIsSignupModalOpen(false);
   };
 
@@ -78,7 +94,7 @@ const HomePageUnauthenticated = () => {
           <LoginForm
             {
               ...({
-                onLoginSuccess: handleCloseLoginModal,
+                onLoginSuccess: handleSuccessfulLogin,
                 onClickNoAccountYet: handleClickNoAccountYet,
               } as LoginFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/
@@ -91,7 +107,7 @@ const HomePageUnauthenticated = () => {
           <SignupForm
             {
               ...({
-                onSignupSuccess: handleCloseSignupModal,
+                onSignupSuccess: handleSuccessfulSignup,
                 onClickAlreadyHaveAccount: handleClickAlreadyHaveAccount,
               } as SignupFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/
