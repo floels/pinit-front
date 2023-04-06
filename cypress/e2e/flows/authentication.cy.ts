@@ -1,4 +1,4 @@
-import { EMAIL_ADDRESS, PASSWORD } from "@/cypress/fixtures/authentication";
+import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
 import en from "../../../lang/en.json";
 
 describe("Login and logout", () => {

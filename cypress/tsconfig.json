@@ -1,0 +1,12 @@
+// https://stackoverflow.com/a/69990369
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": "..",
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  }
+}
