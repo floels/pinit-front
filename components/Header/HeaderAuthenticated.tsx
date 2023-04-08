@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import AccountOptionsFlyout, { UserInformation } from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -49,6 +51,14 @@ const HeaderAuthenticated = ({
   return (
     <div className={styles.container}>
       <div className={styles.headerItemsContainer}>
+        <Link href="/" className={styles.logoContainer}>
+          <Image
+            src="/images/logo.svg"
+            alt="PinIt logo"
+            width={24}
+            height={24}
+          />
+        </Link>
         <div className={styles.searchBarContainer}></div>
         <button
           className={styles.accountOptionsButton}
