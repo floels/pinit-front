@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
-    "coverage-report": "istanbul-merge --out coverage/merged-coverage.json coverage/jest/coverage-final.json coverage/cypress/coverage-final.json && nyc report --temp-dir coverage --report-dir coverage --reporter html --reporter text"
+    "coverage-report": "istanbul-merge --out coverage/merged-coverage.json coverage/jest/coverage-final.json coverage/cypress/coverage-final.json"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
