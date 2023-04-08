@@ -1,5 +1,9 @@
-// https://stackoverflow.com/a/68193974
+// https://github.com/cypress-io/code-coverage#instrument-your-application
 {
   "presets": ["next/babel"],
-  "plugins": []
+  "env": {
+    "development": {
+      "plugins": ["istanbul"]
+    }
+  }
 }
