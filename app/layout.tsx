@@ -32,12 +32,18 @@ export default function RootLayout({
       messages={messages as Record<string, string>}
     >
       <html lang={locale}>
+        <head>
+          <meta charSet="UTF-8" />
+          <title>PinIt</title>
+          <meta name="description" content="Welcome to PinIt!" />
+          <link
+            rel="icon"
+            href="/images/favicon.ico"
+            type="image/x-icon"
+          ></link>
+        </head>
         <body>{children}</body>
       </html>
     </IntlProvider>
   );
 }
-
-export const metadata = {
-  title: "PintIt",
-};

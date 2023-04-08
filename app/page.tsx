@@ -1,7 +1,7 @@
 "use client";
 
 import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import HomePageUnauthenticated from "../components/HomePage/HomePageUnauthenticated";
 import HomePageAuthenticated from "../components/HomePage/HomePageAuthenticated";
 import { UserInformation } from "../components/Header/AccountOptionsFlyout";
@@ -24,7 +24,7 @@ export default function Homepage() {
   const [userInformation, setUserInformation] =
     useState<UserInformation | null>(null);
 
-  const fetchUserInformation = async () => {
+  const fetchUserInformation = useCallback(async () => {
     if (!isAuthenticated) {
       return;
     }
@@ -57,11 +57,11 @@ export default function Homepage() {
       // TODO: show generic error message
       return;
     }
-  };
+  }, [isAuthenticated]);
 
   useEffect(() => {
     fetchUserInformation();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, fetchUserInformation]);
 
   return (
     <div>

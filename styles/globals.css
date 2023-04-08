@@ -6,6 +6,7 @@
   --color-gray-200: #e2e2e2;
   --color-gray-400: #a5a5a5;
   --color-gray-500: #767676;
+  --color-transparent-gray: rgba(0, 0, 0, 0.06);
   --color-white: #fff;
 
   --color-background-primary: var(--color-white);
