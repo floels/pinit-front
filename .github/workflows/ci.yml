@@ -1,0 +1,52 @@
+name: Continuous integration
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Run component tests
+        run: yarn jest
+
+      - name: Start development server
+        run: yarn dev &
+
+      - name: Wait for development server to be up
+        run: yarn wait-on http://localhost:3000
+
+      - name: Run E2E tests
+        run: yarn cypress run
+
+      - name: Stop development server
+        run: kill $(jobs -p) || true
+
+      - name: Generate coverage report
+        run: yarn coverage-report
+
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage/merged-coverage.json

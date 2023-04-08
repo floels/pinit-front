@@ -9,6 +9,9 @@ const createJestConfig = nextJest({
 const config = {
   setupFilesAfterEnv: ["./mocks/globalMocks.js"],
   testEnvironment: "jest-environment-jsdom",
+  collectCoverage: true,
+  coverageDirectory: "<rootDir>/coverage/jest",
+  coverageReporters: ["json"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
