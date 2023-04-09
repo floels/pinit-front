@@ -25,14 +25,14 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Start development server (for E2E tests)
+        run: yarn dev &
+
       - name: Lint
         run: yarn lint
 
       - name: Run component tests
         run: yarn jest
-
-      - name: Start development server
-        run: yarn dev &
 
       - name: Wait for development server to be up
         run: yarn wait-on http://localhost:3000
