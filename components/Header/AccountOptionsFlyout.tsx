@@ -1,31 +1,17 @@
 import React from "react";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { useIntl } from "react-intl";
 import styles from "./AccountOptionsFlyout.module.css";
 
-export type UserInformation = {
-  username: string;
-  firstName: string;
-  lastName: string;
-};
-
 type AccountOptionsFlyoutProps = {
-  userInformation: UserInformation;
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
+  handleClickLogOut: () => void;
 };
 
 const AccountOptionsFlyout = React.forwardRef<
   HTMLDivElement,
   AccountOptionsFlyoutProps
->(({ userInformation, setIsAuthenticated }, ref) => {
+>(({ handleClickLogOut }, ref) => {
   const intl = useIntl();
-
-  const handleClickLogOut = () => {
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
-    setIsAuthenticated(false);
-  };
 
   return (
     <div ref={ref} className={styles.accountOptionsFlyout}>

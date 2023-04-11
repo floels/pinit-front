@@ -1,3 +1,7 @@
+import Cookies from "js-cookie";
+import { Dispatch } from "react";
+import { Action } from "../app/globalState";
+
 export const isValidEmail = (input: string) => {
   return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(input);
 };
@@ -28,4 +32,48 @@ export const isValidBirthdate = (input: string) => {
     year === inputYear && month === inputMonth && day === inputDay;
 
   return dateObjectMatchesInputs && year > 1880 && dateObject < dateNow;
+};
+
+export const fetchWithAuthentication = async (
+  url: string,
+  options: RequestInit,
+  globalStateDispatch: Dispatch<Action>
+) => {
+  const accessToken = Cookies.get("accessToken");
+
+  if (!accessToken) {
+    console.warn(
+      "fetchWithAuthentication called without an access token set in the cookies."
+    );
+
+    return;
+  }
+
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      // Access token is invalid
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+
+      globalStateDispatch({ type: "SET_IS_AUTHENTICATED", payload: false });
+
+      return;
+    } else {
+      // unknown error code
+      // TODO: show generic error message
+      return;
+    }
+  }
+
+  const data = await response.json();
+
+  return data;
 };

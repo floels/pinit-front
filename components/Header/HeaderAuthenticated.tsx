@@ -1,22 +1,21 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import Cookies from "js-cookie";
+import { useIntl } from "react-intl";
 import Image from "next/image";
 import Link from "next/link";
-import AccountOptionsFlyout, { UserInformation } from "./AccountOptionsFlyout";
+import GlobalStateContext from "../../app/globalState";
+import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticated.module.css";
 
-type HeaderAuthenticatedProps = {
-  userInformation: UserInformation;
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
-};
+const HeaderAuthenticated = () => {
+  const intl = useIntl();
 
-const HeaderAuthenticated = ({
-  userInformation,
-  setIsAuthenticated,
-}: HeaderAuthenticatedProps) => {
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
+
+  const { dispatch } = useContext(GlobalStateContext);
 
   const [isAccountOptionsFlyoutOpen, setAccountOptionsFlyoutOpen] =
     useState(false);
@@ -40,6 +39,13 @@ const HeaderAuthenticated = ({
     }
   };
 
+  const handleClickLogOut = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+
+    dispatch({ type: "SET_IS_AUTHENTICATED", payload: false });
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickDocument);
 
@@ -49,7 +55,7 @@ const HeaderAuthenticated = ({
   });
 
   return (
-    <div className={styles.container}>
+    <nav className={styles.container}>
       <div className={styles.headerItemsContainer}>
         <Link href="/" className={styles.logoContainer}>
           <Image
@@ -58,6 +64,9 @@ const HeaderAuthenticated = ({
             width={24}
             height={24}
           />
+        </Link>
+        <Link href="/" className={styles.navigationItem}>
+          {intl.formatMessage({ id: "NAV_ITEM_HOME" })}
         </Link>
         <div className={styles.searchBarContainer}></div>
         <button
@@ -70,11 +79,10 @@ const HeaderAuthenticated = ({
       {isAccountOptionsFlyoutOpen && (
         <AccountOptionsFlyout
           ref={accountOptionsFlyoutRef}
-          userInformation={userInformation}
-          setIsAuthenticated={setIsAuthenticated}
+          handleClickLogOut={handleClickLogOut}
         />
       )}
-    </div>
+    </nav>
   );
 };
 

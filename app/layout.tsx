@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { IntlProvider } from "react-intl";
 import en from "../lang/en.json";
 import "../styles/globals.css";
@@ -10,26 +9,20 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
+import { GlobalStateProvider } from "./globalState";
+import Header from "../components/Header/Header";
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const locale = "en"; // TODO: base locale on request headers
-
-  const messages = useMemo(() => {
-    switch (locale) {
-      case "en":
-        return en;
-      default:
-        return en;
-    }
-  }, [locale]);
+  const locale = "en"; // TODO: base locale on request headers and adapt messages accordingly
 
   return (
     <IntlProvider
       locale={locale as string}
-      messages={messages as Record<string, string>}
+      messages={en as Record<string, string>}
     >
       <html lang={locale}>
         <head>
@@ -42,7 +35,12 @@ export default function RootLayout({
             type="image/x-icon"
           ></link>
         </head>
-        <body>{children}</body>
+        <body>
+          <GlobalStateProvider>
+            <Header />
+            {children}
+          </GlobalStateProvider>
+        </body>
       </html>
     </IntlProvider>
   );
