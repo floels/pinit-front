@@ -1,5 +1,4 @@
 import { createContext, useReducer, Dispatch } from "react";
-import Cookies from "js-cookie";
 
 type State = {
   isAuthenticated: boolean;
@@ -10,7 +9,7 @@ export type Action = {
   payload: boolean;
 };
 
-const initialState = { isAuthenticated: !!Cookies.get("accessToken") };
+const initialState = { isAuthenticated: false };
 
 const GlobalStateContext = createContext({
   state: initialState,

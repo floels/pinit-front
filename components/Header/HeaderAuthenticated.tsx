@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useRef, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
+import { usePathname } from "next/navigation";
 import { useIntl } from "react-intl";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +14,8 @@ import styles from "./HeaderAuthenticated.module.css";
 
 const HeaderAuthenticated = () => {
   const intl = useIntl();
+
+  const currentPathname = usePathname();
 
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
@@ -65,7 +70,12 @@ const HeaderAuthenticated = () => {
             height={24}
           />
         </Link>
-        <Link href="/" className={styles.navigationItem}>
+        <Link
+          href="/"
+          className={`${styles.navigationItem} ${
+            currentPathname === "/" ? styles.active : ""
+          }`}
+        >
           {intl.formatMessage({ id: "NAV_ITEM_HOME" })}
         </Link>
         <div className={styles.searchBarContainer}></div>
