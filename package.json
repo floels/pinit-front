@@ -20,10 +20,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intl": "^6.2.10",
-    "typescript": "5.0.3"
+    "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@cypress/code-coverage": "^3.10.3",
+    "@cypress/code-coverage": "^3.10.4",
     "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
@@ -31,11 +31,11 @@
     "@types/jest": "^29.5.0",
     "@types/js-cookie": "^3.0.3",
     "@types/node": "18.15.11",
-    "@types/react": "18.0.33",
+    "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
     "babel-plugin-istanbul": "^6.1.1",
     "cypress": "^12.9.0",
-    "eslint": "^8.37.0",
+    "eslint": "^8.38.0",
     "eslint-config-next": "^13.3.0",
     "eslint-plugin-react": "^7.32.2",
     "istanbul-lib-coverage": "^3.2.0",
