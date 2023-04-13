@@ -17,11 +17,6 @@ const AccountOptionsFlyout = React.forwardRef<
     <div ref={ref} className={styles.accountOptionsFlyout}>
       <div>
         <div className={styles.sectionHeader}>
-          {intl.formatMessage({ id: "CURRENTLY_IN" })}
-        </div>
-      </div>
-      <div>
-        <div className={styles.sectionHeader}>
           {intl.formatMessage({ id: "ACCOUNT_OPTIONS_MORE_OPTIONS" })}
         </div>
         <div onClick={handleClickLogOut} className={styles.sectionItem}>
