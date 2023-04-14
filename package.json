@@ -50,5 +50,6 @@
   "nyc": {
     "report-dir": "coverage/cypress",
     "reporter": "json"
-  }
+  },
+  "packageManager": "yarn@3.5.0"
 }
