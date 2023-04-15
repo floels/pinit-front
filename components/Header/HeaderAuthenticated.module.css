@@ -19,6 +19,10 @@
   align-items: center;
 }
 
+.logoContainer:hover {
+  background-color: var(--color-transparent-gray);
+}
+
 .navigationItem {
   height: 48px;
   padding: 0 16px;
@@ -37,8 +41,12 @@
   color: var(--color-text-inverse);
 }
 
-.logoContainer:hover {
-  background-color: var(--color-transparent-gray);
+.navigationItemCreate {
+  cursor: pointer;
+}
+
+.createButtonIcon {
+  margin-left: 8px;
 }
 
 .searchBarContainer {

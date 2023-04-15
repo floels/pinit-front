@@ -78,6 +78,16 @@ const HeaderAuthenticated = () => {
         >
           {intl.formatMessage({ id: "NAV_ITEM_HOME" })}
         </Link>
+        <div
+          className={`
+            ${styles.navigationItem}
+            ${styles.navigationItemCreate}
+            ${currentPathname === "/idea-pin-builder" ? styles.active : ""}
+          `}
+        >
+          {intl.formatMessage({ id: "CREATE" })}
+          <FontAwesomeIcon icon={faAngleDown} className={styles.createButtonIcon} />
+        </div>
         <div className={styles.searchBarContainer}></div>
         <button
           className={styles.accountOptionsButton}
