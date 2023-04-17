@@ -9,7 +9,7 @@ import Link from "next/link";
 import GlobalStateContext from "../../app/globalState";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticated.module.css";
 
 const HeaderAuthenticated = () => {
@@ -134,7 +134,17 @@ const HeaderAuthenticated = () => {
             </Link>
           </div>
         )}
-        <div className={styles.searchBarContainer}></div>
+        <div className={styles.searchBarContainer}>
+          <FontAwesomeIcon icon={faSearch} className={styles.searchBarIcon} />
+          <input
+            type="text"
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className={styles.searchBarInput}
+            placeholder={intl.formatMessage({ id: "PLACEHOLDER_SEARCH" })}
+          />
+        </div>
         <button
           className={styles.accountOptionsButton}
           onClick={handleClickAccountOptionsButton}

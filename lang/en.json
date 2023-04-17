@@ -36,5 +36,6 @@
   "FIND_NEW_IDEAS": "Find new ideas to try",
   "NAV_ITEM_HOME": "Home",
   "CREATE": "Create",
-  "CREATE_PIN": "Create Pin"
+  "CREATE_PIN": "Create Pin",
+  "PLACEHOLDER_SEARCH": "Search"
 }
