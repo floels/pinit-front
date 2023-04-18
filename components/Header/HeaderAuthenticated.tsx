@@ -20,6 +20,8 @@ const HeaderAuthenticated = () => {
   const createFlyoutRef = useRef<HTMLDivElement>(null);
   const createButtonRef = useRef<HTMLDivElement>(null);
 
+  const searchBarInputRef = useRef<HTMLDivElement>(null);
+
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
 
@@ -27,9 +29,18 @@ const HeaderAuthenticated = () => {
 
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] = useState(false);
+  const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
 
   const handleClickCreateButton = () => {
     setIsCreateFlyoutOpen(!isCreateFlyoutOpen);
+  };
+
+  const handleFocusSearchBarInput = () => {
+    setIsSearchBarFocused(true);
+  };
+
+  const handleBlurSearchBarInput = () => {
+    setIsSearchBarFocused(false);
   };
 
   const handleClickAccountOptionsButton = () => {
@@ -134,8 +145,11 @@ const HeaderAuthenticated = () => {
             </Link>
           </div>
         )}
-        <div className={styles.searchBarContainer}>
-          <FontAwesomeIcon icon={faSearch} className={styles.searchBarIcon} />
+        <div className={
+          `${styles.searchBarContainer}
+          ${isSearchBarFocused ? styles.searchBarContainerActive : ""} 
+        `}>
+          {!isSearchBarFocused && <FontAwesomeIcon icon={faSearch} className={styles.searchBarIcon} />}
           <input
             type="text"
             autoCapitalize="off"
@@ -143,6 +157,8 @@ const HeaderAuthenticated = () => {
             autoCorrect="off"
             className={styles.searchBarInput}
             placeholder={intl.formatMessage({ id: "PLACEHOLDER_SEARCH" })}
+            onFocus={handleFocusSearchBarInput}
+            onBlur={handleBlurSearchBarInput}
           />
         </div>
         <button

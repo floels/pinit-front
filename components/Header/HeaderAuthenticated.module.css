@@ -84,8 +84,13 @@
   align-items: center;
 }
 
+.searchBarContainer.searchBarContainerActive {
+  box-shadow: rgba(0, 132, 255, 0.5) 0px 0px 0px 4px;
+}
+
 .searchBarIcon {
   margin-right: 8px;
+  color: var(--color-text-icon-subtle);
 }
 
 .searchBarInput {
@@ -95,6 +100,10 @@
   flex-grow: 1;
   background-color: transparent;
   font-size: 16px;
+}
+
+.searchBarInput:focus {
+  outline: none;
 }
 
 .accountOptionsButton {
