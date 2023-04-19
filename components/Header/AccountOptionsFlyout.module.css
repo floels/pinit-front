@@ -1,13 +1,14 @@
-.accountOptionsFlyout {
+.container {
   position: absolute;
   top: 60px;
   width: 200px;
   left: calc(
     100vw - 218px
-  ); /* because 200px width + 16px padding + 2px margin */
+  ); /* 218px = 200px width + 16px padding + 2px margin */
   border-radius: 16px;
   box-shadow: var(--elevation-floating);
   padding: 8px;
+  background-color: var(--color-white);
 }
 
 .sectionHeader {
