@@ -14,7 +14,7 @@ const AccountOptionsFlyout = React.forwardRef<
   const intl = useIntl();
 
   return (
-    <div ref={ref} className={styles.accountOptionsFlyout}>
+    <div ref={ref} className={styles.container}>
       <div>
         <div className={styles.sectionHeader}>
           {intl.formatMessage({ id: "ACCOUNT_OPTIONS_MORE_OPTIONS" })}
