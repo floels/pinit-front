@@ -6,6 +6,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import styles from "./HomePageUnauthenticated.module.css";
+import { URL_S3_BUCKET } from "@/lib/constants";
 
 const NUMBER_FOLDS = 2;
 
@@ -58,7 +59,7 @@ const HomePageUnauthenticated = () => {
             <div className={styles.sectionSearchPicturesContainer}>
               <div className={styles.sectionSearchPictureLeftContainer}>
                 <Image
-                  src="/images/landing/landing_search_left.jpeg"
+                  src={`${URL_S3_BUCKET}/homepage/second_fold_left.jpg`}
                   alt="chicken-plate"
                   fill
                   sizes="204px"
@@ -67,7 +68,7 @@ const HomePageUnauthenticated = () => {
               </div>
               <div className={styles.sectionSearchPictureTopRightContainer}>
                 <Image
-                  src="/images/landing/landing_search_top_right.jpeg"
+                  src={`${URL_S3_BUCKET}/homepage/second_fold_top_right.jpg`}
                   alt="chicken-plate"
                   fill
                   sizes="178px"
@@ -76,7 +77,7 @@ const HomePageUnauthenticated = () => {
               </div>
               <div className={styles.sectionSearchPictureBottomRightContainer}>
                 <Image
-                  src="/images/landing/landing_search_bottom_right.jpeg"
+                  src={`${URL_S3_BUCKET}/homepage/second_fold_bottom_right.jpg`}
                   alt="chicken-plate"
                   fill
                   sizes="164px"
@@ -85,7 +86,7 @@ const HomePageUnauthenticated = () => {
               </div>
               <div className={styles.sectionSearchPictureCenterContainer}>
                 <Image
-                  src="/images/landing/landing_search_center.jpeg"
+                  src={`${URL_S3_BUCKET}/homepage/second_fold_center.jpg`}
                   alt="chicken-plate"
                   fill
                   sizes="298px"
