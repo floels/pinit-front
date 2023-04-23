@@ -1,5 +1,7 @@
 import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
-import en from "../../../lang/en.json";
+import en from "../../../messages/en.json";
+
+const messages = en.HomePageUnauthenticated;
 
 describe("Login and logout", () => {
   beforeEach(() => {
@@ -9,7 +11,7 @@ describe("Login and logout", () => {
   it("should be able to log in", () => {
     cy.visit("/");
 
-    cy.contains(en.LOG_IN).click();
+    cy.contains(messages.LOG_IN).click();
 
     cy.get("input[name='email']").type(EMAIL_ADDRESS);
     cy.get("input[name='password']").type(PASSWORD);
@@ -28,7 +30,7 @@ describe("Login and logout", () => {
       }
     );
 
-    cy.contains(en.LOG_IN).click();
+    cy.contains(messages.LOG_IN).click();
 
     // TODO: examine content of authenticated homepage
 

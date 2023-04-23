@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useIntl } from "react-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -97,7 +97,7 @@ const renderSliderImage = (
 };
 
 const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
-  const intl = useIntl();
+  const t = useTranslations("HomePageUnauthenticated");
 
   const [state, setState] = useState<PictureSliderState>({
     previousStep: null,
@@ -163,7 +163,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
         <div className={styles.headerAndStepper}>
           <div className={styles.headersContainer}>
             <p className={styles.headerFixedSentence}>
-              {intl.formatMessage({ id: "GET_YOUR_NEXT" })}
+              {t("GET_YOUR_NEXT")}
             </p>
             <div className={styles.topicHeadersContainer}>
               {TOPICS.map((topic, index) => (
@@ -181,7 +181,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
                     )}px)`,
                   }}
                 >
-                  {intl.formatMessage({ id: `HEADER_${topic}` })}
+                  {t(`HEADER_${topic}`)}
                 </p>
               ))}
             </div>
@@ -276,7 +276,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
         </div>
         <div className={styles.footer} onClick={onClickSeeBelow}>
           <div className={styles.footerTextAndIcon}>
-            {intl.formatMessage({ id: "HOW_IT_WORKS" })}
+            {t("HOW_IT_WORKS")}
             <FontAwesomeIcon icon={faAngleDown} className={styles.footerIcon} />
           </div>
         </div>

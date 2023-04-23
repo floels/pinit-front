@@ -10,7 +10,7 @@ import {
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
-import { useIntl } from "react-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/helpers";
 
@@ -41,6 +41,8 @@ const LoginForm = ({
   onLoginSuccess,
   onClickNoAccountYet,
 }: LoginFormProps) => {
+  const t = useTranslations();
+
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const [credentials, setCredentials] = useState({
@@ -133,8 +135,6 @@ const LoginForm = ({
     onLoginSuccess();
   };
 
-  const intl = useIntl();
-
   return (
     <div className={styles.container}>
       <Image
@@ -145,17 +145,17 @@ const LoginForm = ({
         className={styles.logo}
       />
       <h1 className={styles.title}>
-        {intl.formatMessage({ id: "WELCOME_TO_PINIT" })}
+        {t("HomePageUnauthenticated.WELCOME_TO_PINIT")}
       </h1>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            labelMessageId={"EMAIL"}
-            placeholderMessageId={"EMAIL"}
+            label={t("HomePageUnauthenticated.EMAIL")}
+            placeholder={t("HomePageUnauthenticated.EMAIL")}
             type="email"
             value={credentials.email}
-            errorMessageId={showFormErrors ? formErrors.email : ""}
+            errorMessage={showFormErrors && formErrors.email ? t(`HomePageUnauthenticated.${formErrors.email}`) : ""}
             onChange={handleInputChange}
             autoComplete="email"
             ref={emailInputRef}
@@ -164,11 +164,11 @@ const LoginForm = ({
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            labelMessageId={"PASSWORD"}
-            placeholderMessageId={"PASSWORD"}
+            label={t("HomePageUnauthenticated.PASSWORD")}
+            placeholder={t("HomePageUnauthenticated.PASSWORD")}
             type="password"
             value={credentials.password}
-            errorMessageId={showFormErrors ? formErrors.password : ""}
+            errorMessage={showFormErrors && formErrors.password ? t(`HomePageUnauthenticated.${formErrors.password}`) : ""}
             onChange={handleInputChange}
             withPasswordShowIcon={true}
           />
@@ -177,21 +177,21 @@ const LoginForm = ({
           <div className={styles.otherErrorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.otherErrorText}>
-              {intl.formatMessage({ id: formErrors.other })}
+              {t(`Common.${formErrors.other}`)}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {intl.formatMessage({ id: "LOG_IN" })}
+          {t("HomePageUnauthenticated.LOG_IN")}
         </button>
       </form>
       <div className={styles.noAccountYet}>
-        {intl.formatMessage({ id: "NO_ACCOUNT_YET" })}
+        {t("HomePageUnauthenticated.NO_ACCOUNT_YET")}
         <button
           className={styles.noAccountYetButton}
           onClick={onClickNoAccountYet}
         >
-          {intl.formatMessage({ id: "SIGN_UP" })}
+          {t("HomePageUnauthenticated.SIGN_UP")}
         </button>
       </div>
     </div>

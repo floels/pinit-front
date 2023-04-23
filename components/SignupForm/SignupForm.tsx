@@ -10,7 +10,7 @@ import {
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./SignupForm.module.css";
-import { useIntl } from "react-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import {
   isValidBirthdate,
@@ -53,6 +53,8 @@ const SignupForm = ({
   onSignupSuccess,
   onClickAlreadyHaveAccount,
 }: SignupFormProps) => {
+  const t = useTranslations();
+
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
@@ -150,8 +152,6 @@ const SignupForm = ({
     router.push("/");
   };
 
-  const intl = useIntl();
-
   return (
     <div className={styles.container}>
       <Image
@@ -162,21 +162,21 @@ const SignupForm = ({
         className={styles.logo}
       />
       <h1 className={styles.title}>
-        {intl.formatMessage({ id: "WELCOME_TO_PINIT" })}
+        {t("HomePageUnauthenticated.WELCOME_TO_PINIT")}
       </h1>
       <div className={styles.subtitle}>
-        {intl.formatMessage({ id: "FIND_NEW_IDEAS" })}
+        {t("HomePageUnauthenticated.FIND_NEW_IDEAS")}
       </div>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            labelMessageId={"EMAIL"}
-            placeholderMessageId={"EMAIL"}
+            label={t("HomePageUnauthenticated.EMAIL")}
+            placeholder={t("HomePageUnauthenticated.EMAIL")}
             type="email"
             value={formData.email}
             autoComplete="email"
-            errorMessageId={showFormErrors ? formErrors.email : ""}
+            errorMessage={showFormErrors && formErrors.email ? t(`HomePageUnauthenticated.${formErrors.email}`) : ""}
             onChange={handleInputChange}
             ref={emailInputRef}
           />
@@ -184,12 +184,12 @@ const SignupForm = ({
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            labelMessageId={"PASSWORD"}
-            placeholderMessageId={"CREATE_PASSWORD"}
+            label={t("HomePageUnauthenticated.PASSWORD")}
+            placeholder={t("HomePageUnauthenticated.CREATE_PASSWORD")}
             type="password"
             value={formData.password}
             autoComplete="new-password"
-            errorMessageId={showFormErrors ? formErrors.password : ""}
+            errorMessage={showFormErrors && formErrors.password ? t(`HomePageUnauthenticated.${formErrors.password}`) : ""}
             onChange={handleInputChange}
             withPasswordShowIcon={true}
           />
@@ -197,32 +197,32 @@ const SignupForm = ({
         <div className={styles.birthdateInputContainer}>
           <LabelledTextInput
             name="birthdate"
-            labelMessageId={"BIRTHDATE"}
+            label={t("HomePageUnauthenticated.BIRTHDATE")}
             type="date"
             value={formData.birthdate}
             autoComplete="bday"
-            errorMessageId={showFormErrors ? formErrors.birthdate : ""}
+            errorMessage={showFormErrors && formErrors.birthdate ? t(`HomePageUnauthenticated.${formErrors.birthdate}`) : ""}
             onChange={handleInputChange}
           />
         </div>
         {showFormErrors && formErrors.other && (
           <div className={styles.otherErrorMessage}>
             <div className={styles.otherErrorText}>
-              {intl.formatMessage({ id: formErrors.other })}
+              {t(`Common.${formErrors.other}`)}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {intl.formatMessage({ id: "CONTINUE" })}
+          {t("HomePageUnauthenticated.CONTINUE")}
         </button>
       </form>
       <div className={styles.alreadyHaveAccount}>
-        {intl.formatMessage({ id: "ALREADY_HAVE_ACCOUNT" })}
+        {t("HomePageUnauthenticated.ALREADY_HAVE_ACCOUNT")}
         <button
           className={styles.alreadyHaveAccountButton}
           onClick={onClickAlreadyHaveAccount}
         >
-          {intl.formatMessage({ id: "LOG_IN" })}
+          {t("HomePageUnauthenticated.LOG_IN")}
         </button>
       </div>
     </div>

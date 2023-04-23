@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useIntl } from "react-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -9,7 +9,7 @@ import styles from "./HomePageUnauthenticated.module.css";
 const NUMBER_FOLDS = 2;
 
 const HomePageUnauthenticated = () => {
-  const intl = useIntl();
+  const t = useTranslations("HomePageUnauthenticated");
 
   const [currentFold, setCurrentFold] = useState(1);
 
@@ -95,20 +95,20 @@ const HomePageUnauthenticated = () => {
                   icon={faSearch}
                   className={styles.searchBarLinkIcon}
                 />
-                {intl.formatMessage({ id: "EASY_CHICKEN_DINNER" })}
+                {t("EASY_CHICKEN_DINNER")}
               </a>
             </div>
           </div>
           <div className={styles.sectionSearchTextArea}>
             <div className={styles.sectionSearchTextContainer}>
               <div className={styles.sectionSearchHeader}>
-                {intl.formatMessage({ id: "SEARCH_FOR_AN_IDEA" })}
+                {t("SEARCH_FOR_AN_IDEA")}
               </div>
               <div className={styles.sectionSearchParagraph}>
-                {intl.formatMessage({ id: "WHAT_DO_YOU_WANT_TO_TRY_NEXT" })}
+                {t("WHAT_DO_YOU_WANT_TO_TRY_NEXT")}
               </div>
               <a href="#" className={styles.exploreLink}>
-                {intl.formatMessage({ id: "EXPLORE" })}
+                {t("EXPLORE")}
               </a>
             </div>
           </div>
