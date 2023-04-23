@@ -19,12 +19,12 @@ describe("Home page", () => {
 
     // Open login form, switch to signup form and then back to login form
     cy.contains(messages.LOG_IN).click();
-    cy.contains(messages.NO_ACCOUNT_YET).within((div) => {
+    cy.contains(messages.NO_ACCOUNT_YET).within(() => {
       cy.contains(messages.SIGN_UP).click();
     });
     cy.contains(messages.FIND_NEW_IDEAS).should("be.visible");
 
-    cy.contains(messages.ALREADY_HAVE_ACCOUNT).within((div) => {
+    cy.contains(messages.ALREADY_HAVE_ACCOUNT).within(() => {
       cy.contains(messages.LOG_IN).click();
     });
     cy.contains(messages.NO_ACCOUNT_YET).should("be.visible");
