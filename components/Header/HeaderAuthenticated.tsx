@@ -1,34 +1,58 @@
-"use client";
-
 import { useState, useRef, useEffect, useContext } from "react";
+import { Dispatch } from "react";
 import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
-import { useIntl } from "react-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import GlobalStateContext from "../../app/globalState";
+import GlobalStateContext from "@/app/globalState";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticated.module.css";
+import { Action } from "@/app/globalState";
+import { API_BASE_URL, ENDPOINT_USER_DETAILS } from "@/lib/constants";
+
+const fetchUserDetails = async (dispatch: Dispatch<Action>) => {
+  const accessToken = Cookies.get("accessToken");
+  
+  const response = await fetch(
+    `${API_BASE_URL}/${ENDPOINT_USER_DETAILS}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      }
+    }
+  );
+
+  if (!response.ok) {
+    // TODO: display error
+    console.warn("Response of /user-details is not OK!")
+    return;
+  }
+
+  return response.json();
+};
 
 const HeaderAuthenticated = () => {
-  const intl = useIntl();
+  const t = useTranslations("HomePageAuthenticated");
 
   const currentPathname = usePathname();
 
   const createFlyoutRef = useRef<HTMLDivElement>(null);
   const createButtonRef = useRef<HTMLDivElement>(null);
 
-  const searchBarInputRef = useRef<HTMLDivElement>(null);
-
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
 
   const { dispatch } = useContext(GlobalStateContext);
 
+  // const userDetails = await fetchUserDetails(dispatch);
+
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
-  const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] = useState(false);
+  const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
+    useState(false);
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
 
   const handleClickCreateButton = () => {
@@ -82,7 +106,7 @@ const HeaderAuthenticated = () => {
         setIsAccountOptionsFlyoutOpen(false);
       }
     }
-  }
+  };
 
   const handleClickLogOut = () => {
     Cookies.remove("accessToken");
@@ -118,7 +142,7 @@ const HeaderAuthenticated = () => {
             currentPathname === "/" ? styles.active : ""
           }`}
         >
-          {intl.formatMessage({ id: "NAV_ITEM_HOME" })}
+          {t("NAV_ITEM_HOME")}
         </Link>
         <div
           className={`
@@ -129,34 +153,34 @@ const HeaderAuthenticated = () => {
           ref={createButtonRef}
           onClick={handleClickCreateButton}
         >
-          {intl.formatMessage({ id: "CREATE" })}
-          <FontAwesomeIcon icon={faAngleDown} className={styles.createButtonIcon} />
+          {t("CREATE")}
+          <FontAwesomeIcon
+            icon={faAngleDown}
+            className={styles.createButtonIcon}
+          />
         </div>
         {isCreateFlyoutOpen && (
-          <div
-              className={styles.createFlyout}
-              ref={createFlyoutRef}
-            >
-            <Link
-              href="/pin-builder"
-              className={styles.createFlyoutItem}
-            >
-              {intl.formatMessage({ id: "CREATE_PIN" })}
+          <div className={styles.createFlyout} ref={createFlyoutRef}>
+            <Link href="/pin-builder" className={styles.createFlyoutItem}>
+              {t("CREATE_PIN")}
             </Link>
           </div>
         )}
-        <div className={
-          `${styles.searchBarContainer}
+        <div
+          className={`${styles.searchBarContainer}
           ${isSearchBarFocused ? styles.searchBarContainerActive : ""} 
-        `}>
-          {!isSearchBarFocused && <FontAwesomeIcon icon={faSearch} className={styles.searchBarIcon} />}
+        `}
+        >
+          {!isSearchBarFocused && (
+            <FontAwesomeIcon icon={faSearch} className={styles.searchBarIcon} />
+          )}
           <input
             type="text"
             autoCapitalize="off"
             autoComplete="off"
             autoCorrect="off"
             className={styles.searchBarInput}
-            placeholder={intl.formatMessage({ id: "PLACEHOLDER_SEARCH" })}
+            placeholder={t("PLACEHOLDER_SEARCH")}
             onFocus={handleFocusSearchBarInput}
             onBlur={handleBlurSearchBarInput}
           />

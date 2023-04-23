@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useIntl } from "react-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import GlobalStateContext from "../../app/globalState";
 import OverlayModal from "../OverlayModal/OverlayModal";
@@ -8,7 +8,7 @@ import SignupForm, { SignupFormProps } from "../SignupForm/SignupForm";
 import styles from "./HeaderUnauthenticated.module.css";
 
 const HeaderUnauthenticated = () => {
-  const intl = useIntl();
+  const t = useTranslations("HomePageUnauthenticated");
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
@@ -84,10 +84,10 @@ const HeaderUnauthenticated = () => {
         <h1 className={styles.logoHeader}>PinIt</h1>
       </a>
       <button className={styles.loginButton} onClick={handleClickLoginButton}>
-        {intl.formatMessage({ id: "LOG_IN" })}
+        {t("LOG_IN")}
       </button>
       <button className={styles.signUpButton} onClick={handleClickSignUpButton}>
-        {intl.formatMessage({ id: "SIGN_UP" })}
+        {t("SIGN_UP")}
       </button>
     </nav>
   );

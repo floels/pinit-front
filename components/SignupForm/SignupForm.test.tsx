@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react";
+import { NextIntlProvider } from 'next-intl';
+import fetchMock from "jest-fetch-mock";
 import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
-import en from "../../lang/en.json";
+import en from "@/messages/en.json";
 
 jest.mock("next/navigation", () => require("next-router-mock"));
 
@@ -10,12 +12,16 @@ const onSignupSuccess = jest.fn();
 const onClickAlreadyHaveAccount = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
 const signupForm = (
-  <SignupForm
-    setIsLoading={setIsLoading}
-    onSignupSuccess={onSignupSuccess}
-    onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
-  />
+  <NextIntlProvider locale="en" messages={en}>
+    <SignupForm
+      setIsLoading={setIsLoading}
+      onSignupSuccess={onSignupSuccess}
+      onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
+    />
+  </NextIntlProvider>
 );
+
+const messages = en.HomePageUnauthenticated;
 
 describe("SignupForm", () => {
   beforeEach(() => {
@@ -33,35 +39,35 @@ describe("SignupForm", () => {
 
     render(signupForm);
 
-    screen.getByText(en.FIND_NEW_IDEAS);
+    screen.getByText(messages.FIND_NEW_IDEAS);
 
-    const emailInput = screen.getByLabelText(en.EMAIL);
-    const passwordInput = screen.getByLabelText(en.PASSWORD);
-    const birthdateInput = screen.getByLabelText(en.BIRTHDATE);
-    const submitButton = screen.getByText(en.CONTINUE);
+    const emailInput = screen.getByLabelText(messages.EMAIL);
+    const passwordInput = screen.getByLabelText(messages.PASSWORD);
+    const birthdateInput = screen.getByLabelText(messages.BIRTHDATE);
+    const submitButton = screen.getByText(messages.CONTINUE);
 
     // Fill form with invalid email, invalid pasword and missing birthdate and submit:
     await user.type(emailInput, "test@example");
     await user.type(passwordInput, "Pa$$");
     await user.click(submitButton);
 
-    screen.getByText(en.INVALID_EMAIL_INPUT);
+    screen.getByText(messages.INVALID_EMAIL_INPUT);
 
     // Fix email input but not password input or birthdate:
     await user.type(emailInput, ".com");
     await user.click(submitButton);
 
-    expect(screen.queryByText(en.INVALID_EMAIL_INPUT)).toBeNull();
-    screen.getByText(en.INVALID_PASSWORD_INPUT);
+    expect(screen.queryByText(messages.INVALID_EMAIL_INPUT)).toBeNull();
+    screen.getByText(messages.INVALID_PASSWORD_INPUT);
 
     // Fix password input but not birthdate:
     await user.type(passwordInput, "w0rd");
-    expect(screen.queryByText(en.INVALID_PASSWORD_INPUT)).toBeNull();
-    screen.getByText(en.INVALID_BIRTHDATE_INPUT);
+    expect(screen.queryByText(messages.INVALID_PASSWORD_INPUT)).toBeNull();
+    screen.getByText(messages.INVALID_BIRTHDATE_INPUT);
 
     // Fix birthdate ipnut:
     await user.type(birthdateInput, "1970-01-01");
-    expect(screen.queryByText(en.INVALID_BIRTHDATE_INPUT)).toBeNull();
+    expect(screen.queryByText(messages.INVALID_BIRTHDATE_INPUT)).toBeNull();
 
     // Submit with correct inputs:
     expect(setIsLoading).toHaveBeenCalledTimes(0);
@@ -75,10 +81,10 @@ describe("SignupForm", () => {
 
     render(signupForm);
 
-    const emailInput = screen.getByLabelText(en.EMAIL);
-    const passwordInput = screen.getByLabelText(en.PASSWORD);
-    const birthdateInput = screen.getByLabelText(en.BIRTHDATE);
-    const submitButton = screen.getByText(en.CONTINUE);
+    const emailInput = screen.getByLabelText(messages.EMAIL);
+    const passwordInput = screen.getByLabelText(messages.PASSWORD);
+    const birthdateInput = screen.getByLabelText(messages.BIRTHDATE);
+    const submitButton = screen.getByText(messages.CONTINUE);
 
     await user.type(emailInput, "test@example.com");
     await user.type(passwordInput, "Pa$$w0rd");
@@ -90,7 +96,7 @@ describe("SignupForm", () => {
     );
     await user.click(submitButton);
 
-    screen.getByText(en.INVALID_EMAIL_SIGNUP);
+    screen.getByText(messages.INVALID_EMAIL_SIGNUP);
     expect(onSignupSuccess).toHaveBeenCalledTimes(0);
 
     fetchMock.mockResponseOnce(
@@ -100,7 +106,7 @@ describe("SignupForm", () => {
     await user.type(passwordInput, "IsWr0ng");
     await user.click(submitButton);
 
-    screen.getByText(en.INVALID_PASSWORD_SIGNUP);
+    screen.getByText(messages.INVALID_PASSWORD_SIGNUP);
     expect(onSignupSuccess).toHaveBeenCalledTimes(0);
 
     fetchMock.mockResponseOnce(
@@ -110,7 +116,7 @@ describe("SignupForm", () => {
     await user.type(passwordInput, "IsNowRight");
     await user.click(submitButton);
 
-    screen.getByText(en.INVALID_BIRTHDATE_SIGNUP);
+    screen.getByText(messages.INVALID_BIRTHDATE_SIGNUP);
     expect(onSignupSuccess).toHaveBeenCalledTimes(0);
   });
 });

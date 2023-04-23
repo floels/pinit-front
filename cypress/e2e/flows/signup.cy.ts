@@ -1,5 +1,7 @@
 import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
-import en from "../../../lang/en.json";
+import en from "../../../messages/en.json";
+
+const messages = en.HomePageUnauthenticated;
 
 describe("Signup", () => {
   beforeEach(() => {
@@ -9,7 +11,7 @@ describe("Signup", () => {
   it("should be able to sign up", () => {
     cy.visit("/");
 
-    cy.contains(en.SIGN_UP).click();
+    cy.contains(messages.SIGN_UP).click();
 
     cy.get("input[name='email']").type(EMAIL_ADDRESS);
     cy.get("input[name='password']").type(PASSWORD);
@@ -29,7 +31,7 @@ describe("Signup", () => {
       }
     );
 
-    cy.contains(en.CONTINUE).click();
+    cy.contains(messages.CONTINUE).click();
 
     // TODO: examine content of authenticated homepage
 

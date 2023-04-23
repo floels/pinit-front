@@ -36,18 +36,10 @@ export const isValidBirthdate = (input: string) => {
 
 export const fetchWithAuthentication = async (
   url: string,
-  options: RequestInit,
-  globalStateDispatch: Dispatch<Action>
+  globalStateDispatch: Dispatch<Action>,
+  options: RequestInit = {}
 ) => {
   const accessToken = Cookies.get("accessToken");
-
-  if (!accessToken) {
-    console.warn(
-      "fetchWithAuthentication called without an access token set in the cookies."
-    );
-
-    return;
-  }
 
   const response = await fetch(url, {
     ...options,
@@ -57,23 +49,13 @@ export const fetchWithAuthentication = async (
     },
   });
 
-  if (!response.ok) {
-    if (response.status === 401) {
-      // Access token is invalid
-      Cookies.remove("accessToken");
-      Cookies.remove("refreshToken");
+  if (response.status === 401) {
+    // Access token is invalid
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
 
-      globalStateDispatch({ type: "SET_IS_AUTHENTICATED", payload: false });
-
-      return;
-    } else {
-      // unknown error code
-      // TODO: show generic error message
-      return;
-    }
+    globalStateDispatch({ type: "SET_IS_AUTHENTICATED", payload: false });
   }
 
-  const data = await response.json();
-
-  return data;
+  return response;
 };
