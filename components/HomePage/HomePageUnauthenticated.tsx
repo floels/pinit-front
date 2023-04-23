@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import PictureSlider from "./PictureSlider";
+import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import styles from "./HomePageUnauthenticated.module.css";
 
 const NUMBER_FOLDS = 2;
@@ -47,6 +48,7 @@ const HomePageUnauthenticated = () => {
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero}>
+          <HeaderUnauthenticated />
           <div className={styles.pictureSlider}>
             <PictureSlider onClickSeeBelow={handleClickSeeBelow} />
           </div>

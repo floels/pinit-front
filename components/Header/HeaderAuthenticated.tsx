@@ -10,10 +10,9 @@ import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticated.module.css";
-import { Action } from "@/app/globalState";
 import { API_BASE_URL, ENDPOINT_USER_DETAILS } from "@/lib/constants";
 
-const fetchUserDetails = async (dispatch: Dispatch<Action>) => {
+const fetchUserDetails = async () => {
   const accessToken = Cookies.get("accessToken");
   
   const response = await fetch(
@@ -48,7 +47,7 @@ const HeaderAuthenticated = () => {
 
   const { dispatch } = useContext(GlobalStateContext);
 
-  // const userDetails = await fetchUserDetails(dispatch);
+  // const userDetails = await fetchUserDetails();
 
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
