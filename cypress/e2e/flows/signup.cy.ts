@@ -33,10 +33,10 @@ describe("Signup", () => {
 
     cy.contains(messages.CONTINUE).click();
 
-    // TODO: examine content of authenticated homepage
+    cy.contains(en.HomePageAuthenticated.NAV_ITEM_HOME);
 
-    // TODO: check presence of authentication cookies
-    // cy.getCookie("accessToken").should("exist");
-    // cy.getCookie("refreshToken").should("exist");
+    // Check presence of authentication cookies:
+    cy.getCookie("accessToken").should("exist");
+    cy.getCookie("refreshToken").should("exist");
   });
 });
