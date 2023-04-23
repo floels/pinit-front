@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./PictureSlider.module.css";
+import { URL_S3_BUCKET } from "@/lib/constants";
 
 type TopicsType = "FOOD" | "HOME" | "OUTFIT" | "GARDENING";
 
@@ -79,7 +80,7 @@ const renderSliderImage = (
   return (
     <div className={styles.pictureContainer}>
       <Image
-        src={`/images/landing/landing_hero_${TOPICS[
+        src={`${URL_S3_BUCKET}/homepage/hero_${TOPICS[
           topicIndex
         ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
         alt={TOPICS[topicIndex]}

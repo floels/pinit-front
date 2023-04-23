@@ -9,3 +9,6 @@ export const ENDPOINT_USER_DETAILS = "user-details/";
 export const ERROR_CODE_INVALID_EMAIL = "invalid_email";
 export const ERROR_CODE_INVALID_PASSWORD = "invalid_password";
 export const ERROR_CODE_INVALID_BIRTHDATE = "invalid_birthdate";
+
+// Images (S3)
+export const URL_S3_BUCKET = "https://pinit-staging.s3.eu-west-3.amazonaws.com";
