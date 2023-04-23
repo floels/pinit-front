@@ -15,11 +15,8 @@ const Header = () => {
     }
   }, [dispatch]);
 
-  return state.isAuthenticated ? (
-    <HeaderAuthenticated />
-  ) : (
-    <HeaderUnauthenticated />
-  );
+  return state.isAuthenticated && <HeaderAuthenticated />;
+  // <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
 };
 
 export default Header;
