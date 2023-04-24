@@ -4,7 +4,6 @@ import { useContext, useEffect } from "react";
 import Cookies from "js-cookie";
 import GlobalStateContext from "../../app/globalState";
 import HeaderAuthenticated from "./HeaderAuthenticated";
-import HeaderUnauthenticated from "./HeaderUnauthenticated";
 
 const Header = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
