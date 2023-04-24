@@ -184,6 +184,11 @@ const HeaderAuthenticated = () => {
             onBlur={handleBlurSearchBarInput}
           />
         </div>
+        <Link href="/florianellis/" className={styles.profileLink}>
+          <div className={styles.profileLinkBadge}>
+            F
+          </div>
+        </Link>
         <button
           className={styles.accountOptionsButton}
           onClick={handleClickAccountOptionsButton}

@@ -106,6 +106,32 @@
   outline: none;
 }
 
+.profileLink {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.profileLink:hover {
+  background-color: var(--color-background-secondary);
+}
+
+.profileLinkBadge {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  color: var(--color-text-default);
+  text-align: center;
+  line-height: 24px;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  background-color: var(--color-background-secondary);
+}
+
 .accountOptionsButton {
   border-radius: 50%;
   width: 24px;
