@@ -38,11 +38,7 @@ export default async function RootLayout({ children, params }: Props) {
         <meta charSet="UTF-8" />
         <title>PinIt</title>
         <meta name="description" content="Welcome to PinIt!" />
-        <link
-          rel="icon"
-          href="/images/favicon.ico"
-          type="image/x-icon"
-        ></link>
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon"></link>
       </head>
       <body>
         <GlobalStateProvider>

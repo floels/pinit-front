@@ -49,9 +49,7 @@ const LabelledTextInput = React.forwardRef<
     return (
       <div className={styles.container}>
         <label>
-          <div className={styles.labelText}>
-            {label}
-          </div>
+          <div className={styles.labelText}>{label}</div>
           <div className={styles.inputContainer}>
             <input
               name={name}
@@ -80,9 +78,7 @@ const LabelledTextInput = React.forwardRef<
         {errorMessage && (
           <div className={styles.errorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
-            <div className={styles.errorText}>
-              {errorMessage}
-            </div>
+            <div className={styles.errorText}>{errorMessage}</div>
           </div>
         )}
       </div>

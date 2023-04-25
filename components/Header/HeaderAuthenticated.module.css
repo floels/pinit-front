@@ -132,6 +132,18 @@
   background-color: var(--color-background-secondary);
 }
 
+.profileLinkTooltip {
+  position: absolute;
+  top: 72px;
+  right: 20px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--color-gray-300);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-100);
+  box-shadow: var(--elevation-floating);
+}
+
 .accountOptionsButton {
   border-radius: 50%;
   width: 24px;
