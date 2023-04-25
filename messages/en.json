@@ -42,6 +42,7 @@
     "NAV_ITEM_HOME": "Home",
     "CREATE": "Create",
     "CREATE_PIN": "Create Pin",
-    "PLACEHOLDER_SEARCH": "Search"
+    "PLACEHOLDER_SEARCH": "Search",
+    "YOUR_PROFILE": "Your profile"
   }
 }

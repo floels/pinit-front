@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { NextIntlProvider } from 'next-intl';
+import { NextIntlProvider } from "next-intl";
 import fetchMock from "jest-fetch-mock";
 import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";

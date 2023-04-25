@@ -155,7 +155,11 @@ const LoginForm = ({
             placeholder={t("HomePageUnauthenticated.EMAIL")}
             type="email"
             value={credentials.email}
-            errorMessage={showFormErrors && formErrors.email ? t(`HomePageUnauthenticated.${formErrors.email}`) : ""}
+            errorMessage={
+              showFormErrors && formErrors.email
+                ? t(`HomePageUnauthenticated.${formErrors.email}`)
+                : ""
+            }
             onChange={handleInputChange}
             autoComplete="email"
             ref={emailInputRef}
@@ -168,7 +172,11 @@ const LoginForm = ({
             placeholder={t("HomePageUnauthenticated.PASSWORD")}
             type="password"
             value={credentials.password}
-            errorMessage={showFormErrors && formErrors.password ? t(`HomePageUnauthenticated.${formErrors.password}`) : ""}
+            errorMessage={
+              showFormErrors && formErrors.password
+                ? t(`HomePageUnauthenticated.${formErrors.password}`)
+                : ""
+            }
             onChange={handleInputChange}
             withPasswordShowIcon={true}
           />

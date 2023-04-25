@@ -163,9 +163,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
       <div className={styles.slider}>
         <div className={styles.headerAndStepper}>
           <div className={styles.headersContainer}>
-            <p className={styles.headerFixedSentence}>
-              {t("GET_YOUR_NEXT")}
-            </p>
+            <p className={styles.headerFixedSentence}>{t("GET_YOUR_NEXT")}</p>
             <div className={styles.topicHeadersContainer}>
               {TOPICS.map((topic, index) => (
                 <p

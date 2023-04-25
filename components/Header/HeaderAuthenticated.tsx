@@ -14,20 +14,17 @@ import { API_BASE_URL, ENDPOINT_USER_DETAILS } from "@/lib/constants";
 
 const fetchUserDetails = async () => {
   const accessToken = Cookies.get("accessToken");
-  
-  const response = await fetch(
-    `${API_BASE_URL}/${ENDPOINT_USER_DETAILS}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      }
-    }
-  );
+
+  const response = await fetch(`${API_BASE_URL}/${ENDPOINT_USER_DETAILS}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   if (!response.ok) {
     // TODO: display error
-    console.warn("Response of /user-details is not OK!")
+    console.warn("Response of /user-details is not OK!");
     return;
   }
 
@@ -50,9 +47,10 @@ const HeaderAuthenticated = () => {
   // const userDetails = await fetchUserDetails();
 
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
+  const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
+  const [isProfileLinkHovered, setIsProfileLinkHovered] = useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
-  const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
 
   const handleClickCreateButton = () => {
     setIsCreateFlyoutOpen(!isCreateFlyoutOpen);
@@ -64,6 +62,14 @@ const HeaderAuthenticated = () => {
 
   const handleBlurSearchBarInput = () => {
     setIsSearchBarFocused(false);
+  };
+
+  const handleMouseEnterProfileLink = () => {
+    setIsProfileLinkHovered(true);
+  };
+
+  const handleMouseLeaveProfileLink = () => {
+    setIsProfileLinkHovered(false);
   };
 
   const handleClickAccountOptionsButton = () => {
@@ -184,11 +190,17 @@ const HeaderAuthenticated = () => {
             onBlur={handleBlurSearchBarInput}
           />
         </div>
-        <Link href="/florianellis/" className={styles.profileLink}>
-          <div className={styles.profileLinkBadge}>
-            F
-          </div>
+        <Link
+          href="/florianellis/"
+          className={styles.profileLink}
+          onMouseEnter={handleMouseEnterProfileLink}
+          onMouseLeave={handleMouseLeaveProfileLink}
+        >
+          <div className={styles.profileLinkBadge}>F</div>
         </Link>
+        {isProfileLinkHovered && (
+          <div className={styles.profileLinkTooltip}>{t("YOUR_PROFILE")}</div>
+        )}
         <button
           className={styles.accountOptionsButton}
           onClick={handleClickAccountOptionsButton}

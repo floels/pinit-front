@@ -176,7 +176,11 @@ const SignupForm = ({
             type="email"
             value={formData.email}
             autoComplete="email"
-            errorMessage={showFormErrors && formErrors.email ? t(`HomePageUnauthenticated.${formErrors.email}`) : ""}
+            errorMessage={
+              showFormErrors && formErrors.email
+                ? t(`HomePageUnauthenticated.${formErrors.email}`)
+                : ""
+            }
             onChange={handleInputChange}
             ref={emailInputRef}
           />
@@ -189,7 +193,11 @@ const SignupForm = ({
             type="password"
             value={formData.password}
             autoComplete="new-password"
-            errorMessage={showFormErrors && formErrors.password ? t(`HomePageUnauthenticated.${formErrors.password}`) : ""}
+            errorMessage={
+              showFormErrors && formErrors.password
+                ? t(`HomePageUnauthenticated.${formErrors.password}`)
+                : ""
+            }
             onChange={handleInputChange}
             withPasswordShowIcon={true}
           />
@@ -201,7 +209,11 @@ const SignupForm = ({
             type="date"
             value={formData.birthdate}
             autoComplete="bday"
-            errorMessage={showFormErrors && formErrors.birthdate ? t(`HomePageUnauthenticated.${formErrors.birthdate}`) : ""}
+            errorMessage={
+              showFormErrors && formErrors.birthdate
+                ? t(`HomePageUnauthenticated.${formErrors.birthdate}`)
+                : ""
+            }
             onChange={handleInputChange}
           />
         </div>
