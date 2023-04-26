@@ -49,6 +49,7 @@ const HeaderAuthenticated = () => {
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
   const [isProfileLinkHovered, setIsProfileLinkHovered] = useState(false);
+  const [isAccountOptionsButtonHovered, setIsAccountOptionsButtonHovered] = useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
 
@@ -70,6 +71,14 @@ const HeaderAuthenticated = () => {
 
   const handleMouseLeaveProfileLink = () => {
     setIsProfileLinkHovered(false);
+  };
+
+  const handleMouseEnterAccountOptionsButton = () => {
+    setIsAccountOptionsButtonHovered(true);
+  };
+
+  const handleMouseLeaveAccountOptionsButton = () => {
+    setIsAccountOptionsButtonHovered(false);
   };
 
   const handleClickAccountOptionsButton = () => {
@@ -199,14 +208,19 @@ const HeaderAuthenticated = () => {
           <div className={styles.profileLinkBadge}>F</div>
         </Link>
         {isProfileLinkHovered && (
-          <div className={styles.profileLinkTooltip}>{t("YOUR_PROFILE")}</div>
+          <div className={`${styles.tooltip} ${styles.profileLinkTooltip}`}>{t("YOUR_PROFILE")}</div>
         )}
         <button
           className={styles.accountOptionsButton}
           onClick={handleClickAccountOptionsButton}
+          onMouseEnter={handleMouseEnterAccountOptionsButton}
+          onMouseLeave={handleMouseLeaveAccountOptionsButton}
         >
           <FontAwesomeIcon icon={faAngleDown} />
         </button>
+        {isAccountOptionsButtonHovered && (
+          <div className={`${styles.tooltip} ${styles.accountOptionsButtonTooltip}`}>{t("ACCOUNT_OPTIONS")}</div>
+        )}
       </div>
       {isAccountOptionsFlyoutOpen && (
         <AccountOptionsFlyout

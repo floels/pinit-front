@@ -43,6 +43,7 @@
     "CREATE": "Create",
     "CREATE_PIN": "Create Pin",
     "PLACEHOLDER_SEARCH": "Search",
-    "YOUR_PROFILE": "Your profile"
+    "YOUR_PROFILE": "Your profile",
+    "ACCOUNT_OPTIONS": "Account and more options"
   }
 }
