@@ -49,7 +49,8 @@ const HeaderAuthenticated = () => {
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
   const [isProfileLinkHovered, setIsProfileLinkHovered] = useState(false);
-  const [isAccountOptionsButtonHovered, setIsAccountOptionsButtonHovered] = useState(false);
+  const [isAccountOptionsButtonHovered, setIsAccountOptionsButtonHovered] =
+    useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
 
@@ -186,7 +187,11 @@ const HeaderAuthenticated = () => {
         `}
         >
           {!isSearchBarFocused && (
-            <FontAwesomeIcon icon={faSearch} className={styles.searchBarIcon} />
+            <FontAwesomeIcon
+              icon={faSearch}
+              className={styles.searchBarIcon}
+              data-testid="search-bar-icon"
+            />
           )}
           <input
             type="text"
@@ -202,16 +207,20 @@ const HeaderAuthenticated = () => {
         <Link
           href="/florianellis/"
           className={styles.profileLink}
+          data-testid="profile-link"
           onMouseEnter={handleMouseEnterProfileLink}
           onMouseLeave={handleMouseLeaveProfileLink}
         >
           <div className={styles.profileLinkBadge}>F</div>
         </Link>
         {isProfileLinkHovered && (
-          <div className={`${styles.tooltip} ${styles.profileLinkTooltip}`}>{t("YOUR_PROFILE")}</div>
+          <div className={`${styles.tooltip} ${styles.profileLinkTooltip}`}>
+            {t("YOUR_PROFILE")}
+          </div>
         )}
         <button
           className={styles.accountOptionsButton}
+          data-testid="account-options-button"
           onClick={handleClickAccountOptionsButton}
           onMouseEnter={handleMouseEnterAccountOptionsButton}
           onMouseLeave={handleMouseLeaveAccountOptionsButton}
@@ -219,7 +228,11 @@ const HeaderAuthenticated = () => {
           <FontAwesomeIcon icon={faAngleDown} />
         </button>
         {isAccountOptionsButtonHovered && (
-          <div className={`${styles.tooltip} ${styles.accountOptionsButtonTooltip}`}>{t("ACCOUNT_OPTIONS")}</div>
+          <div
+            className={`${styles.tooltip} ${styles.accountOptionsButtonTooltip}`}
+          >
+            {t("ACCOUNT_OPTIONS")}
+          </div>
         )}
       </div>
       {isAccountOptionsFlyoutOpen && (
