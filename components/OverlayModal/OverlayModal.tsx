@@ -11,18 +11,24 @@ type OverlayModalProps = {
 const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleClickOut = () => {
+  const handleCloseAction = () => {
     if (!isLoading) {
       onClose();
     }
   };
 
   return (
-    <div className={styles.overlay} onClick={handleClickOut}>
+    <div
+      className={styles.overlay}
+      data-testid="overlay-modal-overlay"
+      onClick={handleCloseAction}
+    >
       <div
         className={styles.modal}
         onClick={
-          (e) => e.stopPropagation() /* to allow for close on click out */
+          // We need to stop the propagation of a click event on the modal itself,
+          // otherwise it will trigger handleClickOut
+          (event) => event.stopPropagation()
         }
       >
         {isLoading && (
@@ -41,12 +47,13 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
         <div className={styles.closeButtonContainer}>
           <button
             className={styles.closeButton}
-            onClick={onClose}
+            onClick={handleCloseAction}
             data-testid="overlay-modal-close-button"
           >
             <FontAwesomeIcon icon={faXmark} size="2x" />
           </button>
         </div>
+        {/* pass down `setIsLoading` callback to children: */}
         {React.Children.map(children, (child) => {
           return React.cloneElement(child as React.ReactElement<any>, {
             setIsLoading,
