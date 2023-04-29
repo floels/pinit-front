@@ -3,11 +3,10 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
-// https://next-intl-docs.vercel.app/docs/next-13/client-components#getting-started
-import { NextIntlClientProvider } from "next-intl"; // link above imports from "next-intl/client", but that's a mistake
+// https://next-intl-docs.vercel.app/docs/next-13/server-components#applocalelayouttsx
+import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 
-import { GlobalStateProvider } from "../globalState";
 import Header from "@/components/Header/Header";
 
 import "@/styles/globals.css";
@@ -17,18 +16,11 @@ type Props = {
   params: { locale: string };
 };
 
-// https://next-intl-docs.vercel.app/docs/next-13/client-components#getting-started
-export function generateStaticParams() {
-  return [{ locale: "en" }];
-}
+export default function LocaleLayout({ children, params }: Props) {
+  const locale = useLocale();
 
-export default async function RootLayout({ children, params }: Props) {
-  // https://next-intl-docs.vercel.app/docs/next-13/client-components#getting-started
-  const { locale } = params;
-  let messages;
-  try {
-    messages = (await import(`@/messages/${locale}.json`)).default;
-  } catch (error) {
+  // Show a 404 error if the user requests an unknown locale
+  if (params.locale !== locale) {
     notFound();
   }
 
@@ -41,12 +33,8 @@ export default async function RootLayout({ children, params }: Props) {
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon"></link>
       </head>
       <body>
-        <GlobalStateProvider>
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <Header />
-            {children}
-          </NextIntlClientProvider>
-        </GlobalStateProvider>
+        <Header />
+        {children}
       </body>
     </html>
   );

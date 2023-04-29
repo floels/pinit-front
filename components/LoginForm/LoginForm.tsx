@@ -15,7 +15,6 @@ import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/helpers";
 
 export type LoginFormProps = {
-  onLoginSuccess: () => void;
   setIsLoading: (isLoading: boolean) => void;
   onClickNoAccountYet: () => void;
 };
@@ -36,11 +35,7 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   return {};
 };
 
-const LoginForm = ({
-  setIsLoading,
-  onLoginSuccess,
-  onClickNoAccountYet,
-}: LoginFormProps) => {
+const LoginForm = ({ setIsLoading, onClickNoAccountYet }: LoginFormProps) => {
   const t = useTranslations();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -132,7 +127,7 @@ const LoginForm = ({
     Cookies.set("accessToken", access);
     Cookies.set("refreshToken", refresh);
 
-    onLoginSuccess();
+    // TODO: trigger page reload
   };
 
   return (

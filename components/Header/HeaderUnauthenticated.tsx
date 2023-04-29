@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import GlobalStateContext from "../../app/globalState";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginForm, { LoginFormProps } from "../LoginForm/LoginForm";
 import SignupForm, { SignupFormProps } from "../SignupForm/SignupForm";
@@ -12,8 +11,6 @@ const HeaderUnauthenticated = () => {
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-
-  const { dispatch } = useContext(GlobalStateContext);
 
   const handleClickLoginButton = () => {
     setIsLoginModalOpen(true);
@@ -37,18 +34,12 @@ const HeaderUnauthenticated = () => {
     setIsLoginModalOpen(true);
   };
 
-  const handleSuccessfulLogin = () => {
-    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-    setIsLoginModalOpen(false);
-  };
-
   const handleCloseSignupModal = () => {
     setIsSignupModalOpen(false);
   };
 
   const handleSuccessfulSignup = () => {
-    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-    setIsSignupModalOpen(false);
+    // TODO: trigger page reload
   };
 
   return (
@@ -58,7 +49,6 @@ const HeaderUnauthenticated = () => {
           <LoginForm
             {
               ...({
-                onLoginSuccess: handleSuccessfulLogin,
                 onClickNoAccountYet: handleClickNoAccountYet,
               } as LoginFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/
