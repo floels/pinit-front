@@ -40,10 +40,6 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
     setIsSignupModalOpen(false);
   };
 
-  const handleSuccessfulSignup = () => {
-    window.location.reload();
-  };
-
   return (
     <nav className={styles.container}>
       {isLoginModalOpen && (
@@ -77,7 +73,6 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
           <SignupForm
             {
               ...({
-                onSignupSuccess: handleSuccessfulSignup,
                 onClickAlreadyHaveAccount: handleClickAlreadyHaveAccount,
                 labels: _.pick(labels, [
                   "WELCOME_TO_PINIT",

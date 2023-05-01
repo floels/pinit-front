@@ -16,7 +16,9 @@ type HomePageUnauthenticatedClientProps = {
 
 const NUMBER_FOLDS = 2;
 
-const HomePageUnauthenticatedClient = ({ labels }: HomePageUnauthenticatedClientProps) => {
+const HomePageUnauthenticatedClient = ({
+  labels,
+}: HomePageUnauthenticatedClientProps) => {
   const [currentFold, setCurrentFold] = useState(1);
 
   const handleMouseWheel = (event: WheelEvent) => {
@@ -54,7 +56,30 @@ const HomePageUnauthenticatedClient = ({ labels }: HomePageUnauthenticatedClient
       >
         <div className={styles.hero}>
           <HeaderUnauthenticated
-            labels={_.pick(labels, ["LOG_IN", "SIGN_UP"])}
+            labels={_.pick(labels, [
+              "WELCOME_TO_PINIT",
+              "EMAIL",
+              "PASSWORD",
+              "INVALID_EMAIL_INPUT",
+              "INVALID_EMAIL_LOGIN",
+              "INVALID_PASSWORD_INPUT",
+              "INVALID_PASSWORD_LOGIN",
+              "CONNECTION_ERROR",
+              "UNFORESEEN_ERROR",
+              "LOG_IN",
+              "NO_ACCOUNT_YET",
+              "SIGN_UP",
+              "FIND_NEW_IDEAS",
+              "INVALID_EMAIL_SIGNUP",
+              "INVALID_PASSWORD_SIGNUP",
+              "BIRTHDATE",
+              "INVALID_BIRTHDATE_SIGNUP",
+              "EMAIL_ALREADY_SIGNED_UP",
+              "CONNECTION_ERROR",
+              "UNFORESEEN_ERROR",
+              "CONTINUE",
+              "ALREADY_HAVE_ACCOUNT",
+            ])}
           />
           <div className={styles.pictureSlider}>
             <PictureSlider

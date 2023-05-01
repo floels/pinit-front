@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import {
   API_BASE_URL,
   ENDPOINT_SIGN_UP,
@@ -19,7 +18,6 @@ import {
 } from "../../lib/helpers";
 
 export type SignupFormProps = {
-  onSignupSuccess: () => void;
   setIsLoading: (isLoading: boolean) => void;
   onClickAlreadyHaveAccount: () => void;
   labels: { [key: string]: string };
@@ -51,13 +49,10 @@ const computeFormErrors = (values: {
 
 const SignupForm = ({
   setIsLoading,
-  onSignupSuccess,
   onClickAlreadyHaveAccount,
   labels,
 }: SignupFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
-
-  const router = useRouter();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -149,9 +144,7 @@ const SignupForm = ({
     Cookies.set("accessToken", access);
     Cookies.set("refreshToken", refresh);
 
-    onSignupSuccess();
-
-    router.push("/");
+    window.location.reload();
   };
 
   return (
