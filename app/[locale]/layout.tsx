@@ -33,13 +33,13 @@ const Layout = ({ children, params }: Props) => {
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon"></link>
       </head>
       <body>
-        { /* https://beta.nextjs.org/docs/data-fetching/fetching#asyncawait-in-server-components */}
+        {/* https://beta.nextjs.org/docs/data-fetching/fetching#asyncawait-in-server-components */}
         {/* @ts-expect-error Async Server Component */}
         <Header />
         {children}
       </body>
     </html>
   );
-}
+};
 
 export default Layout;

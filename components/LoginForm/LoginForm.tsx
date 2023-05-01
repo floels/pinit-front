@@ -16,7 +16,7 @@ import { isValidEmail, isValidPassword } from "../../lib/helpers";
 export type LoginFormProps = {
   setIsLoading: (isLoading: boolean) => void;
   onClickNoAccountYet: () => void;
-  labels: { [key: string]: string };
+  labels: { [key: string]: string };
 };
 
 const computeFormErrors = (values: { email: string; password: string }) => {
@@ -35,7 +35,11 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   return {};
 };
 
-const LoginForm = ({ setIsLoading, onClickNoAccountYet, labels }: LoginFormProps) => {
+const LoginForm = ({
+  setIsLoading,
+  onClickNoAccountYet,
+  labels,
+}: LoginFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const [credentials, setCredentials] = useState({
@@ -137,9 +141,7 @@ const LoginForm = ({ setIsLoading, onClickNoAccountYet, labels }: LoginFormProps
         height={40}
         className={styles.logo}
       />
-      <h1 className={styles.title}>
-        {labels.WELCOME_TO_PINIT}
-      </h1>
+      <h1 className={styles.title}>{labels.WELCOME_TO_PINIT}</h1>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
@@ -149,9 +151,7 @@ const LoginForm = ({ setIsLoading, onClickNoAccountYet, labels }: LoginFormProps
             type="email"
             value={credentials.email}
             errorMessage={
-              showFormErrors && formErrors.email
-                ? labels[formErrors.email]
-                : ""
+              showFormErrors && formErrors.email ? labels[formErrors.email] : ""
             }
             onChange={handleInputChange}
             autoComplete="email"

@@ -163,12 +163,8 @@ const SignupForm = ({
         height={40}
         className={styles.logo}
       />
-      <h1 className={styles.title}>
-        {labels.WELCOME_TO_PINIT}
-      </h1>
-      <div className={styles.subtitle}>
-        {labels.FIND_NEW_IDEAS}
-      </div>
+      <h1 className={styles.title}>{labels.WELCOME_TO_PINIT}</h1>
+      <div className={styles.subtitle}>{labels.FIND_NEW_IDEAS}</div>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
@@ -179,9 +175,7 @@ const SignupForm = ({
             value={formData.email}
             autoComplete="email"
             errorMessage={
-              showFormErrors && formErrors.email
-                ? labels[formErrors.email]
-                : ""
+              showFormErrors && formErrors.email ? labels[formErrors.email] : ""
             }
             onChange={handleInputChange}
             ref={emailInputRef}

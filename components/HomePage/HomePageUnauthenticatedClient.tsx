@@ -7,16 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
-import styles from "./HomePageUnauthenticated.module.css";
+import styles from "./HomePageUnauthenticatedClient.module.css";
 import { URL_S3_BUCKET } from "@/lib/constants";
 
-type HomePageUnauthenticatedProps = {
+type HomePageUnauthenticatedClientProps = {
   labels: { [key: string]: string };
-}
+};
 
 const NUMBER_FOLDS = 2;
 
-const HomePageUnauthenticated = ({ labels }: HomePageUnauthenticatedProps) => {
+const HomePageUnauthenticatedClient = ({ labels }: HomePageUnauthenticatedClientProps) => {
   const [currentFold, setCurrentFold] = useState(1);
 
   const handleMouseWheel = (event: WheelEvent) => {
@@ -53,9 +53,21 @@ const HomePageUnauthenticated = ({ labels }: HomePageUnauthenticatedProps) => {
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero}>
-          <HeaderUnauthenticated labels={_.pick(labels, ["LOG_IN", "SIGN_UP"])} />
+          <HeaderUnauthenticated
+            labels={_.pick(labels, ["LOG_IN", "SIGN_UP"])}
+          />
           <div className={styles.pictureSlider}>
-            <PictureSlider onClickSeeBelow={handleClickSeeBelow} labels={_.pick(labels, ["GET_YOUR_NEXT", "HOW_IT_WORKS", "HEADER_FOOD", "HEADER_HOME", "HEADER_OUTFIT", "HEADER_GARDENING"])} />
+            <PictureSlider
+              onClickSeeBelow={handleClickSeeBelow}
+              labels={_.pick(labels, [
+                "GET_YOUR_NEXT",
+                "HOW_IT_WORKS",
+                "HEADER_FOOD",
+                "HEADER_HOME",
+                "HEADER_OUTFIT",
+                "HEADER_GARDENING",
+              ])}
+            />
           </div>
         </div>
         <div className={styles.sectionSearch}>
@@ -125,4 +137,4 @@ const HomePageUnauthenticated = ({ labels }: HomePageUnauthenticatedProps) => {
   );
 };
 
-export default HomePageUnauthenticated;
+export default HomePageUnauthenticatedClient;
