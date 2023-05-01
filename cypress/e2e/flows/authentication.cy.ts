@@ -28,6 +28,22 @@ describe("Authentication", () => {
       }
     );
 
+    cy.intercept(
+      {
+        method: "GET",
+        url: "/api/user-details",
+      },
+      {
+        statusCode: 200,
+        body: {
+          email: "john.doe@example.com",
+          initial: "J",
+          firstName: "John",
+          lastName: "Doe",
+        },
+      }
+    );
+
     cy.contains(en.HomePageUnauthenticated.LOG_IN).click();
 
     cy.contains(en.HomePageAuthenticated.NAV_ITEM_HOME);

@@ -18,7 +18,7 @@ const HeaderAuthenticatedServer = ({
   const t = useTranslations("HomePageAuthenticated");
 
   const labels = {
-    NAV_ITEM_HOM: t("NAV_ITEM_HOME"),
+    NAV_ITEM_HOME: t("NAV_ITEM_HOME"),
     CREATE: t("CREATE"),
     CREATE_PIN: t("CREATE_PIN"),
     PLACEHOLDER_SEARCH: t("PLACEHOLDER_SEARCH"),

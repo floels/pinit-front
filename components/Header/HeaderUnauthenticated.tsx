@@ -78,8 +78,9 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
                   "WELCOME_TO_PINIT",
                   "FIND_NEW_IDEAS",
                   "EMAIL",
-                  "PASSWORD",
                   "INVALID_EMAIL_SIGNUP",
+                  "PASSWORD",
+                  "CREATE_PASSWORD",
                   "INVALID_PASSWORD_SIGNUP",
                   "BIRTHDATE",
                   "INVALID_BIRTHDATE_SIGNUP",
@@ -88,6 +89,7 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
                   "UNFORESEEN_ERROR",
                   "CONTINUE",
                   "ALREADY_HAVE_ACCOUNT",
+                  "LOG_IN",
                 ]),
               } as SignupFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/

@@ -29,11 +29,11 @@ describe("LoginForm", () => {
 
   it("should display relevant input errors and should send request only when inputs are valid", async () => {
     // Inspired by https://stackoverflow.com/a/55771671
-    Object.defineProperty(window, 'location', {
+    Object.defineProperty(window, "location", {
       configurable: true,
       value: { ...window.location, reload: jest.fn() },
     });
-    
+
     const user = userEvent.setup();
 
     fetchMock.mockResponseOnce(
