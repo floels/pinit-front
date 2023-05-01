@@ -22,6 +22,7 @@
     "INVALID_EMAIL_SIGNUP": "The email you entered is incorrect.",
     "INVALID_PASSWORD_SIGNUP": "The password you entered is incorrect.",
     "INVALID_BIRTHDATE_SIGNUP": "The birthdate you entered is incorrect.",
+    "EMAIL_ALREADY_SIGNED_UP": "An account already exists for this email address.",
     "ALREADY_HAVE_ACCOUNT": "Already a member?",
     "GET_YOUR_NEXT": "Get your next",
     "HEADER_FOOD": "weeknight dinner idea",

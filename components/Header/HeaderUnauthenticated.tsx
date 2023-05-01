@@ -1,19 +1,18 @@
-import { useState, useContext } from "react";
-import { useTranslations } from "next-intl";
+import _ from "lodash";
+import { useState } from "react";
 import Image from "next/image";
-import GlobalStateContext from "../../app/globalState";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginForm, { LoginFormProps } from "../LoginForm/LoginForm";
 import SignupForm, { SignupFormProps } from "../SignupForm/SignupForm";
 import styles from "./HeaderUnauthenticated.module.css";
 
-const HeaderUnauthenticated = () => {
-  const t = useTranslations("HomePageUnauthenticated");
+type HeaderUnauthenticatedPros = {
+  labels: { [key: string]: string };
+};
 
+const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-
-  const { dispatch } = useContext(GlobalStateContext);
 
   const handleClickLoginButton = () => {
     setIsLoginModalOpen(true);
@@ -37,18 +36,12 @@ const HeaderUnauthenticated = () => {
     setIsLoginModalOpen(true);
   };
 
-  const handleSuccessfulLogin = () => {
-    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-    setIsLoginModalOpen(false);
-  };
-
   const handleCloseSignupModal = () => {
     setIsSignupModalOpen(false);
   };
 
   const handleSuccessfulSignup = () => {
-    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-    setIsSignupModalOpen(false);
+    window.location.reload();
   };
 
   return (
@@ -58,8 +51,21 @@ const HeaderUnauthenticated = () => {
           <LoginForm
             {
               ...({
-                onLoginSuccess: handleSuccessfulLogin,
                 onClickNoAccountYet: handleClickNoAccountYet,
+                labels: _.pick(labels, [
+                  "WELCOME_TO_PINIT",
+                  "EMAIL",
+                  "PASSWORD",
+                  "INVALID_EMAIL_INPUT",
+                  "INVALID_EMAIL_LOGIN",
+                  "INVALID_PASSWORD_INPUT",
+                  "INVALID_PASSWORD_LOGIN",
+                  "CONNECTION_ERROR",
+                  "UNFORESEEN_ERROR",
+                  "LOG_IN",
+                  "NO_ACCOUNT_YET",
+                  "SIGN_UP",
+                ]),
               } as LoginFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/
             }
@@ -73,6 +79,21 @@ const HeaderUnauthenticated = () => {
               ...({
                 onSignupSuccess: handleSuccessfulSignup,
                 onClickAlreadyHaveAccount: handleClickAlreadyHaveAccount,
+                labels: _.pick(labels, [
+                  "WELCOME_TO_PINIT",
+                  "FIND_NEW_IDEAS",
+                  "EMAIL",
+                  "PASSWORD",
+                  "INVALID_EMAIL_SIGNUP",
+                  "INVALID_PASSWORD_SIGNUP",
+                  "BIRTHDATE",
+                  "INVALID_BIRTHDATE_SIGNUP",
+                  "EMAIL_ALREADY_SIGNED_UP",
+                  "CONNECTION_ERROR",
+                  "UNFORESEEN_ERROR",
+                  "CONTINUE",
+                  "ALREADY_HAVE_ACCOUNT",
+                ]),
               } as SignupFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/
             }
@@ -84,10 +105,10 @@ const HeaderUnauthenticated = () => {
         <h1 className={styles.logoHeader}>PinIt</h1>
       </a>
       <button className={styles.loginButton} onClick={handleClickLoginButton}>
-        {t("LOG_IN")}
+        {labels.LOG_IN}
       </button>
       <button className={styles.signUpButton} onClick={handleClickSignUpButton}>
-        {t("SIGN_UP")}
+        {labels.SIGN_UP}
       </button>
     </nav>
   );

@@ -1,39 +1,32 @@
-import { useState, useRef, useEffect, useContext } from "react";
-import { Dispatch } from "react";
+"use client";
+
+import _ from "lodash";
+import { useState, useRef, useEffect } from "react";
 import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import GlobalStateContext from "@/app/globalState";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticated.module.css";
-import { API_BASE_URL, ENDPOINT_USER_DETAILS } from "@/lib/constants";
 
-const fetchUserDetails = async () => {
-  const accessToken = Cookies.get("accessToken");
-
-  const response = await fetch(`${API_BASE_URL}/${ENDPOINT_USER_DETAILS}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (!response.ok) {
-    // TODO: display error
-    console.warn("Response of /user-details is not OK!");
-    return;
-  }
-
-  return response.json();
+type UserDetails = {
+  email: string;
+  initial: string;
+  firstName: string;
+  lastName: string;
 };
 
-const HeaderAuthenticated = () => {
-  const t = useTranslations("HomePageAuthenticated");
+type HeaderAuthenticatedProps = {
+  userDetails: UserDetails;
+  labels: { [key: string]: string };
+};
 
+const HeaderAuthenticated = ({
+  userDetails,
+  labels,
+}: HeaderAuthenticatedProps) => {
   const currentPathname = usePathname();
 
   const createFlyoutRef = useRef<HTMLDivElement>(null);
@@ -41,10 +34,6 @@ const HeaderAuthenticated = () => {
 
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
-
-  const { dispatch } = useContext(GlobalStateContext);
-
-  // const userDetails = await fetchUserDetails();
 
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
@@ -127,7 +116,7 @@ const HeaderAuthenticated = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
 
-    dispatch({ type: "SET_IS_AUTHENTICATED", payload: false });
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -157,7 +146,7 @@ const HeaderAuthenticated = () => {
             currentPathname === "/" ? styles.active : ""
           }`}
         >
-          {t("NAV_ITEM_HOME")}
+          {labels.NAV_ITEM_HOME}
         </Link>
         <div
           className={`
@@ -168,7 +157,7 @@ const HeaderAuthenticated = () => {
           ref={createButtonRef}
           onClick={handleClickCreateButton}
         >
-          {t("CREATE")}
+          {labels.CREATE}
           <FontAwesomeIcon
             icon={faAngleDown}
             className={styles.createButtonIcon}
@@ -177,7 +166,7 @@ const HeaderAuthenticated = () => {
         {isCreateFlyoutOpen && (
           <div className={styles.createFlyout} ref={createFlyoutRef}>
             <Link href="/pin-builder" className={styles.createFlyoutItem}>
-              {t("CREATE_PIN")}
+              {labels.CREATE_PIN}
             </Link>
           </div>
         )}
@@ -199,7 +188,7 @@ const HeaderAuthenticated = () => {
             autoComplete="off"
             autoCorrect="off"
             className={styles.searchBarInput}
-            placeholder={t("PLACEHOLDER_SEARCH")}
+            placeholder={labels.PLACEHOLDER_SEARCH}
             onFocus={handleFocusSearchBarInput}
             onBlur={handleBlurSearchBarInput}
           />
@@ -215,7 +204,7 @@ const HeaderAuthenticated = () => {
         </Link>
         {isProfileLinkHovered && (
           <div className={`${styles.tooltip} ${styles.profileLinkTooltip}`}>
-            {t("YOUR_PROFILE")}
+            {labels.YOUR_PROFILE}
           </div>
         )}
         <button
@@ -231,7 +220,7 @@ const HeaderAuthenticated = () => {
           <div
             className={`${styles.tooltip} ${styles.accountOptionsButtonTooltip}`}
           >
-            {t("ACCOUNT_OPTIONS")}
+            {labels.ACCOUNT_OPTIONS}
           </div>
         )}
       </div>
@@ -239,6 +228,7 @@ const HeaderAuthenticated = () => {
         <AccountOptionsFlyout
           ref={accountOptionsFlyoutRef}
           handleClickLogOut={handleClickLogOut}
+          labels={_.pick(labels, ["ACCOUNT_OPTIONS_MORE_OPTIONS", "LOG_OUT"])}
         />
       )}
     </nav>

@@ -1,6 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
+// https://next-intl-docs.vercel.app/docs/next-13/server-components#nextconfigjs
+const withNextIntl = require("next-intl/plugin")("./i18n.ts");
+
+module.exports = withNextIntl({
   experimental: {
     appDir: true,
   },
@@ -15,6 +16,4 @@ const nextConfig = {
       },
     ],
   },
-};
-
-module.exports = nextConfig;
+});

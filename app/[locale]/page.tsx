@@ -1,16 +1,22 @@
-"use client";
+import { cookies } from "next/headers";
+import HomePageUnauthenticatedServer from "@/components/HomePage/HomePageUnauthenticatedServer";
+import HomePageAuthenticated from "@/components/HomePage/HomePageAuthenticated";
 
-import { useContext } from "react";
-import GlobalStateContext from "../globalState";
-import HomePageUnauthenticated from "../../components/HomePage/HomePageUnauthenticated";
-import HomePageAuthenticated from "../../components/HomePage/HomePageAuthenticated";
+const fetchHomePageData = async (accessToken: string) => {
+  // TODO: implement data fetching
+  return {};
+};
 
-export default function HomePage() {
-  const { state } = useContext(GlobalStateContext);
+const HomePage = async () => {
+  const accessToken = cookies().get("accessToken");
 
-  return state.isAuthenticated ? (
-    <HomePageAuthenticated />
-  ) : (
-    <HomePageUnauthenticated />
-  );
-}
+  if (accessToken) {
+    const homePageData = await fetchHomePageData(accessToken.value);
+
+    return <HomePageAuthenticated />;
+  }
+
+  return <HomePageUnauthenticatedServer />;
+};
+
+export default HomePage;

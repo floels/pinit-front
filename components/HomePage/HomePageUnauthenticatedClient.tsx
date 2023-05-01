@@ -1,18 +1,22 @@
+"use client";
+
+import _ from "lodash";
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
-import styles from "./HomePageUnauthenticated.module.css";
+import styles from "./HomePageUnauthenticatedClient.module.css";
 import { URL_S3_BUCKET } from "@/lib/constants";
+
+type HomePageUnauthenticatedClientProps = {
+  labels: { [key: string]: string };
+};
 
 const NUMBER_FOLDS = 2;
 
-const HomePageUnauthenticated = () => {
-  const t = useTranslations("HomePageUnauthenticated");
-
+const HomePageUnauthenticatedClient = ({ labels }: HomePageUnauthenticatedClientProps) => {
   const [currentFold, setCurrentFold] = useState(1);
 
   const handleMouseWheel = (event: WheelEvent) => {
@@ -49,9 +53,21 @@ const HomePageUnauthenticated = () => {
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero}>
-          <HeaderUnauthenticated />
+          <HeaderUnauthenticated
+            labels={_.pick(labels, ["LOG_IN", "SIGN_UP"])}
+          />
           <div className={styles.pictureSlider}>
-            <PictureSlider onClickSeeBelow={handleClickSeeBelow} />
+            <PictureSlider
+              onClickSeeBelow={handleClickSeeBelow}
+              labels={_.pick(labels, [
+                "GET_YOUR_NEXT",
+                "HOW_IT_WORKS",
+                "HEADER_FOOD",
+                "HEADER_HOME",
+                "HEADER_OUTFIT",
+                "HEADER_GARDENING",
+              ])}
+            />
           </div>
         </div>
         <div className={styles.sectionSearch}>
@@ -98,20 +114,20 @@ const HomePageUnauthenticated = () => {
                   icon={faSearch}
                   className={styles.searchBarLinkIcon}
                 />
-                {t("EASY_CHICKEN_DINNER")}
+                {labels.EASY_CHICKEN_DINNER}
               </a>
             </div>
           </div>
           <div className={styles.sectionSearchTextArea}>
             <div className={styles.sectionSearchTextContainer}>
               <div className={styles.sectionSearchHeader}>
-                {t("SEARCH_FOR_AN_IDEA")}
+                {labels.SEARCH_FOR_AN_IDEA}
               </div>
               <div className={styles.sectionSearchParagraph}>
-                {t("WHAT_DO_YOU_WANT_TO_TRY_NEXT")}
+                {labels.WHAT_DO_YOU_WANT_TO_TRY_NEXT}
               </div>
               <a href="#" className={styles.exploreLink}>
-                {t("EXPLORE")}
+                {labels.EXPLORE}
               </a>
             </div>
           </div>
@@ -121,4 +137,4 @@ const HomePageUnauthenticated = () => {
   );
 };
 
-export default HomePageUnauthenticated;
+export default HomePageUnauthenticatedClient;
