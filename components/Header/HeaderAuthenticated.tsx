@@ -1,5 +1,6 @@
 "use client";
 
+import _ from "lodash";
 import { useState, useRef, useEffect } from "react";
 import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
@@ -115,7 +116,7 @@ const HeaderAuthenticated = ({
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
 
-    // TODO: trigger page reload
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -227,6 +228,7 @@ const HeaderAuthenticated = ({
         <AccountOptionsFlyout
           ref={accountOptionsFlyoutRef}
           handleClickLogOut={handleClickLogOut}
+          labels={_.pick(labels, ["ACCOUNT_OPTIONS_MORE_OPTIONS", "LOG_OUT"])}
         />
       )}
     </nav>

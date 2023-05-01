@@ -16,7 +16,7 @@ type Props = {
   params: { locale: string };
 };
 
-export default function LocaleLayout({ children, params }: Props) {
+const Layout = ({ children, params }: Props) => {
   const locale = useLocale();
 
   // Show a 404 error if the user requests an unknown locale
@@ -33,9 +33,13 @@ export default function LocaleLayout({ children, params }: Props) {
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon"></link>
       </head>
       <body>
+        { /* https://beta.nextjs.org/docs/data-fetching/fetching#asyncawait-in-server-components */}
+        {/* @ts-expect-error Async Server Component */}
         <Header />
         {children}
       </body>
     </html>
   );
 }
+
+export default Layout;

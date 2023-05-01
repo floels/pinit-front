@@ -10,13 +10,13 @@ import {
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/helpers";
 
 export type LoginFormProps = {
   setIsLoading: (isLoading: boolean) => void;
   onClickNoAccountYet: () => void;
+  labels: { [key: string]: string };
 };
 
 const computeFormErrors = (values: { email: string; password: string }) => {
@@ -35,9 +35,7 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   return {};
 };
 
-const LoginForm = ({ setIsLoading, onClickNoAccountYet }: LoginFormProps) => {
-  const t = useTranslations();
-
+const LoginForm = ({ setIsLoading, onClickNoAccountYet, labels }: LoginFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const [credentials, setCredentials] = useState({
@@ -127,7 +125,7 @@ const LoginForm = ({ setIsLoading, onClickNoAccountYet }: LoginFormProps) => {
     Cookies.set("accessToken", access);
     Cookies.set("refreshToken", refresh);
 
-    // TODO: trigger page reload
+    window.location.reload();
   };
 
   return (
@@ -140,19 +138,19 @@ const LoginForm = ({ setIsLoading, onClickNoAccountYet }: LoginFormProps) => {
         className={styles.logo}
       />
       <h1 className={styles.title}>
-        {t("HomePageUnauthenticated.WELCOME_TO_PINIT")}
+        {labels.WELCOME_TO_PINIT}
       </h1>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            label={t("HomePageUnauthenticated.EMAIL")}
-            placeholder={t("HomePageUnauthenticated.EMAIL")}
+            label={labels.EMAIL}
+            placeholder={labels.EMAIL}
             type="email"
             value={credentials.email}
             errorMessage={
               showFormErrors && formErrors.email
-                ? t(`HomePageUnauthenticated.${formErrors.email}`)
+                ? labels[formErrors.email]
                 : ""
             }
             onChange={handleInputChange}
@@ -163,13 +161,13 @@ const LoginForm = ({ setIsLoading, onClickNoAccountYet }: LoginFormProps) => {
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            label={t("HomePageUnauthenticated.PASSWORD")}
-            placeholder={t("HomePageUnauthenticated.PASSWORD")}
+            label={labels.PASSWORD}
+            placeholder={labels.PASSWORD}
             type="password"
             value={credentials.password}
             errorMessage={
               showFormErrors && formErrors.password
-                ? t(`HomePageUnauthenticated.${formErrors.password}`)
+                ? labels[formErrors.password]
                 : ""
             }
             onChange={handleInputChange}
@@ -180,21 +178,21 @@ const LoginForm = ({ setIsLoading, onClickNoAccountYet }: LoginFormProps) => {
           <div className={styles.otherErrorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.otherErrorText}>
-              {t(`Common.${formErrors.other}`)}
+              {labels[formErrors.other]}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {t("HomePageUnauthenticated.LOG_IN")}
+          {labels.LOG_IN}
         </button>
       </form>
       <div className={styles.noAccountYet}>
-        {t("HomePageUnauthenticated.NO_ACCOUNT_YET")}
+        {labels.NO_ACCOUNT_YET}
         <button
           className={styles.noAccountYetButton}
           onClick={onClickNoAccountYet}
         >
-          {t("HomePageUnauthenticated.SIGN_UP")}
+          {labels.SIGN_UP}
         </button>
       </div>
     </div>

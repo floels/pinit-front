@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +19,7 @@ type TopicColorsType = {
 
 type PictureSliderProps = {
   onClickSeeBelow: () => void;
+  labels: { [key: string]: string };
 };
 
 type PictureSliderState = {
@@ -97,9 +97,7 @@ const renderSliderImage = (
   );
 };
 
-const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
-  const t = useTranslations("HomePageUnauthenticated");
-
+const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
   const [state, setState] = useState<PictureSliderState>({
     previousStep: null,
     currentStep: 1,
@@ -163,7 +161,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
       <div className={styles.slider}>
         <div className={styles.headerAndStepper}>
           <div className={styles.headersContainer}>
-            <p className={styles.headerFixedSentence}>{t("GET_YOUR_NEXT")}</p>
+            <p className={styles.headerFixedSentence}>{labels.GET_YOUR_NEXT}</p>
             <div className={styles.topicHeadersContainer}>
               {TOPICS.map((topic, index) => (
                 <p
@@ -180,7 +178,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
                     )}px)`,
                   }}
                 >
-                  {t(`HEADER_${topic}`)}
+                  {labels[`HEADER_${topic}`]}
                 </p>
               ))}
             </div>
@@ -275,7 +273,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
         </div>
         <div className={styles.footer} onClick={onClickSeeBelow}>
           <div className={styles.footerTextAndIcon}>
-            {t("HOW_IT_WORKS")}
+            {labels.HOW_IT_WORKS}
             <FontAwesomeIcon icon={faAngleDown} className={styles.footerIcon} />
           </div>
         </div>

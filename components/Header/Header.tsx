@@ -41,6 +41,8 @@ const Header = async () => {
       PLACEHOLDER_SEARCH: t("PLACEHOLDER_SEARCH"),
       YOUR_PROFILE: t("YOUR_PROFILE"),
       ACCOUNT_OPTIONS: t("ACCOUNT_OPTIONS"),
+      ACCOUNT_OPTIONS_MORE_OPTIONS: t("ACCOUNT_OPTIONS_MORE_OPTIONS"),
+      LOG_OUT: t("LOG_OUT"),
     };
 
     return <HeaderAuthenticated userDetails={userDetails} labels={labels} />;

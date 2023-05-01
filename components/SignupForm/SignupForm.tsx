@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 import {
   API_BASE_URL,
   ENDPOINT_SIGN_UP,
+  ERROR_CODE_EMAIL_ALREADY_SIGNED_UP,
   ERROR_CODE_INVALID_BIRTHDATE,
   ERROR_CODE_INVALID_EMAIL,
   ERROR_CODE_INVALID_PASSWORD,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./SignupForm.module.css";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import {
   isValidBirthdate,
@@ -22,6 +22,7 @@ export type SignupFormProps = {
   onSignupSuccess: () => void;
   setIsLoading: (isLoading: boolean) => void;
   onClickAlreadyHaveAccount: () => void;
+  labels: { [key: string]: string };
 };
 
 const computeFormErrors = (values: {
@@ -52,9 +53,8 @@ const SignupForm = ({
   setIsLoading,
   onSignupSuccess,
   onClickAlreadyHaveAccount,
+  labels,
 }: SignupFormProps) => {
-  const t = useTranslations();
-
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
@@ -125,6 +125,8 @@ const SignupForm = ({
           setFormErrors({ password: "INVALID_PASSWORD_SIGNUP" });
         } else if (firstErrorCode === ERROR_CODE_INVALID_BIRTHDATE) {
           setFormErrors({ birthdate: "INVALID_BIRTHDATE_SIGNUP" });
+        } else if (firstErrorCode === ERROR_CODE_EMAIL_ALREADY_SIGNED_UP) {
+          setFormErrors({ other: "EMAIL_ALREADY_SIGNED_UP" });
         } else {
           // Unknown error code
           setFormErrors({ other: "UNFORESEEN_ERROR" });
@@ -162,23 +164,23 @@ const SignupForm = ({
         className={styles.logo}
       />
       <h1 className={styles.title}>
-        {t("HomePageUnauthenticated.WELCOME_TO_PINIT")}
+        {labels.WELCOME_TO_PINIT}
       </h1>
       <div className={styles.subtitle}>
-        {t("HomePageUnauthenticated.FIND_NEW_IDEAS")}
+        {labels.FIND_NEW_IDEAS}
       </div>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            label={t("HomePageUnauthenticated.EMAIL")}
-            placeholder={t("HomePageUnauthenticated.EMAIL")}
+            label={labels.EMAIL}
+            placeholder={labels.EMAIL}
             type="email"
             value={formData.email}
             autoComplete="email"
             errorMessage={
               showFormErrors && formErrors.email
-                ? t(`HomePageUnauthenticated.${formErrors.email}`)
+                ? labels[formErrors.email]
                 : ""
             }
             onChange={handleInputChange}
@@ -188,14 +190,14 @@ const SignupForm = ({
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            label={t("HomePageUnauthenticated.PASSWORD")}
-            placeholder={t("HomePageUnauthenticated.CREATE_PASSWORD")}
+            label={labels.PASSWORD}
+            placeholder={labels.CREATE_PASSWORD}
             type="password"
             value={formData.password}
             autoComplete="new-password"
             errorMessage={
               showFormErrors && formErrors.password
-                ? t(`HomePageUnauthenticated.${formErrors.password}`)
+                ? labels[formErrors.password]
                 : ""
             }
             onChange={handleInputChange}
@@ -205,13 +207,13 @@ const SignupForm = ({
         <div className={styles.birthdateInputContainer}>
           <LabelledTextInput
             name="birthdate"
-            label={t("HomePageUnauthenticated.BIRTHDATE")}
+            label={labels.BIRTHDATE}
             type="date"
             value={formData.birthdate}
             autoComplete="bday"
             errorMessage={
               showFormErrors && formErrors.birthdate
-                ? t(`HomePageUnauthenticated.${formErrors.birthdate}`)
+                ? labels[formErrors.birthdate]
                 : ""
             }
             onChange={handleInputChange}
@@ -220,21 +222,21 @@ const SignupForm = ({
         {showFormErrors && formErrors.other && (
           <div className={styles.otherErrorMessage}>
             <div className={styles.otherErrorText}>
-              {t(`Common.${formErrors.other}`)}
+              {labels[formErrors.other]}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {t("HomePageUnauthenticated.CONTINUE")}
+          {labels.CONTINUE}
         </button>
       </form>
       <div className={styles.alreadyHaveAccount}>
-        {t("HomePageUnauthenticated.ALREADY_HAVE_ACCOUNT")}
+        {labels.ALREADY_HAVE_ACCOUNT}
         <button
           className={styles.alreadyHaveAccountButton}
           onClick={onClickAlreadyHaveAccount}
         >
-          {t("HomePageUnauthenticated.LOG_IN")}
+          {labels.LOG_IN}
         </button>
       </div>
     </div>
