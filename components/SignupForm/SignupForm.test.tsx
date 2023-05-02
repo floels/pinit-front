@@ -5,18 +5,19 @@ import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
 import en from "@/messages/en.json";
 
+const labels = { ...en.HomePageUnauthenticated, ...en.Common };
+
 jest.mock("next/navigation", () => require("next-router-mock"));
 
 const setIsLoading = jest.fn();
-const onSignupSuccess = jest.fn();
 const onClickAlreadyHaveAccount = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
 const signupForm = (
   <NextIntlProvider locale="en" messages={en}>
     <SignupForm
       setIsLoading={setIsLoading}
-      onSignupSuccess={onSignupSuccess}
       onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
+      labels={labels}
     />
   </NextIntlProvider>
 );
@@ -27,10 +28,15 @@ describe("SignupForm", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
     setIsLoading.mockClear();
-    onSignupSuccess.mockClear();
   });
 
   it("should display relevant input errors and should send request only when inputs are valid", async () => {
+    // https://stackoverflow.com/a/55771671
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: { ...window.location, reload: jest.fn() },
+    });
+
     const user = userEvent.setup();
 
     fetchMock.mockResponseOnce(
@@ -73,7 +79,7 @@ describe("SignupForm", () => {
     expect(setIsLoading).toHaveBeenCalledTimes(0);
     await user.click(submitButton);
     expect(setIsLoading).toHaveBeenCalledWith(true);
-    expect(onSignupSuccess).toHaveBeenCalledTimes(1);
+    expect(window.location.reload).toHaveBeenCalled();
   });
 
   it("should display relevant error when receiving a 400 response", async () => {
@@ -97,7 +103,6 @@ describe("SignupForm", () => {
     await user.click(submitButton);
 
     screen.getByText(messages.INVALID_EMAIL_SIGNUP);
-    expect(onSignupSuccess).toHaveBeenCalledTimes(0);
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_password" }] }),
@@ -107,7 +112,6 @@ describe("SignupForm", () => {
     await user.click(submitButton);
 
     screen.getByText(messages.INVALID_PASSWORD_SIGNUP);
-    expect(onSignupSuccess).toHaveBeenCalledTimes(0);
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
@@ -117,6 +121,5 @@ describe("SignupForm", () => {
     await user.click(submitButton);
 
     screen.getByText(messages.INVALID_BIRTHDATE_SIGNUP);
-    expect(onSignupSuccess).toHaveBeenCalledTimes(0);
   });
 });

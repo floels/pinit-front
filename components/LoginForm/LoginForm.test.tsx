@@ -1,24 +1,22 @@
 import { render, screen } from "@testing-library/react";
-import { NextIntlProvider } from "next-intl";
 import userEvent from "@testing-library/user-event";
 import fetchMock from "jest-fetch-mock";
 import LoginForm from "./LoginForm";
 import en from "@/messages/en.json";
 
+const labels = { ...en.HomePageUnauthenticated, ...en.Common };
+
 jest.mock("next/navigation", () => require("next-router-mock"));
 
 const setIsLoading = jest.fn();
-const onLoginSuccess = jest.fn();
 const onClickNoAccountYet = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
 const loginForm = (
-  <NextIntlProvider locale="en" messages={en}>
-    <LoginForm
-      setIsLoading={setIsLoading}
-      onLoginSuccess={onLoginSuccess}
-      onClickNoAccountYet={onClickNoAccountYet}
-    />
-  </NextIntlProvider>
+  <LoginForm
+    setIsLoading={setIsLoading}
+    onClickNoAccountYet={onClickNoAccountYet}
+    labels={labels}
+  />
 );
 
 const messages = en.HomePageUnauthenticated;
@@ -27,10 +25,15 @@ describe("LoginForm", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
     setIsLoading.mockClear();
-    onLoginSuccess.mockClear();
   });
 
   it("should display relevant input errors and should send request only when inputs are valid", async () => {
+    // Inspired by https://stackoverflow.com/a/55771671
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: { ...window.location, reload: jest.fn() },
+    });
+
     const user = userEvent.setup();
 
     fetchMock.mockResponseOnce(
@@ -67,7 +70,7 @@ describe("LoginForm", () => {
     expect(setIsLoading).toHaveBeenCalledTimes(0);
     await user.click(submitButton);
     expect(setIsLoading).toHaveBeenCalledWith(true);
-    expect(onLoginSuccess).toHaveBeenCalledTimes(1);
+    expect(window.location.reload).toHaveBeenCalled();
   });
 
   it("should display relevant error when receiving a 401 response", async () => {
@@ -89,7 +92,6 @@ describe("LoginForm", () => {
     await user.click(submitButton);
 
     screen.getByText(messages.INVALID_EMAIL_LOGIN);
-    expect(onLoginSuccess).toHaveBeenCalledTimes(0);
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_password" }] }),
@@ -99,6 +101,5 @@ describe("LoginForm", () => {
     await user.click(submitButton);
 
     screen.getByText(messages.INVALID_PASSWORD_LOGIN);
-    expect(onLoginSuccess).toHaveBeenCalledTimes(0);
   });
 });

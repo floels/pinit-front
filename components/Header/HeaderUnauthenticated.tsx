@@ -40,10 +40,6 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
     setIsSignupModalOpen(false);
   };
 
-  const handleSuccessfulSignup = () => {
-    window.location.reload();
-  };
-
   return (
     <nav className={styles.container}>
       {isLoginModalOpen && (
@@ -77,14 +73,14 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
           <SignupForm
             {
               ...({
-                onSignupSuccess: handleSuccessfulSignup,
                 onClickAlreadyHaveAccount: handleClickAlreadyHaveAccount,
                 labels: _.pick(labels, [
                   "WELCOME_TO_PINIT",
                   "FIND_NEW_IDEAS",
                   "EMAIL",
-                  "PASSWORD",
                   "INVALID_EMAIL_SIGNUP",
+                  "PASSWORD",
+                  "CREATE_PASSWORD",
                   "INVALID_PASSWORD_SIGNUP",
                   "BIRTHDATE",
                   "INVALID_BIRTHDATE_SIGNUP",
@@ -93,6 +89,7 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
                   "UNFORESEEN_ERROR",
                   "CONTINUE",
                   "ALREADY_HAVE_ACCOUNT",
+                  "LOG_IN",
                 ]),
               } as SignupFormProps)
               /* setIsLoading will be injected by <OverlayModal />*/

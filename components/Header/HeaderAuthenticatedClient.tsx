@@ -9,24 +9,18 @@ import Link from "next/link";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
-import styles from "./HeaderAuthenticated.module.css";
+import styles from "./HeaderAuthenticatedClient.module.css";
+import { UserDetails } from "./HeaderAuthenticatedServer";
 
-type UserDetails = {
-  email: string;
-  initial: string;
-  firstName: string;
-  lastName: string;
-};
-
-type HeaderAuthenticatedProps = {
+type HeaderAuthenticatedClientProps = {
   userDetails: UserDetails;
   labels: { [key: string]: string };
 };
 
-const HeaderAuthenticated = ({
+const HeaderAuthenticatedClient = ({
   userDetails,
   labels,
-}: HeaderAuthenticatedProps) => {
+}: HeaderAuthenticatedClientProps) => {
   const currentPathname = usePathname();
 
   const createFlyoutRef = useRef<HTMLDivElement>(null);
@@ -235,4 +229,4 @@ const HeaderAuthenticated = ({
   );
 };
 
-export default HeaderAuthenticated;
+export default HeaderAuthenticatedClient;
