@@ -1,11 +1,10 @@
-// https://stackoverflow.com/a/69990369
+// https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfigjson
 {
   "compilerOptions": {
-    "strict": true,
-    "baseUrl": "..",
     "target": "es5",
     "lib": ["es5", "dom"],
-    "types": ["cypress"],
+    "types": ["cypress", "node"],
+    // Needed for JSON files imports:
     "resolveJsonModule": true,
     "esModuleInterop": true
   }
