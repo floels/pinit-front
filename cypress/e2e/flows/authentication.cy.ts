@@ -1,10 +1,37 @@
 import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
+// import { getLocal } from "mockttp";
 import en from "../../../messages/en.json";
+
+// const mockServer = getLocal();
 
 describe("Authentication", () => {
   beforeEach(() => {
     cy.clearCookies();
+
+    // mockServer.start(8000);
+
+    // const responseTokenEndpoint = {
+    //   access: "access_token",
+    //   refresh: "refresh_token",
+    // };
+    // mockServer
+    //   .forPost("/api/token")
+    //   .thenReply(200, JSON.stringify(responseTokenEndpoint));
+
+    // const responseUserDetailsEndpoint = {
+    //   email: "john.doe@example.com",
+    //   initial: "J",
+    //   firstName: "John",
+    //   lastName: "Doe",
+    // };
+    // mockServer
+    //   .forGet("/api/user-details")
+    //   .thenReply(200, JSON.stringify(responseUserDetailsEndpoint));
   });
+
+  // afterEach(() => {
+  //   mockServer.stop();
+  // });
 
   it("should be able to log in and then log out", () => {
     cy.visit("/");
@@ -13,36 +40,6 @@ describe("Authentication", () => {
 
     cy.get("input[name='email']").type(EMAIL_ADDRESS);
     cy.get("input[name='password']").type(PASSWORD);
-
-    cy.intercept(
-      {
-        method: "POST",
-        url: "/api/token",
-      },
-      {
-        statusCode: 200,
-        body: {
-          access: "access_token",
-          refresh: "refresh_token",
-        },
-      }
-    );
-
-    cy.intercept(
-      {
-        method: "GET",
-        url: "/api/user-details",
-      },
-      {
-        statusCode: 200,
-        body: {
-          email: "john.doe@example.com",
-          initial: "J",
-          firstName: "John",
-          lastName: "Doe",
-        },
-      }
-    );
 
     cy.contains(en.HomePageUnauthenticated.LOG_IN).click();
 
