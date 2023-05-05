@@ -13,12 +13,14 @@ import styles from "./HeaderAuthenticatedClient.module.css";
 import { UserDetails } from "./HeaderAuthenticatedServer";
 
 type HeaderAuthenticatedClientProps = {
-  userDetails: UserDetails;
+  userDetails?: UserDetails;
+  errorCode?: string;
   labels: { [key: string]: string };
 };
 
 const HeaderAuthenticatedClient = ({
   userDetails,
+  errorCode,
   labels,
 }: HeaderAuthenticatedClientProps) => {
   const currentPathname = usePathname();

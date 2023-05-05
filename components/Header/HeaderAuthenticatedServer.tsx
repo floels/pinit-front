@@ -9,11 +9,13 @@ export type UserDetails = {
 };
 
 type HeaderAuthenticatedServerProps = {
-  userDetails: UserDetails;
+  userDetails?: UserDetails;
+  errorCode?: string;
 };
 
 const HeaderAuthenticatedServer = ({
   userDetails,
+  errorCode,
 }: HeaderAuthenticatedServerProps) => {
   const t = useTranslations("HomePageAuthenticated");
 
@@ -29,7 +31,11 @@ const HeaderAuthenticatedServer = ({
   };
 
   return (
-    <HeaderAuthenticatedClient userDetails={userDetails} labels={labels} />
+    <HeaderAuthenticatedClient
+      userDetails={userDetails}
+      errorCode={errorCode}
+      labels={labels}
+    />
   );
 };
 
