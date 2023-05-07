@@ -7,11 +7,12 @@ import {
   ENDPOINT_OBTAIN_TOKEN,
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
+  ERROR_CODE_FETCH_FAILED,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import Image from "next/image";
-import { isValidEmail, isValidPassword } from "../../lib/helpers";
+import { isValidEmail, isValidPassword } from "../../lib/utils/helpers";
 
 export type LoginFormProps = {
   setIsLoading: (isLoading: boolean) => void;
@@ -77,7 +78,22 @@ const LoginForm = ({
 
     setIsLoading(true);
 
-    let data, response;
+    try {
+      const { access, refresh } = await fetchTokens();
+
+      Cookies.set("accessToken", access);
+      Cookies.set("refreshToken", refresh);
+
+      window.location.reload();
+    } catch (error) {
+      const errorCode = (error as Error).message;
+
+      updateFormErrorsFromErrorCode(errorCode);
+    }
+  };
+
+  const fetchTokens = async () => {
+    let response, data;
 
     try {
       response = await fetch(`${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`, {
@@ -93,43 +109,35 @@ const LoginForm = ({
 
       data = await response.json();
     } catch (error) {
-      setFormErrors({ other: "CONNECTION_ERROR" });
-      return;
+      throw new Error(ERROR_CODE_FETCH_FAILED);
     } finally {
       setIsLoading(false);
     }
 
     if (!response.ok) {
-      if (response.status === 401) {
-        const firstErrorCode = data.errors[0].code;
-
-        if (firstErrorCode === ERROR_CODE_INVALID_EMAIL) {
-          setFormErrors({ email: "INVALID_EMAIL_LOGIN" });
-        } else if (firstErrorCode === ERROR_CODE_INVALID_PASSWORD) {
-          setFormErrors({ password: "INVALID_PASSWORD_LOGIN" });
-        } else {
-          // Unknown error code
-          setFormErrors({ other: "UNFORESEEN_ERROR" });
-        }
-      } else {
-        // Unknown response status code
-        setFormErrors({ other: "UNFORESEEN_ERROR" });
+      if (data?.errors?.length > 0) {
+        throw new Error(data.errors[0]?.code);
       }
-      return;
+      throw new Error();
     }
 
-    const { access, refresh } = data;
+    return data;
+  };
 
-    if (!access || !refresh) {
-      // Abnormal response
-      setFormErrors({ other: "UNFORESEEN_ERROR" });
-      return;
+  const updateFormErrorsFromErrorCode = (errorCode: string) => {
+    switch (errorCode) {
+      case ERROR_CODE_FETCH_FAILED:
+        setFormErrors({ other: "CONNECTION_ERROR" });
+        break;
+      case ERROR_CODE_INVALID_EMAIL:
+        setFormErrors({ email: "INVALID_EMAIL_LOGIN" });
+        break;
+      case ERROR_CODE_INVALID_PASSWORD:
+        setFormErrors({ password: "INVALID_PASSWORD_LOGIN" });
+        break;
+      default:
+        setFormErrors({ other: "UNFORESEEN_ERROR" });
     }
-
-    Cookies.set("accessToken", access);
-    Cookies.set("refreshToken", refresh);
-
-    window.location.reload();
   };
 
   return (

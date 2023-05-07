@@ -1,41 +1,50 @@
 import { cookies } from "next/headers";
 import HeaderAuthenticatedServer from "./HeaderAuthenticatedServer";
-import { API_BASE_URL, ENDPOINT_USER_DETAILS } from "@/lib/constants";
+import {
+  ENDPOINT_USER_DETAILS,
+  ERROR_CODE_INVALID_ACCESS_TOKEN,
+} from "@/lib/constants";
+import { fetchWithAuthentication } from "@/lib/utils/fetchUtils";
+import AccessTokenRefresher from "../AccessTokenRefresher/AccessTokenRefresher";
 
 const fetchUserDetails = async (accessToken: string) => {
-  const response = await fetch(`${API_BASE_URL}/${ENDPOINT_USER_DETAILS}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  let userDetails, errorCode;
 
-  if (!response.ok) {
-    // TODO: display error in UI instead of throwing
-    throw new Error("Failed to fetch user details");
+  try {
+    userDetails = await fetchWithAuthentication({
+      endpoint: ENDPOINT_USER_DETAILS,
+      accessToken,
+    });
+  } catch (error) {
+    errorCode = (error as Error).message;
   }
 
-  const {
-    email,
-    initial,
-    first_name: firstName,
-    last_name: lastName,
-  } = await response.json();
-
-  return { email, initial, firstName, lastName };
+  return { userDetails, errorCode };
 };
 
 const Header = async () => {
   const accessToken = cookies().get("accessToken");
 
   if (accessToken) {
-    const userDetails = await fetchUserDetails(accessToken.value);
+    const { userDetails, errorCode } = await fetchUserDetails(
+      accessToken.value
+    );
 
-    return <HeaderAuthenticatedServer userDetails={userDetails} />;
+    if (errorCode === ERROR_CODE_INVALID_ACCESS_TOKEN) {
+      return <AccessTokenRefresher />;
+    }
+
+    return (
+      <HeaderAuthenticatedServer
+        userDetails={userDetails}
+        errorCode={errorCode}
+      />
+    );
   }
 
+  // No access token: we are not unauthenticated.
+  // <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
   return null;
-  // NB: <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
 };
 
 export default Header;
