@@ -28,6 +28,9 @@ jobs:
       - name: Start development server (for E2E tests)
         run: yarn dev &
 
+      - name: Start mock API server (for E2E tests)
+        run: yarn ts-node cypress/e2e/utils/mock-api-server.ts &
+
       - name: Lint
         run: yarn lint
 

@@ -1,4 +1,5 @@
 import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
+import { API_BASE_URL } from "../../../lib/constants";
 import en from "../../../messages/en.json";
 
 const messages = en.HomePageUnauthenticated;
@@ -9,6 +10,19 @@ describe("Signup", () => {
   });
 
   it("should be able to sign up", () => {
+    // Configure mock API response
+    cy.request({
+      method: "POST",
+      url: `${API_BASE_URL}/signup/configure`,
+      body: {
+        mockStatusCode: 200,
+        mockBody: {
+          access: "mock_access_token",
+          refresh: "mock_refresh_token",
+        },
+      },
+    });
+
     cy.visit("/");
 
     cy.contains(messages.SIGN_UP).click();
@@ -16,20 +30,6 @@ describe("Signup", () => {
     cy.get("input[name='email']").type(EMAIL_ADDRESS);
     cy.get("input[name='password']").type(PASSWORD);
     cy.get("input[name='birthdate']").type("1970-01-01");
-
-    cy.intercept(
-      {
-        method: "POST",
-        url: "/api/signup",
-      },
-      {
-        statusCode: 200,
-        body: {
-          access: "access_token",
-          refresh: "refresh_token",
-        },
-      }
-    );
 
     cy.contains(messages.CONTINUE).click();
 

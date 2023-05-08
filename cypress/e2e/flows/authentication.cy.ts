@@ -1,8 +1,6 @@
 import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
-// import { getLocal } from "mockttp";
+import { API_BASE_URL } from "../../../lib/constants";
 import en from "../../../messages/en.json";
-
-// const mockServer = getLocal();
 
 describe("Authentication", () => {
   beforeEach(() => {
@@ -10,6 +8,19 @@ describe("Authentication", () => {
   });
 
   it("should be able to log in and then log out", () => {
+    // Configure mock API response
+    cy.request({
+      method: "POST",
+      url: `${API_BASE_URL}/token/configure`,
+      body: {
+        mockStatusCode: 200,
+        mockBody: {
+          access: "mock_access_token",
+          refresh: "mock_refresh_token",
+        },
+      },
+    });
+
     cy.visit("/");
 
     cy.contains(en.HomePageUnauthenticated.LOG_IN).click();
