@@ -1,6 +1,9 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 
+// A dummy Express app that will respond to any request to /some/endpoint
+// by whatever was POST-ed to /some/endpoint/configure previously
+
 const app = express();
 app.use(cors()); // Allow all origins
 app.use(express.json());
@@ -15,11 +18,7 @@ const mockResponses: Map<string, MockResponse> = new Map();
 app.post("/*/configure", (request: Request, response: Response) => {
   const endpoint = request.path.replace("configure", "");
   mockResponses.set(endpoint, request.body);
-
-  const message = `Mock response configured for ${endpoint}`;
-
-  console.log(message);
-  response.status(200).send(message);
+  response.status(200).send(`Mock response configured for ${endpoint}`);
 });
 
 app.all("*", (request: Request, response: Response) => {
