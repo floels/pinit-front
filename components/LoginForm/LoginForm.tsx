@@ -79,10 +79,10 @@ const LoginForm = ({
     setIsLoading(true);
 
     try {
-      const { access, refresh } = await fetchTokens();
+      const { accessToken, refreshToken } = await fetchTokens();
 
-      Cookies.set("accessToken", access);
-      Cookies.set("refreshToken", refresh);
+      Cookies.set("accessToken", accessToken);
+      Cookies.set("refreshToken", refreshToken);
 
       window.location.reload();
     } catch (error) {
@@ -121,7 +121,7 @@ const LoginForm = ({
       throw new Error();
     }
 
-    return data;
+    return { accessToken: data.access_token, refreshToken: data.refresh_token };
   };
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {

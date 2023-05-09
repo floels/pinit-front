@@ -18,7 +18,7 @@ export const refreshAccessToken = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        refresh: refreshToken,
+        refresh_token: refreshToken,
       }),
     });
 
@@ -31,8 +31,5 @@ export const refreshAccessToken = async () => {
     throw new Error(ERROR_CODE_REFRESH_TOKEN_FAILED);
   }
 
-  const { access, refresh } = data;
-
-  Cookies.set("accessToken", access);
-  Cookies.set("refreshToken", refresh);
+  Cookies.set("accessToken", data.access_token);
 };

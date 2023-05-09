@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
-    "coverage-report": "istanbul-merge --out coverage/merged-coverage.json coverage/jest/coverage-final.json coverage/cypress/coverage-final.json"
+    "coverage-report": "istanbul-merge --out coverage/merged-coverage.json coverage/jest/coverage-final.json coverage/cypress/coverage-final.json",
+    "mock-api": "ts-node cypress/e2e/utils/mock-api-server.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
