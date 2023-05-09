@@ -61,6 +61,7 @@ const HomePageUnauthenticatedClient = ({
               "EMAIL",
               "PASSWORD",
               "CREATE_PASSWORD",
+              "MISSING_EMAIL",
               "INVALID_EMAIL_INPUT",
               "INVALID_EMAIL_LOGIN",
               "INVALID_PASSWORD_INPUT",

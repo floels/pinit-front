@@ -52,6 +52,7 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
                   "WELCOME_TO_PINIT",
                   "EMAIL",
                   "PASSWORD",
+                  "MISSING_EMAIL",
                   "INVALID_EMAIL_INPUT",
                   "INVALID_EMAIL_LOGIN",
                   "INVALID_PASSWORD_INPUT",
