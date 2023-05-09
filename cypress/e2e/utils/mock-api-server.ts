@@ -31,6 +31,9 @@ app.all("*", (request: Request, response: Response) => {
 });
 
 const port = 8000;
-app.listen(port, () => {
+app.listen(port, (error) => {
+  if (error) {
+    console.log(`Error starting server: ${error}`);
+  }
   console.log(`Mock API server is running on port ${port}`);
 });

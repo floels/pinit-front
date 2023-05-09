@@ -15,8 +15,8 @@ describe("Authentication", () => {
       body: {
         mockStatusCode: 200,
         mockBody: {
-          access: "mock_access_token",
-          refresh: "mock_refresh_token",
+          access_token: "mock_access_token",
+          refresh_token: "mock_refresh_token",
         },
       },
     });

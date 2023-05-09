@@ -133,16 +133,8 @@ const SignupForm = ({
       return;
     }
 
-    const { access, refresh } = data;
-
-    if (!access || !refresh) {
-      // Abnormal response
-      setFormErrors({ other: "UNFORESEEN_ERROR" });
-      return;
-    }
-
-    Cookies.set("accessToken", access);
-    Cookies.set("refreshToken", refresh);
+    Cookies.set("accessToken", data.access_token);
+    Cookies.set("refreshToken", data.refresh_token);
 
     window.location.reload();
   };
