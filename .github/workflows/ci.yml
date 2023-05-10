@@ -41,11 +41,21 @@ jobs:
         run: yarn wait-on http://localhost:3000
 
       - name: Run E2E tests
-        run: yarn cypress run
-        continue-on-error: true
+        run: yarn cypress run --browser chrome
 
-      - name: Stop development server
-        run: kill $(jobs -p) || true
+      - name: Archive Cypress screenshots
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots/
+
+      - name: Archive Cypress videos
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos/
 
       - name: Generate coverage report
         run: yarn coverage-report
