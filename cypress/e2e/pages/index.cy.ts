@@ -1,4 +1,5 @@
 import en from "../../../messages/en.json";
+import { URL_PATTERN_UNAUTHENTICATED_HOMEPAGE_PICTURE_SLIDER_IMAGES } from "../utils/constants";
 
 const DEFAULT_VIEWPORT_HEIGHT_PX = 660; // see https://docs.cypress.io/api/commands/viewport#Default-sizing
 
@@ -6,6 +7,11 @@ const messages = en.HomePageUnauthenticated;
 
 describe("Home page", () => {
   it("should display the unauthenticated homepage as expected", () => {
+    // Mock picture slider images (hosted in S3 bucket) for better performance:
+    cy.intercept(URL_PATTERN_UNAUTHENTICATED_HOMEPAGE_PICTURE_SLIDER_IMAGES, {
+      fixture: "dummy_image_landing_page_pictures_slider.jpeg",
+    });
+
     cy.visit("/");
 
     cy.contains(messages.GET_YOUR_NEXT).should("be.visible");

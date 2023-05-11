@@ -1,6 +1,8 @@
 import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
 import { API_BASE_URL } from "../../../lib/constants";
 import en from "../../../messages/en.json";
+import { responseSVGPictureSliderImageMock } from "../../fixtures/images";
+import { URL_PATTERN_UNAUTHENTICATED_HOMEPAGE_PICTURE_SLIDER_IMAGES } from "../utils/constants";
 
 describe("Authentication", () => {
   beforeEach(() => {
@@ -19,6 +21,11 @@ describe("Authentication", () => {
           refresh_token: "mock_refresh_token",
         },
       },
+    });
+
+    // Mock picture slider images (hosted in S3 bucket) for better performance:
+    cy.intercept(URL_PATTERN_UNAUTHENTICATED_HOMEPAGE_PICTURE_SLIDER_IMAGES, {
+      fixture: "dummy_image_landing_page_pictures_slider.jpeg",
     });
 
     cy.visit("/");

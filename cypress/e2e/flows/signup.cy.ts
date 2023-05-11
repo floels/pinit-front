@@ -1,6 +1,7 @@
 import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
-import { API_BASE_URL } from "../../../lib/constants";
+import { API_BASE_URL, URL_S3_BUCKET } from "../../../lib/constants";
 import en from "../../../messages/en.json";
+import { URL_PATTERN_UNAUTHENTICATED_HOMEPAGE_PICTURE_SLIDER_IMAGES } from "../utils/constants";
 
 const messages = en.HomePageUnauthenticated;
 
@@ -21,6 +22,11 @@ describe("Signup", () => {
           refresh_token: "mock_refresh_token",
         },
       },
+    });
+
+    // Mock picture slider images (hosted in S3 bucket) for better performance:
+    cy.intercept(URL_PATTERN_UNAUTHENTICATED_HOMEPAGE_PICTURE_SLIDER_IMAGES, {
+      fixture: "dummy_image_landing_page_pictures_slider.jpeg",
     });
 
     cy.visit("/");
