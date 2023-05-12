@@ -24,6 +24,7 @@ describe("Signup", () => {
     });
 
     cy.visit("/");
+    cy.wait(1000); // needed to guarantee page has become interactive
 
     cy.contains(messages.SIGN_UP).click();
 
