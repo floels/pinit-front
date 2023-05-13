@@ -22,6 +22,7 @@ describe("Authentication", () => {
     });
 
     cy.visit("/");
+    cy.wait(1000); // needed to guarantee page has become interactive
 
     cy.contains(en.HomePageUnauthenticated.LOG_IN).click();
 
