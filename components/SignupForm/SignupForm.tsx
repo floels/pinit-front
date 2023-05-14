@@ -15,7 +15,7 @@ import {
   isValidBirthdate,
   isValidEmail,
   isValidPassword,
-} from "../../lib/utils/helpers";
+} from "../../lib/utils/validation";
 
 export type SignupFormProps = {
   setIsLoading: (isLoading: boolean) => void;

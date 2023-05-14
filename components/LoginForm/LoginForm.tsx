@@ -12,7 +12,7 @@ import {
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import Image from "next/image";
-import { isValidEmail, isValidPassword } from "../../lib/utils/helpers";
+import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
 
 export type LoginFormProps = {
   setIsLoading: (isLoading: boolean) => void;

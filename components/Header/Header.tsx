@@ -4,7 +4,7 @@ import {
   ENDPOINT_USER_DETAILS,
   ERROR_CODE_INVALID_ACCESS_TOKEN,
 } from "@/lib/constants";
-import { fetchWithAuthentication } from "@/lib/utils/fetchUtils";
+import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import AccessTokenRefresher from "../AccessTokenRefresher/AccessTokenRefresher";
 
 const fetchUserDetails = async (accessToken: string) => {
