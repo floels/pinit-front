@@ -7,7 +7,7 @@ import {
   ERROR_CODE_FETCH_FAILED,
   ERROR_CODE_REFRESH_TOKEN_FAILED,
 } from "@/lib/constants";
-import { refreshAccessToken } from "@/lib/utils/authenticationUtils";
+import { refreshAccessToken } from "@/lib/utils/authentication";
 
 const AccessTokenRefresher = () => {
   const router = useRouter();
