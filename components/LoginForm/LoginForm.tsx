@@ -15,9 +15,12 @@ import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
 
 export type LoginFormProps = {
-  setIsLoading: (isLoading: boolean) => void;
+  setIsLoading?: (isLoading: boolean) => void;
   onClickNoAccountYet: () => void;
-  labels: { [key: string]: string };
+  labels: {
+    component: { [key: string]: string };
+    commons: { [key: string]: string };
+  };
 };
 
 const computeFormErrors = (values: { email: string; password: string }) => {
@@ -76,7 +79,9 @@ const LoginForm = ({
       return;
     }
 
-    setIsLoading(true);
+    if (setIsLoading) {
+      setIsLoading(true);
+    }
 
     try {
       const { accessToken, refreshToken } = await fetchTokens();
@@ -111,7 +116,9 @@ const LoginForm = ({
     } catch (error) {
       throw new Error(ERROR_CODE_FETCH_FAILED);
     } finally {
-      setIsLoading(false);
+      if (setIsLoading) {
+        setIsLoading(false);
+      }
     }
 
     if (!response.ok) {

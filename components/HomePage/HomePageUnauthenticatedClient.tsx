@@ -11,7 +11,10 @@ import styles from "./HomePageUnauthenticatedClient.module.css";
 import { URL_S3_BUCKET } from "@/lib/constants";
 
 type HomePageUnauthenticatedClientProps = {
-  labels: { [key: string]: string };
+  labels: {
+    component: { [key: string]: string };
+    commons: { [key: string]: string };
+  };
 };
 
 const NUMBER_FOLDS = 2;
@@ -56,32 +59,10 @@ const HomePageUnauthenticatedClient = ({
       >
         <div className={styles.hero}>
           <HeaderUnauthenticated
-            labels={_.pick(labels, [
-              "WELCOME_TO_PINIT",
-              "EMAIL",
-              "PASSWORD",
-              "CREATE_PASSWORD",
-              "MISSING_EMAIL",
-              "INVALID_EMAIL_INPUT",
-              "INVALID_EMAIL_LOGIN",
-              "INVALID_PASSWORD_INPUT",
-              "INVALID_PASSWORD_LOGIN",
-              "CONNECTION_ERROR",
-              "UNFORESEEN_ERROR",
-              "LOG_IN",
-              "NO_ACCOUNT_YET",
-              "SIGN_UP",
-              "FIND_NEW_IDEAS",
-              "INVALID_EMAIL_SIGNUP",
-              "INVALID_PASSWORD_SIGNUP",
-              "BIRTHDATE",
-              "INVALID_BIRTHDATE_SIGNUP",
-              "EMAIL_ALREADY_SIGNED_UP",
-              "CONNECTION_ERROR",
-              "UNFORESEEN_ERROR",
-              "CONTINUE",
-              "ALREADY_HAVE_ACCOUNT",
-            ])}
+            labels={{
+              component: _.pick(labels.component, "Header"),
+              commons: labels.commons,
+            }}
           />
           <div className={styles.pictureSlider}>
             <PictureSlider

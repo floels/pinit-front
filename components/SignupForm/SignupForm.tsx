@@ -18,9 +18,12 @@ import {
 } from "../../lib/utils/validation";
 
 export type SignupFormProps = {
-  setIsLoading: (isLoading: boolean) => void;
+  setIsLoading?: (isLoading: boolean) => void;
   onClickAlreadyHaveAccount: () => void;
-  labels: { [key: string]: string };
+  labels: {
+    component: { [key: string]: string },
+    commons: { [key: string]: string },
+  },
 };
 
 const computeFormErrors = (values: {
@@ -89,7 +92,9 @@ const SignupForm = ({
       return;
     }
 
-    setIsLoading(true);
+    if (setIsLoading) {
+      setIsLoading(true);
+    }
 
     let data, response;
 
@@ -107,7 +112,9 @@ const SignupForm = ({
       setFormErrors({ other: "CONNECTION_ERROR" });
       return;
     } finally {
-      setIsLoading(false);
+      if (setIsLoading) {
+        setIsLoading(false);
+      }
     }
 
     if (!response.ok) {
