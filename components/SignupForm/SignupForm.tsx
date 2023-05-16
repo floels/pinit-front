@@ -21,9 +21,9 @@ export type SignupFormProps = {
   setIsLoading?: (isLoading: boolean) => void;
   onClickAlreadyHaveAccount: () => void;
   labels: {
-    component: { [key: string]: string },
-    commons: { [key: string]: string },
-  },
+    component: { [key: string]: string };
+    commons: { [key: string]: string };
+  };
 };
 
 const computeFormErrors = (values: {
@@ -155,19 +155,19 @@ const SignupForm = ({
         height={40}
         className={styles.logo}
       />
-      <h1 className={styles.title}>{labels.WELCOME_TO_PINIT}</h1>
-      <div className={styles.subtitle}>{labels.FIND_NEW_IDEAS}</div>
+      <h1 className={styles.title}>{labels.component.WELCOME_TO_PINIT}</h1>
+      <div className={styles.subtitle}>{labels.component.FIND_NEW_IDEAS}</div>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            label={labels.EMAIL}
-            placeholder={labels.EMAIL}
+            label={labels.component.EMAIL}
+            placeholder={labels.component.EMAIL}
             type="email"
             value={formData.email}
             autoComplete="email"
             errorMessage={
-              showFormErrors && formErrors.email ? labels[formErrors.email] : ""
+              showFormErrors && formErrors.email ? labels.component[formErrors.email] : ""
             }
             onChange={handleInputChange}
             ref={emailInputRef}
@@ -176,14 +176,14 @@ const SignupForm = ({
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            label={labels.PASSWORD}
-            placeholder={labels.CREATE_PASSWORD}
+            label={labels.component.PASSWORD}
+            placeholder={labels.component.CREATE_PASSWORD}
             type="password"
             value={formData.password}
             autoComplete="new-password"
             errorMessage={
               showFormErrors && formErrors.password
-                ? labels[formErrors.password]
+                ? labels.component[formErrors.password]
                 : ""
             }
             onChange={handleInputChange}
@@ -193,13 +193,13 @@ const SignupForm = ({
         <div className={styles.birthdateInputContainer}>
           <LabelledTextInput
             name="birthdate"
-            label={labels.BIRTHDATE}
+            label={labels.component.BIRTHDATE}
             type="date"
             value={formData.birthdate}
             autoComplete="bday"
             errorMessage={
               showFormErrors && formErrors.birthdate
-                ? labels[formErrors.birthdate]
+                ? labels.component[formErrors.birthdate]
                 : ""
             }
             onChange={handleInputChange}
@@ -208,21 +208,21 @@ const SignupForm = ({
         {showFormErrors && formErrors.other && (
           <div className={styles.otherErrorMessage}>
             <div className={styles.otherErrorText}>
-              {labels[formErrors.other]}
+              {labels.commons[formErrors.other]}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {labels.CONTINUE}
+          {labels.component.CONTINUE}
         </button>
       </form>
       <div className={styles.alreadyHaveAccount}>
-        {labels.ALREADY_HAVE_ACCOUNT}
+        {labels.component.ALREADY_HAVE_ACCOUNT}
         <button
           className={styles.alreadyHaveAccountButton}
           onClick={onClickAlreadyHaveAccount}
         >
-          {labels.LOG_IN}
+          {labels.component.LOG_IN}
         </button>
       </div>
     </div>

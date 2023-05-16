@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedClient from "./HeaderAuthenticatedClient";
 
-const messagesEn = en.HomePageAuthenticated;
+const labels = en.HomePageAuthenticated.Header;
 
 const userDetails = {
   email: "john.doe@example.com",
@@ -19,23 +19,23 @@ describe("HeaderAuthenticated", () => {
     render(
       <HeaderAuthenticatedClient
         userDetails={userDetails}
-        labels={messagesEn}
+        labels={labels}
       />
     );
 
-    const createButton = screen.getByText(messagesEn.CREATE);
+    const createButton = screen.getByText(labels.CREATE);
     const searchBar = screen.getByPlaceholderText(
-      messagesEn.PLACEHOLDER_SEARCH
+      labels.PLACEHOLDER_SEARCH
     );
     const profileLink = screen.getByTestId("profile-link");
     const accountOptionsButton = screen.getByTestId("account-options-button");
 
     // Create button:
-    expect(screen.queryByText(messagesEn.CREATE_PIN)).toBeNull();
+    expect(screen.queryByText(labels.CREATE_PIN)).toBeNull();
     await user.click(createButton);
-    screen.getByText(messagesEn.CREATE_PIN);
+    screen.getByText(labels.CREATE_PIN);
     await user.click(createButton);
-    expect(screen.queryByText(messagesEn.CREATE_PIN)).toBeNull();
+    expect(screen.queryByText(labels.CREATE_PIN)).toBeNull();
 
     // Search bar:
     screen.getByTestId("search-bar-icon");
@@ -43,23 +43,23 @@ describe("HeaderAuthenticated", () => {
     expect(screen.queryByTestId("search-bar-icon")).toBeNull();
 
     // Profile link:
-    expect(screen.queryByText(messagesEn.YOUR_PROFILE)).toBeNull();
+    expect(screen.queryByText(labels.YOUR_PROFILE)).toBeNull();
     fireEvent.mouseEnter(profileLink);
-    screen.getByText(messagesEn.YOUR_PROFILE);
+    screen.getByText(labels.YOUR_PROFILE);
     fireEvent.mouseLeave(profileLink);
-    expect(screen.queryByText(messagesEn.YOUR_PROFILE)).toBeNull();
+    expect(screen.queryByText(labels.YOUR_PROFILE)).toBeNull();
 
     // Account options button:
-    expect(screen.queryByText(messagesEn.ACCOUNT_OPTIONS)).toBeNull();
+    expect(screen.queryByText(labels.ACCOUNT_OPTIONS)).toBeNull();
     fireEvent.mouseEnter(accountOptionsButton);
-    screen.getByText(messagesEn.ACCOUNT_OPTIONS);
+    screen.getByText(labels.ACCOUNT_OPTIONS);
     fireEvent.mouseLeave(accountOptionsButton);
-    expect(screen.queryByText(messagesEn.ACCOUNT_OPTIONS)).toBeNull();
+    expect(screen.queryByText(labels.ACCOUNT_OPTIONS)).toBeNull();
 
-    expect(screen.queryByText(messagesEn.LOG_OUT)).toBeNull();
+    expect(screen.queryByText(labels.AccountOptionsFlyout.LOG_OUT)).toBeNull();
     await user.click(accountOptionsButton);
-    screen.getByText(messagesEn.LOG_OUT);
+    screen.getByText(labels.AccountOptionsFlyout.LOG_OUT);
     await user.click(accountOptionsButton);
-    expect(screen.queryByText(messagesEn.LOG_OUT)).toBeNull();
+    expect(screen.queryByText(labels.AccountOptionsFlyout.LOG_OUT)).toBeNull();
   });
 });

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { useState } from "react";
 import Image from "next/image";
 import OverlayModal from "../OverlayModal/OverlayModal";
@@ -8,7 +7,7 @@ import styles from "./HeaderUnauthenticated.module.css";
 
 type HeaderUnauthenticatedPros = {
   labels: {
-    component: { [key: string]: string };
+    component: { [key: string]: any };
     commons: { [key: string]: string };
   };
 };
@@ -50,7 +49,7 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
           <LoginForm
             onClickNoAccountYet={handleClickNoAccountYet}
             labels={{
-              component: _.pick(labels.component, "LoginForm"),
+              component: labels.component.LoginForm,
               commons: labels.commons,
             }}
           />
@@ -61,8 +60,8 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
           <SignupForm
             onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
             labels={{
-              component: _.pick(labels.component, "SignupForm"),
-              commons: labels.commons
+              component: labels.component.SignupForm,
+              commons: labels.commons,
             }}
           />
         </OverlayModal>

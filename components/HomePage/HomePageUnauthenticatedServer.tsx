@@ -9,9 +9,9 @@ const HomePageUnauthenticatedServer = () => {
     componentTranslator
   );
 
-  const commonsTranslator = useTranslations("Commons");
+  const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
-    "Commons",
+    "Common",
     commonsTranslator
   );
 

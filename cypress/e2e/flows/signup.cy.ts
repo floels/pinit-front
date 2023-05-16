@@ -2,8 +2,6 @@ import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
 import { API_BASE_URL } from "../../../lib/constants";
 import en from "../../../messages/en.json";
 
-const messages = en.HomePageUnauthenticated;
-
 describe("Signup", () => {
   beforeEach(() => {
     cy.clearCookies();
@@ -26,15 +24,15 @@ describe("Signup", () => {
     cy.visit("/");
     cy.wait(1000); // needed to guarantee page has become interactive
 
-    cy.contains(messages.SIGN_UP).click();
+    cy.contains(en.HomePageUnauthenticated.Header.SIGN_UP).click();
 
     cy.get("input[name='email']").type(EMAIL_ADDRESS);
     cy.get("input[name='password']").type(PASSWORD);
     cy.get("input[name='birthdate']").type("1970-01-01");
 
-    cy.contains(messages.CONTINUE).click();
+    cy.contains(en.HomePageUnauthenticated.Header.SignupForm.CONTINUE).click();
 
-    cy.contains(en.HomePageAuthenticated.NAV_ITEM_HOME);
+    cy.contains(en.HomePageAuthenticated.Header.NAV_ITEM_HOME);
 
     // Check presence of authentication cookies:
     cy.getCookie("accessToken").should("exist");

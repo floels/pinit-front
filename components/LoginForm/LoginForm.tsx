@@ -156,17 +156,19 @@ const LoginForm = ({
         height={40}
         className={styles.logo}
       />
-      <h1 className={styles.title}>{labels.WELCOME_TO_PINIT}</h1>
+      <h1 className={styles.title}>{labels.component.WELCOME_TO_PINIT}</h1>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            label={labels.EMAIL}
-            placeholder={labels.EMAIL}
+            label={labels.component.EMAIL}
+            placeholder={labels.component.EMAIL}
             type="email"
             value={credentials.email}
             errorMessage={
-              showFormErrors && formErrors.email ? labels[formErrors.email] : ""
+              showFormErrors && formErrors.email
+                ? labels.component[formErrors.email]
+                : ""
             }
             onChange={handleInputChange}
             autoComplete="email"
@@ -176,13 +178,13 @@ const LoginForm = ({
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            label={labels.PASSWORD}
-            placeholder={labels.PASSWORD}
+            label={labels.component.PASSWORD}
+            placeholder={labels.component.PASSWORD}
             type="password"
             value={credentials.password}
             errorMessage={
               showFormErrors && formErrors.password
-                ? labels[formErrors.password]
+                ? labels.component[formErrors.password]
                 : ""
             }
             onChange={handleInputChange}
@@ -193,21 +195,21 @@ const LoginForm = ({
           <div className={styles.otherErrorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.otherErrorText}>
-              {labels[formErrors.other]}
+              {labels.commons[formErrors.other]}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {labels.LOG_IN}
+          {labels.component.LOG_IN}
         </button>
       </form>
       <div className={styles.noAccountYet}>
-        {labels.NO_ACCOUNT_YET}
+        {labels.component.NO_ACCOUNT_YET}
         <button
           className={styles.noAccountYetButton}
           onClick={onClickNoAccountYet}
         >
-          {labels.SIGN_UP}
+          {labels.component.SIGN_UP}
         </button>
       </div>
     </div>
