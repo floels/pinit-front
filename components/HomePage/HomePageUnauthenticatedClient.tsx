@@ -1,6 +1,5 @@
 "use client";
 
-import _ from "lodash";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +11,7 @@ import { URL_S3_BUCKET } from "@/lib/constants";
 
 type HomePageUnauthenticatedClientProps = {
   labels: {
-    component: { [key: string]: string };
+    component: { [key: string]: any };
     commons: { [key: string]: string };
   };
 };
@@ -60,21 +59,14 @@ const HomePageUnauthenticatedClient = ({
         <div className={styles.hero}>
           <HeaderUnauthenticated
             labels={{
-              component: _.pick(labels.component, "Header"),
+              component: labels.component.Header,
               commons: labels.commons,
             }}
           />
           <div className={styles.pictureSlider}>
             <PictureSlider
               onClickSeeBelow={handleClickSeeBelow}
-              labels={_.pick(labels, [
-                "GET_YOUR_NEXT",
-                "HOW_IT_WORKS",
-                "HEADER_FOOD",
-                "HEADER_HOME",
-                "HEADER_OUTFIT",
-                "HEADER_GARDENING",
-              ])}
+              labels={labels.component.PictureSlider}
             />
           </div>
         </div>
@@ -122,20 +114,20 @@ const HomePageUnauthenticatedClient = ({
                   icon={faSearch}
                   className={styles.searchBarLinkIcon}
                 />
-                {labels.EASY_CHICKEN_DINNER}
+                {labels.component.EASY_CHICKEN_DINNER}
               </a>
             </div>
           </div>
           <div className={styles.sectionSearchTextArea}>
             <div className={styles.sectionSearchTextContainer}>
               <div className={styles.sectionSearchHeader}>
-                {labels.SEARCH_FOR_AN_IDEA}
+                {labels.component.SEARCH_FOR_AN_IDEA}
               </div>
               <div className={styles.sectionSearchParagraph}>
-                {labels.WHAT_DO_YOU_WANT_TO_TRY_NEXT}
+                {labels.component.WHAT_DO_YOU_WANT_TO_TRY_NEXT}
               </div>
               <a href="#" className={styles.exploreLink}>
-                {labels.EXPLORE}
+                {labels.component.EXPLORE}
               </a>
             </div>
           </div>

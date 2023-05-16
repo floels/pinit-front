@@ -2,33 +2,33 @@ import en from "../../../messages/en.json";
 
 const DEFAULT_VIEWPORT_HEIGHT_PX = 660; // see https://docs.cypress.io/api/commands/viewport#Default-sizing
 
-const messages = en.HomePageUnauthenticated;
+const labels = en.HomePageUnauthenticated;
 
 describe("Home page", () => {
   it("should display the unauthenticated homepage as expected", () => {
     cy.visit("/");
     cy.wait(1000); // needed to guarantee page has become interactive
 
-    cy.contains(messages.GET_YOUR_NEXT).should("be.visible");
-    cy.contains(messages.HEADER_FOOD).should("be.visible");
+    cy.contains(labels.PictureSlider.GET_YOUR_NEXT).should("be.visible");
+    cy.contains(labels.PictureSlider.HEADER_FOOD).should("be.visible");
 
     // Open and close login form
-    cy.contains(messages.LOG_IN).click();
-    cy.contains(messages.WELCOME_TO_PINIT).should("be.visible");
+    cy.contains(labels.Header.LOG_IN).click();
+    cy.contains(labels.Header.LoginForm.WELCOME_TO_PINIT).should("be.visible");
     cy.get("[data-testid=overlay-modal-close-button]").click();
-    cy.contains(messages.WELCOME_TO_PINIT).should("not.exist");
+    cy.contains(labels.Header.LoginForm.WELCOME_TO_PINIT).should("not.exist");
 
     // Open login form, switch to signup form and then back to login form
-    cy.contains(messages.LOG_IN).click();
-    cy.contains(messages.NO_ACCOUNT_YET).within(() => {
-      cy.contains(messages.SIGN_UP).click();
+    cy.contains(labels.Header.LOG_IN).click();
+    cy.contains(labels.Header.LoginForm.NO_ACCOUNT_YET).within(() => {
+      cy.contains(labels.Header.LoginForm.SIGN_UP).click();
     });
-    cy.contains(messages.FIND_NEW_IDEAS).should("be.visible");
+    cy.contains(labels.Header.SignupForm.FIND_NEW_IDEAS).should("be.visible");
 
-    cy.contains(messages.ALREADY_HAVE_ACCOUNT).within(() => {
-      cy.contains(messages.LOG_IN).click();
+    cy.contains(labels.Header.SignupForm.ALREADY_HAVE_ACCOUNT).within(() => {
+      cy.contains(labels.Header.SignupForm.LOG_IN).click();
     });
-    cy.contains(messages.NO_ACCOUNT_YET).should("be.visible");
+    cy.contains(labels.Header.LoginForm.NO_ACCOUNT_YET).should("be.visible");
     cy.get("[data-testid=overlay-modal-close-button]").click();
 
     // Test transitions between first and second fold
@@ -54,7 +54,7 @@ describe("Home page", () => {
     );
 
     cy.document().trigger("wheel", { deltaY: -1 });
-    cy.contains(messages.HOW_IT_WORKS).click();
+    cy.contains(labels.PictureSlider.HOW_IT_WORKS).click();
     cy.get("[data-testid=homepage-unauthenticated-content]").should(
       "have.css",
       "transform",

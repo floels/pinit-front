@@ -77,13 +77,16 @@ const renderSliderImage = (
     yTranslationPx = -MAX_TRANSLATION_IMAGES_PX;
   }
 
+  const topicLabelLowerCase = TOPICS[topicIndex].toLowerCase();
+  const imageURL = `${URL_S3_BUCKET}/homepage/hero_${topicLabelLowerCase}_${imageNumber
+    .toString()
+    .padStart(2, "0")}.jpeg`;
+
   return (
     <div className={styles.pictureContainer}>
       <Image
-        src={`${URL_S3_BUCKET}/homepage/hero_${TOPICS[
-          topicIndex
-        ].toLowerCase()}_${imageNumber.toString().padStart(2, "0")}.jpeg`}
-        alt={TOPICS[topicIndex]}
+        src={imageURL}
+        alt={topicLabelLowerCase}
         fill
         sizes="236px"
         className={styles.picture}

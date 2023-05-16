@@ -4,7 +4,11 @@ import fetchMock from "jest-fetch-mock";
 import LoginForm from "./LoginForm";
 import en from "@/messages/en.json";
 
-const labels = { ...en.HomePageUnauthenticated, ...en.Common };
+const COMPONENT_LABELS = en.HomePageUnauthenticated.Header.LoginForm;
+const labels = {
+  component: COMPONENT_LABELS,
+  commons: en.Common,
+};
 
 jest.mock("next/navigation", () => require("next-router-mock"));
 
@@ -18,8 +22,6 @@ const loginForm = (
     labels={labels}
   />
 );
-
-const messages = en.HomePageUnauthenticated;
 
 describe("LoginForm", () => {
   beforeEach(() => {
@@ -42,29 +44,31 @@ describe("LoginForm", () => {
 
     render(loginForm);
 
-    screen.getByText(messages.WELCOME_TO_PINIT);
+    screen.getByText(COMPONENT_LABELS.WELCOME_TO_PINIT);
 
-    const emailInput = screen.getByLabelText(messages.EMAIL);
-    const passwordInput = screen.getByLabelText(messages.PASSWORD);
-    const submitButton = screen.getByText(messages.LOG_IN);
+    const emailInput = screen.getByLabelText(COMPONENT_LABELS.EMAIL);
+    const passwordInput = screen.getByLabelText(COMPONENT_LABELS.PASSWORD);
+    const submitButton = screen.getByText(COMPONENT_LABELS.LOG_IN);
 
     // Fill form with invalid email and pasword and submit:
     await user.type(emailInput, "test@example");
     await user.type(passwordInput, "Pa$$");
     await user.click(submitButton);
 
-    screen.getByText(messages.INVALID_EMAIL_INPUT);
+    screen.getByText(COMPONENT_LABELS.INVALID_EMAIL_INPUT);
 
     // Fix email but not password:
     await user.type(emailInput, ".com");
     await user.click(submitButton);
 
-    expect(screen.queryByText(messages.INVALID_EMAIL_INPUT)).toBeNull();
-    screen.getByText(messages.INVALID_PASSWORD_INPUT);
+    expect(screen.queryByText(COMPONENT_LABELS.INVALID_EMAIL_INPUT)).toBeNull();
+    screen.getByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT);
 
     // Fix password input:
     await user.type(passwordInput, "w0rd");
-    expect(screen.queryByText(messages.INVALID_PASSWORD_INPUT)).toBeNull();
+    expect(
+      screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT)
+    ).toBeNull();
 
     // Submit with correct inputs:
     expect(setIsLoading).toHaveBeenCalledTimes(0);
@@ -78,9 +82,9 @@ describe("LoginForm", () => {
 
     render(loginForm);
 
-    const emailInput = screen.getByLabelText(messages.EMAIL);
-    const passwordInput = screen.getByLabelText(messages.PASSWORD);
-    const submitButton = screen.getByText(messages.LOG_IN);
+    const emailInput = screen.getByLabelText(COMPONENT_LABELS.EMAIL);
+    const passwordInput = screen.getByLabelText(COMPONENT_LABELS.PASSWORD);
+    const submitButton = screen.getByText(COMPONENT_LABELS.LOG_IN);
 
     await user.type(emailInput, "test@example.com");
     await user.type(passwordInput, "Pa$$w0rd");
@@ -91,7 +95,7 @@ describe("LoginForm", () => {
     );
     await user.click(submitButton);
 
-    screen.getByText(messages.INVALID_EMAIL_LOGIN);
+    screen.getByText(COMPONENT_LABELS.INVALID_EMAIL_LOGIN);
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_password" }] }),
@@ -100,6 +104,6 @@ describe("LoginForm", () => {
     await user.type(passwordInput, "IsWr0ng");
     await user.click(submitButton);
 
-    screen.getByText(messages.INVALID_PASSWORD_LOGIN);
+    screen.getByText(COMPONENT_LABELS.INVALID_PASSWORD_LOGIN);
   });
 });

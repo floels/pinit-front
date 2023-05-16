@@ -15,7 +15,7 @@ import { UserDetails } from "./HeaderAuthenticatedServer";
 type HeaderAuthenticatedClientProps = {
   userDetails?: UserDetails;
   errorCode?: string;
-  labels: { [key: string]: string };
+  labels: { [key: string]: any };
 };
 
 const HeaderAuthenticatedClient = ({
@@ -224,7 +224,7 @@ const HeaderAuthenticatedClient = ({
         <AccountOptionsFlyout
           ref={accountOptionsFlyoutRef}
           handleClickLogOut={handleClickLogOut}
-          labels={_.pick(labels, ["ACCOUNT_OPTIONS_MORE_OPTIONS", "LOG_OUT"])}
+          labels={labels.AccountOptionsFlyout}
         />
       )}
     </nav>
