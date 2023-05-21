@@ -19,7 +19,10 @@ const HeaderAuthenticatedServer = ({
   errorCode,
 }: HeaderAuthenticatedServerProps) => {
   const translator = useTranslations("HomePageAuthenticated");
-  const translations = getTranslationsObject("HomePageAuthenticated", translator) as any;
+  const translations = getTranslationsObject(
+    "HomePageAuthenticated",
+    translator
+  ) as any;
 
   return (
     <HeaderAuthenticatedClient

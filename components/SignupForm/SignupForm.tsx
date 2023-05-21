@@ -167,7 +167,9 @@ const SignupForm = ({
             value={formData.email}
             autoComplete="email"
             errorMessage={
-              showFormErrors && formErrors.email ? labels.component[formErrors.email] : ""
+              showFormErrors && formErrors.email
+                ? labels.component[formErrors.email]
+                : ""
             }
             onChange={handleInputChange}
             ref={emailInputRef}

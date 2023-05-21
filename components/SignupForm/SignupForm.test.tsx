@@ -80,7 +80,7 @@ describe("SignupForm", () => {
     ).toBeNull();
 
     // Submit with correct inputs:
-    expect(setIsLoading).toHaveBeenCalledTimes(0);
+    expect(setIsLoading).not.toHaveBeenCalled();
     await user.click(submitButton);
     expect(setIsLoading).toHaveBeenCalledWith(true);
     expect(window.location.reload).toHaveBeenCalled();
