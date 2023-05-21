@@ -39,7 +39,7 @@ describe("LoginForm", () => {
     const user = userEvent.setup();
 
     fetchMock.mockResponseOnce(
-      JSON.stringify({ access: "access", refresh: "refresh" })
+      JSON.stringify({ access_token: "accessToken", refresh_token: "refreshToken" })
     );
 
     render(loginForm);
