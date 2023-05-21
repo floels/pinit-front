@@ -11,8 +11,6 @@ const labels = {
   commons: en.Common,
 };
 
-jest.mock("next/navigation", () => require("next-router-mock"));
-
 const setIsLoading = jest.fn();
 const onClickAlreadyHaveAccount = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
