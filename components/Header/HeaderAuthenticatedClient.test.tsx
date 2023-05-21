@@ -17,16 +17,11 @@ describe("HeaderAuthenticated", () => {
     const user = userEvent.setup();
 
     render(
-      <HeaderAuthenticatedClient
-        userDetails={userDetails}
-        labels={labels}
-      />
+      <HeaderAuthenticatedClient userDetails={userDetails} labels={labels} />
     );
 
     const createButton = screen.getByText(labels.CREATE);
-    const searchBar = screen.getByPlaceholderText(
-      labels.PLACEHOLDER_SEARCH
-    );
+    const searchBar = screen.getByPlaceholderText(labels.PLACEHOLDER_SEARCH);
     const profileLink = screen.getByTestId("profile-link");
     const accountOptionsButton = screen.getByTestId("account-options-button");
 

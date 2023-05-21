@@ -11,8 +11,6 @@ const labels = {
   commons: en.Common,
 };
 
-jest.mock("next/navigation", () => require("next-router-mock"));
-
 const setIsLoading = jest.fn();
 const onClickAlreadyHaveAccount = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
@@ -82,7 +80,7 @@ describe("SignupForm", () => {
     ).toBeNull();
 
     // Submit with correct inputs:
-    expect(setIsLoading).toHaveBeenCalledTimes(0);
+    expect(setIsLoading).not.toHaveBeenCalled();
     await user.click(submitButton);
     expect(setIsLoading).toHaveBeenCalledWith(true);
     expect(window.location.reload).toHaveBeenCalled();

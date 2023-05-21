@@ -10,8 +10,6 @@ const labels = {
   commons: en.Common,
 };
 
-jest.mock("next/navigation", () => require("next-router-mock"));
-
 const setIsLoading = jest.fn();
 const onClickNoAccountYet = () => {}; // this behavior will be tested in <HomePageUnauthenticated />
 
@@ -39,7 +37,10 @@ describe("LoginForm", () => {
     const user = userEvent.setup();
 
     fetchMock.mockResponseOnce(
-      JSON.stringify({ access: "access", refresh: "refresh" })
+      JSON.stringify({
+        access_token: "accessToken",
+        refresh_token: "refreshToken",
+      })
     );
 
     render(loginForm);
@@ -71,7 +72,7 @@ describe("LoginForm", () => {
     ).toBeNull();
 
     // Submit with correct inputs:
-    expect(setIsLoading).toHaveBeenCalledTimes(0);
+    expect(setIsLoading).not.toHaveBeenCalled();
     await user.click(submitButton);
     expect(setIsLoading).toHaveBeenCalledWith(true);
     expect(window.location.reload).toHaveBeenCalled();
