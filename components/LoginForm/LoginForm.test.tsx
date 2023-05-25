@@ -75,7 +75,7 @@ describe("LoginForm", () => {
     expect(setIsLoading).not.toHaveBeenCalled();
     await user.click(submitButton);
     expect(setIsLoading).toHaveBeenCalledWith(true);
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(window.location.reload).toHaveBeenCalledTimes(1);
   });
 
   it("should display relevant error when receiving a 401 response", async () => {
