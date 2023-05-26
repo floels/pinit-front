@@ -21,6 +21,7 @@
         "SIGN_UP": "Sign up"
       },
       "SignupForm": {
+        "WELCOME_TO_PINIT": "Welcome to PinIt",
         "FIND_NEW_IDEAS": "Find new ideas to try",
         "EMAIL": "Email",
         "PASSWORD": "Password",
