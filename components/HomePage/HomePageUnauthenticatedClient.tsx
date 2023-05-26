@@ -7,7 +7,6 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import styles from "./HomePageUnauthenticatedClient.module.css";
-import { URL_S3_BUCKET } from "@/lib/constants";
 
 type HomePageUnauthenticatedClientProps = {
   labels: {
@@ -75,7 +74,7 @@ const HomePageUnauthenticatedClient = ({
             <div className={styles.sectionSearchPicturesContainer}>
               <div className={styles.sectionSearchPictureLeftContainer}>
                 <Image
-                  src={`${URL_S3_BUCKET}/homepage/second_fold_left.jpg`}
+                  src="https://s.pinimg.com/webapp/left-511a9304.png"
                   alt="chicken-plate"
                   fill
                   sizes="204px"
@@ -84,7 +83,7 @@ const HomePageUnauthenticatedClient = ({
               </div>
               <div className={styles.sectionSearchPictureTopRightContainer}>
                 <Image
-                  src={`${URL_S3_BUCKET}/homepage/second_fold_top_right.jpg`}
+                  src="https://s.pinimg.com/webapp/topRight-d0230035.png"
                   alt="chicken-plate"
                   fill
                   sizes="178px"
@@ -93,7 +92,7 @@ const HomePageUnauthenticatedClient = ({
               </div>
               <div className={styles.sectionSearchPictureBottomRightContainer}>
                 <Image
-                  src={`${URL_S3_BUCKET}/homepage/second_fold_bottom_right.jpg`}
+                  src="https://s.pinimg.com/webapp/right-88044782.png"
                   alt="chicken-plate"
                   fill
                   sizes="164px"
@@ -102,7 +101,7 @@ const HomePageUnauthenticatedClient = ({
               </div>
               <div className={styles.sectionSearchPictureCenterContainer}>
                 <Image
-                  src={`${URL_S3_BUCKET}/homepage/second_fold_center.jpg`}
+                  src="https://s.pinimg.com/webapp/center-77497603.png"
                   alt="chicken-plate"
                   fill
                   sizes="298px"

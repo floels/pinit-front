@@ -10,7 +10,13 @@ module.exports = withNextIntl({
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "pinit-staging.s3.eu-west-3.amazonaws.com",
+        hostname: "i.pinimg.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "s.pinimg.com",
         port: "",
         pathname: "/**",
       },

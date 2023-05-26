@@ -15,6 +15,3 @@ export const ERROR_CODE_EMAIL_ALREADY_SIGNED_UP = "email_already_signed_up";
 export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid_access_token";
 export const ERROR_CODE_FETCH_FAILED = "fetch_failed";
 export const ERROR_CODE_REFRESH_TOKEN_FAILED = "refresh_token_failed";
-
-// Images (S3)
-export const URL_S3_BUCKET = "https://pinit-staging.s3.eu-west-3.amazonaws.com";
