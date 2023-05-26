@@ -18,7 +18,7 @@ jest.mock("js-cookie", () => ({
   remove: jest.fn(),
 }));
 
-const Cookies = require('js-cookie');
+const Cookies = require("js-cookie");
 
 describe("AccessTokenRefresh", () => {
   it("should refresh the current route when receiving a 200 OK response from token refresh endpoint", async () => {
