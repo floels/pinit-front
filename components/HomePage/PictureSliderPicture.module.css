@@ -1,0 +1,12 @@
+.container {
+    margin: 16px 0;
+    width: 236px;
+    min-height: 350px;
+    position: relative;
+  }
+  
+.image {
+    border-radius: 16px;
+    object-fit: cover;
+    transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+}
