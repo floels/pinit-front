@@ -104,19 +104,6 @@ because then the header text is displayed on two lines instead of one. */
   align-items: center;
 }
 
-.pictureContainer {
-  margin: 16px 0;
-  width: 236px;
-  min-height: 350px;
-  position: relative;
-}
-
-.picture {
-  border-radius: 16px;
-  object-fit: cover;
-  transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
-}
-
 .footerCarretAndBlur {
   height: 200px;
   width: 100%;
