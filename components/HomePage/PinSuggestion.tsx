@@ -16,7 +16,7 @@ const PinSuggestion = ({ id, title, imageURL, authorUsername, authorDisplayName}
         <Image
             alt={title ? title : `${t("PIN_BY")} ${authorDisplayName}`}
             src={imageURL}
-        />   
+        />
     );
 };
 
