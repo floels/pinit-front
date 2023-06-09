@@ -1,12 +1,16 @@
 import styles from "./HomePageAuthenticated.module.css";
-import { PinSuggestion } from "./PinSuggestion";
+import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
 
 type HomePageAuthenticatedClientProps = {
-  pinSuggestions: PinSuggestion[];
+  pinSuggestions: PinSuggestionType[];
 };
 
 const HomePageAuthenticatedClient = ({ pinSuggestions}: HomePageAuthenticatedClientProps) => {
-  return <main className={styles.container}></main>;
+  return (
+    <main className={styles.container}>
+      {pinSuggestions.map((pinSuggestion) => <PinSuggestion key={pinSuggestion.id} {...pinSuggestion} />)}
+    </main>
+  );
 };
 
 export default HomePageAuthenticatedClient;
