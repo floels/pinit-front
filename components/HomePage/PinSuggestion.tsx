@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-export type PinSuggestion = {
+export type PinSuggestionType = {
     id: string;
     title: string;
     imageURL: string;
@@ -9,7 +9,7 @@ export type PinSuggestion = {
     authorDisplayName: string;
 };
 
-const PinSuggestion = ({ id, title, imageURL, authorUsername, authorDisplayName}: PinSuggestion) => {
+const PinSuggestion = ({ id, title, imageURL, authorUsername, authorDisplayName }: PinSuggestionType) => {
     const t = useTranslations("HomePageAuthenticated");
     
     return (
