@@ -1,4 +1,4 @@
-import styles from "./HomePageAuthenticated.module.css";
+import styles from "./HomePageAuthenticatedClient.module.css";
 import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
 
 type HomePageAuthenticatedClientProps = {
