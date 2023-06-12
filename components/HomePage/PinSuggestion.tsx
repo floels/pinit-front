@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
+import styles from "./PinSuggestion.module.css";
 
 export type PinSuggestionType = {
     id: string;
@@ -13,10 +13,14 @@ const PinSuggestion = ({ id, title, imageURL, authorUsername, authorDisplayName 
     const t = useTranslations("HomePageAuthenticated");
     
     return (
-        <Image
-            alt={title ? title : `${t("PIN_BY")} ${authorDisplayName}`}
-            src={imageURL}
-        />
+        <div className={styles.container}>
+            <img
+                alt={title ? title : `${t("PIN_BY")} ${authorDisplayName}`}
+                src={imageURL}
+                width={256}
+                className={styles.image}
+            />
+        </div>
     );
 };
 

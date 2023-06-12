@@ -9,7 +9,7 @@ const fetchPinSuggestions = async (accessToken: string) => {
     return [{
         id: "0000",
         title: "This is a pin",
-        imageURL: "https://image.url.com",
+        imageURL: "https://i.pinimg.com/236x/e3/41/4b/e3414b2fcf00375a199ba6964be551af.jpg",
         authorUsername: "johndoe",
         authorDisplayName: "John DOe",
     }];
