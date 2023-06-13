@@ -14,12 +14,13 @@ const PinSuggestion = ({ id, title, imageURL, authorUsername, authorDisplayName 
     
     return (
         <div className={styles.container}>
+            {/* We don't use Next's Image component because we don't know the image's display height in advance */}
             <img
                 alt={title ? title : `${t("PIN_BY")} ${authorDisplayName}`}
                 src={imageURL}
-                width={256}
                 className={styles.image}
             />
+            {title && <div className={styles.title}>{title}</div>}
         </div>
     );
 };
