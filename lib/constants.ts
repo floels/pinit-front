@@ -4,6 +4,7 @@ export const ENDPOINT_OBTAIN_TOKEN = "token/obtain/";
 export const ENDPOINT_REFRESH_TOKEN = "token/refresh/";
 export const ENDPOINT_SIGN_UP = "signup/";
 export const ENDPOINT_USER_DETAILS = "user-details/";
+export const ENDPOINT_PIN_SUGGESTIONS = "pin-suggestions/";
 
 // API error codes
 export const ERROR_CODE_INVALID_EMAIL = "invalid_email";
