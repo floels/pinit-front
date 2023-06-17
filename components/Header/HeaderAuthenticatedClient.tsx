@@ -18,7 +18,6 @@ type HeaderAuthenticatedClientProps = HeaderAuthenticatedServerProps & {
 
 const HeaderAuthenticatedClient = ({
   accounts,
-  errorCode,
   labels,
 }: HeaderAuthenticatedClientProps) => {
   const currentPathname = usePathname();

@@ -7,24 +7,23 @@ import { fetchWithAuthentication } from "@/lib/utils/fetch";
 const fetchInitialPinSuggestions = async (accessToken: string) => {
   let pinSuggestionsResponse;
 
-  try {
-    pinSuggestionsResponse = await fetchWithAuthentication({
-      endpoint: ENDPOINT_GET_PIN_SUGGESTIONS,
-      accessToken,
-    });
-  } catch (error) {
-    // TODO: handle error case
-  }
+  // TODO: handle fetch fail
+  pinSuggestionsResponse = await fetchWithAuthentication({
+    endpoint: ENDPOINT_GET_PIN_SUGGESTIONS,
+    accessToken,
+  });
 
-  if (pinSuggestionsResponse) {
-    return getPinSuggestionsWithCamelizedKeys(pinSuggestionsResponse);
+  if (pinSuggestionsResponse.ok) {
+    const pinSuggestionsResponseData = await pinSuggestionsResponse.json();
+
+    return getPinSuggestionsWithCamelizedKeys(pinSuggestionsResponseData);
   }
 
   return [];
 };
 
-const getPinSuggestionsWithCamelizedKeys = (pinSuggestionsResponse: { results: any[] }) => {
-  return pinSuggestionsResponse.results.map((pinSuggestion) => ({
+const getPinSuggestionsWithCamelizedKeys = (pinSuggestionsResponseData: { results: any[] }) => {
+  return pinSuggestionsResponseData.results.map((pinSuggestion) => ({
     id: pinSuggestion.id,
     imageURL: pinSuggestion.image_url,
     title: pinSuggestion.title,

@@ -13,6 +13,5 @@ export const ERROR_CODE_INVALID_BIRTHDATE = "invalid_birthdate";
 export const ERROR_CODE_EMAIL_ALREADY_SIGNED_UP = "email_already_signed_up";
 
 // Frontend-only error codes
-export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid_access_token";
 export const ERROR_CODE_FETCH_FAILED = "fetch_failed";
 export const ERROR_CODE_REFRESH_TOKEN_FAILED = "refresh_token_failed";

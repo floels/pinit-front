@@ -5,12 +5,10 @@ import { AccountType } from "./Header";
 
 export type HeaderAuthenticatedServerProps = {
   accounts?: AccountType[];
-  errorCode?: string;
 };
 
 const HeaderAuthenticatedServer = ({
   accounts,
-  errorCode,
 }: HeaderAuthenticatedServerProps) => {
   const translator = useTranslations("HomePageAuthenticated");
   const translations = getTranslationsObject(
@@ -21,7 +19,6 @@ const HeaderAuthenticatedServer = ({
   return (
     <HeaderAuthenticatedClient
       accounts={accounts}
-      errorCode={errorCode}
       labels={translations.Header}
     />
   );
