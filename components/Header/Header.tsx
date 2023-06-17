@@ -1,33 +1,48 @@
+import humps from "humps";
 import { cookies } from "next/headers";
 import HeaderAuthenticatedServer from "./HeaderAuthenticatedServer";
 import {
-  ENDPOINT_USER_DETAILS,
+  ENDPOINT_GET_ACCOUNTS,
   ERROR_CODE_INVALID_ACCESS_TOKEN,
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import AccessTokenRefresher from "../AccessTokenRefresher/AccessTokenRefresher";
 
-const fetchUserDetails = async (accessToken: string) => {
-  let userDetails, errorCode;
+export type AccountType = {
+  type: "personal" | "business";
+  username: string;
+  displayName: string;
+  initial: string;
+  ownerEmail: string;
+};
+
+const fetchAccounts = async (accessToken: string) => {
+  let accountsResponse, errorCode;
 
   try {
-    userDetails = await fetchWithAuthentication({
-      endpoint: ENDPOINT_USER_DETAILS,
+    accountsResponse = await fetchWithAuthentication({
+      endpoint: ENDPOINT_GET_ACCOUNTS,
       accessToken,
     });
   } catch (error) {
     errorCode = (error as Error).message;
   }
 
-  return { userDetails, errorCode };
+  let accounts;
+
+  if (accountsResponse) {
+    accounts = humps.camelizeKeys(accountsResponse.results) as AccountType[];
+  }
+
+  return { accounts, errorCode };
 };
 
 const Header = async () => {
-  const accessToken = cookies().get("accessToken");
+  const accessTokenCookie = cookies().get("accessToken");
 
-  if (accessToken) {
-    const { userDetails, errorCode } = await fetchUserDetails(
-      accessToken.value
+  if (accessTokenCookie) {
+    const { accounts, errorCode } = await fetchAccounts(
+      accessTokenCookie.value
     );
 
     if (errorCode === ERROR_CODE_INVALID_ACCESS_TOKEN) {
@@ -36,14 +51,14 @@ const Header = async () => {
 
     return (
       <HeaderAuthenticatedServer
-        userDetails={userDetails}
+        accounts={accounts}
         errorCode={errorCode}
       />
     );
   }
 
   // No access token: we are not unauthenticated.
-  // <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
+  // NB: <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
   return null;
 };
 

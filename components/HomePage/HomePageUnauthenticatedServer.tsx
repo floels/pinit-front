@@ -3,16 +3,14 @@ import HomePageUnauthenticatedClient from "./HomePageUnauthenticatedClient";
 import { getTranslationsObject } from "@/lib/utils/i18n";
 
 const HomePageUnauthenticatedServer = () => {
-  const componentTranslator = useTranslations("HomePageUnauthenticated");
+  const translator = useTranslations("HomePageUnauthenticated");
   const componentTranslations = getTranslationsObject(
     "HomePageUnauthenticated",
-    componentTranslator
+    translator
   );
-
-  const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
     "Common",
-    commonsTranslator
+    translator
   );
 
   return (

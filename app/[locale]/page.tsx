@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import HomePageUnauthenticatedServer from "@/components/HomePage/HomePageUnauthenticatedServer";
 import HomePageAuthenticatedServer from "@/components/HomePage/HomePageAuthenticatedServer";
-import { ENDPOINT_PIN_SUGGESTIONS } from "@/lib/constants";
+import { ENDPOINT_GET_PIN_SUGGESTIONS } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 
 const fetchInitialPinSuggestions = async (accessToken: string) => {
@@ -9,14 +9,29 @@ const fetchInitialPinSuggestions = async (accessToken: string) => {
 
   try {
     pinSuggestionsResponse = await fetchWithAuthentication({
-      endpoint: ENDPOINT_PIN_SUGGESTIONS,
+      endpoint: ENDPOINT_GET_PIN_SUGGESTIONS,
       accessToken,
     });
   } catch (error) {
     // TODO: handle error case
   }
 
-  return pinSuggestionsResponse.result;
+  if (pinSuggestionsResponse) {
+    return getPinSuggestionsWithCamelizedKeys(pinSuggestionsResponse);
+  }
+
+  return [];
+};
+
+const getPinSuggestionsWithCamelizedKeys = (pinSuggestionsResponse: { results: any[] }) => {
+  return pinSuggestionsResponse.results.map((pinSuggestion) => ({
+    id: pinSuggestion.id,
+    imageURL: pinSuggestion.image_url,
+    title: pinSuggestion.title,
+    description: pinSuggestion.description,
+    authorUsername: pinSuggestion.author.user_name,
+    authorDisplayName: pinSuggestion.author.display_name,
+  }));
 };
 
 const HomePage = async () => {
