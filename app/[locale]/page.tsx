@@ -1,16 +1,31 @@
 import { cookies } from "next/headers";
 import HomePageUnauthenticatedServer from "@/components/HomePage/HomePageUnauthenticatedServer";
 import HomePageAuthenticatedServer from "@/components/HomePage/HomePageAuthenticatedServer";
+import { ENDPOINT_PIN_SUGGESTIONS } from "@/lib/constants";
+import { fetchWithAuthentication } from "@/lib/utils/fetch";
 
-const HomePage = () => {
-  const accessToken = cookies().get("accessToken");
+const fetchInitialPinSuggestions = async (accessToken: string) => {
+  let pinSuggestionsResponse;
 
-  if (accessToken) {
-    {/* https://beta.nextjs.org/docs/data-fetching/fetching#asyncawait-in-server-components */}
-    {/* An async Server Components will cause a 'Promise<Element>' is not a valid JSX element type error where it is used.
-      This is a known issue with TypeScript and is being worked on upstream. */}
-    {/* @ts-expect-error Async Server Component */}
-    return <HomePageAuthenticatedServer accessToken={accessToken.value} />;
+  try {
+    pinSuggestionsResponse = await fetchWithAuthentication({
+      endpoint: ENDPOINT_PIN_SUGGESTIONS,
+      accessToken,
+    });
+  } catch (error) {
+    // TODO: handle error case
+  }
+
+  return pinSuggestionsResponse.result;
+};
+
+const HomePage = async () => {
+  const accessTokenCookie = cookies().get("accessToken");
+
+  if (accessTokenCookie) {
+    const initialPinSuggestions = await fetchInitialPinSuggestions(accessTokenCookie.value);
+    
+    return <HomePageAuthenticatedServer initialPinSuggestions={initialPinSuggestions} />;
   }
 
   return <HomePageUnauthenticatedServer />;
