@@ -16,6 +16,14 @@ type Props = {
   params: { locale: string };
 };
 
+export const metadata = {
+  title: "PinIt",
+  description: "Welcome to PinIt!",
+  icons: {
+    icon: "/images/favicon.ico",
+  }
+};
+
 const Layout = ({ children, params }: Props) => {
   const locale = useLocale();
 
@@ -26,12 +34,6 @@ const Layout = ({ children, params }: Props) => {
 
   return (
     <html lang={locale}>
-      <head>
-        <meta charSet="UTF-8" />
-        <title>PinIt</title>
-        <meta name="description" content="Welcome to PinIt!" />
-        <link rel="icon" href="/images/favicon.ico" type="image/x-icon"></link>
-      </head>
       <body>
         {/* https://beta.nextjs.org/docs/data-fetching/fetching#asyncawait-in-server-components */}
         {/* An async Server Components will cause a 'Promise<Element>' is not a valid JSX element type error where it is used.

@@ -36,13 +36,13 @@ const getPinSuggestionsWithCamelizedKeys = (pinSuggestionsResponseData: { result
 const HomePage = async () => {
   const accessTokenCookie = cookies().get("accessToken");
 
-  if (accessTokenCookie) {
-    const initialPinSuggestions = await fetchInitialPinSuggestions(accessTokenCookie.value);
-    
-    return <HomePageAuthenticatedServer initialPinSuggestions={initialPinSuggestions} />;
+  if (!accessTokenCookie) {
+    return <HomePageUnauthenticatedServer />;
   }
 
-  return <HomePageUnauthenticatedServer />;
+  const initialPinSuggestions = await fetchInitialPinSuggestions(accessTokenCookie.value);
+  
+  return <HomePageAuthenticatedServer initialPinSuggestions={initialPinSuggestions} />;
 };
 
 export default HomePage;

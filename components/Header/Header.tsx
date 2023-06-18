@@ -16,34 +16,33 @@ export type AccountType = {
 const Header = async () => {
   const accessTokenCookie = cookies().get("accessToken");
 
-  if (accessTokenCookie) {
-    const accessToken = accessTokenCookie.value;
-
-    const accountsResponse = await fetchWithAuthentication({
-      endpoint: ENDPOINT_GET_ACCOUNTS,
-      accessToken,
-    });
-
-    let accounts;
-
-    if (accountsResponse.ok) {
-      const accountsResponseData = await accountsResponse.json();
-  
-      accounts = humps.camelizeKeys(accountsResponseData.results) as AccountType[];
-
-      return <HeaderAuthenticatedServer accounts={accounts} />;
-    }
-    
-    if (accountsResponse.status === 401) {
-      return <AccessTokenRefresher />;
-    }
-
-    throw new Error("Unexpected response status received when calling GET /accounts/");
+  if (!accessTokenCookie) {
+    // No access token: we are not unauthenticated.
+    // <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
+    // So here we just return null.
+    return null;
   }
 
-  // No access token: we are not unauthenticated.
-  // NB: <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
-  return null;
+  const accessToken = accessTokenCookie.value;
+
+  const accountsResponse = await fetchWithAuthentication({
+    endpoint: ENDPOINT_GET_ACCOUNTS,
+    accessToken,
+  });
+
+  if (accountsResponse.ok) {
+    const accountsResponseData = await accountsResponse.json();
+
+    const accounts = humps.camelizeKeys(accountsResponseData.results) as AccountType[];
+
+    return <HeaderAuthenticatedServer accounts={accounts} />;
+  }
+  
+  if (accountsResponse.status === 401) {
+    return <AccessTokenRefresher />;
+  }
+
+  throw new Error("Unexpected response status received when calling GET /accounts/");
 };
 
 export default Header;
