@@ -1,49 +1,48 @@
+import humps from "humps";
 import { cookies } from "next/headers";
 import HeaderAuthenticatedServer from "./HeaderAuthenticatedServer";
-import {
-  ENDPOINT_USER_DETAILS,
-  ERROR_CODE_INVALID_ACCESS_TOKEN,
-} from "@/lib/constants";
+import { ENDPOINT_GET_ACCOUNTS } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import AccessTokenRefresher from "../AccessTokenRefresher/AccessTokenRefresher";
 
-const fetchUserDetails = async (accessToken: string) => {
-  let userDetails, errorCode;
-
-  try {
-    userDetails = await fetchWithAuthentication({
-      endpoint: ENDPOINT_USER_DETAILS,
-      accessToken,
-    });
-  } catch (error) {
-    errorCode = (error as Error).message;
-  }
-
-  return { userDetails, errorCode };
+export type AccountType = {
+  type: "personal" | "business";
+  username: string;
+  displayName: string;
+  initial: string;
+  ownerEmail: string;
 };
 
 const Header = async () => {
-  const accessToken = cookies().get("accessToken");
+  const accessTokenCookie = cookies().get("accessToken");
 
-  if (accessToken) {
-    const { userDetails, errorCode } = await fetchUserDetails(
-      accessToken.value
-    );
+  if (accessTokenCookie) {
+    const accessToken = accessTokenCookie.value;
 
-    if (errorCode === ERROR_CODE_INVALID_ACCESS_TOKEN) {
+    const accountsResponse = await fetchWithAuthentication({
+      endpoint: ENDPOINT_GET_ACCOUNTS,
+      accessToken,
+    });
+
+    let accounts;
+
+    if (accountsResponse.ok) {
+      const accountsResponseData = await accountsResponse.json();
+  
+      accounts = humps.camelizeKeys(accountsResponseData.results) as AccountType[];
+
+      return <HeaderAuthenticatedServer accounts={accounts} />;
+    }
+    
+    if (accountsResponse.status === 401) {
       return <AccessTokenRefresher />;
     }
 
-    return (
-      <HeaderAuthenticatedServer
-        userDetails={userDetails}
-        errorCode={errorCode}
-      />
-    );
+    throw new Error("Unexpected response status received when calling GET /accounts/");
   }
 
   // No access token: we are not unauthenticated.
-  // <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
+  // NB: <HeaderUnauthenticated /> will be rendered by <HomePageUnauthenticated /> (more convenient to have both in the same component to handle scrolling effect)
   return null;
 };
 

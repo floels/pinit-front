@@ -10,17 +10,14 @@ import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticatedClient.module.css";
-import { UserDetails } from "./HeaderAuthenticatedServer";
+import { HeaderAuthenticatedServerProps } from "./HeaderAuthenticatedServer";
 
-type HeaderAuthenticatedClientProps = {
-  userDetails?: UserDetails;
-  errorCode?: string;
+type HeaderAuthenticatedClientProps = HeaderAuthenticatedServerProps & {
   labels: { [key: string]: any };
 };
 
 const HeaderAuthenticatedClient = ({
-  userDetails,
-  errorCode,
+  accounts,
   labels,
 }: HeaderAuthenticatedClientProps) => {
   const currentPathname = usePathname();

@@ -1,3 +1,16 @@
 .container {
-    display: grid;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.grid {
+    column-gap: 0;
+}
+
+.pinSuggestion {
+    display: inline-block;
+    width: 236px;
+    break-inside: avoid;
+    margin: 0 8px 16px;
 }

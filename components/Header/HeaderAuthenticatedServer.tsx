@@ -1,22 +1,14 @@
 import { useTranslations } from "next-intl";
 import HeaderAuthenticatedClient from "./HeaderAuthenticatedClient";
 import { getTranslationsObject } from "@/lib/utils/i18n";
+import { AccountType } from "./Header";
 
-export type UserDetails = {
-  email: string;
-  initial: string;
-  firstName: string;
-  lastName: string;
-};
-
-type HeaderAuthenticatedServerProps = {
-  userDetails?: UserDetails;
-  errorCode?: string;
+export type HeaderAuthenticatedServerProps = {
+  accounts?: AccountType[];
 };
 
 const HeaderAuthenticatedServer = ({
-  userDetails,
-  errorCode,
+  accounts,
 }: HeaderAuthenticatedServerProps) => {
   const translator = useTranslations("HomePageAuthenticated");
   const translations = getTranslationsObject(
@@ -26,8 +18,7 @@ const HeaderAuthenticatedServer = ({
 
   return (
     <HeaderAuthenticatedClient
-      userDetails={userDetails}
-      errorCode={errorCode}
+      accounts={accounts}
       labels={translations.Header}
     />
   );

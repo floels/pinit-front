@@ -1,22 +1,36 @@
 import { cookies } from "next/headers";
 import HomePageUnauthenticatedServer from "@/components/HomePage/HomePageUnauthenticatedServer";
 import HomePageAuthenticatedServer from "@/components/HomePage/HomePageAuthenticatedServer";
-import { ENDPOINT_PIN_SUGGESTIONS } from "@/lib/constants";
+import { ENDPOINT_GET_PIN_SUGGESTIONS } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 
 const fetchInitialPinSuggestions = async (accessToken: string) => {
   let pinSuggestionsResponse;
 
-  try {
-    pinSuggestionsResponse = await fetchWithAuthentication({
-      endpoint: ENDPOINT_PIN_SUGGESTIONS,
-      accessToken,
-    });
-  } catch (error) {
-    // TODO: handle error case
+  // TODO: handle fetch fail
+  pinSuggestionsResponse = await fetchWithAuthentication({
+    endpoint: ENDPOINT_GET_PIN_SUGGESTIONS,
+    accessToken,
+  });
+
+  if (pinSuggestionsResponse.ok) {
+    const pinSuggestionsResponseData = await pinSuggestionsResponse.json();
+
+    return getPinSuggestionsWithCamelizedKeys(pinSuggestionsResponseData);
   }
 
-  return pinSuggestionsResponse.result;
+  return [];
+};
+
+const getPinSuggestionsWithCamelizedKeys = (pinSuggestionsResponseData: { results: any[] }) => {
+  return pinSuggestionsResponseData.results.map((pinSuggestion) => ({
+    id: pinSuggestion.id,
+    imageURL: pinSuggestion.image_url,
+    title: pinSuggestion.title,
+    description: pinSuggestion.description,
+    authorUsername: pinSuggestion.author.user_name,
+    authorDisplayName: pinSuggestion.author.display_name,
+  }));
 };
 
 const HomePage = async () => {

@@ -1,6 +1,11 @@
 import _ from "lodash";
 import en from "@/messages/en.json";
 
+/**
+ * @param namespace A top-level namespace within the translations JSON files (`en.json` etc.), e.g. "HomePageAuthenticated".
+ * @param translator A translator function returned by `useTranslations` method of next-intl.
+ * @returns A POJO with the keys of the `namespace` translated with `translator`.
+ */
 export const getTranslationsObject = (
   namespace: string,
   translator: (key: string) => string
