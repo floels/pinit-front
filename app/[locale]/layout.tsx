@@ -7,6 +7,9 @@ config.autoAddCss = false;
 import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 
+// https://fkhadra.github.io/react-toastify/installation#the-gist
+import 'react-toastify/dist/ReactToastify.css';
+
 import "@/styles/globals.css";
 
 type Props = {

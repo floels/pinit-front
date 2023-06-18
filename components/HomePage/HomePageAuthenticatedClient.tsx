@@ -65,7 +65,9 @@ const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }
       observer.observe(scrolledToBottomSentinel.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, [currentEndpointPage]);
 
   const viewportWidth = useViewportWidth();

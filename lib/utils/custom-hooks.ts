@@ -13,7 +13,9 @@ export const useViewportWidth = () => {
     // Call handler right away so state gets updated with initial window width
     handleResize();
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return width;

@@ -2,17 +2,17 @@ import userEvent from "@testing-library/user-event";
 import { render, screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedClient from "./HeaderAuthenticatedClient";
-import { TypesOfAccount } from "@/app/[locale]/page";
+import { AccountType } from "@/app/[locale]/page";
 
 const labels = en.HomePageAuthenticated.Header;
 
 const accounts = [{
-  type: TypesOfAccount.PERSONAL,
+  type: "personal",
   username: "johndoe",
   displayName: "John Doe",
   initial: "J",
   ownerEmail: "john.doe@example.com",
-}];
+}] as AccountType[];
 
 describe("HeaderAuthenticated", () => {
   it("should have the proper interactivity", async () => {
