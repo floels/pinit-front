@@ -2,7 +2,11 @@ import { useTranslations } from "next-intl";
 import HomePageUnauthenticatedClient from "./HomePageUnauthenticatedClient";
 import { getTranslationsObject } from "@/lib/utils/i18n";
 
-const HomePageUnauthenticatedServer = () => {
+export type HomePageUnauthenticatedServerProps = {
+  errorCode?: string;
+};
+
+const HomePageUnauthenticatedServer = ({ errorCode }: HomePageUnauthenticatedServerProps) => {
   const translator = useTranslations("HomePageUnauthenticated");
   const componentTranslations = getTranslationsObject(
     "HomePageUnauthenticated",
@@ -15,6 +19,7 @@ const HomePageUnauthenticatedServer = () => {
 
   return (
     <HomePageUnauthenticatedClient
+      errorCode={errorCode}
       labels={{
         component: componentTranslations,
         commons: commonsTranslations,

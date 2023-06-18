@@ -7,8 +7,6 @@ config.autoAddCss = false;
 import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 
-import Header from "@/components/Header/Header";
-
 import "@/styles/globals.css";
 
 type Props = {
@@ -35,11 +33,6 @@ const Layout = ({ children, params }: Props) => {
   return (
     <html lang={locale}>
       <body>
-        {/* https://beta.nextjs.org/docs/data-fetching/fetching#asyncawait-in-server-components */}
-        {/* An async Server Components will cause a 'Promise<Element>' is not a valid JSX element type error where it is used.
-          This is a known issue with TypeScript and is being worked on upstream. */}
-        {/* @ts-expect-error Async Server Component */}
-        <Header />
         {children}
       </body>
     </html>

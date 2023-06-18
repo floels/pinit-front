@@ -7,8 +7,11 @@ import { useRef, useState, useEffect } from "react";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import { ENDPOINT_GET_PIN_SUGGESTIONS } from "@/lib/constants";
 import Cookies from "js-cookie";
+import { AccountType } from "@/app/[locale]/page";
+import HeaderAuthenticatedClient from "../Header/HeaderAuthenticatedClient";
 
 type HomePageAuthenticatedClientProps = {
+  accounts: AccountType[];
   initialPinSuggestions: PinSuggestionType[];
   labels: { [key: string]: any };
 };
@@ -24,7 +27,7 @@ const getNumberOfColumns = (viewportWidth: number = 0) => {
   return boundedNumberOfColumns;
 };
 
-const HomePageAuthenticatedClient = ({ initialPinSuggestions, labels }: HomePageAuthenticatedClientProps) => {
+const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }: HomePageAuthenticatedClientProps) => {
   const scrolledToBottomSentinel = useRef(null);
   
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
@@ -70,16 +73,19 @@ const HomePageAuthenticatedClient = ({ initialPinSuggestions, labels }: HomePage
   const gridWidthPx = numberOfColumns * GRID_COLUMN_WIDTH_WITH_MARGINS_PX;
 
   return (
-    <main className={styles.container}>
-      <div className={styles.grid} style={{ columnCount: numberOfColumns, width: `${gridWidthPx}px` }}>
-        {pinSuggestions.map((pinSuggestion) => (
-          <div className={styles.pinSuggestion} key={pinSuggestion.id}>
-            <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
-          </div>
-        ))}
-      </div>
-      <div ref={scrolledToBottomSentinel}></div>
-    </main>
+    <div>
+      <HeaderAuthenticatedClient accounts={accounts} labels={labels.Header} />
+      <main className={styles.container}>
+        <div className={styles.grid} style={{ columnCount: numberOfColumns, width: `${gridWidthPx}px` }}>
+          {pinSuggestions.map((pinSuggestion) => (
+            <div className={styles.pinSuggestion} key={pinSuggestion.id}>
+              <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
+            </div>
+          ))}
+        </div>
+        <div ref={scrolledToBottomSentinel}></div>
+      </main>
+    </div>
   );
 };
 

@@ -10,9 +10,10 @@ import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticatedClient.module.css";
-import { HeaderAuthenticatedServerProps } from "./HeaderAuthenticatedServer";
+import { AccountType } from "@/app/[locale]/page";
 
-type HeaderAuthenticatedClientProps = HeaderAuthenticatedServerProps & {
+type HeaderAuthenticatedClientProps = {
+  accounts: AccountType[];
   labels: { [key: string]: any };
 };
 

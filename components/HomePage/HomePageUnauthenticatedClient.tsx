@@ -7,8 +7,9 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import styles from "./HomePageUnauthenticatedClient.module.css";
+import { HomePageUnauthenticatedServerProps } from "./HomePageUnauthenticatedServer";
 
-type HomePageUnauthenticatedClientProps = {
+type HomePageUnauthenticatedClientProps = HomePageUnauthenticatedServerProps & {
   labels: {
     component: { [key: string]: any };
     commons: { [key: string]: string };
@@ -18,8 +19,12 @@ type HomePageUnauthenticatedClientProps = {
 const NUMBER_FOLDS = 2;
 
 const HomePageUnauthenticatedClient = ({
+  errorCode,
   labels,
 }: HomePageUnauthenticatedClientProps) => {
+  // TODO: replace with toast display
+  console.log(`Error code: ${errorCode}`);
+
   const [currentFold, setCurrentFold] = useState(1);
 
   const handleMouseWheel = (event: WheelEvent) => {
