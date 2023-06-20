@@ -7,13 +7,22 @@ config.autoAddCss = false;
 import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 
-import Header from "@/components/Header/Header";
+// https://fkhadra.github.io/react-toastify/installation#the-gist
+import 'react-toastify/dist/ReactToastify.css';
 
 import "@/styles/globals.css";
 
 type Props = {
   children: React.ReactNode;
   params: { locale: string };
+};
+
+export const metadata = {
+  title: "PinIt",
+  description: "Welcome to PinIt!",
+  icons: {
+    icon: "/images/favicon.ico",
+  }
 };
 
 const Layout = ({ children, params }: Props) => {
@@ -26,18 +35,7 @@ const Layout = ({ children, params }: Props) => {
 
   return (
     <html lang={locale}>
-      <head>
-        <meta charSet="UTF-8" />
-        <title>PinIt</title>
-        <meta name="description" content="Welcome to PinIt!" />
-        <link rel="icon" href="/images/favicon.ico" type="image/x-icon"></link>
-      </head>
       <body>
-        {/* https://beta.nextjs.org/docs/data-fetching/fetching#asyncawait-in-server-components */}
-        {/* An async Server Components will cause a 'Promise<Element>' is not a valid JSX element type error where it is used.
-          This is a known issue with TypeScript and is being worked on upstream. */}
-        {/* @ts-expect-error Async Server Component */}
-        <Header />
         {children}
       </body>
     </html>

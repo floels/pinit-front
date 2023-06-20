@@ -14,4 +14,6 @@ export const ERROR_CODE_EMAIL_ALREADY_SIGNED_UP = "email_already_signed_up";
 
 // Frontend-only error codes
 export const ERROR_CODE_FETCH_FAILED = "fetch_failed";
+export const ERROR_CODE_UNEXPECTED_SERVER_RESPONSE =
+  "unexpected_server_response";
 export const ERROR_CODE_REFRESH_TOKEN_FAILED = "refresh_token_failed";

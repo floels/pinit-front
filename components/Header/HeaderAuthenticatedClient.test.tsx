@@ -2,22 +2,24 @@ import userEvent from "@testing-library/user-event";
 import { render, screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedClient from "./HeaderAuthenticatedClient";
+import { AccountType } from "@/app/[locale]/page";
 
 const labels = en.HomePageAuthenticated.Header;
 
-const userDetails = {
-  email: "john.doe@example.com",
+const accounts = [{
+  type: "personal",
+  username: "johndoe",
+  displayName: "John Doe",
   initial: "J",
-  firstName: "John",
-  lastName: "Doe",
-};
+  ownerEmail: "john.doe@example.com",
+}] as AccountType[];
 
 describe("HeaderAuthenticated", () => {
   it("should have the proper interactivity", async () => {
     const user = userEvent.setup();
 
     render(
-      <HeaderAuthenticatedClient userDetails={userDetails} labels={labels} />
+      <HeaderAuthenticatedClient accounts={accounts} labels={labels} />
     );
 
     const createButton = screen.getByText(labels.CREATE);

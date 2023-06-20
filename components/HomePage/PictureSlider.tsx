@@ -70,7 +70,9 @@ const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
     }, TIMER_TIME_STEP_MS);
 
     // Stop the timer when the component unmounts
-    return () => clearInterval(timerId);
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
   const moveToStep = (newStep: number) => {
