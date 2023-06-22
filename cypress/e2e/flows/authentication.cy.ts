@@ -2,24 +2,68 @@ import { EMAIL_ADDRESS, PASSWORD } from "../../fixtures/authentication";
 import { API_BASE_URL } from "../../../lib/constants";
 import en from "../../../messages/en.json";
 
+const configureAPIResponses = () => {
+  cy.request({
+    method: "POST",
+    url: `${API_BASE_URL}/token/obtain/configure`,
+    body: {
+      mockStatusCode: 200,
+      mockBody: {
+        access_token: "mock_access_token",
+        refresh_token: "mock_refresh_token",
+      },
+    },
+  });
+
+  cy.request({
+    method: "POST",
+    url: `${API_BASE_URL}/accounts/configure`,
+    body: {
+      mockStatusCode: 200,
+      mockBody: {
+        results: [
+          {
+            type: "personal",
+            username: "johndoe",
+            display_name: "John Doe",
+            initial: "J",
+            owner_email: "john.doe@example.com",
+          },
+        ],
+      },
+    },
+  });
+
+  cy.request({
+    method: "POST",
+    url: `${API_BASE_URL}/pin-suggestions/configure`,
+    body: {
+      mockStatusCode: 200,
+      mockBody: {
+        results: [
+          {
+            id: "1234",
+            image_url: "https://some.url",
+            title: "",
+            description: "",
+            author: {
+              username: "johndoe",
+              display_name: "John Doe",
+            },
+          },
+        ],
+      },
+    },
+  });
+};
+
 describe("Authentication", () => {
   beforeEach(() => {
     cy.clearCookies();
   });
 
   it("should be able to log in and then log out", () => {
-    // Configure mock API response
-    cy.request({
-      method: "POST",
-      url: `${API_BASE_URL}/token/configure`,
-      body: {
-        mockStatusCode: 200,
-        mockBody: {
-          access_token: "mock_access_token",
-          refresh_token: "mock_refresh_token",
-        },
-      },
-    });
+    configureAPIResponses();
 
     cy.visit("/");
     cy.wait(1000); // needed to guarantee page has become interactive

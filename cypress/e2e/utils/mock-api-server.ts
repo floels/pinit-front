@@ -18,7 +18,9 @@ const mockResponses: Map<string, MockResponse> = new Map();
 app.post("/*/configure", (request: Request, response: Response) => {
   const endpoint = request.path.replace("configure", "");
   mockResponses.set(endpoint, request.body);
-  response.status(200).send(`Mock response configured for ${endpoint}`);
+  const responseMessage = `Mock response configured for ${endpoint}`;
+  console.log(responseMessage);
+  response.status(200).send(responseMessage);
 });
 
 app.all("*", (request: Request, response: Response) => {
