@@ -7,7 +7,7 @@ const labels = en.HomePageUnauthenticated;
 describe("Home page", () => {
   it("should display the unauthenticated homepage as expected", () => {
     cy.visit("/");
-    cy.wait(1000); // needed to guarantee page has become interactive
+    cy.wait(5000); // needed to guarantee page has become interactive
 
     cy.contains(labels.PictureSlider.GET_YOUR_NEXT).should("be.visible");
     cy.contains(labels.PictureSlider.HEADER_FOOD).should("be.visible");

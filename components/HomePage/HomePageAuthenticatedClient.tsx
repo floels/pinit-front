@@ -18,7 +18,7 @@ type HomePageAuthenticatedClientProps = {
 
 const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set width of 236px and side margins of 8px
 
-const getNumberOfColumns = (viewportWidth: number = 0) => {
+const getNumberOfColumns = (viewportWidth: number) => {
   const theoreticalNumberOfColumns = Math.floor(viewportWidth / GRID_COLUMN_WIDTH_WITH_MARGINS_PX);
 
   // We force the number of columns to be between 2 and 6:
@@ -71,20 +71,29 @@ const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }
   }, [currentEndpointPage]);
 
   const viewportWidth = useViewportWidth();
-  const numberOfColumns = getNumberOfColumns(viewportWidth);
-  const gridWidthPx = numberOfColumns * GRID_COLUMN_WIDTH_WITH_MARGINS_PX;
+
+  let numberOfColumns, gridWidthPx;
+
+  // `viewportWidth` will be `undefined` on initial render.
+  // We handle this case aside in order to avoid a flash of content with the wrong number of columns.
+  if (viewportWidth) {
+    numberOfColumns = getNumberOfColumns(viewportWidth);
+    gridWidthPx = numberOfColumns * GRID_COLUMN_WIDTH_WITH_MARGINS_PX;
+  }
 
   return (
     <div>
       <HeaderAuthenticatedClient accounts={accounts} labels={labels.Header} />
       <main className={styles.container}>
-        <div className={styles.grid} style={{ columnCount: numberOfColumns, width: `${gridWidthPx}px` }}>
-          {pinSuggestions.map((pinSuggestion) => (
-            <div className={styles.pinSuggestion} key={pinSuggestion.id}>
-              <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
-            </div>
-          ))}
-        </div>
+        {numberOfColumns &&
+          <div className={styles.grid} style={{ columnCount: numberOfColumns, width: `${gridWidthPx}px` }}>
+            {pinSuggestions.map((pinSuggestion) => (
+              <div className={styles.pinSuggestion} key={pinSuggestion.id}>
+                <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
+              </div>
+            ))}
+          </div>
+        }
         <div ref={scrolledToBottomSentinel}></div>
       </main>
     </div>

@@ -66,7 +66,7 @@ describe("Authentication", () => {
     configureAPIResponses();
 
     cy.visit("/");
-    cy.wait(1000); // needed to guarantee page has become interactive
+    cy.wait(5000); // needed to guarantee page has become interactive
 
     cy.contains(en.HomePageUnauthenticated.Header.LOG_IN).click();
 
