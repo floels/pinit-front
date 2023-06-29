@@ -85,7 +85,7 @@ const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }
     <div>
       <HeaderAuthenticatedClient accounts={accounts} labels={labels.Header} />
       <main className={styles.container}>
-        {numberOfColumns &&
+        {numberOfColumns && // As mentioned above, `numberOfColumns` will be undefined on initial render
           <div className={styles.grid} style={{ columnCount: numberOfColumns, width: `${gridWidthPx}px` }}>
             {pinSuggestions.map((pinSuggestion) => (
               <div className={styles.pinSuggestion} key={pinSuggestion.id}>
