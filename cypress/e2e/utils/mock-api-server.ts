@@ -28,14 +28,11 @@ app.all("*", (request: Request, response: Response) => {
   if (mockResponse) {
     response.status(mockResponse.mockStatusCode).json(mockResponse.mockBody);
   } else {
+    console.log(
+      `Warning: path "${request.path}" was not properly configured before being called.`
+    );
     response.sendStatus(404);
   }
 });
 
-const port = 8000;
-app.listen(port, (error) => {
-  if (error) {
-    console.log(`Error starting server: ${error}`);
-  }
-  console.log(`Mock API server is running on port ${port}`);
-});
+app.listen(8000);

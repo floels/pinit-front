@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { render, screen } from "@testing-library/react";
 import { NextIntlProvider } from "next-intl";
 import fetchMock from "jest-fetch-mock";
