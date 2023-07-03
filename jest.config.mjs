@@ -7,9 +7,7 @@ const createJestConfig = nextJest({
 
 /** @type {import('jest').Config} */
 const config = {
-  // https://github.com/jefflau/jest-fetch-mock#to-setup-for-all-tests
-  setupFiles: ["./setupJest.js"],
-  testEnvironment: "jest-environment-jsdom",
+  preset: "jest-puppeteer",
   collectCoverage: true,
   coverageDirectory: "<rootDir>/coverage/jest",
   coverageReporters: ["json"],
