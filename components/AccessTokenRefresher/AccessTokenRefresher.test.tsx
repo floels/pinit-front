@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { render, waitFor } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import defaultMockRouter, { MemoryRouter } from "next-router-mock";

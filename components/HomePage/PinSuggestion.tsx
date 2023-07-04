@@ -22,7 +22,7 @@ const PinSuggestion = ({ pinSuggestion, labels }: PinSuggestionProps) => {
                 src={pinSuggestion.imageURL}
                 className={styles.image}
             />
-            {pinSuggestion.title && <div className={styles.title}>{pinSuggestion.title}</div>}
+            {pinSuggestion.title && <div className={styles.title}>{pinSuggestion.   title}</div>}
         </div>
     );
 };

@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import userEvent from "@testing-library/user-event";
 import { render, screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
