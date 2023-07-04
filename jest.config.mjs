@@ -9,7 +9,7 @@ const createJestConfig = nextJest({
 const config = {
   preset: "jest-puppeteer",
   collectCoverage: true,
-  coverageDirectory: "<rootDir>/coverage/jest",
+  coverageDirectory: "<rootDir>/coverage",
   coverageReporters: ["json"],
 };
 

@@ -28,39 +28,16 @@ jobs:
       - name: Start development server (for E2E tests)
         run: yarn dev &
 
-      - name: Start mock API server (for E2E tests)
-        run: yarn mock-api &
-
       - name: Lint
         run: yarn lint
-
-      - name: Run component tests
-        run: yarn jest
 
       - name: Wait for development server to be up
         run: yarn wait-on http://localhost:3000
 
-      - name: Run E2E tests
-        run: yarn cypress run --browser chrome
-
-      - name: Archive Cypress screenshots
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots/
-
-      - name: Archive Cypress videos
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-videos
-          path: cypress/videos/
-
-      - name: Generate coverage report
-        run: yarn coverage-report
+      - name: Run tests
+        run: yarn jest --coverage
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: coverage/merged-coverage.json
+          files: coverage/coverage-final.json
