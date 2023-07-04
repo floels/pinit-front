@@ -4,7 +4,7 @@
 
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import fetchMock from "jest-fetch-mock";
+import fetchMock, { enableFetchMocks } from "jest-fetch-mock";
 import LoginForm from "./LoginForm";
 import en from "@/messages/en.json";
 
@@ -13,6 +13,9 @@ const labels = {
   component: COMPONENT_LABELS,
   commons: en.Common,
 };
+
+// https://github.com/jefflau/jest-fetch-mock#to-setup-for-an-individual-test
+enableFetchMocks();
 
 const setIsLoading = jest.fn();
 const onClickNoAccountYet = () => {}; // this behavior will be tested in <HomePageUnauthenticated />

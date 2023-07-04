@@ -2,14 +2,17 @@
  * @jest-environment jsdom
  */
 
+import fetchMock, { enableFetchMocks } from "jest-fetch-mock";
 import { render, waitFor } from "@testing-library/react";
-import fetchMock from "jest-fetch-mock";
 import defaultMockRouter, { MemoryRouter } from "next-router-mock";
 import AccessTokenRefresher from "./AccessTokenRefresher";
 
 type MockedRouter = MemoryRouter & {
   refresh?: jest.MockedFunction<any>;
 };
+
+// https://github.com/jefflau/jest-fetch-mock#to-setup-for-an-individual-test
+enableFetchMocks();
 
 // See https://www.npmjs.com/package/next-router-mock#jest-example
 jest.mock("next/navigation", () => require("next-router-mock"));
