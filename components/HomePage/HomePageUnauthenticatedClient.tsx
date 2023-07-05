@@ -56,7 +56,7 @@ const HomePageUnauthenticatedClient = ({
     if (errorCode === ERROR_CODE_FETCH_FAILED) {
       toast.warn(labels.commons.CONNECTION_ERROR);
     }
-  }, [errorCode]);
+  }, [errorCode, labels]);
 
   return (
     <main className={styles.container}>
