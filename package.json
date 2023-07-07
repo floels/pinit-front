@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.4",
+    "@playwright/test": "^1.35.1",
     "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
