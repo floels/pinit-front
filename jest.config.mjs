@@ -10,9 +10,7 @@ const config = {
   // https://github.com/jefflau/jest-fetch-mock#to-setup-for-all-tests
   setupFiles: ["./setupJest.js"],
   testEnvironment: "jest-environment-jsdom",
-  collectCoverage: true,
-  coverageDirectory: "<rootDir>/coverage/jest",
-  coverageReporters: ["json"],
+  testPathIgnorePatterns: ["<rootDir>/e2e-tests/"],
 };
 
 export default createJestConfig(config);
