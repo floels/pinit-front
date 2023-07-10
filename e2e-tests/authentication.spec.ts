@@ -1,8 +1,8 @@
-import { test, expect, Page } from "@playwright/test";
+import { test } from "@playwright/test";
 import { Request, Response, Express } from "express";
 import { Server } from "http";
 import en from "@/messages/en.json";
-import { PORT_MOCK_API_SERVER, getExpressApp } from "./utils";
+import { PORT_MOCK_API_SERVER, getExpressApp, checkCookieValue } from "./utils";
 
 const EMAIL_FIXTURE = "john.doe@example.com";
 const PASSWORD_FIXTURE = "Pa$$w0rd";
@@ -11,17 +11,14 @@ let mockAPIApp: Express;
 let mockAPIServer: Server;
 
 const configureAPIResponses = () => {
-  mockAPIApp.post(
-    "/api/token/obtain/",
-    (request: Request, response: Response) => {
-      response.json({
-        access_token: "mock_access_token",
-        refresh_token: "mock_refresh_token",
-      });
-    }
-  );
+  mockAPIApp.post("/api/token/obtain/", (_, response: Response) => {
+    response.json({
+      access_token: "mock_access_token",
+      refresh_token: "mock_refresh_token",
+    });
+  });
 
-  mockAPIApp.get("/api/accounts/", (request: Request, response: Response) => {
+  mockAPIApp.get("/api/accounts/", (_, response: Response) => {
     response.json({
       results: [
         {
@@ -66,24 +63,7 @@ const launchMockAPIServer = () => {
   mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER);
 };
 
-const checkCookieValue = async (
-  page: Page,
-  cookieName: string,
-  expectedValue: string | null
-) => {
-  const cookie = await page
-    .context()
-    .cookies()
-    .then((cookies) => cookies.find((cookie) => cookie.name === cookieName));
-
-  if (expectedValue) {
-    expect(cookie?.value).toBe(expectedValue);
-  } else {
-    expect(cookie).toBeUndefined();
-  }
-};
-
-test("Can log in and then log out", async ({ page }) => {
+test("Should be able to log in and then log out", async ({ page }) => {
   launchMockAPIServer();
 
   // Visit home page and log in
