@@ -56,15 +56,17 @@ const configureAPIResponses = () => {
 };
 
 const launchMockAPIServer = () => {
-  mockAPIApp = getExpressApp();
+  return new Promise<void>((resolve) => {
+    mockAPIApp = getExpressApp();
 
-  configureAPIResponses();
+    configureAPIResponses();
 
-  mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER);
+    mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER, resolve);
+  });
 };
 
 test("Should be able to log in and then log out", async ({ page }) => {
-  launchMockAPIServer();
+  await launchMockAPIServer();
 
   // Visit home page and log in
   await page.goto("/");
