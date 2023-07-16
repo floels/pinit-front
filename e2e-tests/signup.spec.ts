@@ -21,15 +21,17 @@ const configureAPIResponses = () => {
 };
 
 const launchMockAPIServer = () => {
-  mockAPIApp = getExpressApp();
+  return new Promise<void>((resolve) => {
+    mockAPIApp = getExpressApp();
 
-  configureAPIResponses();
+    configureAPIResponses();
 
-  mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER);
+    mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER, resolve);
+  });
 };
 
 test("Should be able to sign up", async ({ page }) => {
-  launchMockAPIServer();
+  await launchMockAPIServer();
 
   await page.goto("/");
 
