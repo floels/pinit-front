@@ -1,7 +1,7 @@
 import humps from "humps";
 import { cookies } from "next/headers";
 import HomePageUnauthenticatedServer from "@/components/HomePage/HomePageUnauthenticatedServer";
-import HomePageAuthenticatedServer from "@/components/HomePage/HomePageAuthenticatedServer";
+import HomePageAuthenticatedServer from "@/components/HomePageAuthenticated/HomePageAuthenticatedServer";
 import { ENDPOINT_GET_ACCOUNTS, ENDPOINT_GET_PIN_SUGGESTIONS, ERROR_CODE_FETCH_FAILED, ERROR_CODE_UNEXPECTED_SERVER_RESPONSE } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
