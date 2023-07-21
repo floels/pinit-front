@@ -40,7 +40,7 @@ describe("LoginForm", () => {
       JSON.stringify({
         access_token: "accessToken",
         refresh_token: "refreshToken",
-      })
+      }),
     );
 
     render(loginForm);
@@ -68,7 +68,7 @@ describe("LoginForm", () => {
     // Fix password input:
     await user.type(passwordInput, "w0rd");
     expect(
-      screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT)
+      screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT),
     ).toBeNull();
 
     // Submit with correct inputs:
@@ -92,7 +92,7 @@ describe("LoginForm", () => {
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_email" }] }),
-      { status: 401 }
+      { status: 401 },
     );
     await user.click(submitButton);
 
@@ -100,7 +100,7 @@ describe("LoginForm", () => {
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_password" }] }),
-      { status: 401 }
+      { status: 401 },
     );
     await user.type(passwordInput, "IsWr0ng");
     await user.click(submitButton);

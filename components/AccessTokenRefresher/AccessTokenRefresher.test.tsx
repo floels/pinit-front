@@ -23,7 +23,7 @@ const Cookies = require("js-cookie");
 describe("AccessTokenRefresh", () => {
   it("should refresh the current route when receiving a 200 OK response from token refresh endpoint", async () => {
     fetchMock.mockResponseOnce(
-      JSON.stringify({ access_token: "refreshedAccessToken" })
+      JSON.stringify({ access_token: "refreshedAccessToken" }),
     );
 
     mockedRouter.refresh = jest.fn();
@@ -42,7 +42,7 @@ describe("AccessTokenRefresh", () => {
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_refresh_token" }] }),
-      { status: 401 }
+      { status: 401 },
     );
 
     render(<AccessTokenRefresher />);

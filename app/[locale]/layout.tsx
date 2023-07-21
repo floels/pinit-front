@@ -8,7 +8,7 @@ import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 
 // https://fkhadra.github.io/react-toastify/installation#the-gist
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 import "@/styles/globals.css";
 
@@ -22,7 +22,7 @@ export const metadata = {
   description: "Welcome to PinIt!",
   icons: {
     icon: "/images/favicon.ico",
-  }
+  },
 };
 
 const Layout = ({ children, params }: Props) => {
@@ -35,9 +35,7 @@ const Layout = ({ children, params }: Props) => {
 
   return (
     <html lang={locale}>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 };

@@ -7,7 +7,12 @@ import PictureSliderPicture from "./PictureSliderPicture";
 
 type TopicsType = "FOOD" | "HOME" | "OUTFIT" | "GARDENING";
 
-export const PICTURE_SLIDER_TOPICS: TopicsType[] = ["FOOD", "HOME", "OUTFIT", "GARDENING"];
+export const PICTURE_SLIDER_TOPICS: TopicsType[] = [
+  "FOOD",
+  "HOME",
+  "OUTFIT",
+  "GARDENING",
+];
 
 type TopicColorsType = {
   FOOD: string;
@@ -118,7 +123,7 @@ const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
                   style={{
                     color: TOPIC_COLORS[topic],
                     transform: `translateY(${computeHeaderTranslatePx(
-                      index
+                      index,
                     )}px)`,
                   }}
                 >
@@ -152,63 +157,103 @@ const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
           {PICTURE_SLIDER_TOPICS.map((topic, index) => {
             const partialPictureProps = { ...state, topicIndex: index };
 
-            return (<div
+            return (
+              <div
                 key={`pictures-container-${topic.toLowerCase()}`}
                 className={styles.topicPicturesContainer}
               >
                 <div className={styles.picturesColumn}>
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={0} />
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={1} />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={0}
+                  />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={1}
+                  />
                 </div>
                 <div
                   className={styles.picturesColumn}
                   style={{ paddingTop: 120 }}
                 >
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={2} />
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={3} />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={2}
+                  />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={3}
+                  />
                 </div>
                 <div
                   className={styles.picturesColumn}
                   style={{ paddingTop: 200 }}
                 >
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={4} />
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={5} />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={4}
+                  />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={5}
+                  />
                 </div>
                 <div
                   className={styles.picturesColumn}
                   style={{ paddingTop: 360 }}
                 >
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={6} />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={6}
+                  />
                 </div>
                 <div
                   className={styles.picturesColumn}
                   style={{ paddingTop: 200 }}
                 >
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={7} />
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={8} />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={7}
+                  />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={8}
+                  />
                 </div>
                 <div
                   className={styles.picturesColumn}
                   style={{ paddingTop: 120 }}
                 >
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={9} />
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={10} />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={9}
+                  />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={10}
+                  />
                 </div>
                 <div className={styles.picturesColumn}>
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={11} />
-                  <PictureSliderPicture {...partialPictureProps} imageIndex={12} />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={11}
+                  />
+                  <PictureSliderPicture
+                    {...partialPictureProps}
+                    imageIndex={12}
+                  />
                 </div>
               </div>
             );
-          }
-        )}
+          })}
         </div>
       </div>
       <div className={styles.footerCarretAndBlur}>
         <div
           className={styles.carret}
           style={{
-            backgroundColor: TOPIC_COLORS[PICTURE_SLIDER_TOPICS[state.currentStep - 1]],
+            backgroundColor:
+              TOPIC_COLORS[PICTURE_SLIDER_TOPICS[state.currentStep - 1]],
           }}
           onClick={onClickSeeBelow}
           data-testid="picture-slider-carret"

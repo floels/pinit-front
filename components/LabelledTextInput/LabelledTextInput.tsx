@@ -36,7 +36,7 @@ const LabelledTextInput = React.forwardRef<
       withPasswordShowIcon,
       ...otherInputProps
     },
-    inputRef
+    inputRef,
   ) => {
     const displayPasswordShowIcon = type === "password" && withPasswordShowIcon;
 
@@ -83,7 +83,7 @@ const LabelledTextInput = React.forwardRef<
         )}
       </div>
     );
-  }
+  },
 );
 
 LabelledTextInput.displayName = "LabelledTextInput";

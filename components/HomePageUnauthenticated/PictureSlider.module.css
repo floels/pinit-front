@@ -46,7 +46,9 @@ because then the header text is displayed on two lines instead of one. */
 .topicHeader {
   text-align: center;
   opacity: 0;
-  transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+  transition:
+    opacity 0.7s ease-in-out,
+    transform 0.7s ease-in-out;
   position: absolute;
   width: 100%;
   margin: 0;

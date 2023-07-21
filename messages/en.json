@@ -53,6 +53,11 @@
       "EXPLORE": "Explore",
       "EASY_CHICKEN_DINNER": "easy chicken dinner",
       "SIGN_UP_TO_GET_IDEAS": "Sign up to get your ideas"
+    },
+    "ThirdFold": {
+      "SAVE_IDEAS": "Save ideas you like",
+      "COLLECT_FAVORITES": "Collect your favorites so you can get back to them later.",
+      "EXPLORE": "Explore"
     }
   },
   "HomePageAuthenticated": {

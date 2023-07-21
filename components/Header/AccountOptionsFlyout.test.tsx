@@ -8,15 +8,20 @@ const labels = en.HomePageAuthenticated.Header.AccountOptionsFlyout;
 const handleClickLogOut = jest.fn();
 
 describe("AccountOptionsFlyout", () => {
-    it("should call handleClickLogOut when user clicks on 'Log out'", async () => {
-        const user = userEvent.setup();
+  it("should call handleClickLogOut when user clicks on 'Log out'", async () => {
+    const user = userEvent.setup();
 
-        render(<AccountOptionsFlyout handleClickLogOut={handleClickLogOut} labels={labels} />);
+    render(
+      <AccountOptionsFlyout
+        handleClickLogOut={handleClickLogOut}
+        labels={labels}
+      />,
+    );
 
-        const logOutElement = screen.getByText(labels.LOG_OUT);
+    const logOutElement = screen.getByText(labels.LOG_OUT);
 
-        await user.click(logOutElement);
+    await user.click(logOutElement);
 
-        expect(handleClickLogOut).toHaveBeenCalledTimes(1);
-    });
+    expect(handleClickLogOut).toHaveBeenCalledTimes(1);
+  });
 });

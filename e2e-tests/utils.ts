@@ -16,7 +16,7 @@ export const getExpressApp = () => {
 export const checkCookieValue = async (
   page: Page,
   cookieName: string,
-  expectedValue: string | null
+  expectedValue: string | null,
 ) => {
   const cookie = await page
     .context()

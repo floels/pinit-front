@@ -5,19 +5,27 @@ import { getTranslationsObject } from "@/lib/utils/i18n";
 import { AccountType } from "@/app/[locale]/page";
 
 type HomePageAuthenticatedServerProps = {
-    accounts: AccountType[];
-    initialPinSuggestions: PinSuggestionType[];
+  accounts: AccountType[];
+  initialPinSuggestions: PinSuggestionType[];
 };
 
-const HomePageAuthenticatedServer = ({ accounts, initialPinSuggestions }: HomePageAuthenticatedServerProps) => {
-    const translator = useTranslations("HomePageAuthenticated");
-    const translations = getTranslationsObject("HomePageAuthenticated", translator);
+const HomePageAuthenticatedServer = ({
+  accounts,
+  initialPinSuggestions,
+}: HomePageAuthenticatedServerProps) => {
+  const translator = useTranslations("HomePageAuthenticated");
+  const translations = getTranslationsObject(
+    "HomePageAuthenticated",
+    translator,
+  );
 
-    return <HomePageAuthenticatedClient
-        accounts={accounts}
-        initialPinSuggestions={initialPinSuggestions}
-        labels={translations}
-    />;
+  return (
+    <HomePageAuthenticatedClient
+      accounts={accounts}
+      initialPinSuggestions={initialPinSuggestions}
+      labels={translations}
+    />
+  );
 };
 
 export default HomePageAuthenticatedServer;
