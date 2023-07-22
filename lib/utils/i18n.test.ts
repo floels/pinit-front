@@ -26,7 +26,7 @@ describe("getTranslationsObjectFromDefaultTranslations function", () => {
     const result = getTranslationsObjectFromDefaultTranslations(
       defaultTranslations,
       namespace,
-      dummyTranslator
+      dummyTranslator,
     );
 
     expect(result).toEqual(expectedResult);

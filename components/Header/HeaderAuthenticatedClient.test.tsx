@@ -6,21 +6,21 @@ import { AccountType } from "@/app/[locale]/page";
 
 const labels = en.HomePageAuthenticated.Header;
 
-const accounts = [{
-  type: "personal",
-  username: "johndoe",
-  displayName: "John Doe",
-  initial: "J",
-  ownerEmail: "john.doe@example.com",
-}] as AccountType[];
+const accounts = [
+  {
+    type: "personal",
+    username: "johndoe",
+    displayName: "John Doe",
+    initial: "J",
+    ownerEmail: "john.doe@example.com",
+  },
+] as AccountType[];
 
 describe("HeaderAuthenticated", () => {
   it("should have the proper interactivity", async () => {
     const user = userEvent.setup();
 
-    render(
-      <HeaderAuthenticatedClient accounts={accounts} labels={labels} />
-    );
+    render(<HeaderAuthenticatedClient accounts={accounts} labels={labels} />);
 
     const createButton = screen.getByText(labels.CREATE);
     const searchBar = screen.getByPlaceholderText(labels.PLACEHOLDER_SEARCH);

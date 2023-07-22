@@ -13,9 +13,7 @@ const AccountOptionsFlyout = React.forwardRef<
   return (
     <div ref={ref} className={styles.container}>
       <div>
-        <div className={styles.sectionHeader}>
-          {labels.MORE_OPTIONS}
-        </div>
+        <div className={styles.sectionHeader}>{labels.MORE_OPTIONS}</div>
         <div onClick={handleClickLogOut} className={styles.sectionItem}>
           {labels.LOG_OUT}
         </div>

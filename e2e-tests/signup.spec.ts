@@ -42,12 +42,12 @@ test("Should be able to sign up", async ({ page }) => {
   await page.fill("input[name='birthdate']", BIRTHDATE_FIXTURE);
 
   await page.click(
-    `text=${en.HomePageUnauthenticated.Header.SignupForm.CONTINUE}`
+    `text=${en.HomePageUnauthenticated.Header.SignupForm.CONTINUE}`,
   );
 
   // We should land on authenticated homepage
   await page.waitForSelector(
-    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`
+    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
   );
 
   // Check presence of authentication cookies

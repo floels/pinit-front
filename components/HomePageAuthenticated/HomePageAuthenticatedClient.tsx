@@ -19,17 +19,26 @@ type HomePageAuthenticatedClientProps = {
 const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set width of 236px and side margins of 8px
 
 const getNumberOfColumns = (viewportWidth: number) => {
-  const theoreticalNumberOfColumns = Math.floor(viewportWidth / GRID_COLUMN_WIDTH_WITH_MARGINS_PX);
+  const theoreticalNumberOfColumns = Math.floor(
+    viewportWidth / GRID_COLUMN_WIDTH_WITH_MARGINS_PX,
+  );
 
   // We force the number of columns to be between 2 and 6:
-  const boundedNumberOfColumns = Math.min(Math.max(theoreticalNumberOfColumns, 2), 6);
+  const boundedNumberOfColumns = Math.min(
+    Math.max(theoreticalNumberOfColumns, 2),
+    6,
+  );
 
   return boundedNumberOfColumns;
 };
 
-const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }: HomePageAuthenticatedClientProps) => {
+const HomePageAuthenticatedClient = ({
+  accounts,
+  initialPinSuggestions,
+  labels,
+}: HomePageAuthenticatedClientProps) => {
   const scrolledToBottomSentinel = useRef(null);
-  
+
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pinSuggestions, setPinSuggestions] = useState(initialPinSuggestions);
 
@@ -37,28 +46,34 @@ const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }
     const getNextPinSuggestions = async () => {
       const nextEndpointPage = currentEndpointPage + 1;
       const accessToken = Cookies.get("accessToken") as string;
-  
+
       // TODO: handle fetch fail
       const newPinSuggestionsResponse = await fetchWithAuthentication({
         endpoint: `${ENDPOINT_GET_PIN_SUGGESTIONS}?page=${nextEndpointPage}`,
-        accessToken
+        accessToken,
       });
-  
+
       if (newPinSuggestionsResponse.ok) {
-        const newPinSuggestionsResponseData = await newPinSuggestionsResponse.json();
-    
-        setPinSuggestions(pinSuggestions => [...pinSuggestions, ...newPinSuggestionsResponseData.results]);
-        setCurrentEndpointPage(currentEndpointPage => currentEndpointPage + 1);
+        const newPinSuggestionsResponseData =
+          await newPinSuggestionsResponse.json();
+
+        setPinSuggestions((pinSuggestions) => [
+          ...pinSuggestions,
+          ...newPinSuggestionsResponseData.results,
+        ]);
+        setCurrentEndpointPage(
+          (currentEndpointPage) => currentEndpointPage + 1,
+        );
       }
     };
 
     const observer = new IntersectionObserver(
-      entries => {
+      (entries) => {
         if (entries[0].isIntersecting) {
           getNextPinSuggestions();
         }
       },
-      { threshold: 1.0 }
+      { threshold: 1.0 },
     );
 
     if (scrolledToBottomSentinel.current) {
@@ -85,7 +100,7 @@ const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }
     <div>
       <HeaderAuthenticatedClient accounts={accounts} labels={labels.Header} />
       <main className={styles.container}>
-        {numberOfColumns && // As mentioned above, `numberOfColumns` will be undefined on initial render
+        {numberOfColumns && ( // As mentioned above, `numberOfColumns` will be undefined on initial render
           <div
             className={styles.grid}
             style={{ columnCount: numberOfColumns, width: `${gridWidthPx}px` }}
@@ -93,11 +108,11 @@ const HomePageAuthenticatedClient = ({ accounts, initialPinSuggestions, labels }
           >
             {pinSuggestions.map((pinSuggestion) => (
               <div className={styles.pinSuggestion} key={pinSuggestion.id}>
-                <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
+                <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
               </div>
             ))}
           </div>
-        }
+        )}
         <div ref={scrolledToBottomSentinel}></div>
       </main>
     </div>

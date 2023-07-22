@@ -2,12 +2,24 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./SecondFold.module.css";
+import TextAndLink from "./TextAndLink";
 
 type SecondFoldProps = {
   labels: { [key: string]: any };
 };
 
 const SecondFold = ({ labels }: SecondFoldProps) => {
+  const textAndLinkLabels = {
+    header: labels.SEARCH_FOR_AN_IDEA,
+    paragraph: labels.WHAT_DO_YOU_WANT_TO_TRY_NEXT,
+    link: labels.EXPLORE,
+  };
+
+  const textAndLinkColors = {
+    primary: "--color-purple-dark",
+    secondary: "--color-yellow",
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.picturesArea}>
@@ -58,17 +70,11 @@ const SecondFold = ({ labels }: SecondFoldProps) => {
         </div>
       </div>
       <div className={styles.textArea}>
-        <div className={styles.textContainer}>
-          <div className={styles.header}>
-            {labels.SEARCH_FOR_AN_IDEA}
-          </div>
-          <div className={styles.paragraph}>
-            {labels.WHAT_DO_YOU_WANT_TO_TRY_NEXT}
-          </div>
-          <a href="#" className={styles.exploreLink}>
-            {labels.EXPLORE}
-          </a>
-        </div>
+        <TextAndLink
+          labels={textAndLinkLabels}
+          linkTarget="#"
+          colors={textAndLinkColors}
+        />
       </div>
     </div>
   );

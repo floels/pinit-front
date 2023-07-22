@@ -8,13 +8,13 @@ import en from "@/messages/en.json";
  */
 export const getTranslationsObject = (
   namespace: string,
-  translator: (key: string) => string
+  translator: (key: string) => string,
 ) => getTranslationsObjectFromDefaultTranslations(en, namespace, translator);
 
 export const getTranslationsObjectFromDefaultTranslations = (
   defaultTranslations: {},
   namespace: string,
-  translator: (key: string) => string
+  translator: (key: string) => string,
 ) => {
   const namespacedDefaultTranslations = _.get(defaultTranslations, namespace);
 
@@ -26,7 +26,7 @@ export const getTranslationsObjectFromDefaultTranslations = (
     namespacedDefaultTranslations,
     translator,
     translationsObject,
-    currentPath
+    currentPath,
   );
 
   return translationsObject;
@@ -36,7 +36,7 @@ const recursivelyBuildTranslationsObject = (
   defaultTranslations: {},
   translator: (key: string) => string,
   currentTranslationsObject: {},
-  currentPath: string
+  currentPath: string,
 ) => {
   const currentPathObjectOrString = currentPath
     ? _.get(defaultTranslations, currentPath)
@@ -50,7 +50,7 @@ const recursivelyBuildTranslationsObject = (
         defaultTranslations,
         translator,
         currentTranslationsObject,
-        oneLevelDownPath
+        oneLevelDownPath,
       );
     }
   } else {

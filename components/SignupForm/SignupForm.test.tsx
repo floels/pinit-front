@@ -40,7 +40,7 @@ describe("SignupForm", () => {
     const user = userEvent.setup();
 
     fetchMock.mockResponseOnce(
-      JSON.stringify({ access: "access", refresh: "refresh" })
+      JSON.stringify({ access: "access", refresh: "refresh" }),
     );
 
     render(signupForm);
@@ -69,14 +69,14 @@ describe("SignupForm", () => {
     // Fix password input but not birthdate:
     await user.type(passwordInput, "w0rd");
     expect(
-      screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT)
+      screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT),
     ).toBeNull();
     screen.getByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT);
 
     // Fix birthdate ipnut:
     await user.type(birthdateInput, "1970-01-01");
     expect(
-      screen.queryByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT)
+      screen.queryByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT),
     ).toBeNull();
 
     // Submit with correct inputs:
@@ -102,7 +102,7 @@ describe("SignupForm", () => {
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_email" }] }),
-      { status: 400 }
+      { status: 400 },
     );
     await user.click(submitButton);
 
@@ -110,7 +110,7 @@ describe("SignupForm", () => {
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_password" }] }),
-      { status: 400 }
+      { status: 400 },
     );
     await user.type(passwordInput, "IsWr0ng");
     await user.click(submitButton);
@@ -119,7 +119,7 @@ describe("SignupForm", () => {
 
     fetchMock.mockResponseOnce(
       JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
-      { status: 400 }
+      { status: 400 },
     );
     await user.type(passwordInput, "IsNowRight");
     await user.click(submitButton);

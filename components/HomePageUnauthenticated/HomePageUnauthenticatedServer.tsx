@@ -6,17 +6,19 @@ export type HomePageUnauthenticatedServerProps = {
   errorCode?: string;
 };
 
-const HomePageUnauthenticatedServer = ({ errorCode }: HomePageUnauthenticatedServerProps) => {
+const HomePageUnauthenticatedServer = ({
+  errorCode,
+}: HomePageUnauthenticatedServerProps) => {
   const componentTranslator = useTranslations("HomePageUnauthenticated");
   const componentTranslations = getTranslationsObject(
     "HomePageUnauthenticated",
-    componentTranslator
+    componentTranslator,
   );
 
   const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
     "Common",
-    commonsTranslator
+    commonsTranslator,
   );
 
   return (
