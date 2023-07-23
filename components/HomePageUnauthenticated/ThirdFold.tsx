@@ -26,7 +26,15 @@ const ThirdFold = ({ labels }: ThirdFoldProps) => {
           colors={textAndLinkColors}
         />
       </div>
-      <div className={styles.picturesArea}></div>
+      <div className={styles.picturesArea}>
+        <div className={styles.picturesContainer}>
+          <div className={styles.pictureTopLeftContainer}></div>
+          <div className={styles.pictureTopRightContainer}></div>
+          <div className={styles.pictureMiddleRightContainer}></div>
+          <div className={styles.pictureBottomLeftContainer}></div>
+          <div className={styles.pictureBottomRightContainer}></div>
+        </div>
+      </div>
     </div>
   );
 };
