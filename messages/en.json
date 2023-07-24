@@ -57,7 +57,12 @@
     "ThirdFold": {
       "SAVE_IDEAS": "Save ideas you like",
       "COLLECT_FAVORITES": "Collect your favorites so you can get back to them later.",
-      "EXPLORE": "Explore"
+      "EXPLORE": "Explore",
+      "FUTURE_HOME_VIBES": "Fern future home vibes",
+      "SCANDINAVIAN_BEDROOM": "My Scandinavian bedroom",
+      "DECK_OF_MY_DREAMS": "The deck of my dreams",
+      "SERVE_DRINKS": "Serve my drinks in style",
+      "BATHROOM_UPGRADE": "Our bathroom upgrade"
     }
   },
   "HomePageAuthenticated": {
