@@ -45,8 +45,30 @@ const ThirdFold = ({ labels }: ThirdFoldProps) => {
               >
                 {labels.FUTURE_HOME_VIBES}
               </div>
+              <div className={styles.smallPicturesContainer}>
+                <Image
+                  src="https://s.pinimg.com/webapp/future-home1-f4037b6b.png"
+                  alt={labels.FUTURE_HOME_VIBES}
+                  width={90}
+                  height={130}
+                  className={styles.smallPicture}
+                />
+                <Image
+                  src="https://s.pinimg.com/webapp/future-home2-c70a8738.png"
+                  alt={labels.FUTURE_HOME_VIBES}
+                  width={90}
+                  height={130}
+                  className={styles.smallPicture}
+                />
+                <Image
+                  src="https://s.pinimg.com/webapp/future-home3-ac09e50f.png"
+                  alt={labels.FUTURE_HOME_VIBES}
+                  width={90}
+                  height={130}
+                  className={styles.smallPicture}
+                />
+              </div>
             </div>
-            <div className={styles.smallPicturesContainer}></div>
           </div>
           <div className={styles.pictureTopRightContainer}>
             <Image
