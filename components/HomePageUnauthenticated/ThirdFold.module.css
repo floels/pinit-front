@@ -84,6 +84,14 @@
   padding: 40px;
 }
 
+.smallPicturesContainer {
+  display: flex;
+}
+
+.smallPicture {
+  margin: 0 4px;
+}
+
 .topRightPictureOverlay {
   padding: 24px;
 }
@@ -107,6 +115,7 @@
 
 .topLeftPictureOverlayText {
   font-size: 56px;
+  margin-bottom: 4px;
 }
 
 .topRightPictureOverlayText {
