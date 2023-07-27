@@ -9,6 +9,7 @@ import { HomePageUnauthenticatedServerProps } from "./HomePageUnauthenticatedSer
 import { ERROR_CODE_FETCH_FAILED } from "@/lib/constants";
 import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
+import FourthFold from "./FourthFold";
 
 type HomePageUnauthenticatedClientProps = HomePageUnauthenticatedServerProps & {
   labels: {
@@ -17,7 +18,7 @@ type HomePageUnauthenticatedClientProps = HomePageUnauthenticatedServerProps & {
   };
 };
 
-const NUMBER_FOLDS = 3;
+const NUMBER_FOLDS = 4;
 const SCROLLING_DEBOUNCING_TIME_MS = 1500;
 
 const HomePageUnauthenticatedClient = ({
@@ -93,6 +94,7 @@ const HomePageUnauthenticatedClient = ({
         </div>
         <SecondFold labels={labels.component.SecondFold} />
         <ThirdFold labels={labels.component.ThirdFold} />
+        <FourthFold labels={labels.component.FourthFold} />
       </div>
     </main>
   );

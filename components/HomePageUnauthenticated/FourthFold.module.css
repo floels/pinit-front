@@ -1,0 +1,21 @@
+.container {
+  height: 100vh;
+  background-color: var(--color-pink);
+  display: flex;
+  justify-content: flex-end;
+  /* ^- so that the text on the right pushes the pictures out to the left of the screen on small-width viewports */
+  align-items: center;
+}
+
+.picturesArea {
+  flex-grow: 1;
+}
+
+.textArea {
+  width: 50%;
+  min-width: 400px;
+  display: flex;
+  justify-content: center;
+  padding: 0 40px;
+  box-sizing: border-box;
+}

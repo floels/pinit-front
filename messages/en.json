@@ -48,21 +48,26 @@
       "HOW_IT_WORKS": "Here's how it works"
     },
     "SecondFold": {
-      "SEARCH_FOR_AN_IDEA": "Search for an idea",
-      "WHAT_DO_YOU_WANT_TO_TRY_NEXT": "What do you want to try next? Think of something you’re into—like “easy chicken dinner”—and see what you find.",
-      "EXPLORE": "Explore",
+      "HEADER": "Search for an idea",
+      "PARAGRAPH": "What do you want to try next? Think of something you’re into—like “easy chicken dinner”—and see what you find.",
+      "LINK": "Explore",
       "EASY_CHICKEN_DINNER": "easy chicken dinner",
       "SIGN_UP_TO_GET_IDEAS": "Sign up to get your ideas"
     },
     "ThirdFold": {
-      "SAVE_IDEAS": "Save ideas you like",
-      "COLLECT_FAVORITES": "Collect your favorites so you can get back to them later.",
-      "EXPLORE": "Explore",
+      "HEADER": "Save ideas you like",
+      "PARAGRAPH": "Collect your favorites so you can get back to them later.",
+      "LINK": "Explore",
       "FUTURE_HOME_VIBES": "Fern future home vibes",
       "SCANDINAVIAN_BEDROOM": "My Scandinavian bedroom",
       "DECK_OF_MY_DREAMS": "The deck of my dreams",
       "SERVE_DRINKS": "Serve my drinks in style",
       "BATHROOM_UPGRADE": "Our bathroom upgrade"
+    },
+    "FourthFold": {
+      "HEADER": "See it, make it, try it, do it",
+      "PARAGRAPH": "The best part of Pinterest is discovering new things and ideas from people around the world.",
+      "LINK": "Explore"
     }
   },
   "HomePageAuthenticated": {

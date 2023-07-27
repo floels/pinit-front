@@ -8,9 +8,9 @@ type ThirdFoldProps = {
 
 const ThirdFold = ({ labels }: ThirdFoldProps) => {
   const textAndLinkLabels = {
-    header: labels.SAVE_IDEAS,
-    paragraph: labels.COLLECT_FAVORITES,
-    link: labels.EXPLORE,
+    header: labels.HEADER,
+    paragraph: labels.PARAGRAPH,
+    link: labels.LINK,
   };
 
   const textAndLinkColors = {
