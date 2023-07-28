@@ -1,6 +1,8 @@
 :root {
   --color-red: #e60023;
   --color-red-dark: #ad081b;
+  --color-red-fiery: rgb(195, 47, 0);
+  --color-pink: rgb(255, 226, 235);
   --color-purple-dark: rgb(195, 25, 82);
   --color-yellow: rgb(255, 253, 146);
   --color-green-minty: rgb(218, 255, 246);

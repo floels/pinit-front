@@ -10,9 +10,9 @@ type SecondFoldProps = {
 
 const SecondFold = ({ labels }: SecondFoldProps) => {
   const textAndLinkLabels = {
-    header: labels.SEARCH_FOR_AN_IDEA,
-    paragraph: labels.WHAT_DO_YOU_WANT_TO_TRY_NEXT,
-    link: labels.EXPLORE,
+    header: labels.HEADER,
+    paragraph: labels.PARAGRAPH,
+    link: labels.LINK,
   };
 
   const textAndLinkColors = {
