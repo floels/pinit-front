@@ -9,6 +9,49 @@
 
 .picturesArea {
   flex-grow: 1;
+  position: relative; /* necessary to hold the <Image /> child element */
+  height: 100%; /* necessary for the <Image /> child element to have the right height */
+}
+
+.coverPicture {
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.picturesOverlay {
+  position: absolute;
+  bottom: 96px;
+  left: 84px;
+  cursor: pointer;
+}
+
+.secondaryPicture {
+  border-radius: 18px;
+}
+
+.thumbnailPicture {
+  position: absolute;
+  left: -36px;
+  bottom: 4px;
+}
+
+.secondaryPictureText {
+  margin-left: 48px;
+  margin-top: 4px;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: var(--color-white);
+  font-size: var(--font-size-300);
+}
+
+.secondaryPictureTextTitle {
+  font-weight: var(--font-weight-semibold);
+}
+
+.secondaryPictureTextSubtitle {
+  font-weight: var(--font-weight-normal);
 }
 
 .textArea {

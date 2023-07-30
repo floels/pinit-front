@@ -67,7 +67,12 @@
     "FourthFold": {
       "HEADER": "See it, make it, try it, do it",
       "PARAGRAPH": "The best part of Pinterest is discovering new things and ideas from people around the world.",
-      "LINK": "Explore"
+      "LINK": "Explore",
+      "LIP_SHADE_PICTURE_ALT": "lip shade image",
+      "EYE_SHADE_PICTURE_ALT": "eye shade image",
+      "SECONDARY_PICTURE_TEXT_TITLE": "Scout the City",
+      "SECONDARY_PICTURE_TEXT_SUBTITLE": "56.7k followers",
+      "CREATOR_THUMBNAIL_PICTURE": "creator thumbnail picture"
     }
   },
   "HomePageAuthenticated": {
