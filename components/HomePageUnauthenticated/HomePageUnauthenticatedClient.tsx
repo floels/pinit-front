@@ -26,7 +26,8 @@ const HomePageUnauthenticatedClient = ({
   labels,
 }: HomePageUnauthenticatedClientProps) => {
   const [currentFold, setCurrentFold] = useState(1);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [isScrollingUp, setIsScrollingUp] = useState(false);
 
   const handleClickHeroSeeBelow = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
@@ -34,26 +35,33 @@ const HomePageUnauthenticatedClient = ({
 
   useEffect(() => {
     const handleMouseWheel = (event: WheelEvent) => {
-      if (isScrolling) {
-        // We are already scrolling => do nothing (= debouncing)
-        return;
-      }
-
       let newFold = currentFold;
 
-      if (event.deltaY > 0 && currentFold !== NUMBER_FOLDS) {
-        newFold = currentFold + 1;
-      } else if (event.deltaY < 0 && currentFold > 1) {
-        newFold = currentFold - 1;
+      if (event.deltaY > 0) {
+        // scroll down event
+        if (currentFold !== NUMBER_FOLDS && !isScrollingDown) {
+          // change current fold only if we are not at the last fold and we are not already scrolling down (= debouncing)
+          newFold = currentFold + 1;
+
+          setIsScrollingDown(true);
+          setTimeout(() => {
+            setIsScrollingDown(false);
+          }, SCROLLING_DEBOUNCING_TIME_MS);
+        }
+      } else if (event.deltaY < 0) {
+        // scroll up event: same logic
+        if (currentFold > 1 && !isScrollingUp) {
+          newFold = currentFold - 1;
+
+          setIsScrollingUp(true);
+          setTimeout(() => {
+            setIsScrollingUp(false);
+          }, SCROLLING_DEBOUNCING_TIME_MS);
+        }
       }
 
       if (newFold !== currentFold) {
         setCurrentFold(newFold);
-
-        setIsScrolling(true);
-        setTimeout(() => {
-          setIsScrolling(false);
-        }, SCROLLING_DEBOUNCING_TIME_MS);
       }
     };
 
@@ -62,7 +70,7 @@ const HomePageUnauthenticatedClient = ({
     return () => {
       document.removeEventListener("wheel", handleMouseWheel);
     };
-  }, [currentFold, isScrolling]);
+  }, [currentFold, isScrollingDown, isScrollingUp]);
 
   useEffect(() => {
     if (errorCode === ERROR_CODE_FETCH_FAILED) {
