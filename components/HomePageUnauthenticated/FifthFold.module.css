@@ -1,0 +1,22 @@
+.container {
+  height: 100vh;
+}
+
+.main {
+  height: 95vh;
+}
+
+.picturesBackground {
+  display: flex;
+}
+
+.backgroundPicture {
+  display: block;
+  object-fit: cover;
+  border-radius: 16px;
+  margin: 16px 8px;
+}
+
+.footer {
+  height: 5vh;
+}

@@ -73,6 +73,9 @@
       "SECONDARY_PICTURE_TEXT_TITLE": "Scout the City",
       "SECONDARY_PICTURE_TEXT_SUBTITLE": "56.7k followers",
       "CREATOR_THUMBNAIL_PICTURE": "creator thumbnail picture"
+    },
+    "FifthFold": {
+      "PICTURE_FOOD_ALT": "food"
     }
   },
   "HomePageAuthenticated": {
