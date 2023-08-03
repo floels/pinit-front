@@ -24,7 +24,7 @@ export type AccountType = {
   ownerEmail: string;
 };
 
-// Data fetching design implement below was inspired by:
+// Data fetching design implemented below was inspired by:
 // https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#parallel-data-fetching
 
 const fetchData = async (accessToken: string) => {
@@ -35,7 +35,7 @@ const fetchData = async (accessToken: string) => {
     ]);
 
   const [fetchAccountsData, fetchInitialPinSuggestionsData] = await Promise.all(
-    [fetchAccountsResponse.json(), fetchInitialPinSuggestionsResponse.json()],
+    [fetchAccountsResponse.json(), fetchInitialPinSuggestionsResponse.json()]
   );
 
   return {
@@ -97,7 +97,7 @@ const HomePage = async () => {
     if (fetchAccountsResponse.ok && fetchInitialPinSuggestionsResponse.ok) {
       const accounts = getAccountsWithCamelizedKeys(fetchAccountsData);
       const initialPinSuggestions = getPinSuggestionsWithCamelizedKeys(
-        fetchInitialPinSuggestionsData,
+        fetchInitialPinSuggestionsData
       );
 
       return (
