@@ -54,23 +54,23 @@ const FifthFold = ({ labels }: FifthFoldProps) => {
     <div className={styles.container}>
       <div className={styles.main}>
         <div className={styles.picturesBackground}>
-          <div className={styles.picturesColumn}>
+          <div>
             <BackgroundPicture pictureIndex={0} alt={labels.PICTURE_FOOD_ALT} />
             <BackgroundPicture pictureIndex={1} alt={labels.PICTURE_FOOD_ALT} />
             <BackgroundPicture pictureIndex={2} alt={labels.PICTURE_FOOD_ALT} />
           </div>
-          <div className={styles.picturesColumn}>
+          <div className={styles.picturesBackgroundSecondColumn}>
             <BackgroundPicture pictureIndex={3} alt={labels.PICTURE_FOOD_ALT} />
             <BackgroundPicture pictureIndex={4} alt={labels.PICTURE_FOOD_ALT} />
             <BackgroundPicture pictureIndex={5} alt={labels.PICTURE_FOOD_ALT} />
           </div>
-          <div className={styles.picturesColumn}>
+          <div className={styles.picturesBackgroundThirdColumn}>
             <BackgroundPicture pictureIndex={6} alt={labels.PICTURE_FOOD_ALT} />
             <BackgroundPicture pictureIndex={7} alt={labels.PICTURE_FOOD_ALT} />
             <BackgroundPicture pictureIndex={8} alt={labels.PICTURE_FOOD_ALT} />
             <BackgroundPicture pictureIndex={9} alt={labels.PICTURE_FOOD_ALT} />
           </div>
-          <div className={styles.picturesColumn}>
+          <div className={styles.picturesBackgroundFourthColumn}>
             <BackgroundPicture
               pictureIndex={10}
               alt={labels.PICTURE_FOOD_ALT}
@@ -84,7 +84,7 @@ const FifthFold = ({ labels }: FifthFoldProps) => {
               alt={labels.PICTURE_FOOD_ALT}
             />
           </div>
-          <div className={styles.picturesColumn}>
+          <div className={styles.picturesBackgroundFifthColumn}>
             <BackgroundPicture
               pictureIndex={13}
               alt={labels.PICTURE_FOOD_ALT}
@@ -102,7 +102,7 @@ const FifthFold = ({ labels }: FifthFoldProps) => {
               alt={labels.PICTURE_FOOD_ALT}
             />
           </div>
-          <div className={styles.picturesColumn}>
+          <div className={styles.picturesBackgroundSixthColumn}>
             <BackgroundPicture
               pictureIndex={17}
               alt={labels.PICTURE_FOOD_ALT}
@@ -131,6 +131,7 @@ const FifthFold = ({ labels }: FifthFoldProps) => {
             />
           </div>
         </div>
+        <div className={styles.overlay} />
       </div>
       <footer className={styles.footer}></footer>
     </div>

@@ -4,10 +4,34 @@
 
 .main {
   height: 95vh;
+  position: relative;
 }
 
 .picturesBackground {
+  height: 100%;
   display: flex;
+  justify-content: center;
+  overflow: hidden; /* needed because of the `transform: translateY(-...)` applied to children elements (see below) */
+}
+
+.picturesBackgroundSecondColumn {
+  transform: translateY(-160px);
+}
+
+.picturesBackgroundThirdColumn {
+  transform: translateY(-240px);
+}
+
+.picturesBackgroundFourthColumn {
+  transform: translateY(-40px);
+}
+
+.picturesBackgroundFifthColumn {
+  transform: translateY(-240px);
+}
+
+.picturesBackgroundSixthColumn {
+  transform: translateY(-80px);
 }
 
 .backgroundPicture {
@@ -15,6 +39,15 @@
   object-fit: cover;
   border-radius: 16px;
   margin: 16px 8px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .footer {
