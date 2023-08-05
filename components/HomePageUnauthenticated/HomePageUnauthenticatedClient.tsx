@@ -26,6 +26,25 @@ const HomePageUnauthenticatedClient = ({
   errorCode,
   labels,
 }: HomePageUnauthenticatedClientProps) => {
+  // The labels for the LoginForm and the SignupForm need to be passed down both to the header and the fifth fold:
+  const headerLabels = {
+    commons: labels.commons,
+    component: {
+      ...labels.component.Header,
+      LoginForm: labels.component.LoginForm,
+      SignupForm: labels.component.SignupForm,
+    },
+  };
+
+  const fifthFoldLabels = {
+    commons: labels.commons,
+    component: {
+      ...labels.component.FifthFold,
+      LoginForm: labels.component.LoginForm,
+      SignupForm: labels.component.SignupForm,
+    },
+  };
+
   const [currentFold, setCurrentFold] = useState(1);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [isScrollingUp, setIsScrollingUp] = useState(false);
@@ -88,12 +107,7 @@ const HomePageUnauthenticatedClient = ({
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero}>
-          <HeaderUnauthenticated
-            labels={{
-              component: labels.component.Header,
-              commons: labels.commons,
-            }}
-          />
+          <HeaderUnauthenticated labels={headerLabels} />
           <div className={styles.pictureSlider}>
             <PictureSlider
               onClickSeeBelow={handleClickHeroSeeBelow}
@@ -104,7 +118,7 @@ const HomePageUnauthenticatedClient = ({
         <SecondFold labels={labels.component.SecondFold} />
         <ThirdFold labels={labels.component.ThirdFold} />
         <FourthFold labels={labels.component.FourthFold} />
-        <FifthFold labels={labels.component.FifthFold} />
+        <FifthFold labels={fifthFoldLabels} />
       </div>
     </main>
   );

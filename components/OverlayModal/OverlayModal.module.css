@@ -13,29 +13,13 @@
 }
 
 .modal {
-  width: 500px;
+  width: min(
+    90%,
+    500px
+  ); /* we cap at 90% of the parent's width, to have a small margin left and right on small-width viewports */
   position: relative;
   background-color: var(--color-background-primary);
   border-radius: var(--border-radius);
-  padding: 20px 10px 24px;
-}
-
-.loadingOverlay {
-  background-color: rgba(255, 255, 255, 0.5);
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  border-radius: var(--border-radius);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loadingSpinner {
-  color: var(--color-gray-500);
 }
 
 .closeButtonContainer {

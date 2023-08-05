@@ -1,7 +1,7 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, MouseEvent } from "react";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
   API_BASE_URL,
   ENDPOINT_OBTAIN_TOKEN,
@@ -15,7 +15,6 @@ import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
 
 export type LoginFormProps = {
-  setIsLoading?: (isLoading: boolean) => void;
   onClickNoAccountYet: () => void;
   labels: {
     component: { [key: string]: string };
@@ -39,11 +38,7 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   return {};
 };
 
-const LoginForm = ({
-  setIsLoading,
-  onClickNoAccountYet,
-  labels,
-}: LoginFormProps) => {
+const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const [credentials, setCredentials] = useState({
@@ -56,6 +51,7 @@ const LoginForm = ({
     other?: string;
   }>({ email: "MISSING_EMAIL" });
   const [showFormErrors, setShowFormErrors] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     emailInputRef.current?.focus();
@@ -79,9 +75,7 @@ const LoginForm = ({
       return;
     }
 
-    if (setIsLoading) {
-      setIsLoading(true);
-    }
+    setIsLoading(true);
 
     try {
       const { accessToken, refreshToken } = await fetchTokens();
@@ -116,9 +110,7 @@ const LoginForm = ({
     } catch (error) {
       throw new Error(ERROR_CODE_FETCH_FAILED);
     } finally {
-      if (setIsLoading) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     }
 
     if (!response.ok) {
@@ -129,6 +121,10 @@ const LoginForm = ({
     }
 
     return { accessToken: data.access_token, refreshToken: data.refresh_token };
+  };
+
+  const handleClickLoadingOverlay = (event: MouseEvent) => {
+    event.preventDefault(); // so that a click on the form has no effect when it's loading
   };
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {
@@ -212,6 +208,19 @@ const LoginForm = ({
           {labels.component.SIGN_UP}
         </button>
       </div>
+      {isLoading && (
+        <div
+          className={styles.loadingOverlay}
+          onClick={handleClickLoadingOverlay}
+        >
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            spin
+            className={styles.loadingSpinner}
+          />
+        </div>
+      )}
     </div>
   );
 };

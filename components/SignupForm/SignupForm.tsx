@@ -1,5 +1,7 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, MouseEvent } from "react";
 import Cookies from "js-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
   API_BASE_URL,
   ENDPOINT_SIGN_UP,
@@ -18,7 +20,6 @@ import {
 } from "../../lib/utils/validation";
 
 export type SignupFormProps = {
-  setIsLoading?: (isLoading: boolean) => void;
   onClickAlreadyHaveAccount: () => void;
   labels: {
     component: { [key: string]: string };
@@ -50,11 +51,7 @@ const computeFormErrors = (values: {
   return {};
 };
 
-const SignupForm = ({
-  setIsLoading,
-  onClickAlreadyHaveAccount,
-  labels,
-}: SignupFormProps) => {
+const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
@@ -69,6 +66,7 @@ const SignupForm = ({
     other?: string;
   }>({ email: "MISSING_EMAIL" });
   const [showFormErrors, setShowFormErrors] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     emailInputRef.current?.focus();
@@ -92,9 +90,7 @@ const SignupForm = ({
       return;
     }
 
-    if (setIsLoading) {
-      setIsLoading(true);
-    }
+    setIsLoading(true);
 
     let data, response;
 
@@ -112,9 +108,7 @@ const SignupForm = ({
       setFormErrors({ other: "CONNECTION_ERROR" });
       return;
     } finally {
-      if (setIsLoading) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     }
 
     if (!response.ok) {
@@ -144,6 +138,10 @@ const SignupForm = ({
     Cookies.set("refreshToken", data.refresh_token);
 
     window.location.reload();
+  };
+
+  const handleClickLoadingOverlay = (event: MouseEvent) => {
+    event.preventDefault(); // so that a click on the form has no effect when it's loading
   };
 
   return (
@@ -227,6 +225,19 @@ const SignupForm = ({
           {labels.component.LOG_IN}
         </button>
       </div>
+      {isLoading && (
+        <div
+          className={styles.loadingOverlay}
+          onClick={handleClickLoadingOverlay}
+        >
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            spin
+            className={styles.loadingSpinner}
+          />
+        </div>
+      )}
     </div>
   );
 };
