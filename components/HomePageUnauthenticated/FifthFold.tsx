@@ -1,8 +1,14 @@
+import { useState } from "react";
 import Image from "next/image";
 import styles from "./FifthFold.module.css";
+import SignupForm from "../SignupForm/SignupForm";
+import LoginForm from "../LoginForm/LoginForm";
 
 type FifthFoldProps = {
-  labels: { [key: string]: any };
+  labels: {
+    component: { [key: string]: any };
+    commons: { [key: string]: string };
+  };
 };
 
 const BACKGROUND_PICTURE_URLS = [
@@ -50,88 +56,155 @@ const BackgroundPicture = ({
 };
 
 const FifthFold = ({ labels }: FifthFoldProps) => {
+  const [showLoginInsteadOfSignup, setShowLoginInsteadOfSignup] =
+    useState(false);
+
+  const handleClickAlreadyHaveAccount = () => {
+    setShowLoginInsteadOfSignup(true);
+  };
+
+  const handleClickNoAccountYet = () => {
+    setShowLoginInsteadOfSignup(false);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.main}>
         <div className={styles.picturesBackground}>
           <div>
-            <BackgroundPicture pictureIndex={0} alt={labels.PICTURE_FOOD_ALT} />
-            <BackgroundPicture pictureIndex={1} alt={labels.PICTURE_FOOD_ALT} />
-            <BackgroundPicture pictureIndex={2} alt={labels.PICTURE_FOOD_ALT} />
+            <BackgroundPicture
+              pictureIndex={0}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
+            <BackgroundPicture
+              pictureIndex={1}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
+            <BackgroundPicture
+              pictureIndex={2}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
           </div>
           <div className={styles.picturesBackgroundSecondColumn}>
-            <BackgroundPicture pictureIndex={3} alt={labels.PICTURE_FOOD_ALT} />
-            <BackgroundPicture pictureIndex={4} alt={labels.PICTURE_FOOD_ALT} />
-            <BackgroundPicture pictureIndex={5} alt={labels.PICTURE_FOOD_ALT} />
+            <BackgroundPicture
+              pictureIndex={3}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
+            <BackgroundPicture
+              pictureIndex={4}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
+            <BackgroundPicture
+              pictureIndex={5}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
           </div>
           <div className={styles.picturesBackgroundThirdColumn}>
-            <BackgroundPicture pictureIndex={6} alt={labels.PICTURE_FOOD_ALT} />
-            <BackgroundPicture pictureIndex={7} alt={labels.PICTURE_FOOD_ALT} />
-            <BackgroundPicture pictureIndex={8} alt={labels.PICTURE_FOOD_ALT} />
-            <BackgroundPicture pictureIndex={9} alt={labels.PICTURE_FOOD_ALT} />
+            <BackgroundPicture
+              pictureIndex={6}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
+            <BackgroundPicture
+              pictureIndex={7}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
+            <BackgroundPicture
+              pictureIndex={8}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
+            <BackgroundPicture
+              pictureIndex={9}
+              alt={labels.component.PICTURE_FOOD_ALT}
+            />
           </div>
           <div className={styles.picturesBackgroundFourthColumn}>
             <BackgroundPicture
               pictureIndex={10}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={11}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={12}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
           </div>
           <div className={styles.picturesBackgroundFifthColumn}>
             <BackgroundPicture
               pictureIndex={13}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={14}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={15}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={16}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
           </div>
           <div className={styles.picturesBackgroundSixthColumn}>
             <BackgroundPicture
               pictureIndex={17}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={18}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={19}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
           </div>
           <div className={styles.picturesColumn}>
             <BackgroundPicture
               pictureIndex={20}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={21}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
             <BackgroundPicture
               pictureIndex={22}
-              alt={labels.PICTURE_FOOD_ALT}
+              alt={labels.component.PICTURE_FOOD_ALT}
             />
           </div>
         </div>
-        <div className={styles.overlay} />
+        <div className={styles.overlay}>
+          <div className={styles.textArea}>
+            <h1 className={styles.header}>{labels.component.SIGNUP_HEADER}</h1>
+          </div>
+          <div className={styles.formArea}>
+            <div className={styles.formContainer}>
+              {!showLoginInsteadOfSignup && (
+                <SignupForm
+                  onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
+                  labels={{
+                    commons: labels.commons,
+                    component: labels.component.SignupForm,
+                  }}
+                />
+              )}
+              {showLoginInsteadOfSignup && (
+                <LoginForm
+                  onClickNoAccountYet={handleClickNoAccountYet}
+                  labels={{
+                    commons: labels.commons,
+                    component: labels.component.LoginForm,
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
       <footer className={styles.footer}></footer>
     </div>

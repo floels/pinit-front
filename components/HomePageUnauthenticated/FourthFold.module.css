@@ -11,6 +11,7 @@
   flex-grow: 1;
   position: relative; /* necessary to hold the <Image /> child element */
   height: 100%; /* necessary for the <Image /> child element to have the right height */
+  min-width: 320px; /* if we don't have this minimum width, the div with class .picturesOverlay will spill over to the .textArea on the right on small-width screens */
 }
 
 .coverPicture {
