@@ -75,7 +75,9 @@
       "CREATOR_THUMBNAIL_PICTURE": "creator thumbnail picture"
     },
     "FifthFold": {
-      "PICTURE_FOOD_ALT": "food",
+      "PicturesBackground": {
+        "PICTURE_FOOD_ALT": "food"
+      },
       "SIGNUP_HEADER": "Sign up to get your ideas"
     }
   },
