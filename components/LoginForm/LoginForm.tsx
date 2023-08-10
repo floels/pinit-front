@@ -212,6 +212,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
         <div
           className={styles.loadingOverlay}
           onClick={handleClickLoadingOverlay}
+          data-testid="loading-overlay"
         >
           <FontAwesomeIcon
             icon={faSpinner}
