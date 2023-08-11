@@ -229,6 +229,7 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
         <div
           className={styles.loadingOverlay}
           onClick={handleClickLoadingOverlay}
+          data-testid="loading-overlay"
         >
           <FontAwesomeIcon
             icon={faSpinner}
