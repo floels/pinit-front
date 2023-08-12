@@ -4,7 +4,11 @@ import HeaderUnauthenticated from "./HeaderUnauthenticated";
 import en from "@/messages/en.json";
 
 const labels = {
-  component: en.HomePageUnauthenticated.Header,
+  component: {
+    ...en.HomePageUnauthenticated.Header,
+    LoginForm: en.HomePageUnauthenticated.LoginForm,
+    SignupForm: en.HomePageUnauthenticated.SignupForm,
+  },
   commons: en.Common,
 };
 
