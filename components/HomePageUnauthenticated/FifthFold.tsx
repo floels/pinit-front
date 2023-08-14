@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect, RefObject } from "react";
 import styles from "./FifthFold.module.css";
 import SignupForm from "../SignupForm/SignupForm";
 import LoginForm from "../LoginForm/LoginForm";
 import FifthFoldPicturesBackground from "./FifthFoldPicturesBackground";
 
 type FifthFoldProps = {
+  heroRef: RefObject<HTMLDivElement>;
   labels: {
     component: { [key: string]: any };
     commons: { [key: string]: string };
   };
 };
 
-const FifthFold = ({ labels }: FifthFoldProps) => {
+const FifthFold = ({ heroRef, labels }: FifthFoldProps) => {
   const [showLoginInsteadOfSignup, setShowLoginInsteadOfSignup] =
     useState(false);
 
@@ -22,6 +23,13 @@ const FifthFold = ({ labels }: FifthFoldProps) => {
   const handleClickNoAccountYet = () => {
     setShowLoginInsteadOfSignup(false);
   };
+
+  // This is needed to scroll back to the top of the page.
+  // Otherwise, for some reason, browsers scroll down to the first input of the
+  // <SignupForm /> rendered below on page load.
+  useEffect(() => {
+    heroRef.current?.scrollIntoView();
+  });
 
   return (
     <div className={styles.container}>

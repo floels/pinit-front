@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
@@ -44,6 +44,11 @@ const HomePageUnauthenticatedClient = ({
       SignupForm: labels.component.SignupForm,
     },
   };
+
+  // This will be needed to scroll back to the top of the page in the `useEffect` hook of the <FithFold /> child component,
+  // Otherwise, for some reason, browsers scroll down to the <FifthFold /> component and focus on the first input of the
+  // <SignupForm /> it renders on page load.
+  const heroRef = useRef(null);
 
   const [currentFold, setCurrentFold] = useState(1);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
@@ -106,7 +111,7 @@ const HomePageUnauthenticatedClient = ({
         style={{ transform: `translateY(-${(currentFold - 1) * 100}vh)` }}
         data-testid="homepage-unauthenticated-content"
       >
-        <div className={styles.hero}>
+        <div className={styles.hero} ref={heroRef}>
           <HeaderUnauthenticated labels={headerLabels} />
           <div className={styles.pictureSlider}>
             <PictureSlider
@@ -118,7 +123,7 @@ const HomePageUnauthenticatedClient = ({
         <SecondFold labels={labels.component.SecondFold} />
         <ThirdFold labels={labels.component.ThirdFold} />
         <FourthFold labels={labels.component.FourthFold} />
-        <FifthFold labels={fifthFoldLabels} />
+        <FifthFold heroRef={heroRef} labels={fifthFoldLabels} />
       </div>
     </main>
   );
