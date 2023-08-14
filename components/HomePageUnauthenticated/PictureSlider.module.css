@@ -122,7 +122,6 @@ because then the header text is displayed on two lines instead of one. */
 }
 
 .carret {
-  display: inline-block;
   box-sizing: border-box;
   width: 48px;
   height: 48px;

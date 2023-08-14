@@ -47,6 +47,27 @@
   background-color: var(--color-white);
 }
 
+.backToTopButton {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(156, 3, 67);
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4px; /* so that the icon appears really centered */
+  cursor: pointer;
+}
+
+.backToTopButtonIcon {
+  color: var(--color-white);
+}
+
 .footer {
   height: 5vh;
 }

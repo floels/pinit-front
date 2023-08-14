@@ -1,4 +1,6 @@
 import { useState, useEffect, RefObject } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import styles from "./FifthFold.module.css";
 import SignupForm from "../SignupForm/SignupForm";
 import LoginForm from "../LoginForm/LoginForm";
@@ -6,13 +8,14 @@ import FifthFoldPicturesBackground from "./FifthFoldPicturesBackground";
 
 type FifthFoldProps = {
   heroRef: RefObject<HTMLDivElement>;
+  onClickBackToTop: () => void;
   labels: {
     component: { [key: string]: any };
     commons: { [key: string]: string };
   };
 };
 
-const FifthFold = ({ heroRef, labels }: FifthFoldProps) => {
+const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
   const [showLoginInsteadOfSignup, setShowLoginInsteadOfSignup] =
     useState(false);
 
@@ -63,6 +66,13 @@ const FifthFold = ({ heroRef, labels }: FifthFoldProps) => {
               )}
             </div>
           </div>
+        </div>
+        <div className={styles.backToTopButton} onClick={onClickBackToTop}>
+          <FontAwesomeIcon
+            icon={faAngleUp}
+            className={styles.backToTopButtonIcon}
+            size="2x"
+          />
         </div>
       </div>
       <footer className={styles.footer}></footer>
