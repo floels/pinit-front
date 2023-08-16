@@ -58,6 +58,10 @@ const HomePageUnauthenticatedClient = ({
     setCurrentFold(2); // i.e. move down from picture slider to search section
   };
 
+  const handleClickBackToTop = () => {
+    setCurrentFold(1);
+  };
+
   useEffect(() => {
     const handleMouseWheel = (event: WheelEvent) => {
       let newFold = currentFold;
@@ -123,7 +127,11 @@ const HomePageUnauthenticatedClient = ({
         <SecondFold labels={labels.component.SecondFold} />
         <ThirdFold labels={labels.component.ThirdFold} />
         <FourthFold labels={labels.component.FourthFold} />
-        <FifthFold heroRef={heroRef} labels={fifthFoldLabels} />
+        <FifthFold
+          heroRef={heroRef}
+          onClickBackToTop={handleClickBackToTop}
+          labels={fifthFoldLabels}
+        />
       </div>
     </main>
   );
