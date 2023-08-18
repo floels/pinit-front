@@ -30,6 +30,7 @@
   font-weight: var(--font-weight-semibold);
   font-size: 70px;
   max-width: 430px;
+  margin: 0 20px;
 }
 
 .formArea {
@@ -45,6 +46,7 @@
   max-width: 480px;
   border-radius: 32px;
   background-color: var(--color-white);
+  margin: 0 20px;
 }
 
 .backToTopButton {
@@ -60,7 +62,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 4px; /* so that the icon appears really centered */
   cursor: pointer;
 }
 
