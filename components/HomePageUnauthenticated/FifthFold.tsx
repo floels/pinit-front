@@ -75,7 +75,17 @@ const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
           />
         </div>
       </div>
-      <footer className={styles.footer}></footer>
+      <footer className={styles.footer}>
+        <a href="#" className={styles.footerLink}>
+          {labels.component.TERMS_OF_SERVICE}
+        </a>
+        <a href="#" className={styles.footerLink}>
+          {labels.component.PRIVACY_POLICY}
+        </a>
+        <a href="#" className={styles.footerLink}>
+          {labels.component.HELP}
+        </a>
+      </footer>
     </div>
   );
 };

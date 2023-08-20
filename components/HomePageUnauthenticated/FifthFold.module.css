@@ -71,4 +71,19 @@
 
 .footer {
   height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerLink {
+  margin-right: 20px;
+  font-size: var(--font-size-100);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  color: inherit;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
 }
