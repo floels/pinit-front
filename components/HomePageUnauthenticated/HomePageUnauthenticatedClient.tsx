@@ -20,7 +20,7 @@ type HomePageUnauthenticatedClientProps = HomePageUnauthenticatedServerProps & {
 };
 
 const NUMBER_FOLDS = 5;
-const SCROLLING_DEBOUNCING_TIME_MS = 1500;
+const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
 const HomePageUnauthenticatedClient = ({
   errorCode,
@@ -51,8 +51,14 @@ const HomePageUnauthenticatedClient = ({
   const heroRef = useRef(null);
 
   const [currentFold, setCurrentFold] = useState(1);
-  const [isScrollingDown, setIsScrollingDown] = useState(false);
-  const [isScrollingUp, setIsScrollingUp] = useState(false);
+
+  const [dateLastScroll, setDateLastScroll] = useState<{
+    down: Date | null;
+    up: Date | null;
+  }>({
+    down: null,
+    up: null,
+  });
 
   const handleClickHeroSeeBelow = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
@@ -64,33 +70,41 @@ const HomePageUnauthenticatedClient = ({
 
   useEffect(() => {
     const handleMouseWheel = (event: WheelEvent) => {
-      let newFold = currentFold;
-
-      if (event.deltaY > 0) {
-        // scroll down event
-        if (currentFold !== NUMBER_FOLDS && !isScrollingDown) {
-          // change current fold only if we are not at the last fold and we are not already scrolling down (= debouncing)
-          newFold = currentFold + 1;
-
-          setIsScrollingDown(true);
-          setTimeout(() => {
-            setIsScrollingDown(false);
-          }, SCROLLING_DEBOUNCING_TIME_MS);
-        }
-      } else if (event.deltaY < 0) {
-        // scroll up event: same logic
-        if (currentFold > 1 && !isScrollingUp) {
-          newFold = currentFold - 1;
-
-          setIsScrollingUp(true);
-          setTimeout(() => {
-            setIsScrollingUp(false);
-          }, SCROLLING_DEBOUNCING_TIME_MS);
-        }
+      if (!event.deltaY) {
+        return;
       }
 
-      if (newFold !== currentFold) {
-        setCurrentFold(newFold);
+      const scrollDirection = event.deltaY > 0 ? "down" : "up";
+
+      const dateLastScrollSameDirection = dateLastScroll[scrollDirection];
+
+      const now = new Date();
+
+      let timeElapsedSinceLastScrollSameDirection;
+
+      if (dateLastScrollSameDirection) {
+        timeElapsedSinceLastScrollSameDirection =
+          now.getTime() - dateLastScrollSameDirection.getTime();
+
+        console.log(
+          `Time elapsed since last scroll event: ${timeElapsedSinceLastScrollSameDirection}`
+        );
+      }
+
+      setDateLastScroll({ ...dateLastScroll, [scrollDirection]: now });
+
+      if (
+        timeElapsedSinceLastScrollSameDirection &&
+        timeElapsedSinceLastScrollSameDirection < SCROLLING_DEBOUNCING_TIME_MS
+      ) {
+        // this is not a new scrolling action
+        return;
+      }
+
+      if (scrollDirection === "down" && currentFold !== NUMBER_FOLDS) {
+        setCurrentFold(currentFold + 1);
+      } else if (scrollDirection === "up" && currentFold > 1) {
+        setCurrentFold(currentFold - 1);
       }
     };
 
@@ -99,7 +113,7 @@ const HomePageUnauthenticatedClient = ({
     return () => {
       document.removeEventListener("wheel", handleMouseWheel);
     };
-  }, [currentFold, isScrollingDown, isScrollingUp]);
+  }, [currentFold, dateLastScroll, setDateLastScroll]);
 
   useEffect(() => {
     if (errorCode === ERROR_CODE_FETCH_FAILED) {
