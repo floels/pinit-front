@@ -2,6 +2,7 @@ import { render, waitFor } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import defaultMockRouter, { MemoryRouter } from "next-router-mock";
 import AccessTokenRefresher from "./AccessTokenRefresher";
+import { API_BASE_URL, ENDPOINT_REFRESH_TOKEN } from "@/lib/constants";
 
 type MockedRouter = MemoryRouter & {
   refresh?: jest.MockedFunction<any>;
@@ -20,38 +21,38 @@ jest.mock("js-cookie", () => ({
 
 const Cookies = require("js-cookie");
 
-describe("AccessTokenRefresh", () => {
-  it("should refresh the current route when receiving a 200 OK response from token refresh endpoint", async () => {
-    fetchMock.mockResponseOnce(
-      JSON.stringify({ access_token: "refreshedAccessToken" }),
-    );
+it("should refresh the current route when receiving a 200 OK response from token refresh endpoint", async () => {
+  fetchMock.doMockOnceIf(
+    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
+    JSON.stringify({ access_token: "refreshedAccessToken" })
+  );
 
-    mockedRouter.refresh = jest.fn();
+  mockedRouter.refresh = jest.fn();
 
-    render(<AccessTokenRefresher />);
+  render(<AccessTokenRefresher />);
 
-    await waitFor(() => expect(mockedRouter.refresh).toHaveBeenCalledTimes(1));
+  await waitFor(() => expect(mockedRouter.refresh).toHaveBeenCalledTimes(1));
+});
+
+it("should refresh the page when receiving KO response from token refresh endpoint", async () => {
+  // Inspired by https://stackoverflow.com/a/55771671
+  Object.defineProperty(window, "location", {
+    configurable: true,
+    value: { ...window.location, reload: jest.fn() },
   });
 
-  it("should refresh the page when receiving KO response from token refresh endpoint", async () => {
-    // Inspired by https://stackoverflow.com/a/55771671
-    Object.defineProperty(window, "location", {
-      configurable: true,
-      value: { ...window.location, reload: jest.fn() },
-    });
+  fetchMock.doMockOnceIf(
+    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
+    JSON.stringify({ errors: [{ code: "invalid_refresh_token" }] }),
+    { status: 401 }
+  );
 
-    fetchMock.mockResponseOnce(
-      JSON.stringify({ errors: [{ code: "invalid_refresh_token" }] }),
-      { status: 401 },
-    );
+  render(<AccessTokenRefresher />);
 
-    render(<AccessTokenRefresher />);
+  await waitFor(() => {
+    expect(Cookies.remove).toHaveBeenCalledWith("accessToken");
+    expect(Cookies.remove).toHaveBeenCalledWith("refreshToken");
 
-    await waitFor(() => {
-      expect(Cookies.remove).toHaveBeenCalledWith("accessToken");
-      expect(Cookies.remove).toHaveBeenCalledWith("refreshToken");
-
-      expect(window.location.reload).toHaveBeenCalledTimes(1);
-    });
+    expect(window.location.reload).toHaveBeenCalledTimes(1);
   });
 });

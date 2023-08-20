@@ -3,6 +3,7 @@ import fetchMock from "jest-fetch-mock";
 import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
 import en from "@/messages/en.json";
+import { API_BASE_URL, ENDPOINT_SIGN_UP } from "@/lib/constants";
 
 const COMPONENT_LABELS = en.HomePageUnauthenticated.SignupForm;
 const labels = {
@@ -33,8 +34,9 @@ describe("SignupForm", () => {
 
     const user = userEvent.setup();
 
-    fetchMock.mockResponseOnce(
-      JSON.stringify({ access: "access", refresh: "refresh" }),
+    fetchMock.doMockOnceIf(
+      `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
+      JSON.stringify({ access: "access", refresh: "refresh" })
     );
 
     render(signupForm);
@@ -63,14 +65,14 @@ describe("SignupForm", () => {
     // Fix password input but not birthdate:
     await user.type(passwordInput, "w0rd");
     expect(
-      screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT),
+      screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT)
     ).toBeNull();
     screen.getByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT);
 
     // Fix birthdate ipnut:
     await user.type(birthdateInput, "1970-01-01");
     expect(
-      screen.queryByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT),
+      screen.queryByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT)
     ).toBeNull();
 
     // Submit with correct inputs:
@@ -92,26 +94,29 @@ describe("SignupForm", () => {
     await user.type(passwordInput, "Pa$$w0rd");
     await user.type(birthdateInput, "1970-01-01");
 
-    fetchMock.mockResponseOnce(
+    fetchMock.doMockOnceIf(
+      `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
       JSON.stringify({ errors: [{ code: "invalid_email" }] }),
-      { status: 400 },
+      { status: 400 }
     );
     await user.click(submitButton);
 
     screen.getByText(COMPONENT_LABELS.INVALID_EMAIL_SIGNUP);
 
-    fetchMock.mockResponseOnce(
+    fetchMock.doMockOnceIf(
+      `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
       JSON.stringify({ errors: [{ code: "invalid_password" }] }),
-      { status: 400 },
+      { status: 400 }
     );
     await user.type(passwordInput, "IsWr0ng");
     await user.click(submitButton);
 
     screen.getByText(COMPONENT_LABELS.INVALID_PASSWORD_SIGNUP);
 
-    fetchMock.mockResponseOnce(
+    fetchMock.doMockOnceIf(
+      `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
       JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
-      { status: 400 },
+      { status: 400 }
     );
     await user.type(passwordInput, "IsNowRight");
     await user.click(submitButton);

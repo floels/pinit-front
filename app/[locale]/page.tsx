@@ -35,7 +35,7 @@ const fetchData = async (accessToken: string) => {
     ]);
 
   const [fetchAccountsData, fetchInitialPinSuggestionsData] = await Promise.all(
-    [fetchAccountsResponse.json(), fetchInitialPinSuggestionsResponse.json()],
+    [fetchAccountsResponse.json(), fetchInitialPinSuggestionsResponse.json()]
   );
 
   return {
@@ -97,7 +97,7 @@ const HomePage = async () => {
     if (fetchAccountsResponse.ok && fetchInitialPinSuggestionsResponse.ok) {
       const accounts = getAccountsWithCamelizedKeys(fetchAccountsData);
       const initialPinSuggestions = getPinSuggestionsWithCamelizedKeys(
-        fetchInitialPinSuggestionsData,
+        fetchInitialPinSuggestionsData
       );
 
       return (
@@ -116,7 +116,6 @@ const HomePage = async () => {
       return <AccessTokenRefresher />;
     }
 
-    // Unexpected server response: by default, return unauthenticated homepage
     return (
       <HomePageUnauthenticatedServer
         errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
