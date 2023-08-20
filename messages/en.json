@@ -78,7 +78,10 @@
       "PicturesBackground": {
         "PICTURE_FOOD_ALT": "food"
       },
-      "SIGNUP_HEADER": "Sign up to get your ideas"
+      "SIGNUP_HEADER": "Sign up to get your ideas",
+      "TERMS_OF_SERVICE": "Terms of service",
+      "PRIVACY_POLICY": "Privacy policy",
+      "HELP": "Help"
     }
   },
   "HomePageAuthenticated": {
