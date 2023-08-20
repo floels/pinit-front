@@ -51,7 +51,7 @@ const configureAPIResponses = () => {
           })),
         });
       }
-    },
+    }
   );
 };
 
@@ -76,13 +76,11 @@ test("Should be able to log in and then log out", async ({ page }) => {
   await page.fill("input[name='email']", EMAIL_FIXTURE);
   await page.fill("input[name='password']", PASSWORD_FIXTURE);
 
-  await page.click(
-    `text=${en.HomePageUnauthenticated.Header.LoginForm.LOG_IN}`,
-  );
+  await page.click(`text=${en.HomePageUnauthenticated.LoginForm.LOG_IN}`);
 
   // We should land on authenticated homepage
   await page.waitForSelector(
-    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
+    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`
   );
 
   // Check presence of authentication cookies
@@ -95,12 +93,12 @@ test("Should be able to log in and then log out", async ({ page }) => {
   // Log out
   await page.click('[data-testid="account-options-button"]');
   await page.click(
-    `text=${en.HomePageAuthenticated.Header.AccountOptionsFlyout.LOG_OUT}`,
+    `text=${en.HomePageAuthenticated.Header.AccountOptionsFlyout.LOG_OUT}`
   );
 
   // We should land back on unauthenticated homepage
   await page.waitForSelector(
-    `text=${en.HomePageUnauthenticated.Header.LOG_IN}`,
+    `text=${en.HomePageUnauthenticated.Header.LOG_IN}`
   );
 
   // Check absence of authentication cookies
