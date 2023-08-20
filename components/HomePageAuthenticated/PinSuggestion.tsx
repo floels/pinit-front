@@ -15,7 +15,7 @@ type PinSuggestionProps = {
 
 const PinSuggestion = ({ pinSuggestion, labels }: PinSuggestionProps) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="pin-suggestion">
       {/* We don't use Next's Image component because we don't know the image's display height in advance. */}
       <img
         alt={

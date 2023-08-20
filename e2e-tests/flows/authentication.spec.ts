@@ -1,11 +1,17 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { Request, Response, Express } from "express";
 import { Server } from "http";
 import en from "@/messages/en.json";
-import { PORT_MOCK_API_SERVER, getExpressApp, checkCookieValue } from "./utils";
+import {
+  PORT_MOCK_API_SERVER,
+  getExpressApp,
+  checkCookieValue,
+} from "@/e2e-tests/utils";
 
 const EMAIL_FIXTURE = "john.doe@example.com";
 const PASSWORD_FIXTURE = "Pa$$w0rd";
+
+const NUMBER_PIN_SUGGESTIONS = 100;
 
 let mockAPIApp: Express;
 let mockAPIServer: Server;
@@ -39,19 +45,22 @@ const configureAPIResponses = () => {
         response.status(404).send();
       } else {
         response.json({
-          results: Array.from({ length: 100 }, (_, index) => ({
-            id: index + 1,
-            image_url: "https://some.url",
-            title: "",
-            description: "",
-            author: {
-              username: "johndoe",
-              display_name: "John Doe",
-            },
-          })),
+          results: Array.from(
+            { length: NUMBER_PIN_SUGGESTIONS },
+            (_, index) => ({
+              id: index + 1,
+              image_url: "https://some.url",
+              title: "",
+              description: "",
+              author: {
+                username: "johndoe",
+                display_name: "John Doe",
+              },
+            }),
+          ),
         });
       }
-    }
+    },
   );
 };
 
@@ -65,7 +74,7 @@ const launchMockAPIServer = () => {
   });
 };
 
-test("Should be able to log in and then log out", async ({ page }) => {
+test("User should be able to log in and then log out", async ({ page }) => {
   await launchMockAPIServer();
 
   // Visit home page and log in
@@ -80,25 +89,27 @@ test("Should be able to log in and then log out", async ({ page }) => {
 
   // We should land on authenticated homepage
   await page.waitForSelector(
-    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`
+    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
   );
 
   // Check presence of authentication cookies
   await checkCookieValue(page, "accessToken", "mock_access_token");
   await checkCookieValue(page, "refreshToken", "mock_refresh_token");
 
-  // Necessary to wait for this, otherwise account options button won't be interactive
-  await page.waitForSelector('[data-testid="pin-suggestions-container"] img');
+  // Check that all pin suggestions received from the API are displayed
+  await page.waitForSelector('[data-testid="pin-suggestion"]');
+  const pinSuggestions = await page.$$('[data-testid="pin-suggestion"]');
+  expect(pinSuggestions.length).toBe(NUMBER_PIN_SUGGESTIONS);
 
   // Log out
   await page.click('[data-testid="account-options-button"]');
   await page.click(
-    `text=${en.HomePageAuthenticated.Header.AccountOptionsFlyout.LOG_OUT}`
+    `text=${en.HomePageAuthenticated.Header.AccountOptionsFlyout.LOG_OUT}`,
   );
 
   // We should land back on unauthenticated homepage
   await page.waitForSelector(
-    `text=${en.HomePageUnauthenticated.Header.LOG_IN}`
+    `text=${en.HomePageUnauthenticated.Header.LOG_IN}`,
   );
 
   // Check absence of authentication cookies
