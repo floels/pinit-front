@@ -2,7 +2,11 @@ import { test } from "@playwright/test";
 import { Response, Express } from "express";
 import { Server } from "http";
 import en from "@/messages/en.json";
-import { PORT_MOCK_API_SERVER, checkCookieValue, getExpressApp } from "./utils";
+import {
+  PORT_MOCK_API_SERVER,
+  checkCookieValue,
+  getExpressApp,
+} from "@/e2e-tests/utils";
 
 const EMAIL_FIXTURE = "john.doe@example.com";
 const PASSWORD_FIXTURE = "Pa$$w0rd";
@@ -30,7 +34,7 @@ const launchMockAPIServer = () => {
   });
 };
 
-test("Should be able to sign up", async ({ page }) => {
+test("User should be able to sign up", async ({ page }) => {
   await launchMockAPIServer();
 
   await page.goto("/");
@@ -45,7 +49,7 @@ test("Should be able to sign up", async ({ page }) => {
 
   // We should land on authenticated homepage
   await page.waitForSelector(
-    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`
+    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
   );
 
   // Check presence of authentication cookies
