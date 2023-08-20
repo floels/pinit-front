@@ -9,6 +9,7 @@ import { ENDPOINT_GET_PIN_SUGGESTIONS } from "@/lib/constants";
 import Cookies from "js-cookie";
 import { AccountType } from "@/app/[locale]/page";
 import HeaderAuthenticatedClient from "../Header/HeaderAuthenticatedClient";
+import { refreshAccessToken } from "@/lib/utils/authentication";
 
 type HomePageAuthenticatedClientProps = {
   accounts: AccountType[];
@@ -20,13 +21,13 @@ const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set 
 
 const getNumberOfColumns = (viewportWidth: number) => {
   const theoreticalNumberOfColumns = Math.floor(
-    viewportWidth / GRID_COLUMN_WIDTH_WITH_MARGINS_PX,
+    viewportWidth / GRID_COLUMN_WIDTH_WITH_MARGINS_PX
   );
 
   // We force the number of columns to be between 2 and 6:
   const boundedNumberOfColumns = Math.min(
     Math.max(theoreticalNumberOfColumns, 2),
-    6,
+    6
   );
 
   return boundedNumberOfColumns;
@@ -41,6 +42,15 @@ const HomePageAuthenticatedClient = ({
 
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pinSuggestions, setPinSuggestions] = useState(initialPinSuggestions);
+
+  // Refresh access token after initial rendering:
+  useEffect(() => {
+    try {
+      refreshAccessToken();
+    } catch (error) {
+      // Fail silently if refresh failed
+    }
+  }, []);
 
   useEffect(() => {
     const getNextPinSuggestions = async () => {
@@ -62,7 +72,7 @@ const HomePageAuthenticatedClient = ({
           ...newPinSuggestionsResponseData.results,
         ]);
         setCurrentEndpointPage(
-          (currentEndpointPage) => currentEndpointPage + 1,
+          (currentEndpointPage) => currentEndpointPage + 1
         );
       }
     };
@@ -73,7 +83,7 @@ const HomePageAuthenticatedClient = ({
           getNextPinSuggestions();
         }
       },
-      { threshold: 1.0 },
+      { threshold: 1.0 }
     );
 
     if (scrolledToBottomSentinel.current) {
