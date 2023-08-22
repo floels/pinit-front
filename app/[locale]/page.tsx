@@ -77,7 +77,7 @@ const getPinSuggestionsWithCamelizedKeys = (fetchInitialPinSuggestionsData: {
   }));
 };
 
-const HomePage = async () => {
+const Page = async () => {
   const accessTokenCookie = cookies().get("accessToken");
 
   if (!accessTokenCookie) {
@@ -128,4 +128,4 @@ const HomePage = async () => {
   }
 };
 
-export default HomePage;
+export default Page;
