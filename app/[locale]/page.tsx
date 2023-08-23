@@ -9,7 +9,7 @@ import {
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
-import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
+import AccessTokenRefresherServer from "@/components/AccessTokenRefresher/AccessTokenRefresherServer";
 
 export enum TypesOfAccount {
   PERSONAL = "personal",
@@ -113,7 +113,7 @@ const Page = async () => {
       fetchInitialPinSuggestionsResponse.status === 401
     ) {
       // Access token is likely expired
-      return <AccessTokenRefresher />;
+      return <AccessTokenRefresherServer />;
     }
 
     return (

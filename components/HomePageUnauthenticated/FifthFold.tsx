@@ -31,7 +31,9 @@ const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
   // Otherwise, for some reason, browsers scroll down to the first input of the
   // <SignupForm /> rendered below on page load.
   useEffect(() => {
-    heroRef.current?.scrollIntoView();
+    if (heroRef.current?.scrollIntoView) {
+      heroRef.current.scrollIntoView();
+    }
   });
 
   return (
