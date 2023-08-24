@@ -52,6 +52,7 @@ const HomePageAuthenticatedClient = ({
     }
   }, []);
 
+  // Fetch next page of pin suggestions when user scrolled to the bottom of the screen
   useEffect(() => {
     const getNextPinSuggestions = async () => {
       const nextEndpointPage = currentEndpointPage + 1;

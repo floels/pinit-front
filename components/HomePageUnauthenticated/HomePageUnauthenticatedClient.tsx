@@ -12,12 +12,13 @@ import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
 
-type HomePageUnauthenticatedClientProps = HomePageUnauthenticatedServerProps & {
-  labels: {
-    component: { [key: string]: any };
-    commons: { [key: string]: string };
+export type HomePageUnauthenticatedClientProps =
+  HomePageUnauthenticatedServerProps & {
+    labels: {
+      component: { [key: string]: any };
+      commons: { [key: string]: string };
+    };
   };
-};
 
 const NUMBER_FOLDS = 5;
 const SCROLLING_DEBOUNCING_TIME_MS = 80;
