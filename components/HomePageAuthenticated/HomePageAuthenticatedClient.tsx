@@ -1,12 +1,12 @@
 "use client";
 
+import { useRef, useState, useEffect, useCallback } from "react";
+import Cookies from "js-cookie";
 import { useViewportWidth } from "@/lib/utils/custom-hooks";
 import styles from "./HomePageAuthenticatedClient.module.css";
 import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
-import { useRef, useState, useEffect } from "react";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import { ENDPOINT_GET_PIN_SUGGESTIONS } from "@/lib/constants";
-import Cookies from "js-cookie";
 import { AccountType } from "@/app/[locale]/page";
 import HeaderAuthenticatedClient from "../Header/HeaderAuthenticatedClient";
 import { refreshAccessToken } from "@/lib/utils/authentication";
@@ -43,6 +43,31 @@ const HomePageAuthenticatedClient = ({
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pinSuggestions, setPinSuggestions] = useState(initialPinSuggestions);
 
+  const [numberOfColumns, setNumberOfColumns] = useState<number | undefined>();
+  const viewportWidth = useViewportWidth();
+
+  const getNextPinSuggestions = useCallback(async () => {
+    const nextEndpointPage = currentEndpointPage + 1;
+    const accessToken = Cookies.get("accessToken") as string;
+
+    // TODO: handle fetch fail
+    const newPinSuggestionsResponse = await fetchWithAuthentication({
+      endpoint: `${ENDPOINT_GET_PIN_SUGGESTIONS}?page=${nextEndpointPage}`,
+      accessToken,
+    });
+
+    if (newPinSuggestionsResponse.ok) {
+      const newPinSuggestionsResponseData =
+        await newPinSuggestionsResponse.json();
+
+      setPinSuggestions((pinSuggestions) => [
+        ...pinSuggestions,
+        ...newPinSuggestionsResponseData.results,
+      ]);
+      setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
+    }
+  }, [currentEndpointPage]);
+
   // Refresh access token after initial rendering:
   useEffect(() => {
     try {
@@ -54,30 +79,6 @@ const HomePageAuthenticatedClient = ({
 
   // Fetch next page of pin suggestions when user scrolled to the bottom of the screen
   useEffect(() => {
-    const getNextPinSuggestions = async () => {
-      const nextEndpointPage = currentEndpointPage + 1;
-      const accessToken = Cookies.get("accessToken") as string;
-
-      // TODO: handle fetch fail
-      const newPinSuggestionsResponse = await fetchWithAuthentication({
-        endpoint: `${ENDPOINT_GET_PIN_SUGGESTIONS}?page=${nextEndpointPage}`,
-        accessToken,
-      });
-
-      if (newPinSuggestionsResponse.ok) {
-        const newPinSuggestionsResponseData =
-          await newPinSuggestionsResponse.json();
-
-        setPinSuggestions((pinSuggestions) => [
-          ...pinSuggestions,
-          ...newPinSuggestionsResponseData.results,
-        ]);
-        setCurrentEndpointPage(
-          (currentEndpointPage) => currentEndpointPage + 1
-        );
-      }
-    };
-
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -94,37 +95,48 @@ const HomePageAuthenticatedClient = ({
     return () => {
       observer.disconnect();
     };
-  }, [currentEndpointPage]);
+    // We need to add `numberOfColumns` as a dependency because it will be undefined on initial render
+    // Only on second render will it be set and will the sentinel be present in the DOM
+  }, [getNextPinSuggestions, numberOfColumns]);
 
-  const viewportWidth = useViewportWidth();
+  useEffect(() => {
+    if (viewportWidth) {
+      const calculatedColumns = getNumberOfColumns(viewportWidth);
+      setNumberOfColumns(calculatedColumns);
+    }
+  }, [viewportWidth]);
 
-  let numberOfColumns, gridWidthPx;
-
-  // `viewportWidth` will be `undefined` on initial render.
-  // We handle this case aside in order to avoid a flash of content with the wrong number of columns.
-  if (viewportWidth) {
-    numberOfColumns = getNumberOfColumns(viewportWidth);
-    gridWidthPx = numberOfColumns * GRID_COLUMN_WIDTH_WITH_MARGINS_PX;
-  }
+  const gridWidthPx = numberOfColumns
+    ? numberOfColumns * GRID_COLUMN_WIDTH_WITH_MARGINS_PX
+    : undefined;
 
   return (
     <div>
       <HeaderAuthenticatedClient accounts={accounts} labels={labels.Header} />
       <main className={styles.container}>
-        {numberOfColumns && ( // As mentioned above, `numberOfColumns` will be undefined on initial render
-          <div
-            className={styles.grid}
-            style={{ columnCount: numberOfColumns, width: `${gridWidthPx}px` }}
-            data-testid="pin-suggestions-container"
-          >
-            {pinSuggestions.map((pinSuggestion) => (
-              <div className={styles.pinSuggestion} key={pinSuggestion.id}>
-                <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
-              </div>
-            ))}
-          </div>
-        )}
-        <div ref={scrolledToBottomSentinel}></div>
+        {
+          // NB: `numberOfColumns` will be undefined on initial render
+          numberOfColumns && (
+            <div
+              className={styles.grid}
+              style={{
+                columnCount: numberOfColumns,
+                width: `${gridWidthPx}px`,
+              }}
+              data-testid="pin-suggestions-container"
+            >
+              {pinSuggestions.map((pinSuggestion) => (
+                <div className={styles.pinSuggestion} key={pinSuggestion.id}>
+                  <PinSuggestion
+                    pinSuggestion={pinSuggestion}
+                    labels={labels}
+                  />
+                </div>
+              ))}
+              <div ref={scrolledToBottomSentinel}></div>
+            </div>
+          )
+        }
       </main>
     </div>
   );
