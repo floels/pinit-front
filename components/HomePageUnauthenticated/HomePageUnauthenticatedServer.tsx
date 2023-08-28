@@ -12,23 +12,22 @@ const HomePageUnauthenticatedServer = ({
   const componentTranslator = useTranslations("HomePageUnauthenticated");
   const componentTranslations = getTranslationsObject(
     "HomePageUnauthenticated",
-    componentTranslator,
+    componentTranslator
   );
 
   const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
     "Common",
-    commonsTranslator,
+    commonsTranslator
   );
 
+  const labels = {
+    component: componentTranslations,
+    commons: commonsTranslations,
+  };
+
   return (
-    <HomePageUnauthenticatedClient
-      errorCode={errorCode}
-      labels={{
-        component: componentTranslations,
-        commons: commonsTranslations,
-      }}
-    />
+    <HomePageUnauthenticatedClient errorCode={errorCode} labels={labels} />
   );
 };
 

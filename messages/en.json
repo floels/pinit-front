@@ -97,6 +97,7 @@
         "LOG_OUT": "Log out"
       }
     },
+    "ERROR_FETCH_PIN_SUGGESTIONS": "An error occurred while attempting to display more pins. Please refresh this page and try again.",
     "PinSuggestions": {
       "PIN_BY": "Pin by"
     }

@@ -13,17 +13,28 @@ const HomePageAuthenticatedServer = ({
   accounts,
   initialPinSuggestions,
 }: HomePageAuthenticatedServerProps) => {
-  const translator = useTranslations("HomePageAuthenticated");
-  const translations = getTranslationsObject(
+  const componentTranslator = useTranslations("HomePageAuthenticated");
+  const componentTranslations = getTranslationsObject(
     "HomePageAuthenticated",
-    translator,
+    componentTranslator
   );
+
+  const commonsTranslator = useTranslations("Common");
+  const commonsTranslations = getTranslationsObject(
+    "Common",
+    commonsTranslator
+  );
+
+  const labels = {
+    component: componentTranslations,
+    commons: commonsTranslations,
+  };
 
   return (
     <HomePageAuthenticatedClient
       accounts={accounts}
       initialPinSuggestions={initialPinSuggestions}
-      labels={translations}
+      labels={labels}
     />
   );
 };

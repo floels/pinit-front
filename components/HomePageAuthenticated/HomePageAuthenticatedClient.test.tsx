@@ -26,7 +26,10 @@ const initialPinSuggestions = Array.from({ length: 100 }, (_, index) => ({
   authorDisplayName: "John Doe",
 })) as PinSuggestionType[];
 
-const labels = en.HomePageAuthenticated;
+const labels = {
+  commons: en.Common,
+  component: en.HomePageAuthenticated,
+};
 
 jest.mock("js-cookie", () => ({
   get: jest.fn(), // Needed for the `refreshAccessToken` function to get the refresh token
