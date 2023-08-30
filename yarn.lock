@@ -2073,13 +2073,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bezier-easing@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "bezier-easing@npm:2.1.0"
-  checksum: ec22666b5385979b3e7a63eaf2631395b1be5beb3aed4f14cc70ae9eb09032082584f7e3eec045e4c122466987ed7e159f5b39f82b8a9870cd55e75b0d55a7d5
-  languageName: node
-  linkType: hard
-
 "body-parser@npm:1.20.1":
   version: 1.20.1
   resolution: "body-parser@npm:1.20.1"
@@ -2485,13 +2478,6 @@ __metadata:
     shebang-command: "npm:^2.0.0"
     which: "npm:^2.0.1"
   checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
-  languageName: node
-  linkType: hard
-
-"css-mediaquery@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "css-mediaquery@npm:0.1.2"
-  checksum: 8e26ae52d8aaaa71893f82fc485363ff0fab494b7d3b3464572aaed50714b8b538d33dbdaa69f0c02cf7f80d1f4d9a77519306c0492223ce91b3987475031a69
   languageName: node
   linkType: hard
 
@@ -5138,16 +5124,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom-testing-mocks@npm:^1.9.0":
-  version: 1.9.0
-  resolution: "jsdom-testing-mocks@npm:1.9.0"
-  dependencies:
-    bezier-easing: ^2.1.0
-    css-mediaquery: ^0.1.2
-  checksum: 236a7d6b7da5dbc96f192c842a959cf5d98c7144311fe3b8d13b3aabd85abb5b6e4f200661f64f9765a923f577d11b7e48b0f92e704055e3d1a51be9df845e41
-  languageName: node
-  linkType: hard
-
 "jsdom@npm:^20.0.0":
   version: 20.0.3
   resolution: "jsdom@npm:20.0.3"
@@ -6188,7 +6164,6 @@ __metadata:
     jest-environment-jsdom: ^29.6.3
     jest-fetch-mock: ^3.0.3
     js-cookie: ^3.0.5
-    jsdom-testing-mocks: ^1.9.0
     lodash: ^4.17.21
     next: ^13.4.19
     next-intl: 3.0.0-beta.10
