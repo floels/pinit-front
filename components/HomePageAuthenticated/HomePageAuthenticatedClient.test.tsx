@@ -1,5 +1,6 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
+import Cookies from "js-cookie";
 import { AccountType } from "@/app/[locale]/page";
 import en from "@/messages/en.json";
 import HomePageAuthenticatedClient from "./HomePageAuthenticatedClient";
@@ -44,8 +45,6 @@ jest.mock("js-cookie", () => ({
   set: jest.fn(),
 }));
 
-const Cookies = require("js-cookie");
-
 global.IntersectionObserver = jest.fn(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),
@@ -56,14 +55,14 @@ global.IntersectionObserver = jest.fn(() => ({
   takeRecords: () => [],
 }));
 
-it("should fetch new pin suggestions when user scrolls to bottom", async () => {
-  // Mock the initial viewportWidth for the custom hook to a value that would result in a definite number of columns
-  Object.defineProperty(window, "innerWidth", {
-    writable: true,
-    configurable: true,
-    value: 1200, // This should result in a definite number of columns
-  });
+// Mock the initial viewportWidth to result in a definite number of columns
+Object.defineProperty(window, "innerWidth", {
+  writable: true,
+  configurable: true,
+  value: 1200,
+});
 
+it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
     JSON.stringify({ access_token: "refreshed_access_token" })
@@ -103,7 +102,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   );
 
   // Simulate the intersection of the sentinel div with the bottom of the viewport
-  // By directly triggering the IntersectionObserver callback
+  // by directly triggering the IntersectionObserver callback:
   const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
   act(() => {
     callback([{ isIntersecting: true }]);
@@ -117,7 +116,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   });
 });
 
-it("should refresh token after initial render", async () => {
+it("should refresh access token after initial render", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
     JSON.stringify({ access_token: "refreshed_access_token" })
@@ -137,4 +136,23 @@ it("should refresh token after initial render", async () => {
       "refreshed_access_token"
     );
   });
+});
+
+it("should render with the right number of columns", () => {
+  fetchMock.doMockOnceIf(
+    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
+    JSON.stringify({ access_token: "refreshed_access_token" })
+  );
+
+  render(
+    <HomePageAuthenticatedClient
+      accounts={accounts}
+      initialPinSuggestions={initialPinSuggestions}
+      labels={labels}
+    />
+  );
+
+  const gridContainer = screen.getByTestId("pin-suggestions-container");
+
+  expect(gridContainer.style.columnCount).toBe("4");
 });
