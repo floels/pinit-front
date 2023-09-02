@@ -156,3 +156,41 @@ it("should render with the right number of columns", () => {
 
   expect(gridContainer.style.columnCount).toBe("4");
 });
+
+it("should display toast in case of KO response upon new suggestions fetch", async () => {
+  fetchMock.doMockOnceIf(
+    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
+    JSON.stringify({ access_token: "refreshed_access_token" })
+  );
+
+  fetchMock.doMockOnceIf(
+    `${API_BASE_URL}/${ENDPOINT_GET_PIN_SUGGESTIONS}?page=2`,
+    () =>
+      Promise.resolve({
+        body: JSON.stringify({ message: "Bad Request" }),
+        status: 400,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+  );
+
+  render(
+    <HomePageAuthenticatedClient
+      accounts={accounts}
+      initialPinSuggestions={initialPinSuggestions}
+      labels={labels}
+    />
+  );
+
+  // Simulate the intersection of the sentinel div with the bottom of the viewport
+  // by directly triggering the IntersectionObserver callback:
+  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
+  act(() => {
+    callback([{ isIntersecting: true }]);
+  });
+
+  await waitFor(() => {
+    screen.getByText(en.HomePageAuthenticated.ERROR_FETCH_PIN_SUGGESTIONS);
+  });
+});
