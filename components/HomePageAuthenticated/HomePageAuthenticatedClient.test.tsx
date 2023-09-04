@@ -194,3 +194,29 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
     screen.getByText(en.HomePageAuthenticated.ERROR_FETCH_PIN_SUGGESTIONS);
   });
 });
+
+it("should display toast in case of failure upon new suggestions fetch", async () => {
+  fetchMock.doMockOnceIf(
+    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
+    JSON.stringify({ access_token: "refreshed_access_token" })
+  );
+
+  render(
+    <HomePageAuthenticatedClient
+      accounts={accounts}
+      initialPinSuggestions={initialPinSuggestions}
+      labels={labels}
+    />
+  );
+
+  // Simulate the intersection of the sentinel div with the bottom of the viewport
+  // by directly triggering the IntersectionObserver callback:
+  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
+  act(() => {
+    callback([{ isIntersecting: true }]);
+  });
+
+  await waitFor(() => {
+    screen.getByText(en.Common.CONNECTION_ERROR);
+  });
+});

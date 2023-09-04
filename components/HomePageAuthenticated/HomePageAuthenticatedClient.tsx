@@ -93,7 +93,7 @@ const HomePageAuthenticatedClient = ({
 
   const fetchNextPinSuggestionsAndFallBack = async () => {
     try {
-      fetchNextPinSuggestions();
+      await fetchNextPinSuggestions();
     } catch (error) {
       toast.warn(labels.commons.CONNECTION_ERROR);
     }
