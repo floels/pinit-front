@@ -19,10 +19,10 @@ it("should render without any modal open", () => {
   screen.getByText(labels.component.SIGN_UP);
 
   expect(
-    screen.queryByText(labels.component.LoginForm.WELCOME_TO_PINIT)
+    screen.queryByText(labels.component.LoginForm.WELCOME_TO_PINIT),
   ).toBeNull();
   expect(
-    screen.queryByText(labels.component.SignupForm.FIND_NEW_IDEAS)
+    screen.queryByText(labels.component.SignupForm.FIND_NEW_IDEAS),
   ).toBeNull();
 });
 
@@ -36,10 +36,10 @@ it("should open login modal when clicking on Login button, and switch to signup 
   screen.getByText(labels.component.LoginForm.WELCOME_TO_PINIT);
 
   const noAccountYetDiv = screen.getByText(
-    labels.component.LoginForm.NO_ACCOUNT_YET
+    labels.component.LoginForm.NO_ACCOUNT_YET,
   );
   const noAccountYetSignupButton = within(noAccountYetDiv).getByText(
-    labels.component.LoginForm.SIGN_UP
+    labels.component.LoginForm.SIGN_UP,
   );
 
   await userEvent.click(noAccountYetSignupButton);
@@ -57,16 +57,16 @@ it("should open signup modal when clicking on Signup button, and switch to login
   screen.getByText(labels.component.SignupForm.FIND_NEW_IDEAS);
 
   const alreadyHaveAccountDiv = screen.getByText(
-    labels.component.SignupForm.ALREADY_HAVE_ACCOUNT
+    labels.component.SignupForm.ALREADY_HAVE_ACCOUNT,
   );
   const alreadyHaveAccountSignupButton = within(
-    alreadyHaveAccountDiv
+    alreadyHaveAccountDiv,
   ).getByText(labels.component.SignupForm.LOG_IN);
 
   await userEvent.click(alreadyHaveAccountSignupButton);
 
   expect(
-    screen.queryByText(labels.component.SignupForm.FIND_NEW_IDEAS)
+    screen.queryByText(labels.component.SignupForm.FIND_NEW_IDEAS),
   ).toBeNull();
   screen.getByText(labels.component.LoginForm.WELCOME_TO_PINIT);
 });

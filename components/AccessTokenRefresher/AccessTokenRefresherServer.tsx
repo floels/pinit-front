@@ -6,13 +6,13 @@ const AccessTokenRefresherServer = () => {
   const componentTranslator = useTranslations("HomePageUnauthenticated");
   const componentTranslations = getTranslationsObject(
     "HomePageUnauthenticated",
-    componentTranslator
+    componentTranslator,
   );
 
   const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
     "Common",
-    commonsTranslator
+    commonsTranslator,
   );
 
   return (

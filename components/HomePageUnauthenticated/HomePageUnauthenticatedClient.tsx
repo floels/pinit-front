@@ -88,7 +88,7 @@ const HomePageUnauthenticatedClient = ({
           now.getTime() - dateLastScrollSameDirection.getTime();
 
         console.log(
-          `Time elapsed since last scroll event: ${timeElapsedSinceLastScrollSameDirection}`
+          `Time elapsed since last scroll event: ${timeElapsedSinceLastScrollSameDirection}`,
         );
       }
 

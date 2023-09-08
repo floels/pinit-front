@@ -32,7 +32,7 @@ const initialPinSuggestions = Array.from(
     description: "",
     authorUsername: "johndoe",
     authorDisplayName: "John Doe",
-  })
+  }),
 ) as PinSuggestionType[];
 
 const labels = {
@@ -65,7 +65,7 @@ Object.defineProperty(window, "innerWidth", {
 it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" })
+    JSON.stringify({ access_token: "refreshed_access_token" }),
   );
 
   const NUMBER_NEW_SUGGESTIONS = 100;
@@ -79,12 +79,12 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
       description: "",
       authorUsername: "johndoe",
       authorDisplayName: "John Doe",
-    })
+    }),
   ) as PinSuggestionType[];
 
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_GET_PIN_SUGGESTIONS}?page=2`,
-    JSON.stringify({ results: newPinSuggestions })
+    JSON.stringify({ results: newPinSuggestions }),
   );
 
   render(
@@ -92,13 +92,13 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
       accounts={accounts}
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
-    />
+    />,
   );
 
   const initialRenderedPinSuggestions = screen.getAllByTestId("pin-suggestion");
 
   expect(initialRenderedPinSuggestions).toHaveLength(
-    NUMBER_INITIAL_SUGGESTIONS
+    NUMBER_INITIAL_SUGGESTIONS,
   );
 
   // Simulate the intersection of the sentinel div with the bottom of the viewport
@@ -111,7 +111,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   await waitFor(() => {
     const renderedPinSuggestions = screen.getAllByTestId("pin-suggestion");
     expect(renderedPinSuggestions).toHaveLength(
-      NUMBER_INITIAL_SUGGESTIONS + NUMBER_NEW_SUGGESTIONS
+      NUMBER_INITIAL_SUGGESTIONS + NUMBER_NEW_SUGGESTIONS,
     );
   });
 });
@@ -119,7 +119,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
 it("should refresh access token after initial render", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" })
+    JSON.stringify({ access_token: "refreshed_access_token" }),
   );
 
   render(
@@ -127,13 +127,13 @@ it("should refresh access token after initial render", async () => {
       accounts={accounts}
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
-    />
+    />,
   );
 
   await waitFor(() => {
     expect(Cookies.set).toHaveBeenCalledWith(
       "accessToken",
-      "refreshed_access_token"
+      "refreshed_access_token",
     );
   });
 });
@@ -141,7 +141,7 @@ it("should refresh access token after initial render", async () => {
 it("should render with the right number of columns", () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" })
+    JSON.stringify({ access_token: "refreshed_access_token" }),
   );
 
   render(
@@ -149,7 +149,7 @@ it("should render with the right number of columns", () => {
       accounts={accounts}
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
-    />
+    />,
   );
 
   const gridContainer = screen.getByTestId("pin-suggestions-container");
@@ -160,7 +160,7 @@ it("should render with the right number of columns", () => {
 it("should display toast in case of KO response upon new suggestions fetch", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" })
+    JSON.stringify({ access_token: "refreshed_access_token" }),
   );
 
   fetchMock.doMockOnceIf(
@@ -172,7 +172,7 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
         headers: {
           "Content-Type": "application/json",
         },
-      })
+      }),
   );
 
   render(
@@ -180,7 +180,7 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
       accounts={accounts}
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
-    />
+    />,
   );
 
   // Simulate the intersection of the sentinel div with the bottom of the viewport
@@ -198,7 +198,7 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
 it("should display toast in case of failure upon new suggestions fetch", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" })
+    JSON.stringify({ access_token: "refreshed_access_token" }),
   );
 
   render(
@@ -206,7 +206,7 @@ it("should display toast in case of failure upon new suggestions fetch", async (
       accounts={accounts}
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
-    />
+    />,
   );
 
   // Simulate the intersection of the sentinel div with the bottom of the viewport

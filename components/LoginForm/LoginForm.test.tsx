@@ -31,7 +31,7 @@ it("should display relevant input errors, send request only when inputs are vali
     JSON.stringify({
       access_token: "accessToken",
       refresh_token: "refreshToken",
-    })
+    }),
   );
 
   render(loginForm);
@@ -59,7 +59,7 @@ it("should display relevant input errors, send request only when inputs are vali
   // Fix password input:
   await user.type(passwordInput, "w0rd");
   expect(
-    screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT)
+    screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT),
   ).toBeNull();
 
   // Submit with correct inputs:
@@ -82,7 +82,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`,
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
-    { status: 401 }
+    { status: 401 },
   );
   await user.click(submitButton);
 
@@ -91,7 +91,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`,
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
-    { status: 401 }
+    { status: 401 },
   );
   await user.type(passwordInput, "IsWr0ng");
   await user.click(submitButton);

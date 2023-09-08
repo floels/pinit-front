@@ -14,7 +14,7 @@ it("should call handleClickLogOut when user clicks on 'Log out'", async () => {
     <AccountOptionsFlyout
       handleClickLogOut={handleClickLogOut}
       labels={labels}
-    />
+    />,
   );
 
   const logOutElement = screen.getByText(labels.LOG_OUT);
