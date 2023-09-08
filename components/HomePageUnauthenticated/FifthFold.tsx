@@ -34,7 +34,7 @@ const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
     if (heroRef.current?.scrollIntoView) {
       heroRef.current.scrollIntoView();
     }
-  });
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -69,7 +69,11 @@ const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
             </div>
           </div>
         </div>
-        <div className={styles.backToTopButton} onClick={onClickBackToTop}>
+        <div
+          className={styles.backToTopButton}
+          onClick={onClickBackToTop}
+          data-testid="back-to-top-button"
+        >
           <FontAwesomeIcon
             icon={faAngleUp}
             className={styles.backToTopButtonIcon}
