@@ -32,7 +32,7 @@ const accessTokenRefresher = <AccessTokenRefresherClient labels={labels} />;
 it("should refresh the current route when receiving a OK response from token refresh endpoint", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshedAccessToken" })
+    JSON.stringify({ access_token: "refreshedAccessToken" }),
   );
 
   mockedRouter.refresh = jest.fn();
@@ -52,7 +52,7 @@ it("should refresh the page when receiving KO response from token refresh endpoi
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
     JSON.stringify({ errors: [{ code: "invalid_refresh_token" }] }),
-    { status: 401 }
+    { status: 401 },
   );
 
   render(accessTokenRefresher);

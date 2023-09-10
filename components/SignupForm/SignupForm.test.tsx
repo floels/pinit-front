@@ -31,7 +31,7 @@ it("should display relevant input errors, send request only when inputs are vali
 
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
-    JSON.stringify({ access: "access", refresh: "refresh" })
+    JSON.stringify({ access: "access", refresh: "refresh" }),
   );
 
   render(signupForm);
@@ -60,14 +60,14 @@ it("should display relevant input errors, send request only when inputs are vali
   // Fix password input but not birthdate:
   await user.type(passwordInput, "w0rd");
   expect(
-    screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT)
+    screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT),
   ).toBeNull();
   screen.getByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT);
 
   // Fix birthdate ipnut:
   await user.type(birthdateInput, "1970-01-01");
   expect(
-    screen.queryByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT)
+    screen.queryByText(COMPONENT_LABELS.INVALID_BIRTHDATE_INPUT),
   ).toBeNull();
 
   // Submit with correct inputs:
@@ -92,7 +92,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
-    { status: 400 }
+    { status: 400 },
   );
   await user.click(submitButton);
 
@@ -101,7 +101,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
-    { status: 400 }
+    { status: 400 },
   );
   await user.type(passwordInput, "IsWr0ng");
   await user.click(submitButton);
@@ -111,7 +111,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   fetchMock.doMockOnceIf(
     `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
     JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
-    { status: 400 }
+    { status: 400 },
   );
   await user.type(passwordInput, "IsNowRight");
   await user.click(submitButton);

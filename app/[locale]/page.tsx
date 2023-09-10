@@ -35,7 +35,7 @@ const fetchData = async (accessToken: string) => {
     ]);
 
   const [fetchAccountsData, fetchInitialPinSuggestionsData] = await Promise.all(
-    [fetchAccountsResponse.json(), fetchInitialPinSuggestionsResponse.json()]
+    [fetchAccountsResponse.json(), fetchInitialPinSuggestionsResponse.json()],
   );
 
   return {
@@ -97,7 +97,7 @@ const Page = async () => {
     if (fetchAccountsResponse.ok && fetchInitialPinSuggestionsResponse.ok) {
       const accounts = getAccountsWithCamelizedKeys(fetchAccountsData);
       const initialPinSuggestions = getPinSuggestionsWithCamelizedKeys(
-        fetchInitialPinSuggestionsData
+        fetchInitialPinSuggestionsData,
       );
 
       return (

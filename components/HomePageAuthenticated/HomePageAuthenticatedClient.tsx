@@ -25,13 +25,13 @@ const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set 
 
 const getNumberOfColumns = (viewportWidth: number) => {
   const theoreticalNumberOfColumns = Math.floor(
-    viewportWidth / GRID_COLUMN_WIDTH_WITH_MARGINS_PX
+    viewportWidth / GRID_COLUMN_WIDTH_WITH_MARGINS_PX,
   );
 
   // We force the number of columns to be between 2 and 6:
   const boundedNumberOfColumns = Math.min(
     Math.max(theoreticalNumberOfColumns, 2),
-    6
+    6,
   );
 
   return boundedNumberOfColumns;
@@ -61,7 +61,7 @@ const HomePageAuthenticatedClient = ({
 
   // Fetch next page of pin suggestions when user scrolled to the bottom of the screen
   const updateStateWithNewPinSuggestionsResponse = async (
-    newPinSuggestionsResponse: Response
+    newPinSuggestionsResponse: Response,
   ) => {
     const newPinSuggestionsResponseData =
       await newPinSuggestionsResponse.json();
@@ -101,7 +101,7 @@ const HomePageAuthenticatedClient = ({
 
   const cachedFetchNextPinSuggestionsAndFallBack = useCallback(
     fetchNextPinSuggestionsAndFallBack,
-    [currentEndpointPage]
+    [currentEndpointPage],
   );
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const HomePageAuthenticatedClient = ({
           cachedFetchNextPinSuggestionsAndFallBack();
         }
       },
-      { threshold: 1.0 }
+      { threshold: 1.0 },
     );
 
     if (scrolledToBottomSentinel.current) {

@@ -48,33 +48,37 @@ const LabelledTextInput = React.forwardRef<
 
     return (
       <div className={styles.container}>
-        <label>
-          <div className={styles.labelText}>{label}</div>
-          <div className={styles.inputContainer}>
-            <input
-              name={name}
-              type={type == "password" && showPassword ? "text" : type}
-              placeholder={placeholder}
-              value={value}
-              autoComplete={autoComplete}
-              onChange={onChange}
-              {...otherInputProps}
-              className={`${styles.input} ${
-                errorMessage ? styles.inputError : ""
-              }`}
-              ref={inputRef}
-            />
-            {displayPasswordShowIcon && (
-              <div className={styles.showPasswordIconContainer}>
-                <FontAwesomeIcon
-                  icon={showPassword ? faEyeSlash : faEye}
-                  onClick={toggleShowPassword}
-                  size="xs"
-                />
-              </div>
-            )}
-          </div>
-        </label>
+        {label && (
+          <label htmlFor={name} className={styles.labelText}>
+            {label}
+          </label>
+        )}
+        <div className={styles.inputContainer}>
+          <input
+            id={name}
+            name={name}
+            type={type === "password" && showPassword ? "text" : type}
+            placeholder={placeholder}
+            value={value}
+            autoComplete={autoComplete}
+            onChange={onChange}
+            {...otherInputProps}
+            className={`${styles.input} ${
+              errorMessage ? styles.inputError : ""
+            }`}
+            ref={inputRef}
+          />
+          {displayPasswordShowIcon && (
+            <div className={styles.showPasswordIconContainer}>
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                onClick={toggleShowPassword}
+                size="xs"
+                data-testid="show-password-icon"
+              />
+            </div>
+          )}
+        </div>
         {errorMessage && (
           <div className={styles.errorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />

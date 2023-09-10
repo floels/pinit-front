@@ -16,13 +16,13 @@ const HomePageAuthenticatedServer = ({
   const componentTranslator = useTranslations("HomePageAuthenticated");
   const componentTranslations = getTranslationsObject(
     "HomePageAuthenticated",
-    componentTranslator
+    componentTranslator,
   );
 
   const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
     "Common",
-    commonsTranslator
+    commonsTranslator,
   );
 
   const labels = {

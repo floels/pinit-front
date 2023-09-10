@@ -42,7 +42,7 @@ it("should switch to login form upon click on 'Already have an account'", async 
   render(fifthFold);
 
   const alreadyHaveAccountButton = screen.getByText(
-    en.HomePageUnauthenticated.SignupForm.LOG_IN
+    en.HomePageUnauthenticated.SignupForm.LOG_IN,
   );
 
   await user.click(alreadyHaveAccountButton);
