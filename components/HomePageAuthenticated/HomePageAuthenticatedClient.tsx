@@ -73,7 +73,7 @@ const HomePageAuthenticatedClient = ({
     setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
   };
 
-  const fetchNextPinSuggestions = async () => {
+  const fetchNextPinSuggestions = useCallback(async () => {
     const nextEndpointPage = currentEndpointPage + 1;
     const accessToken = Cookies.get("accessToken") as string;
 
@@ -89,7 +89,7 @@ const HomePageAuthenticatedClient = ({
 
     // KO response from the server: display a toast message
     toast.warn(labels.component.ERROR_FETCH_PIN_SUGGESTIONS);
-  };
+  }, [currentEndpointPage]);
 
   const fetchNextPinSuggestionsAndFallBack = async () => {
     try {
@@ -99,16 +99,11 @@ const HomePageAuthenticatedClient = ({
     }
   };
 
-  const cachedFetchNextPinSuggestionsAndFallBack = useCallback(
-    fetchNextPinSuggestionsAndFallBack,
-    [currentEndpointPage],
-  );
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          cachedFetchNextPinSuggestionsAndFallBack();
+          fetchNextPinSuggestionsAndFallBack();
         }
       },
       { threshold: 1.0 },
