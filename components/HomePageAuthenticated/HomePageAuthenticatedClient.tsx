@@ -41,7 +41,7 @@ const HomePageAuthenticatedClient = ({
 
   // Fetch next page of pin suggestions when user scrolled to the bottom of the screen
   const updateStateWithNewPinSuggestionsResponse = async (
-    newPinSuggestionsResponse: Response
+    newPinSuggestionsResponse: Response,
   ) => {
     const newPinSuggestionsResponseData =
       await newPinSuggestionsResponse.json();
@@ -86,7 +86,7 @@ const HomePageAuthenticatedClient = ({
           fetchNextPinSuggestionsAndFallBack();
         }
       },
-      { threshold: 1.0 }
+      { threshold: 1.0 },
     );
 
     if (scrolledToBottomSentinel.current) {
