@@ -1,9 +1,0 @@
-// https://github.com/cypress-io/code-coverage#instrument-your-application
-{
-  "presets": ["next/babel"],
-  "env": {
-    "development": {
-      "plugins": ["istanbul"]
-    }
-  }
-}
