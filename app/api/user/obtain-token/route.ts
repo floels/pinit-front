@@ -1,9 +1,9 @@
+import { NextResponse } from "next/server";
 import {
   API_BASE_URL,
   ENDPOINT_OBTAIN_TOKEN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
 } from "@/lib/constants";
-import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const { email, password } = await request.json();

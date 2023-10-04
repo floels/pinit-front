@@ -5,7 +5,7 @@ import HomePageAuthenticatedServer from "@/components/HomePageAuthenticated/Home
 import {
   ENDPOINT_GET_ACCOUNTS,
   ENDPOINT_GET_PIN_SUGGESTIONS,
-  ERROR_CODE_FETCH_FAILED,
+  ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
@@ -123,7 +123,9 @@ const Page = async () => {
     );
   } catch (error) {
     return (
-      <HomePageUnauthenticatedServer errorCode={ERROR_CODE_FETCH_FAILED} />
+      <HomePageUnauthenticatedServer
+        errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
+      />
     );
   }
 };

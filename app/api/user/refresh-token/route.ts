@@ -1,25 +1,26 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import {
   API_BASE_URL,
-  ENDPOINT_SIGN_UP,
+  ENDPOINT_REFRESH_TOKEN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
 } from "@/lib/constants";
 
-export async function POST(request: Request) {
-  const { email, password, birthdate } = await request.json();
+export async function POST() {
+  // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
+  const cookieStore = cookies();
+  const refreshToken = cookieStore.get("refreshToken");
 
   let backendResponse;
 
   try {
-    backendResponse = await fetch(`${API_BASE_URL}/${ENDPOINT_SIGN_UP}`, {
+    backendResponse = await fetch(`${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email,
-        password,
-        birthdate,
+        refresh_token: refreshToken,
       }),
     });
   } catch (error) {
@@ -38,8 +39,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { access_token: accessToken, refresh_token: refreshToken } =
-    backendResponseData;
+  const { access_token: accessToken } = backendResponseData;
 
   const accessTokenCookie = {
     name: "accessToken",
@@ -49,19 +49,10 @@ export async function POST(request: Request) {
     httpOnly: true,
   };
 
-  const refreshTokenCookie = {
-    name: "refreshToken",
-    value: refreshToken,
-    path: "/",
-    secure: true,
-    httpOnly: true,
-  };
-
   // See https://nextjs.org/docs/app/api-reference/functions/next-response#setname-value
   const response = new NextResponse();
 
   response.cookies.set(accessTokenCookie);
-  response.cookies.set(refreshTokenCookie);
 
   return response;
 }
