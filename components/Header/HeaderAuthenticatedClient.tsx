@@ -3,6 +3,7 @@
 import _ from "lodash";
 import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import Link from "next/link";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
@@ -106,14 +107,18 @@ const HeaderAuthenticatedClient = ({
   };
 
   const handleClickLogOut = async () => {
-    await fetch("/api/user/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      await fetch("/api/user/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    window.location.reload();
+      window.location.reload();
+    } catch (error) {
+      toast.warn(labels.commons.CONNECTION_ERROR);
+    }
   };
 
   useEffect(() => {

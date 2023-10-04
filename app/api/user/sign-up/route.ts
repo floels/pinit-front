@@ -1,17 +1,17 @@
 import {
   API_BASE_URL,
-  ENDPOINT_OBTAIN_TOKEN,
+  ENDPOINT_SIGN_UP,
   ERROR_CODE_FETCH_BACKEND_FAILED,
 } from "@/lib/constants";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const { email, password } = await request.json();
+  const { email, password, birthdate } = await request.json();
 
   let backendResponse;
 
   try {
-    backendResponse = await fetch(`${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`, {
+    backendResponse = await fetch(`${API_BASE_URL}/${ENDPOINT_SIGN_UP}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,6 +19,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         email,
         password,
+        birthdate,
       }),
     });
   } catch (error) {

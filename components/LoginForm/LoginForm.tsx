@@ -4,7 +4,7 @@ import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
-  ERROR_CODE_FETCH_FAILED,
+  ERROR_CODE_CLIENT_FETCH_FAILED,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
@@ -100,7 +100,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
         }),
       });
     } catch (error) {
-      throw new Error(ERROR_CODE_FETCH_FAILED);
+      throw new Error(ERROR_CODE_CLIENT_FETCH_FAILED);
     } finally {
       setIsLoading(false);
     }
@@ -121,7 +121,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {
     switch (errorCode) {
-      case ERROR_CODE_FETCH_FAILED:
+      case ERROR_CODE_CLIENT_FETCH_FAILED:
         setFormErrors({ other: "CONNECTION_ERROR" });
         break;
       case ERROR_CODE_INVALID_EMAIL:
