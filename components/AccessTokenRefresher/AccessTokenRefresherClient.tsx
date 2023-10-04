@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import HomePageUnauthenticatedClient, {
@@ -16,7 +16,7 @@ const AccessTokenRefresherClient = ({
 
   const router = useRouter();
 
-  const refreshTokenAndRefreshRoute = async () => {
+  const refreshTokenAndRefreshRoute = useCallback(async () => {
     let response;
 
     try {
@@ -45,11 +45,11 @@ const AccessTokenRefresherClient = ({
 
     // Token refresh succeeded: refresh current route
     router.refresh();
-  };
+  }, [router]);
 
   useEffect(() => {
     refreshTokenAndRefreshRoute();
-  }, []);
+  }, [refreshTokenAndRefreshRoute]);
 
   if (fetchFailed) {
     return (
