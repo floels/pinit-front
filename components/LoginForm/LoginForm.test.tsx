@@ -23,8 +23,6 @@ it("should display relevant input errors, send request only when inputs are vali
     value: { ...window.location, reload: jest.fn() },
   });
 
-  const user = userEvent.setup();
-
   fetchMock.doMockOnceIf(
     "/api/user/obtain-token",
     JSON.stringify({
@@ -42,48 +40,46 @@ it("should display relevant input errors, send request only when inputs are vali
   const submitButton = screen.getByText(COMPONENT_LABELS.LOG_IN);
 
   // Fill form with invalid email and pasword and submit:
-  await user.type(emailInput, "test@example");
-  await user.type(passwordInput, "Pa$$");
-  await user.click(submitButton);
+  await userEvent.type(emailInput, "test@example");
+  await userEvent.type(passwordInput, "Pa$$");
+  await userEvent.click(submitButton);
 
   screen.getByText(COMPONENT_LABELS.INVALID_EMAIL_INPUT);
 
   // Fix email but not password:
-  await user.type(emailInput, ".com");
-  await user.click(submitButton);
+  await userEvent.type(emailInput, ".com");
+  await userEvent.click(submitButton);
 
   expect(screen.queryByText(COMPONENT_LABELS.INVALID_EMAIL_INPUT)).toBeNull();
   screen.getByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT);
 
   // Fix password input:
-  await user.type(passwordInput, "w0rd");
+  await userEvent.type(passwordInput, "w0rd");
   expect(
     screen.queryByText(COMPONENT_LABELS.INVALID_PASSWORD_INPUT),
   ).toBeNull();
 
   // Submit with correct inputs:
-  await user.click(submitButton);
+  await userEvent.click(submitButton);
   expect(window.location.reload).toHaveBeenCalledTimes(1);
 });
 
 it("should display relevant errors when receiving 401 responses", async () => {
-  const user = userEvent.setup();
-
   render(loginForm);
 
   const emailInput = screen.getByLabelText(COMPONENT_LABELS.EMAIL);
   const passwordInput = screen.getByLabelText(COMPONENT_LABELS.PASSWORD);
   const submitButton = screen.getByText(COMPONENT_LABELS.LOG_IN);
 
-  await user.type(emailInput, "test@example.com");
-  await user.type(passwordInput, "Pa$$w0rd");
+  await userEvent.type(emailInput, "test@example.com");
+  await userEvent.type(passwordInput, "Pa$$w0rd");
 
   fetchMock.doMockOnceIf(
     "/api/user/obtain-token",
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 401 },
   );
-  await user.click(submitButton);
+  await userEvent.click(submitButton);
 
   screen.getByText(COMPONENT_LABELS.INVALID_EMAIL_LOGIN);
 
@@ -92,15 +88,13 @@ it("should display relevant errors when receiving 401 responses", async () => {
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 401 },
   );
-  await user.type(passwordInput, "IsWr0ng");
-  await user.click(submitButton);
+  await userEvent.type(passwordInput, "IsWr0ng");
+  await userEvent.click(submitButton);
 
   screen.getByText(COMPONENT_LABELS.INVALID_PASSWORD_LOGIN);
 });
 
 it("should display loading state while expecting network response", async () => {
-  const user = userEvent.setup();
-
   render(loginForm);
 
   const emailInput = screen.getByLabelText(COMPONENT_LABELS.EMAIL);
@@ -110,9 +104,9 @@ it("should display loading state while expecting network response", async () => 
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
-  await user.type(emailInput, "test@example.com");
-  await user.type(passwordInput, "Pa$$w0rd");
-  await user.click(submitButton);
+  await userEvent.type(emailInput, "test@example.com");
+  await userEvent.type(passwordInput, "Pa$$w0rd");
+  await userEvent.click(submitButton);
 
   screen.getByTestId("loading-overlay");
 });

@@ -73,39 +73,6 @@
   background-color: var(--color-background-secondary);
 }
 
-.searchBarContainer {
-  flex-grow: 1;
-  margin: 0px 8px;
-  padding-left: 16px;
-  background-color: var(--color-background-secondary);
-  border-radius: 24px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-}
-
-.searchBarContainer.searchBarContainerActive {
-  box-shadow: rgba(0, 132, 255, 0.5) 0px 0px 0px 4px;
-}
-
-.searchBarIcon {
-  margin-right: 8px;
-  color: var(--color-text-icon-subtle);
-}
-
-.searchBarInput {
-  height: 100%;
-  border: none;
-  padding: 0px;
-  flex-grow: 1;
-  background-color: transparent;
-  font-size: 16px;
-}
-
-.searchBarInput:focus {
-  outline: none;
-}
-
 .profileLink {
   height: 48px;
   width: 48px;
