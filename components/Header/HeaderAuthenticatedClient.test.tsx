@@ -17,26 +17,18 @@ const accounts = [
 ] as AccountType[];
 
 it("should have the proper interactivity", async () => {
-  const user = userEvent.setup();
-
   render(<HeaderAuthenticatedClient accounts={accounts} labels={labels} />);
 
   const createButton = screen.getByText(labels.CREATE);
-  const searchBar = screen.getByPlaceholderText(labels.PLACEHOLDER_SEARCH);
   const profileLink = screen.getByTestId("profile-link");
   const accountOptionsButton = screen.getByTestId("account-options-button");
 
   // Create button:
   expect(screen.queryByText(labels.CREATE_PIN)).toBeNull();
-  await user.click(createButton);
+  await userEvent.click(createButton);
   screen.getByText(labels.CREATE_PIN);
-  await user.click(createButton);
+  await userEvent.click(createButton);
   expect(screen.queryByText(labels.CREATE_PIN)).toBeNull();
-
-  // Search bar:
-  screen.getByTestId("search-bar-icon");
-  await user.click(searchBar);
-  expect(screen.queryByTestId("search-bar-icon")).toBeNull();
 
   // Profile link:
   expect(screen.queryByText(labels.YOUR_PROFILE)).toBeNull();
@@ -53,8 +45,8 @@ it("should have the proper interactivity", async () => {
   expect(screen.queryByText(labels.ACCOUNT_OPTIONS)).toBeNull();
 
   expect(screen.queryByText(labels.AccountOptionsFlyout.LOG_OUT)).toBeNull();
-  await user.click(accountOptionsButton);
+  await userEvent.click(accountOptionsButton);
   screen.getByText(labels.AccountOptionsFlyout.LOG_OUT);
-  await user.click(accountOptionsButton);
+  await userEvent.click(accountOptionsButton);
   expect(screen.queryByText(labels.AccountOptionsFlyout.LOG_OUT)).toBeNull();
 });

@@ -12,12 +12,10 @@ const overlayModal = (
 
 describe("OverlayModal", () => {
   it("should call onClase when user clicks on close button", async () => {
-    const user = userEvent.setup();
-
     render(overlayModal);
 
     const closeButton = screen.getByTestId("overlay-modal-close-button");
-    await user.click(closeButton);
+    await userEvent.click(closeButton);
     expect(onCloseSpy).toHaveBeenCalledTimes(1);
   });
 });

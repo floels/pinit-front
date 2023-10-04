@@ -5,8 +5,6 @@ import LabelledTextInput from "./LabelledTextInput";
 const dummyOnChange = () => {};
 
 it("should toggle password visibility when user clicks on corresponding button", async () => {
-  const user = userEvent.setup();
-
   const passwordLabelledTextInput = (
     <LabelledTextInput
       label="Test input"
@@ -26,9 +24,9 @@ it("should toggle password visibility when user clicks on corresponding button",
 
   expect(inputElement.type).toBe("password");
 
-  await user.click(showPasswordIcon);
+  await userEvent.click(showPasswordIcon);
   expect(inputElement.type).toBe("text");
 
-  await user.click(showPasswordIcon);
+  await userEvent.click(showPasswordIcon);
   expect(inputElement.type).toBe("password");
 });

@@ -67,6 +67,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
         onChange={handleInputChange}
         onFocus={handleFocusInput}
         onBlur={handleBlurSearchBarInput}
+        data-testid="search-bar-input"
       />
     </div>
   );
