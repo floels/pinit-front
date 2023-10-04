@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import styles from "./HomePageUnauthenticatedClient.module.css";
@@ -118,13 +118,18 @@ const HomePageUnauthenticatedClient = ({
 
   useEffect(() => {
     if (errorCode === ERROR_CODE_CLIENT_FETCH_FAILED) {
-      toast.warn(labels.commons.CONNECTION_ERROR);
+      toast.warn(labels.commons.CONNECTION_ERROR, {
+        toastId: "toast-id-connection-error",
+      });
+    } else if (errorCode) {
+      toast.warn(labels.commons.UNFORESEEN_ERROR, {
+        toastId: "toast-id-unforeseen-error",
+      });
     }
   }, [errorCode, labels]);
 
   return (
     <main className={styles.container}>
-      <ToastContainer position="bottom-left" autoClose={5000} />
       <div
         className={styles.content}
         style={{ transform: `translateY(-${(currentFold - 1) * 100}vh)` }}

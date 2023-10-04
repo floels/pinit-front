@@ -2,11 +2,7 @@ import { test } from "@playwright/test";
 import { Response, Express } from "express";
 import { Server } from "http";
 import en from "@/messages/en.json";
-import {
-  PORT_MOCK_API_SERVER,
-  checkCookieValue,
-  getExpressApp,
-} from "@/e2e-tests/utils";
+import { PORT_MOCK_API_SERVER, getExpressApp } from "@/e2e-tests/utils";
 
 const EMAIL_FIXTURE = "john.doe@example.com";
 const PASSWORD_FIXTURE = "Pa$$w0rd";
@@ -52,9 +48,12 @@ test("User should be able to sign up", async ({ page }) => {
     `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
   );
 
-  // Check presence of authentication cookies
-  await checkCookieValue(page, "accessToken", "mock_access_token");
-  await checkCookieValue(page, "refreshToken", "mock_refresh_token");
+  // If we visit the base route again, we should still land on the authenticated homepage
+  await page.goto("/");
+
+  await page.waitForSelector(
+    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
+  );
 
   // Close mock API server
   mockAPIServer.close();

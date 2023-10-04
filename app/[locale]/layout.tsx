@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "@/styles/globals.css";
 
+import { ToastContainer } from "react-toastify";
+
 type Props = {
   children: React.ReactNode;
   params: { locale: string };
@@ -35,7 +37,10 @@ const Layout = ({ children, params }: Props) => {
 
   return (
     <html lang={locale}>
-      <body>{children}</body>
+      <body>
+        <ToastContainer position="bottom-left" autoClose={5000} />
+        {children}
+      </body>
     </html>
   );
 };
