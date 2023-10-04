@@ -13,10 +13,12 @@ test("Homepage should display warning toast when server is unreachable", async (
       value: "dummy_access_token",
       path: "/",
       domain: "127.0.0.1",
+      httpOnly: true,
+      secure: true,
     },
   ]);
 
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.Common.CONNECTION_ERROR}`);
+  await page.waitForSelector(`text=${en.Common.UNFORESEEN_ERROR}`);
 });
