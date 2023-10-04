@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import fetchMock from "jest-fetch-mock";
 import LoginForm from "./LoginForm";
 import en from "@/messages/en.json";
-import { API_BASE_URL, ENDPOINT_OBTAIN_TOKEN } from "@/lib/constants";
 
 const COMPONENT_LABELS = en.HomePageUnauthenticated.LoginForm;
 const labels = {
@@ -27,7 +26,7 @@ it("should display relevant input errors, send request only when inputs are vali
   const user = userEvent.setup();
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`,
+    "/api/user/obtain-token",
     JSON.stringify({
       access_token: "accessToken",
       refresh_token: "refreshToken",
@@ -80,7 +79,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
   await user.type(passwordInput, "Pa$$w0rd");
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`,
+    "/api/user/obtain-token",
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 401 },
   );
@@ -89,7 +88,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
   screen.getByText(COMPONENT_LABELS.INVALID_EMAIL_LOGIN);
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`,
+    "/api/user/obtain-token",
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 401 },
   );

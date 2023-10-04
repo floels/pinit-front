@@ -3,8 +3,6 @@ import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
-  API_BASE_URL,
-  ENDPOINT_SIGN_UP,
   ERROR_CODE_EMAIL_ALREADY_SIGNED_UP,
   ERROR_CODE_INVALID_BIRTHDATE,
   ERROR_CODE_INVALID_EMAIL,
@@ -95,7 +93,7 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
     let data, response;
 
     try {
-      response = await fetch(`${API_BASE_URL}/${ENDPOINT_SIGN_UP}`, {
+      response = await fetch("/api/user/sign-up", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

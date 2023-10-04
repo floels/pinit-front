@@ -1,15 +1,9 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
-import Cookies from "js-cookie";
 import { AccountType } from "@/app/[locale]/page";
 import en from "@/messages/en.json";
 import HomePageAuthenticatedClient from "./HomePageAuthenticatedClient";
 import { PinSuggestionType } from "./PinSuggestion";
-import {
-  API_BASE_URL,
-  ENDPOINT_GET_PIN_SUGGESTIONS,
-  ENDPOINT_REFRESH_TOKEN,
-} from "@/lib/constants";
 
 const accounts = [
   {
@@ -40,11 +34,6 @@ const labels = {
   component: en.HomePageAuthenticated,
 };
 
-jest.mock("js-cookie", () => ({
-  get: jest.fn(), // Needed for the `refreshAccessToken` function to get the refresh token
-  set: jest.fn(),
-}));
-
 global.IntersectionObserver = jest.fn(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),
@@ -56,11 +45,6 @@ global.IntersectionObserver = jest.fn(() => ({
 }));
 
 it("should fetch new pin suggestions when user scrolls to bottom", async () => {
-  fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" }),
-  );
-
   const NUMBER_NEW_SUGGESTIONS = 100;
 
   const newPinSuggestions = Array.from(
@@ -76,7 +60,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   ) as PinSuggestionType[];
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_GET_PIN_SUGGESTIONS}?page=2`,
+    "/api/pins/suggestions?page=2",
     JSON.stringify({ results: newPinSuggestions }),
   );
 
@@ -109,44 +93,15 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   });
 });
 
-it("should refresh access token after initial render", async () => {
-  fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" }),
-  );
-
-  render(
-    <HomePageAuthenticatedClient
-      accounts={accounts}
-      initialPinSuggestions={initialPinSuggestions}
-      labels={labels}
-    />,
-  );
-
-  await waitFor(() => {
-    expect(Cookies.set).toHaveBeenCalledWith(
-      "accessToken",
-      "refreshed_access_token",
-    );
-  });
-});
-
 it("should display toast in case of KO response upon new suggestions fetch", async () => {
-  fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" }),
-  );
-
-  fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_GET_PIN_SUGGESTIONS}?page=2`,
-    () =>
-      Promise.resolve({
-        body: JSON.stringify({ message: "Bad Request" }),
-        status: 400,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }),
+  fetchMock.doMockOnceIf("/api/pins/suggestions?page=2", () =>
+    Promise.resolve({
+      body: JSON.stringify({ message: "Bad Request" }),
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }),
   );
 
   render(
@@ -170,11 +125,6 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
 });
 
 it("should display toast in case of failure upon new suggestions fetch", async () => {
-  fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
-    JSON.stringify({ access_token: "refreshed_access_token" }),
-  );
-
   render(
     <HomePageAuthenticatedClient
       accounts={accounts}

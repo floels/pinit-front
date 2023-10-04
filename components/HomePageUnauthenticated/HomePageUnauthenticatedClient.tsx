@@ -6,7 +6,7 @@ import PictureSlider from "./PictureSlider";
 import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import styles from "./HomePageUnauthenticatedClient.module.css";
 import { HomePageUnauthenticatedServerProps } from "./HomePageUnauthenticatedServer";
-import { ERROR_CODE_FETCH_FAILED } from "@/lib/constants";
+import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
@@ -117,7 +117,7 @@ const HomePageUnauthenticatedClient = ({
   }, [currentFold, dateLastScroll, setDateLastScroll]);
 
   useEffect(() => {
-    if (errorCode === ERROR_CODE_FETCH_FAILED) {
+    if (errorCode === ERROR_CODE_CLIENT_FETCH_FAILED) {
       toast.warn(labels.commons.CONNECTION_ERROR);
     }
   }, [errorCode, labels]);

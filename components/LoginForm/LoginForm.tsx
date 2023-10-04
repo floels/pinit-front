@@ -1,13 +1,10 @@
 import { useRef, useState, useEffect, MouseEvent } from "react";
-import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
-  API_BASE_URL,
-  ENDPOINT_OBTAIN_TOKEN,
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
-  ERROR_CODE_FETCH_FAILED,
+  ERROR_CODE_CLIENT_FETCH_FAILED,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
@@ -78,10 +75,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
     setIsLoading(true);
 
     try {
-      const { accessToken, refreshToken } = await fetchTokens();
-
-      Cookies.set("accessToken", accessToken);
-      Cookies.set("refreshToken", refreshToken);
+      await fetchTokens();
 
       window.location.reload();
     } catch (error) {
@@ -95,7 +89,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
     let response, data;
 
     try {
-      response = await fetch(`${API_BASE_URL}/${ENDPOINT_OBTAIN_TOKEN}`, {
+      response = await fetch("/api/user/obtain-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,22 +99,20 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
           password: credentials.password,
         }),
       });
-
-      data = await response.json();
     } catch (error) {
-      throw new Error(ERROR_CODE_FETCH_FAILED);
+      throw new Error(ERROR_CODE_CLIENT_FETCH_FAILED);
     } finally {
       setIsLoading(false);
     }
 
     if (!response.ok) {
+      data = await response.json();
+
       if (data?.errors?.length > 0) {
         throw new Error(data.errors[0]?.code);
       }
       throw new Error();
     }
-
-    return { accessToken: data.access_token, refreshToken: data.refresh_token };
   };
 
   const handleClickLoadingOverlay = (event: MouseEvent) => {
@@ -129,7 +121,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {
     switch (errorCode) {
-      case ERROR_CODE_FETCH_FAILED:
+      case ERROR_CODE_CLIENT_FETCH_FAILED:
         setFormErrors({ other: "CONNECTION_ERROR" });
         break;
       case ERROR_CODE_INVALID_EMAIL:
