@@ -2,7 +2,6 @@ import { render, waitFor, screen, act } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import defaultMockRouter, { MemoryRouter } from "next-router-mock";
 import AccessTokenRefresherClient from "./AccessTokenRefresherClient";
-import { API_BASE_URL, ENDPOINT_REFRESH_TOKEN } from "@/lib/constants";
 import en from "@/messages/en.json";
 
 type MockedRouter = MemoryRouter & {

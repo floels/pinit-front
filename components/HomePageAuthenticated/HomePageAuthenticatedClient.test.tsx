@@ -4,11 +4,6 @@ import { AccountType } from "@/app/[locale]/page";
 import en from "@/messages/en.json";
 import HomePageAuthenticatedClient from "./HomePageAuthenticatedClient";
 import { PinSuggestionType } from "./PinSuggestion";
-import {
-  API_BASE_URL,
-  ENDPOINT_GET_PIN_SUGGESTIONS,
-  ENDPOINT_REFRESH_TOKEN,
-} from "@/lib/constants";
 
 const accounts = [
   {
