@@ -108,7 +108,7 @@ const HeaderAuthenticatedClient = ({
 
   const handleClickLogOut = async () => {
     try {
-      await fetch("/api/user/logout", {
+      await fetch("/api/user/log-out", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

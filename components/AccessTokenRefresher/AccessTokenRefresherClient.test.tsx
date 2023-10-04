@@ -14,14 +14,6 @@ jest.mock("next/navigation", () => require("next-router-mock"));
 
 const mockedRouter = defaultMockRouter as MockedRouter;
 
-jest.mock("js-cookie", () => ({
-  get: jest.fn(),
-  set: jest.fn(),
-  remove: jest.fn(),
-}));
-
-const Cookies = require("js-cookie");
-
 const labels = {
   component: en.HomePageUnauthenticated,
   commons: en.Common,
@@ -29,9 +21,9 @@ const labels = {
 
 const accessTokenRefresher = <AccessTokenRefresherClient labels={labels} />;
 
-it("should refresh the current route when receiving a OK response from token refresh endpoint", async () => {
+it("should refresh the current route when receiving an OK response from token refresh endpoint", async () => {
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
+    "/api/user/refresh-token",
     JSON.stringify({ access_token: "refreshedAccessToken" }),
   );
 
@@ -42,7 +34,7 @@ it("should refresh the current route when receiving a OK response from token ref
   await waitFor(() => expect(mockedRouter.refresh).toHaveBeenCalledTimes(1));
 });
 
-it("should refresh the page when receiving KO response from token refresh endpoint", async () => {
+it("should call logout endpoint and refresh page when receiving KO response from token refresh endpoint", async () => {
   // Inspired by https://stackoverflow.com/a/55771671
   Object.defineProperty(window, "location", {
     configurable: true,
@@ -50,7 +42,7 @@ it("should refresh the page when receiving KO response from token refresh endpoi
   });
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`,
+    "/api/user/refresh-token",
     JSON.stringify({ errors: [{ code: "invalid_refresh_token" }] }),
     { status: 401 },
   );
@@ -58,17 +50,20 @@ it("should refresh the page when receiving KO response from token refresh endpoi
   render(accessTokenRefresher);
 
   await waitFor(() => {
-    expect(Cookies.remove).toHaveBeenCalledWith("accessToken");
-    expect(Cookies.remove).toHaveBeenCalledWith("refreshToken");
+    expect(fetch).toHaveBeenCalledWith("/api/user/log-out", {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    });
 
     expect(window.location.reload).toHaveBeenCalledTimes(1);
   });
 });
 
 it("should render unauthenticated homepage when fetch fails", async () => {
-  // Since we are not mocking fetch here, calling it will trigger an error in <AccessTokenRefresher />, which is the case we want to test.
+  fetchMock.mockRejectOnce(new Error("Network failure"));
+
   // Since there is asynchronous behavior in the `useEffect` hook of <AccessTokenRefresher />, we need to wrap the `render()` in an `act()`.
-  // Otherwise, the test won't pass.
+  // Otherwise, the test fails.
   await act(async () => {
     render(accessTokenRefresher);
   });

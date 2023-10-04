@@ -33,7 +33,7 @@ const AccessTokenRefresherClient = ({
 
     if (!response.ok) {
       // Refresh token is expired: logout and refresh page
-      await fetch("/api/user/logout", {
+      await fetch("/api/user/log-out", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
