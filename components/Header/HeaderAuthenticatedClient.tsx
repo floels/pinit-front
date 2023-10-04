@@ -2,7 +2,6 @@
 
 import _ from "lodash";
 import { useState, useRef, useEffect } from "react";
-import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -106,9 +105,13 @@ const HeaderAuthenticatedClient = ({
     }
   };
 
-  const handleClickLogOut = () => {
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
+  const handleClickLogOut = async () => {
+    await fetch("/api/user/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     window.location.reload();
   };

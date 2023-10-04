@@ -9,7 +9,6 @@ import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import { ENDPOINT_GET_PIN_SUGGESTIONS } from "@/lib/constants";
 import { AccountType } from "@/app/[locale]/page";
 import HeaderAuthenticatedClient from "../Header/HeaderAuthenticatedClient";
-import { refreshAccessToken } from "@/lib/utils/authentication";
 
 type HomePageAuthenticatedClientProps = {
   accounts: AccountType[];
@@ -29,15 +28,6 @@ const HomePageAuthenticatedClient = ({
 
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pinSuggestions, setPinSuggestions] = useState(initialPinSuggestions);
-
-  // Refresh access token after initial rendering:
-  useEffect(() => {
-    try {
-      refreshAccessToken();
-    } catch (error) {
-      // Fail silently if refresh failed
-    }
-  }, []);
 
   // Fetch next page of pin suggestions when user scrolled to the bottom of the screen
   const updateStateWithNewPinSuggestionsResponse = async (

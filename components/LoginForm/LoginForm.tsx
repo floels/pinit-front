@@ -89,7 +89,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
     let response, data;
 
     try {
-      response = await fetch("/api/token/obtain", {
+      response = await fetch("/api/user/obtain-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
