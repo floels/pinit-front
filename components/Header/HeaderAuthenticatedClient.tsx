@@ -1,7 +1,7 @@
 "use client";
 
 import _ from "lodash";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { toast } from "react-toastify";
 import Image from "next/image";
@@ -9,9 +9,9 @@ import Link from "next/link";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import styles from "./HeaderAuthenticatedClient.module.css";
 import { AccountType } from "@/app/[locale]/page";
 import HeaderSearchBar from "./HeaderSearchBar";
+import styles from "./HeaderAuthenticatedClient.module.css";
 
 type HeaderAuthenticatedClientProps = {
   accounts: AccountType[];
@@ -61,42 +61,48 @@ const HeaderAuthenticatedClient = ({
     setIsAccountOptionsFlyoutOpen(!isAccountOptionsFlyoutOpen);
   };
 
-  const handleClickDocument = (event: MouseEvent) => {
-    const target = event.target as Node;
+  const handleClickDocument = useCallback(
+    (event: MouseEvent) => {
+      const target = event.target as Node;
 
-    if (
-      isCreateFlyoutOpen &&
-      createFlyoutRef.current &&
-      !createFlyoutRef.current.contains(target) &&
-      createButtonRef.current &&
-      !createButtonRef.current.contains(target)
-      // NB: we don't do anything if the user clicks on the account options button
-      // as this click is managed by the `handleClickCreateButton` function above
-    ) {
-      setIsCreateFlyoutOpen(false);
-    }
-
-    if (
-      isAccountOptionsFlyoutOpen &&
-      accountOptionsFlyoutRef.current &&
-      !accountOptionsFlyoutRef.current.contains(target) &&
-      accountOptionsButtonRef.current &&
-      !accountOptionsButtonRef.current.contains(target)
-    ) {
-      setIsAccountOptionsFlyoutOpen(false);
-    }
-  };
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      if (isCreateFlyoutOpen) {
+      if (
+        isCreateFlyoutOpen &&
+        createFlyoutRef.current &&
+        !createFlyoutRef.current.contains(target) &&
+        createButtonRef.current &&
+        !createButtonRef.current.contains(target)
+        // NB: we don't do anything if the user clicks on the account options button
+        // as this click is managed by the `handleClickCreateButton` function above
+      ) {
         setIsCreateFlyoutOpen(false);
       }
-      if (isAccountOptionsFlyoutOpen) {
+
+      if (
+        isAccountOptionsFlyoutOpen &&
+        accountOptionsFlyoutRef.current &&
+        !accountOptionsFlyoutRef.current.contains(target) &&
+        accountOptionsButtonRef.current &&
+        !accountOptionsButtonRef.current.contains(target)
+      ) {
         setIsAccountOptionsFlyoutOpen(false);
       }
-    }
-  };
+    },
+    [isAccountOptionsFlyoutOpen, isCreateFlyoutOpen],
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        if (isCreateFlyoutOpen) {
+          setIsCreateFlyoutOpen(false);
+        }
+        if (isAccountOptionsFlyoutOpen) {
+          setIsAccountOptionsFlyoutOpen(false);
+        }
+      }
+    },
+    [isAccountOptionsFlyoutOpen, isCreateFlyoutOpen],
+  );
 
   const handleClickLogOut = async () => {
     try {
@@ -121,7 +127,7 @@ const HeaderAuthenticatedClient = ({
       document.removeEventListener("mousedown", handleClickDocument);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  });
+  }, [handleClickDocument, handleKeyDown]);
 
   return (
     <nav className={styles.container}>
