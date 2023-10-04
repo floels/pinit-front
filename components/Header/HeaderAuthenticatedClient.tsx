@@ -8,9 +8,10 @@ import Image from "next/image";
 import Link from "next/link";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderAuthenticatedClient.module.css";
 import { AccountType } from "@/app/[locale]/page";
+import HeaderSearchBar from "./HeaderSearchBar";
 
 type HeaderAuthenticatedClientProps = {
   accounts: AccountType[];
@@ -30,7 +31,6 @@ const HeaderAuthenticatedClient = ({
   const accountOptionsButtonRef = useRef<HTMLDivElement>(null);
 
   const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
-  const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
   const [isProfileLinkHovered, setIsProfileLinkHovered] = useState(false);
   const [isAccountOptionsButtonHovered, setIsAccountOptionsButtonHovered] =
     useState(false);
@@ -39,14 +39,6 @@ const HeaderAuthenticatedClient = ({
 
   const handleClickCreateButton = () => {
     setIsCreateFlyoutOpen(!isCreateFlyoutOpen);
-  };
-
-  const handleFocusSearchBarInput = () => {
-    setIsSearchBarFocused(true);
-  };
-
-  const handleBlurSearchBarInput = () => {
-    setIsSearchBarFocused(false);
   };
 
   const handleMouseEnterProfileLink = () => {
@@ -172,29 +164,7 @@ const HeaderAuthenticatedClient = ({
             </Link>
           </div>
         )}
-        <div
-          className={`${styles.searchBarContainer}
-          ${isSearchBarFocused ? styles.searchBarContainerActive : ""} 
-        `}
-        >
-          {!isSearchBarFocused && (
-            <FontAwesomeIcon
-              icon={faSearch}
-              className={styles.searchBarIcon}
-              data-testid="search-bar-icon"
-            />
-          )}
-          <input
-            type="text"
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className={styles.searchBarInput}
-            placeholder={labels.PLACEHOLDER_SEARCH}
-            onFocus={handleFocusSearchBarInput}
-            onBlur={handleBlurSearchBarInput}
-          />
-        </div>
+        <HeaderSearchBar labels={labels.SearchBar} />
         <Link
           href="/florianellis/"
           className={styles.profileLink}

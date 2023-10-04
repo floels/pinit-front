@@ -89,9 +89,11 @@
       "NAV_ITEM_HOME": "Home",
       "CREATE": "Create",
       "CREATE_PIN": "Create Pin",
-      "PLACEHOLDER_SEARCH": "Search",
       "YOUR_PROFILE": "Your profile",
       "ACCOUNT_OPTIONS": "Account and more options",
+      "SearchBar": {
+        "PLACEHOLDER_SEARCH": "Search"
+      },
       "AccountOptionsFlyout": {
         "MORE_OPTIONS": "More options",
         "LOG_OUT": "Log out"
