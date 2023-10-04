@@ -6,6 +6,7 @@ import styles from "./HomePageAuthenticatedClient.module.css";
 import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
 import { AccountType } from "@/app/[locale]/page";
 import HeaderAuthenticatedClient from "../Header/HeaderAuthenticatedClient";
+import { getPinSuggestionsWithCamelizedKeys } from "@/lib/utils/misc";
 
 type HomePageAuthenticatedClientProps = {
   accounts: AccountType[];
@@ -33,10 +34,15 @@ const HomePageAuthenticatedClient = ({
     const newPinSuggestionsResponseData =
       await newPinSuggestionsResponse.json();
 
-    setPinSuggestions((pinSuggestions) => [
-      ...pinSuggestions,
-      ...newPinSuggestionsResponseData.results,
+    const newPinSuggestions = getPinSuggestionsWithCamelizedKeys(
+      newPinSuggestionsResponseData,
+    );
+
+    setPinSuggestions((existingPinSuggestions) => [
+      ...existingPinSuggestions,
+      ...newPinSuggestions,
     ]);
+
     setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
   };
 
@@ -55,15 +61,15 @@ const HomePageAuthenticatedClient = ({
 
     // KO response from the server: display a toast message
     toast.warn(labels.component.ERROR_FETCH_PIN_SUGGESTIONS);
-  }, [currentEndpointPage]);
+  }, [currentEndpointPage, labels]);
 
-  const fetchNextPinSuggestionsAndFallBack = async () => {
+  const fetchNextPinSuggestionsAndFallBack = useCallback(async () => {
     try {
       await fetchNextPinSuggestions();
     } catch (error) {
       toast.warn(labels.commons.CONNECTION_ERROR);
     }
-  };
+  }, [fetchNextPinSuggestions, labels]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -82,7 +88,7 @@ const HomePageAuthenticatedClient = ({
     return () => {
       observer.disconnect();
     };
-  }, [fetchNextPinSuggestions]);
+  }, [fetchNextPinSuggestionsAndFallBack]);
 
   return (
     <div>

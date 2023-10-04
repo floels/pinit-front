@@ -15,10 +15,10 @@ const accounts = [
   },
 ] as AccountType[];
 
-const NUMBER_INITIAL_SUGGESTIONS = 100;
+const SUGGESTIONS_ENDPOINT_PAGE_SIZE = 50;
 
 const initialPinSuggestions = Array.from(
-  { length: NUMBER_INITIAL_SUGGESTIONS },
+  { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
   (_, index) => ({
     id: String(index + 1),
     imageURL: "https://some.url",
@@ -45,19 +45,19 @@ global.IntersectionObserver = jest.fn(() => ({
 }));
 
 it("should fetch new pin suggestions when user scrolls to bottom", async () => {
-  const NUMBER_NEW_SUGGESTIONS = 100;
-
   const newPinSuggestions = Array.from(
-    { length: NUMBER_NEW_SUGGESTIONS },
+    { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
     (_, index) => ({
-      id: String(NUMBER_INITIAL_SUGGESTIONS + index + 1),
-      imageURL: "https://some.url",
+      id: String(SUGGESTIONS_ENDPOINT_PAGE_SIZE + index + 1),
+      image_url: "https://some.url",
       title: "",
       description: "",
-      authorUsername: "johndoe",
-      authorDisplayName: "John Doe",
+      author: {
+        user_name: "johndoe",
+        display_name: "John Doe",
+      },
     }),
-  ) as PinSuggestionType[];
+  );
 
   fetchMock.doMockOnceIf(
     "/api/pins/suggestions?page=2",
@@ -75,7 +75,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   const initialRenderedPinSuggestions = screen.getAllByTestId("pin-suggestion");
 
   expect(initialRenderedPinSuggestions).toHaveLength(
-    NUMBER_INITIAL_SUGGESTIONS,
+    SUGGESTIONS_ENDPOINT_PAGE_SIZE,
   );
 
   // Simulate the intersection of the sentinel div with the bottom of the viewport
@@ -88,7 +88,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   await waitFor(() => {
     const renderedPinSuggestions = screen.getAllByTestId("pin-suggestion");
     expect(renderedPinSuggestions).toHaveLength(
-      NUMBER_INITIAL_SUGGESTIONS + NUMBER_NEW_SUGGESTIONS,
+      2 * SUGGESTIONS_ENDPOINT_PAGE_SIZE,
     );
   });
 });

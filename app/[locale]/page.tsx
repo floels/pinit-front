@@ -8,6 +8,7 @@ import {
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
+import { getPinSuggestionsWithCamelizedKeys } from "@/lib/utils/misc";
 import AccessTokenRefresherServer from "@/components/AccessTokenRefresher/AccessTokenRefresherServer";
 
 export enum TypesOfAccount {
@@ -61,19 +62,6 @@ const fetchInitialPinSuggestions = async (accessToken: string) => {
 
 const getAccountsWithCamelizedKeys = (fetchAccountsData: any) => {
   return humps.camelizeKeys(fetchAccountsData.results) as AccountType[];
-};
-
-const getPinSuggestionsWithCamelizedKeys = (fetchInitialPinSuggestionsData: {
-  results: any[];
-}) => {
-  return fetchInitialPinSuggestionsData.results.map((pinSuggestion) => ({
-    id: pinSuggestion.id,
-    imageURL: pinSuggestion.image_url,
-    title: pinSuggestion.title,
-    description: pinSuggestion.description,
-    authorUsername: pinSuggestion.author.user_name,
-    authorDisplayName: pinSuggestion.author.display_name,
-  }));
 };
 
 const Page = async () => {

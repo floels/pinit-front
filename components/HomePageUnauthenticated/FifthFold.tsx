@@ -34,7 +34,7 @@ const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
     if (heroRef.current?.scrollIntoView) {
       heroRef.current.scrollIntoView();
     }
-  }, []);
+  }, [heroRef]);
 
   return (
     <div className={styles.container}>
