@@ -1,6 +1,5 @@
 "use client";
 
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";

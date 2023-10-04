@@ -17,4 +17,4 @@ export const ERROR_CODE_CLIENT_FETCH_FAILED = "client_fetch_failed";
 export const ERROR_CODE_FETCH_BACKEND_FAILED = "fetch_backend_failed";
 export const ERROR_CODE_UNEXPECTED_SERVER_RESPONSE =
   "unexpected_server_response";
-export const ERROR_CODE_REFRESH_TOKEN_FAILED = "refresh_token_failed";
+export const ERROR_CODE_MISSING_ACCESS_TOKEN = "missing_access_token";

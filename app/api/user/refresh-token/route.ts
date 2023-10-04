@@ -6,10 +6,19 @@ import {
   ERROR_CODE_FETCH_BACKEND_FAILED,
 } from "@/lib/constants";
 
+const ERROR_CODE_MISSING_REFRESH_TOKEN = "missing_refresh_token";
+
 export async function POST() {
   // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
   const cookieStore = cookies();
-  const refreshToken = cookieStore.get("refreshToken");
+  const refreshToken = cookieStore.get("refreshToken")?.value;
+
+  if (!refreshToken) {
+    return Response.json(
+      { errors: [ERROR_CODE_MISSING_REFRESH_TOKEN] },
+      { status: 400 },
+    );
+  }
 
   let backendResponse;
 

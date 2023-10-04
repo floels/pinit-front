@@ -1,12 +1,9 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import styles from "./HomePageAuthenticatedClient.module.css";
 import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
-import { fetchWithAuthentication } from "@/lib/utils/fetch";
-import { ENDPOINT_GET_PIN_SUGGESTIONS } from "@/lib/constants";
 import { AccountType } from "@/app/[locale]/page";
 import HeaderAuthenticatedClient from "../Header/HeaderAuthenticatedClient";
 
@@ -45,12 +42,11 @@ const HomePageAuthenticatedClient = ({
 
   const fetchNextPinSuggestions = useCallback(async () => {
     const nextEndpointPage = currentEndpointPage + 1;
-    const accessToken = Cookies.get("accessToken") as string;
 
-    const newPinSuggestionsResponse = await fetchWithAuthentication({
-      endpoint: `${ENDPOINT_GET_PIN_SUGGESTIONS}?page=${nextEndpointPage}`,
-      accessToken,
-    });
+    const newPinSuggestionsResponse = await fetch(
+      `/api/pins/suggestions?page=${nextEndpointPage}`,
+      { method: "GET" },
+    );
 
     if (newPinSuggestionsResponse.ok) {
       await updateStateWithNewPinSuggestionsResponse(newPinSuggestionsResponse);
@@ -86,8 +82,6 @@ const HomePageAuthenticatedClient = ({
     return () => {
       observer.disconnect();
     };
-    // We need to add `numberOfColumns` as a dependency because it will be undefined on initial render
-    // Only on second render will it be set and will the sentinel be present in the DOM
   }, [fetchNextPinSuggestions]);
 
   return (
