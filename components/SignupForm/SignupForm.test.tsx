@@ -3,7 +3,6 @@ import fetchMock from "jest-fetch-mock";
 import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
 import en from "@/messages/en.json";
-import { API_BASE_URL, ENDPOINT_SIGN_UP } from "@/lib/constants";
 
 const COMPONENT_LABELS = en.HomePageUnauthenticated.SignupForm;
 const labels = {
@@ -30,7 +29,7 @@ it("should display relevant input errors, send request only when inputs are vali
   const user = userEvent.setup();
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
+    "/api/user/sign-up",
     JSON.stringify({ access: "access", refresh: "refresh" }),
   );
 
@@ -90,7 +89,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   await user.type(birthdateInput, "1970-01-01");
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
+    "/api/user/sign-up",
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 400 },
   );
@@ -99,7 +98,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   screen.getByText(COMPONENT_LABELS.INVALID_EMAIL_SIGNUP);
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
+    "/api/user/sign-up",
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 400 },
   );
@@ -109,7 +108,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   screen.getByText(COMPONENT_LABELS.INVALID_PASSWORD_SIGNUP);
 
   fetchMock.doMockOnceIf(
-    `${API_BASE_URL}/${ENDPOINT_SIGN_UP}`,
+    "/api/user/sign-up",
     JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
     { status: 400 },
   );
