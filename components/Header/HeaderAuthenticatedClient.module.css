@@ -58,6 +58,7 @@
   min-width: 180px;
   border-radius: 16px;
   box-shadow: var(--elevation-floating);
+  background-color: var(--color-background-primary);
 }
 
 .createFlyoutItem {
