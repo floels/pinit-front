@@ -15,9 +15,9 @@ const mockOnClickBackToTop = jest.fn();
 
 const labels = {
   component: {
-    ...en.HomePageUnauthenticated.FifthFold,
-    LoginForm: en.HomePageUnauthenticated.LoginForm,
-    SignupForm: en.HomePageUnauthenticated.SignupForm,
+    ...en.LandingPage.Content.FifthFold,
+    LoginForm: en.LandingPage.Header.LoginForm,
+    SignupForm: en.LandingPage.Header.SignupForm,
   },
   commons: en.Common,
 };
@@ -30,6 +30,14 @@ const fifthFold = (
   />
 );
 
+// Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter():
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    refresh: jest.fn(),
+  }),
+}));
+
 it("should scroll hero ref into view upon rendering", async () => {
   render(fifthFold);
 
@@ -40,12 +48,12 @@ it("should switch to login form upon click on 'Already have an account'", async 
   render(fifthFold);
 
   const alreadyHaveAccountButton = screen.getByText(
-    en.HomePageUnauthenticated.SignupForm.LOG_IN,
+    en.LandingPage.Header.SignupForm.LOG_IN,
   );
 
   await userEvent.click(alreadyHaveAccountButton);
 
-  screen.getByText(en.HomePageUnauthenticated.LoginForm.NO_ACCOUNT_YET);
+  screen.getByText(en.LandingPage.Header.LoginForm.NO_ACCOUNT_YET);
 });
 
 it("should call onClickBackToTop when corresponding button is clicked", async () => {

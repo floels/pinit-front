@@ -35,25 +35,21 @@ test("User should be able to sign up", async ({ page }) => {
 
   await page.goto("/");
 
-  await page.click(`text=${en.HomePageUnauthenticated.Header.SIGN_UP}`);
+  await page.click(`text=${en.LandingPage.Header.SIGN_UP}`);
 
   await page.fill("input[name='email']", EMAIL_FIXTURE);
   await page.fill("input[name='password']", PASSWORD_FIXTURE);
   await page.fill("input[name='birthdate']", BIRTHDATE_FIXTURE);
 
-  await page.click(`text=${en.HomePageUnauthenticated.SignupForm.CONTINUE}`);
+  await page.click(`text=${en.LandingPage.Header.SignupForm.CONTINUE}`);
 
   // We should land on authenticated homepage
-  await page.waitForSelector(
-    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
-  );
+  await page.waitForSelector(`text=${en.HomePage.Header.NAV_ITEM_HOME}`);
 
   // If we visit the base route again, we should still land on the authenticated homepage
   await page.goto("/");
 
-  await page.waitForSelector(
-    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
-  );
+  await page.waitForSelector(`text=${en.HomePage.Header.NAV_ITEM_HOME}`);
 
   // Close mock API server
   mockAPIServer.close();

@@ -3,40 +3,28 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import PictureSlider from "./PictureSlider";
-import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
-import styles from "./HomePageUnauthenticatedClient.module.css";
-import { HomePageUnauthenticatedServerProps } from "./HomePageUnauthenticatedServer";
+import styles from "./LandingPageContentClient.module.css";
+import { LandingPageContentServerProps } from "./LandingPageContentServer";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
 
-export type HomePageUnauthenticatedClientProps =
-  HomePageUnauthenticatedServerProps & {
-    labels: {
-      component: { [key: string]: any };
-      commons: { [key: string]: string };
-    };
+export type LandingPageContentClientProps = LandingPageContentServerProps & {
+  labels: {
+    component: { [key: string]: any };
+    commons: { [key: string]: string };
   };
+};
 
 const NUMBER_FOLDS = 5;
 const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
-const HomePageUnauthenticatedClient = ({
+const LandingPageContentClient = ({
   errorCode,
   labels,
-}: HomePageUnauthenticatedClientProps) => {
-  // The labels for the LoginForm and the SignupForm need to be passed down both to the header and the fifth fold:
-  const headerLabels = {
-    commons: labels.commons,
-    component: {
-      ...labels.component.Header,
-      LoginForm: labels.component.LoginForm,
-      SignupForm: labels.component.SignupForm,
-    },
-  };
-
+}: LandingPageContentClientProps) => {
   const fifthFoldLabels = {
     commons: labels.commons,
     component: {
@@ -86,10 +74,6 @@ const HomePageUnauthenticatedClient = ({
       if (dateLastScrollSameDirection) {
         timeElapsedSinceLastScrollSameDirection =
           now.getTime() - dateLastScrollSameDirection.getTime();
-
-        console.log(
-          `Time elapsed since last scroll event: ${timeElapsedSinceLastScrollSameDirection}`,
-        );
       }
 
       setDateLastScroll({ ...dateLastScroll, [scrollDirection]: now });
@@ -136,7 +120,6 @@ const HomePageUnauthenticatedClient = ({
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero} ref={heroRef}>
-          <HeaderUnauthenticated labels={headerLabels} />
           <div className={styles.pictureSlider}>
             <PictureSlider
               onClickSeeBelow={handleClickHeroSeeBelow}
@@ -157,4 +140,4 @@ const HomePageUnauthenticatedClient = ({
   );
 };
 
-export default HomePageUnauthenticatedClient;
+export default LandingPageContentClient;

@@ -5,8 +5,8 @@ test("Homepage should display warning toast when server is unreachable", async (
   page,
   context,
 }) => {
-  // We set an 'accessToken' cookie so that the page tries to reach the server
-  // Since there is no server running on the API URL, this will simulate an unreachable server
+  // We set an 'accessToken' cookie so that the page tries to reach the server.
+  // Since there is no server running on the API URL, this will simulate an unreachable server.
   await context.addCookies([
     {
       name: "accessToken",
@@ -20,5 +20,7 @@ test("Homepage should display warning toast when server is unreachable", async (
 
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.Common.UNFORESEEN_ERROR}`);
+  await page.waitForSelector(
+    `text=${en.HomePage.Content.ERROR_DISPLAY_PIN_SUGGESTIONS}`,
+  );
 });

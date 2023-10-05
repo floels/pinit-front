@@ -15,6 +15,7 @@ import {
   isValidEmail,
   isValidPassword,
 } from "../../lib/utils/validation";
+import { useRouter } from "next/navigation";
 
 export type SignupFormProps = {
   onClickAlreadyHaveAccount: () => void;
@@ -49,6 +50,8 @@ const computeFormErrors = (values: {
 };
 
 const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
+  const router = useRouter();
+
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
@@ -92,7 +95,8 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
     try {
       await fetchSignup();
 
-      window.location.reload();
+      router.push("/");
+      router.refresh();
     } catch (error) {
       const errorCode = (error as Error).message;
 

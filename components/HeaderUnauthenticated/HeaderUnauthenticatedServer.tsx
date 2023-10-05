@@ -1,13 +1,19 @@
 import { useTranslations } from "next-intl";
+import HeaderUnauthenticatedClient from "./HeaderUnauthenticatedClient";
 import { getTranslationsObject } from "@/lib/utils/i18n";
-import AccessTokenRefresherClient from "./AccessTokenRefresherClient";
 
-const AccessTokenRefresherServer = () => {
+const HeaderUnauthenticatedServer = () => {
   const landingPageTranslator = useTranslations("LandingPage");
   const landingPageTranslations = getTranslationsObject(
     "LandingPage",
     landingPageTranslator,
-  ) as { Header: { [key: string]: any }; Content: { [key: string]: any } };
+  ) as {
+    Header: { [key: string]: string };
+    Content: {
+      LoginForm: { [key: string]: string };
+      SignupForm: { [key: string]: string };
+    };
+  };
 
   const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
@@ -18,13 +24,13 @@ const AccessTokenRefresherServer = () => {
   const labels = {
     commons: commonsTranslations,
     component: {
-      ...landingPageTranslations.Content,
+      ...landingPageTranslations.Header,
       LoginForm: landingPageTranslations.Header.LoginForm,
-      SignupForm: landingPageTranslations.Header.LoginForm,
+      SignupForm: landingPageTranslations.Header.SignupForm,
     },
   };
 
-  return <AccessTokenRefresherClient labels={labels} />;
+  return <HeaderUnauthenticatedClient labels={labels} />;
 };
 
-export default AccessTokenRefresherServer;
+export default HeaderUnauthenticatedServer;

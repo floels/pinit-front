@@ -1,8 +1,14 @@
 import { useTranslations } from "next-intl";
+import LandingPageContentClient from "./LandingPageContentClient";
 import { getTranslationsObject } from "@/lib/utils/i18n";
-import AccessTokenRefresherClient from "./AccessTokenRefresherClient";
 
-const AccessTokenRefresherServer = () => {
+export type LandingPageContentServerProps = {
+  errorCode?: string;
+};
+
+const LandingPageContentServer = ({
+  errorCode,
+}: LandingPageContentServerProps) => {
   const landingPageTranslator = useTranslations("LandingPage");
   const landingPageTranslations = getTranslationsObject(
     "LandingPage",
@@ -24,7 +30,7 @@ const AccessTokenRefresherServer = () => {
     },
   };
 
-  return <AccessTokenRefresherClient labels={labels} />;
+  return <LandingPageContentClient errorCode={errorCode} labels={labels} />;
 };
 
-export default AccessTokenRefresherServer;
+export default LandingPageContentServer;

@@ -1,31 +1,33 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import styles from "./HomePageAuthenticatedClient.module.css";
+import { toast } from "react-toastify";
+import styles from "./HomePageContentClient.module.css";
 import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
-import { AccountType } from "@/app/[locale]/page";
-import HeaderAuthenticatedClient from "../Header/HeaderAuthenticatedClient";
 import { getPinSuggestionsWithCamelizedKeys } from "@/lib/utils/misc";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
-type HomePageAuthenticatedClientProps = {
-  accounts: AccountType[];
+type HomePageContentClientProps = {
   initialPinSuggestions: PinSuggestionType[];
   labels: {
     commons: { [key: string]: any };
     component: { [key: string]: any };
   };
+  errorCode?: string;
 };
 
-const HomePageAuthenticatedClient = ({
-  accounts,
+const HomePageContentClient = ({
   initialPinSuggestions,
   labels,
-}: HomePageAuthenticatedClientProps) => {
+  errorCode,
+}: HomePageContentClientProps) => {
   const scrolledToBottomSentinel = useRef(null);
 
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pinSuggestions, setPinSuggestions] = useState(initialPinSuggestions);
+  const [fetchPinSuggestionsFailed, setFetchPinSuggestionsFailed] =
+    useState(false);
 
   // Fetch next page of pin suggestions when user scrolled to the bottom of the screen
   const updateStateWithNewPinSuggestionsResponse = async (
@@ -54,13 +56,14 @@ const HomePageAuthenticatedClient = ({
       { method: "GET" },
     );
 
-    if (newPinSuggestionsResponse.ok) {
-      await updateStateWithNewPinSuggestionsResponse(newPinSuggestionsResponse);
+    if (!newPinSuggestionsResponse.ok) {
+      setFetchPinSuggestionsFailed(true);
       return;
     }
 
-    // KO response from the server: display a toast message
-    toast.warn(labels.component.ERROR_FETCH_PIN_SUGGESTIONS);
+    setFetchPinSuggestionsFailed(false);
+
+    await updateStateWithNewPinSuggestionsResponse(newPinSuggestionsResponse);
   }, [currentEndpointPage, labels]);
 
   const fetchNextPinSuggestionsAndFallBack = useCallback(async () => {
@@ -91,13 +94,8 @@ const HomePageAuthenticatedClient = ({
   }, [fetchNextPinSuggestionsAndFallBack]);
 
   return (
-    <div>
-      <ToastContainer position="bottom-left" autoClose={5000} />
-      <HeaderAuthenticatedClient
-        accounts={accounts}
-        labels={labels.component.Header}
-      />
-      <main className={styles.container}>
+    <main className={styles.container}>
+      {pinSuggestions.length > 0 && (
         <div className={styles.grid} data-testid="pin-suggestions-container">
           {pinSuggestions.map((pinSuggestion) => (
             <div className={styles.pinSuggestion} key={pinSuggestion.id}>
@@ -106,9 +104,19 @@ const HomePageAuthenticatedClient = ({
           ))}
           <div ref={scrolledToBottomSentinel}></div>
         </div>
-      </main>
-    </div>
+      )}
+      {(errorCode || fetchPinSuggestionsFailed) && (
+        <div className={styles.errorMessage}>
+          <FontAwesomeIcon
+            icon={faTriangleExclamation}
+            size="xs"
+            className={styles.errorMessageIcon}
+          />
+          {labels.component.ERROR_DISPLAY_PIN_SUGGESTIONS}
+        </div>
+      )}
+    </main>
   );
 };
 
-export default HomePageAuthenticatedClient;
+export default HomePageContentClient;

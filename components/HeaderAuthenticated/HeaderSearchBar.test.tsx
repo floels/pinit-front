@@ -1,11 +1,10 @@
 import "@testing-library/jest-dom/extend-expect";
-import fetchMock from "jest-fetch-mock";
 import en from "@/messages/en.json";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HeaderSearchBar from "./HeaderSearchBar";
 
-const labels = en.HomePageAuthenticated.Header.SearchBar;
+const labels = en.HomePage.Header.SearchBar;
 
 it("should reset input value and blur input upon pressing Escape", async () => {
   render(<HeaderSearchBar labels={labels} />);
