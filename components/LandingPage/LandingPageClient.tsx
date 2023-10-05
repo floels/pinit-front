@@ -3,15 +3,16 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import PictureSlider from "./PictureSlider";
-import styles from "./LandingPageContentClient.module.css";
-import { LandingPageContentServerProps } from "./LandingPageContentServer";
+import styles from "./LandingPageClient.module.css";
+import { LandingPageServerProps } from "./LandingPageServer";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
+import HeaderUnauthenticatedClient from "../HeaderUnauthenticated/HeaderUnauthenticatedClient";
 
-export type LandingPageContentClientProps = LandingPageContentServerProps & {
+export type LandingPageClientProps = LandingPageServerProps & {
   labels: {
     component: { [key: string]: any };
     commons: { [key: string]: string };
@@ -21,16 +22,18 @@ export type LandingPageContentClientProps = LandingPageContentServerProps & {
 const NUMBER_FOLDS = 5;
 const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
-const LandingPageContentClient = ({
-  errorCode,
-  labels,
-}: LandingPageContentClientProps) => {
+const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
+  const headerLabels = {
+    commons: labels.commons,
+    component: labels.component.Header,
+  };
+
   const fifthFoldLabels = {
     commons: labels.commons,
     component: {
-      ...labels.component.FifthFold,
-      LoginForm: labels.component.LoginForm,
-      SignupForm: labels.component.SignupForm,
+      ...labels.component.Content.FifthFold,
+      LoginForm: labels.component.Header.LoginForm,
+      SignupForm: labels.component.Header.SignupForm,
     },
   };
 
@@ -120,16 +123,17 @@ const LandingPageContentClient = ({
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero} ref={heroRef}>
+          <HeaderUnauthenticatedClient labels={headerLabels} />
           <div className={styles.pictureSlider}>
             <PictureSlider
               onClickSeeBelow={handleClickHeroSeeBelow}
-              labels={labels.component.PictureSlider}
+              labels={labels.component.Content.PictureSlider}
             />
           </div>
         </div>
-        <SecondFold labels={labels.component.SecondFold} />
-        <ThirdFold labels={labels.component.ThirdFold} />
-        <FourthFold labels={labels.component.FourthFold} />
+        <SecondFold labels={labels.component.Content.SecondFold} />
+        <ThirdFold labels={labels.component.Content.ThirdFold} />
+        <FourthFold labels={labels.component.Content.FourthFold} />
         <FifthFold
           heroRef={heroRef}
           onClickBackToTop={handleClickBackToTop}
@@ -140,4 +144,4 @@ const LandingPageContentClient = ({
   );
 };
 
-export default LandingPageContentClient;
+export default LandingPageClient;

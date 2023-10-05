@@ -1,4 +1,4 @@
-import LandingPageContentServer from "@/components/LandingPage/LandingPageContentServer";
+import LandingPageServer from "@/components/LandingPage/LandingPageServer";
 import HomePageContentServer from "@/components/HomePage/HomePageContentServer";
 import { cookies } from "next/headers";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
@@ -14,7 +14,7 @@ const Page = async () => {
   const accessTokenCookie = cookies().get("accessToken");
 
   if (!accessTokenCookie) {
-    return <LandingPageContentServer />;
+    return <LandingPageServer />;
   }
 
   const accessToken = accessTokenCookie.value;
