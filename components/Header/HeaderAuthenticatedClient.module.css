@@ -104,7 +104,7 @@
   top: 72px;
   padding: 8px;
   border-radius: 8px;
-  background-color: var(--color-gray-300);
+  background-color: var(--color-gray-500);
   color: var(--color-text-inverse);
   font-size: var(--font-size-100);
   box-shadow: var(--elevation-floating);
