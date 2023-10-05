@@ -7,13 +7,14 @@
   height: 48px;
   display: flex;
   align-items: center;
+  position: relative; /* because child .autcompleteSuggestionsList has position: absolute */
 }
 
 .container.containerInputFocused {
   box-shadow: rgba(0, 132, 255, 0.5) 0px 0px 0px 4px;
 }
 
-.searchIcon {
+.inputSearchIcon {
   margin-right: 8px;
   color: var(--color-text-icon-subtle);
 }
@@ -29,4 +30,30 @@
 
 .searchInput:focus {
   outline: none;
+}
+
+.autocompleteSuggestionsList {
+  list-style-type: none;
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: 24px 0;
+  background-color: var(--color-background-primary);
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+
+.autocompleteSuggestion {
+  cursor: pointer;
+  display: flex;
+  padding: 16px 0;
+}
+
+.autocompleteSuggestion:hover {
+  background-color: var(--color-gray-100);
+}
+
+.autocompleteSuggestionSearchIcon {
+  margin: 0 24px;
 }

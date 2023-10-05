@@ -28,7 +28,7 @@
 }
 
 .input:hover {
-  border-color: var(--color-gray-400);
+  border-color: var(--color-gray-300);
 }
 
 .input::placeholder {
