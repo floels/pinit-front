@@ -7,32 +7,58 @@ import HeaderSearchBar from "./HeaderSearchBar";
 
 const labels = en.HomePageAuthenticated.Header.SearchBar;
 
-it("should reset value and blur search input upon pressing Escape", async () => {
+it("should reset input value and blur input upon pressing Escape", async () => {
   render(<HeaderSearchBar labels={labels} />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 
   await userEvent.type(searchInput, "abc");
 
+  expect(document.activeElement).toEqual(searchInput);
   expect(searchInput).toHaveValue("abc");
 
   userEvent.keyboard("[Escape]");
 
   await waitFor(() => {
     expect(searchInput).toHaveValue("");
+
+    expect(document.activeElement).not.toEqual(searchInput);
+  });
+});
+
+it("should reset input value, blur input and hide Clear icon upon pressing the Clear icon", async () => {
+  render(<HeaderSearchBar labels={labels} />);
+
+  const searchInput = screen.getByTestId("search-bar-input");
+
+  await userEvent.type(searchInput, "abc");
+
+  expect(document.activeElement).toEqual(searchInput);
+  expect(searchInput).toHaveValue("abc");
+
+  const clearIcon = screen.getByTestId("clear-icon");
+
+  userEvent.click(clearIcon);
+
+  await waitFor(() => {
+    expect(searchInput).toHaveValue("");
+
+    expect(document.activeElement).not.toEqual(searchInput);
+
+    expect(screen.queryByTestId("clear-icon")).toBeNull();
   });
 });
 
 it("should hide icon when focusing the input", async () => {
   render(<HeaderSearchBar labels={labels} />);
 
-  screen.getByTestId("search-bar-icon");
+  screen.getByTestId("search-icon");
 
   const searchInput = screen.getByTestId("search-bar-input");
 
   await userEvent.click(searchInput);
 
-  expect(screen.queryByTestId("search-bar-icon")).toBeNull();
+  expect(screen.queryByTestId("search-icon")).toBeNull();
 });
 
 it("should display autocomplete suggestions when user types", async () => {

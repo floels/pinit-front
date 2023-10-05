@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderSearchBar.module.css";
 
 type HeaderSearchBarPros = {
@@ -28,14 +28,14 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
     setInputValue(event.target.value);
   };
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") {
       setInputValue("");
       if (inputRef.current) {
         inputRef.current.blur();
       }
     }
-  };
+  }, []);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -43,7 +43,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   const fetchAutocompleteSuggestions = useCallback(async () => {
     let response;
@@ -84,6 +84,11 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
     };
   }, [inputValue, fetchAutocompleteSuggestions]);
 
+  const handleClickClearIcon = () => {
+    setInputValue("");
+    setIsInputFocused(false);
+  };
+
   return (
     <div
       className={`${styles.container}
@@ -94,7 +99,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
         <FontAwesomeIcon
           icon={faSearch}
           className={styles.inputSearchIcon}
-          data-testid="search-bar-icon"
+          data-testid="search-icon"
         />
       )}
       <input
@@ -111,6 +116,18 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
         onBlur={handleBlurSearchBarInput}
         data-testid="search-bar-input"
       />
+      {isInputFocused && (
+        /* We need to attach `handleClickClearIcon` to `onMouseDown` instead of the usual `onClick`,
+        because otherwise there is a race condition between `handleClickClearIcon` and `handleBlurSearchBarInput`,
+        resulting in ``handleClickClearIcon` not being called. For some reason this doesn't happen with `onMouseDown`.*/
+        <div
+          className={styles.clearIconContainer}
+          onMouseDown={handleClickClearIcon}
+          data-testid="clear-icon"
+        >
+          <FontAwesomeIcon icon={faCircleXmark} size="lg" />
+        </div>
+      )}
       {isInputFocused && autocompleteSuggestions.length > 0 && (
         <ul
           className={styles.autocompleteSuggestionsList}

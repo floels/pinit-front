@@ -32,6 +32,20 @@
   outline: none;
 }
 
+.clearIconContainer {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.clearIconContainer:hover {
+  background-color: var(--color-gray-200);
+}
+
 .autocompleteSuggestionsList {
   list-style-type: none;
   width: 100%;
