@@ -44,13 +44,13 @@
   border-bottom-right-radius: 24px;
 }
 
-.autocompleteSuggestion {
+.autocompleteSuggestionsListItem {
   cursor: pointer;
   display: flex;
   padding: 16px 0;
 }
 
-.autocompleteSuggestion:hover {
+.autocompleteSuggestionsListItem:hover {
   background-color: var(--color-gray-100);
 }
 

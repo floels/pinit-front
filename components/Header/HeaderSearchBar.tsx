@@ -112,9 +112,16 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
         data-testid="search-bar-input"
       />
       {isInputFocused && autocompleteSuggestions.length > 0 && (
-        <ul className={styles.autocompleteSuggestionsList}>
+        <ul
+          className={styles.autocompleteSuggestionsList}
+          data-testid="autocomplete-suggestions-list"
+        >
           {autocompleteSuggestions.map((suggestion, index) => (
-            <li key={index} className={styles.autocompleteSuggestion}>
+            <li
+              key={index}
+              className={styles.autocompleteSuggestionsListItem}
+              data-testid="autocomplete-suggestions-list-item"
+            >
               <FontAwesomeIcon
                 icon={faSearch}
                 className={styles.autocompleteSuggestionSearchIcon}
