@@ -10,12 +10,11 @@ const labels = {
 
 const onClickAlreadyHaveAccount = () => {}; // this behavior will be tested in <HeaderUnauthenticatedClient />
 
-const mockRouterPush = jest.fn();
+const mockRouterRefresh = jest.fn();
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: mockRouterPush,
-    refresh: jest.fn(),
+    refresh: mockRouterRefresh,
   }),
 }));
 
@@ -82,7 +81,7 @@ it("should display relevant input errors, send request only when inputs are vali
 
   // Submit with correct inputs:
   await userEvent.click(submitButton);
-  expect(mockRouterPush).toHaveBeenCalledTimes(1);
+  expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 
 it("should display relevant error when receiving a 400 response", async () => {

@@ -12,10 +12,9 @@ const labels = {
   commons: en.Common,
 };
 
-// Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter():
+// Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter().refresh():
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: jest.fn(),
     refresh: jest.fn(),
   }),
 }));

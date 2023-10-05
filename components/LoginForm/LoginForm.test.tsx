@@ -14,6 +14,14 @@ const loginForm = (
   <LoginForm onClickNoAccountYet={onClickNoAccountYet} labels={labels} />
 );
 
+const mockRouterRefresh = jest.fn();
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: mockRouterRefresh,
+  }),
+}));
+
 it("should display relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
   // Inspired by https://stackoverflow.com/a/55771671
   Object.defineProperty(window, "location", {
@@ -65,7 +73,7 @@ it("should display relevant input errors, send request only when inputs are vali
 
   // Submit with correct inputs:
   await userEvent.click(submitButton);
-  expect(window.location.reload).toHaveBeenCalledTimes(1);
+  expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 
 it("should display relevant errors when receiving 401 responses", async () => {

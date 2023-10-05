@@ -95,7 +95,6 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
     try {
       await fetchSignup();
 
-      router.push("/");
       router.refresh();
     } catch (error) {
       const errorCode = (error as Error).message;

@@ -10,6 +10,7 @@ import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
+import { useRouter } from "next/navigation";
 
 export type LoginFormProps = {
   onClickNoAccountYet: () => void;
@@ -36,6 +37,8 @@ const computeFormErrors = (values: { email: string; password: string }) => {
 };
 
 const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
+  const router = useRouter();
+
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const [credentials, setCredentials] = useState({
@@ -77,7 +80,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
     try {
       await fetchTokens();
 
-      window.location.reload();
+      router.refresh();
     } catch (error) {
       const errorCode = (error as Error).message;
 
