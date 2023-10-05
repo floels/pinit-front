@@ -86,7 +86,7 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
   };
 
   const fetchTokens = async () => {
-    let response, data;
+    let response;
 
     try {
       response = await fetch("/api/user/obtain-token", {
@@ -106,17 +106,16 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
     }
 
     if (!response.ok) {
-      data = await response.json();
+      const data = await response.json();
 
       if (data?.errors?.length > 0) {
-        throw new Error(data.errors[0]?.code);
+        const firstErrorCode = data.errors[0]?.code;
+
+        throw new Error(firstErrorCode);
       }
+
       throw new Error();
     }
-  };
-
-  const handleClickLoadingOverlay = (event: MouseEvent) => {
-    event.preventDefault(); // so that a click on the form has no effect when it's loading
   };
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {
@@ -133,6 +132,10 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
       default:
         setFormErrors({ other: "UNFORESEEN_ERROR" });
     }
+  };
+
+  const handleClickLoadingOverlay = (event: MouseEvent) => {
+    event.preventDefault(); // so that a click on the form has no effect when it's loading
   };
 
   return (

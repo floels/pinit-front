@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect, MouseEvent } from "react";
-import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -90,7 +89,19 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
 
     setIsLoading(true);
 
-    let data, response;
+    try {
+      await fetchSignup();
+
+      window.location.reload();
+    } catch (error) {
+      const errorCode = (error as Error).message;
+
+      updateFormErrorsFromErrorCode(errorCode);
+    }
+  };
+
+  const fetchSignup = async () => {
+    let response;
 
     try {
       response = await fetch("/api/user/sign-up", {
@@ -100,8 +111,6 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
         },
         body: JSON.stringify(formData),
       });
-
-      data = await response.json();
     } catch (error) {
       setFormErrors({ other: "CONNECTION_ERROR" });
       return;
@@ -110,32 +119,35 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
     }
 
     if (!response.ok) {
-      if (response.status === 400) {
-        const firstErrorCode = data.errors[0].code;
+      const data = await response.json();
 
-        if (firstErrorCode === ERROR_CODE_INVALID_EMAIL) {
-          setFormErrors({ email: "INVALID_EMAIL_SIGNUP" });
-        } else if (firstErrorCode === ERROR_CODE_INVALID_PASSWORD) {
-          setFormErrors({ password: "INVALID_PASSWORD_SIGNUP" });
-        } else if (firstErrorCode === ERROR_CODE_INVALID_BIRTHDATE) {
-          setFormErrors({ birthdate: "INVALID_BIRTHDATE_SIGNUP" });
-        } else if (firstErrorCode === ERROR_CODE_EMAIL_ALREADY_SIGNED_UP) {
-          setFormErrors({ other: "EMAIL_ALREADY_SIGNED_UP" });
-        } else {
-          // Unknown error code
-          setFormErrors({ other: "UNFORESEEN_ERROR" });
-        }
-      } else {
-        // Unknown response status code
-        setFormErrors({ other: "UNFORESEEN_ERROR" });
+      if (data?.errors?.length > 0) {
+        const firstErrorCode = data.errors[0]?.code;
+
+        throw new Error(firstErrorCode);
       }
-      return;
+
+      throw new Error();
     }
+  };
 
-    Cookies.set("accessToken", data.access_token);
-    Cookies.set("refreshToken", data.refresh_token);
-
-    window.location.reload();
+  const updateFormErrorsFromErrorCode = (errorCode: string) => {
+    switch (errorCode) {
+      case ERROR_CODE_INVALID_EMAIL:
+        setFormErrors({ email: "INVALID_EMAIL_SIGNUP" });
+        break;
+      case ERROR_CODE_INVALID_PASSWORD:
+        setFormErrors({ password: "INVALID_PASSWORD_SIGNUP" });
+        break;
+      case ERROR_CODE_INVALID_BIRTHDATE:
+        setFormErrors({ birthdate: "INVALID_BIRTHDATE_SIGNUP" });
+        break;
+      case ERROR_CODE_EMAIL_ALREADY_SIGNED_UP:
+        setFormErrors({ other: "EMAIL_ALREADY_SIGNED_UP" });
+        break;
+      default:
+        setFormErrors({ other: "UNFORESEEN_ERROR" });
+    }
   };
 
   const handleClickLoadingOverlay = (event: MouseEvent) => {
