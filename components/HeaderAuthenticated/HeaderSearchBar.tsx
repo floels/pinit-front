@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderSearchBar.module.css";
+import Link from "next/link";
 
 type HeaderSearchBarPros = {
   labels: { [key: string]: string };
@@ -20,8 +21,15 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
     setIsInputFocused(true);
   };
 
-  const handleBlurSearchBarInput = () => {
-    setIsInputFocused(false);
+  const handleBlurInput = () => {
+    // We need this small timeout to prevent a race condition. When the user
+    // clicks on a suggestion <Link /> (see below), this `handleBlurInput` handler
+    // is called. Without the timeout, this will immediately
+    // set isInputFocused to false and unmount the <Link />, and the transition to the
+    // target route will not take place.
+    setTimeout(() => {
+      setIsInputFocused(false);
+    }, 100);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +121,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
         placeholder={labels.PLACEHOLDER_SEARCH}
         onChange={handleInputChange}
         onFocus={handleFocusInput}
-        onBlur={handleBlurSearchBarInput}
+        onBlur={handleBlurInput}
         data-testid="search-bar-input"
       />
       {isInputFocused && (
@@ -134,17 +142,22 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
           data-testid="autocomplete-suggestions-list"
         >
           {autocompleteSuggestions.map((suggestion, index) => (
-            <li
+            <Link
+              href={`/search/pins?q=${suggestion}`}
               key={index}
-              className={styles.autocompleteSuggestionsListItem}
-              data-testid="autocomplete-suggestions-list-item"
+              className={styles.autoCompleteSuggestionsLink}
             >
-              <FontAwesomeIcon
-                icon={faSearch}
-                className={styles.autocompleteSuggestionSearchIcon}
-              />
-              {suggestion}
-            </li>
+              <li
+                className={styles.autocompleteSuggestionsListItem}
+                data-testid="autocomplete-suggestions-list-item"
+              >
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className={styles.autocompleteSuggestionSearchIcon}
+                />
+                {suggestion}
+              </li>
+            </Link>
           ))}
         </ul>
       )}

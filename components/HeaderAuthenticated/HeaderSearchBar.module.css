@@ -58,14 +58,19 @@
   border-bottom-right-radius: 24px;
 }
 
-.autocompleteSuggestionsListItem {
-  cursor: pointer;
-  display: flex;
-  padding: 16px 0;
+.autoCompleteSuggestionsLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
-.autocompleteSuggestionsListItem:hover {
+.autoCompleteSuggestionsLink:hover {
   background-color: var(--color-gray-100);
+}
+
+.autocompleteSuggestionsListItem {
+  display: flex;
+  padding: 16px 0;
 }
 
 .autocompleteSuggestionSearchIcon {
