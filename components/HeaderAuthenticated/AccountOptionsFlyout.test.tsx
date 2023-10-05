@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import en from "@/messages/en.json";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 
-const labels = en.HomePageAuthenticated.Header.AccountOptionsFlyout;
+const labels = en.HomePage.Header.AccountOptionsFlyout;
 
 const handleClickLogOut = jest.fn();
 

@@ -76,17 +76,15 @@ test("User should be able to log in and then log out", async ({ page }) => {
   // Visit home page and log in
   await page.goto("/");
 
-  await page.click(`text=${en.HomePageUnauthenticated.Header.LOG_IN}`);
+  await page.click(`text=${en.LandingPage.Header.LOG_IN}`);
 
   await page.fill("input[name='email']", EMAIL_FIXTURE);
   await page.fill("input[name='password']", PASSWORD_FIXTURE);
 
-  await page.click(`text=${en.HomePageUnauthenticated.LoginForm.LOG_IN}`);
+  await page.click(`text=${en.LandingPage.Header.LoginForm.LOG_IN}`);
 
   // We should land on authenticated homepage
-  await page.waitForSelector(
-    `text=${en.HomePageAuthenticated.Header.NAV_ITEM_HOME}`,
-  );
+  await page.waitForSelector(`text=${en.HomePage.Header.NAV_ITEM_HOME}`);
 
   // Check that all pin suggestions received from the API are displayed
   await page.waitForSelector('[data-testid="pin-suggestion"]');
@@ -95,21 +93,15 @@ test("User should be able to log in and then log out", async ({ page }) => {
 
   // Log out
   await page.click('[data-testid="account-options-button"]');
-  await page.click(
-    `text=${en.HomePageAuthenticated.Header.AccountOptionsFlyout.LOG_OUT}`,
-  );
+  await page.click(`text=${en.HomePage.Header.AccountOptionsFlyout.LOG_OUT}`);
 
-  // We should land back on unauthenticated homepage
-  await page.waitForSelector(
-    `text=${en.HomePageUnauthenticated.Header.LOG_IN}`,
-  );
+  // We should land back on landing page
+  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
 
-  // If we visit the base route again, we should still land on the unauthenticated homepage
+  // If we visit the base route again, we should still land on the landing page
   await page.goto("/");
 
-  await page.waitForSelector(
-    `text=${en.HomePageUnauthenticated.Header.LOG_IN}`,
-  );
+  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
 
   // Close mock API server
   mockAPIServer.close();

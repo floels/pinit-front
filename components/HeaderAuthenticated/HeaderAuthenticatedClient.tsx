@@ -2,26 +2,38 @@
 
 import _ from "lodash";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import Link from "next/link";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { AccountType } from "@/app/[locale]/page";
 import HeaderSearchBar from "./HeaderSearchBar";
 import styles from "./HeaderAuthenticatedClient.module.css";
 
+export enum TypesOfAccount {
+  PERSONAL = "personal",
+  BUSINESS = "business",
+}
+
+export type AccountType = {
+  type: TypesOfAccount;
+  username: string;
+  displayName: string;
+  initial: string;
+  ownerEmail: string;
+};
+
 type HeaderAuthenticatedClientProps = {
-  accounts: AccountType[];
   labels: { [key: string]: any };
 };
 
 const HeaderAuthenticatedClient = ({
-  accounts,
   labels,
 }: HeaderAuthenticatedClientProps) => {
+  const router = useRouter();
+
   const currentPathname = usePathname();
 
   const createFlyoutRef = useRef<HTMLDivElement>(null);
@@ -113,7 +125,8 @@ const HeaderAuthenticatedClient = ({
         },
       });
 
-      window.location.reload();
+      router.push("/");
+      router.refresh();
     } catch (error) {
       toast.warn(labels.commons.CONNECTION_ERROR);
     }

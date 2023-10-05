@@ -1,7 +1,5 @@
 .container {
   width: 100%;
-  display: flex;
-  justify-content: center;
   padding: 0 8px;
   box-sizing: border-box;
 }
@@ -17,4 +15,15 @@
   width: 236px;
   margin-bottom: 16px;
   break-inside: avoid;
+}
+
+.errorMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.errorMessageIcon {
+  margin-right: 8px;
 }

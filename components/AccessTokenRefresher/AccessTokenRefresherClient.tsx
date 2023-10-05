@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
-import HomePageUnauthenticatedClient, {
-  HomePageUnauthenticatedClientProps,
-} from "../HomePageUnauthenticated/HomePageUnauthenticatedClient";
+import LandingPageContentClient, {
+  LandingPageContentClientProps,
+} from "../LandingPage/LandingPageContentClient";
 
-type AccessTokenRefresherClientProps = HomePageUnauthenticatedClientProps;
+type AccessTokenRefresherClientProps = LandingPageContentClientProps;
 
 const AccessTokenRefresherClient = ({
   labels,
@@ -53,7 +53,7 @@ const AccessTokenRefresherClient = ({
 
   if (fetchFailed) {
     return (
-      <HomePageUnauthenticatedClient
+      <LandingPageContentClient
         errorCode={ERROR_CODE_CLIENT_FETCH_FAILED}
         labels={labels}
       />

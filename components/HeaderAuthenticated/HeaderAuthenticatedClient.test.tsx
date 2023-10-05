@@ -2,22 +2,19 @@ import userEvent from "@testing-library/user-event";
 import { render, screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedClient from "./HeaderAuthenticatedClient";
-import { AccountType } from "@/app/[locale]/page";
 
-const labels = en.HomePageAuthenticated.Header;
+const labels = en.HomePage.Header;
 
-const accounts = [
-  {
-    type: "personal",
-    username: "johndoe",
-    displayName: "John Doe",
-    initial: "J",
-    ownerEmail: "john.doe@example.com",
-  },
-] as AccountType[];
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    refresh: jest.fn(),
+  }),
+  usePathname: () => "/",
+}));
 
 it("should have the proper interactivity", async () => {
-  render(<HeaderAuthenticatedClient accounts={accounts} labels={labels} />);
+  render(<HeaderAuthenticatedClient labels={labels} />);
 
   const createButton = screen.getByText(labels.CREATE);
   const profileLink = screen.getByTestId("profile-link");

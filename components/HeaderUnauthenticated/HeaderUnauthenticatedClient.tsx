@@ -1,18 +1,22 @@
+"use client";
+
 import { useState } from "react";
 import Image from "next/image";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginForm from "../LoginForm/LoginForm";
 import SignupForm from "../SignupForm/SignupForm";
-import styles from "./HeaderUnauthenticated.module.css";
+import styles from "./HeaderUnauthenticatedClient.module.css";
 
-type HeaderUnauthenticatedPros = {
+type HeaderUnauthenticatedClientProps = {
   labels: {
     component: { [key: string]: any };
     commons: { [key: string]: string };
   };
 };
 
-const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
+const HeaderUnauthenticatedClient = ({
+  labels,
+}: HeaderUnauthenticatedClientProps) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
@@ -80,4 +84,4 @@ const HeaderUnauthenticated = ({ labels }: HeaderUnauthenticatedPros) => {
   );
 };
 
-export default HeaderUnauthenticated;
+export default HeaderUnauthenticatedClient;

@@ -1,21 +1,16 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
-import fetchMock from "jest-fetch-mock";
-import { AccountType } from "@/app/[locale]/page";
 import en from "@/messages/en.json";
-import HomePageAuthenticatedClient from "./HomePageAuthenticatedClient";
+import HomePageContentClient from "./HomePageContentClient";
 import { PinSuggestionType } from "./PinSuggestion";
-
-const accounts = [
-  {
-    type: "personal",
-    username: "johndoe",
-    displayName: "John Doe",
-    initial: "J",
-    ownerEmail: "john.doe@example.com",
-  },
-] as AccountType[];
+import { toast } from "react-toastify";
 
 const SUGGESTIONS_ENDPOINT_PAGE_SIZE = 50;
+
+jest.mock("react-toastify", () => ({
+  toast: {
+    warn: jest.fn(),
+  },
+}));
 
 const initialPinSuggestions = Array.from(
   { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
@@ -31,18 +26,20 @@ const initialPinSuggestions = Array.from(
 
 const labels = {
   commons: en.Common,
-  component: en.HomePageAuthenticated,
+  component: en.HomePage.Content,
 };
 
-global.IntersectionObserver = jest.fn(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-  root: null,
-  rootMargin: "",
-  thresholds: [],
-  takeRecords: () => [],
-}));
+beforeEach(() => {
+  global.IntersectionObserver = jest.fn(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+    root: null,
+    rootMargin: "",
+    thresholds: [],
+    takeRecords: () => [],
+  }));
+});
 
 it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   const newPinSuggestions = Array.from(
@@ -65,8 +62,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   );
 
   render(
-    <HomePageAuthenticatedClient
-      accounts={accounts}
+    <HomePageContentClient
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
     />,
@@ -105,8 +101,7 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
   );
 
   render(
-    <HomePageAuthenticatedClient
-      accounts={accounts}
+    <HomePageContentClient
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
     />,
@@ -120,14 +115,13 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
   });
 
   await waitFor(() => {
-    screen.getByText(en.HomePageAuthenticated.ERROR_FETCH_PIN_SUGGESTIONS);
+    screen.getByText(en.HomePage.Content.ERROR_DISPLAY_PIN_SUGGESTIONS);
   });
 });
 
-it("should display toast in case of failure upon new suggestions fetch", async () => {
+it("should display toast in case of fetch failure upon new suggestions fetch", async () => {
   render(
-    <HomePageAuthenticatedClient
-      accounts={accounts}
+    <HomePageContentClient
       initialPinSuggestions={initialPinSuggestions}
       labels={labels}
     />,
@@ -141,6 +135,6 @@ it("should display toast in case of failure upon new suggestions fetch", async (
   });
 
   await waitFor(() => {
-    screen.getByText(en.Common.CONNECTION_ERROR);
+    expect(toast.warn).toHaveBeenCalledWith(en.Common.CONNECTION_ERROR);
   });
 });

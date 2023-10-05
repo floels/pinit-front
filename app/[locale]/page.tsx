@@ -1,116 +1,70 @@
-import humps from "humps";
+import LandingPageContentServer from "@/components/LandingPage/LandingPageContentServer";
+import HomePageContentServer from "@/components/HomePage/HomePageContentServer";
 import { cookies } from "next/headers";
-import HomePageUnauthenticatedServer from "@/components/HomePageUnauthenticated/HomePageUnauthenticatedServer";
-import HomePageAuthenticatedServer from "@/components/HomePageAuthenticated/HomePageAuthenticatedServer";
+import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
-  ENDPOINT_GET_ACCOUNTS,
   ENDPOINT_GET_PIN_SUGGESTIONS,
+  ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
-import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import { getPinSuggestionsWithCamelizedKeys } from "@/lib/utils/misc";
 import AccessTokenRefresherServer from "@/components/AccessTokenRefresher/AccessTokenRefresherServer";
-
-export enum TypesOfAccount {
-  PERSONAL = "personal",
-  BUSINESS = "business",
-}
-
-export type AccountType = {
-  type: TypesOfAccount;
-  username: string;
-  displayName: string;
-  initial: string;
-  ownerEmail: string;
-};
-
-// Data fetching design implemented below was inspired by:
-// https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#parallel-data-fetching
-
-const fetchData = async (accessToken: string) => {
-  const [fetchAccountsResponse, fetchInitialPinSuggestionsResponse] =
-    await Promise.all([
-      fetchAccounts(accessToken),
-      fetchInitialPinSuggestions(accessToken),
-    ]);
-
-  const [fetchAccountsData, fetchInitialPinSuggestionsData] = await Promise.all(
-    [fetchAccountsResponse.json(), fetchInitialPinSuggestionsResponse.json()],
-  );
-
-  return {
-    fetchAccountsResponse,
-    fetchInitialPinSuggestionsResponse,
-    fetchAccountsData,
-    fetchInitialPinSuggestionsData,
-  };
-};
-
-const fetchAccounts = async (accessToken: string) => {
-  return fetchWithAuthentication({
-    endpoint: ENDPOINT_GET_ACCOUNTS,
-    accessToken,
-  });
-};
-
-const fetchInitialPinSuggestions = async (accessToken: string) => {
-  return fetchWithAuthentication({
-    endpoint: ENDPOINT_GET_PIN_SUGGESTIONS,
-    accessToken,
-  });
-};
-
-const getAccountsWithCamelizedKeys = (fetchAccountsData: any) => {
-  return humps.camelizeKeys(fetchAccountsData.results) as AccountType[];
-};
 
 const Page = async () => {
   const accessTokenCookie = cookies().get("accessToken");
 
   if (!accessTokenCookie) {
-    return <HomePageUnauthenticatedServer />;
+    return <LandingPageContentServer />;
   }
 
   const accessToken = accessTokenCookie.value;
 
+  let fetchPinSuggestionsResponse;
+
   try {
-    const {
-      fetchAccountsResponse,
-      fetchInitialPinSuggestionsResponse,
-      fetchAccountsData,
-      fetchInitialPinSuggestionsData,
-    } = await fetchData(accessToken);
-
-    if (fetchAccountsResponse.ok && fetchInitialPinSuggestionsResponse.ok) {
-      const accounts = getAccountsWithCamelizedKeys(fetchAccountsData);
-      const initialPinSuggestions = getPinSuggestionsWithCamelizedKeys(
-        fetchInitialPinSuggestionsData,
-      );
-
-      return (
-        <HomePageAuthenticatedServer
-          accounts={accounts}
-          initialPinSuggestions={initialPinSuggestions}
-        />
-      );
-    }
-
-    if (
-      fetchAccountsResponse.status === 401 ||
-      fetchInitialPinSuggestionsResponse.status === 401
-    ) {
-      // Access token is likely expired
-      return <AccessTokenRefresherServer />;
-    }
-
+    fetchPinSuggestionsResponse = await fetchWithAuthentication({
+      endpoint: ENDPOINT_GET_PIN_SUGGESTIONS,
+      accessToken,
+    });
+  } catch (error) {
     return (
-      <HomePageUnauthenticatedServer
+      <HomePageContentServer
+        initialPinSuggestions={[]}
+        errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
+      />
+    );
+  }
+
+  if (fetchPinSuggestionsResponse.status === 401) {
+    // Access token is likely expired:
+    return <AccessTokenRefresherServer />;
+  }
+
+  if (!fetchPinSuggestionsResponse.ok) {
+    return (
+      <HomePageContentServer
+        initialPinSuggestions={[]}
         errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
       />
     );
-  } catch (error) {
+  }
+
+  try {
+    const fetchPinSuggestionsResponseData =
+      await fetchPinSuggestionsResponse.json();
+
+    const initialPinSuggestions = getPinSuggestionsWithCamelizedKeys(
+      fetchPinSuggestionsResponseData,
+    );
+
     return (
-      <HomePageUnauthenticatedServer
+      <HomePageContentServer initialPinSuggestions={initialPinSuggestions} />
+    );
+  } catch (error) {
+    // Malformed response
+    return (
+      <HomePageContentServer
+        initialPinSuggestions={[]}
         errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
       />
     );

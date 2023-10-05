@@ -9,10 +9,13 @@ import { notFound } from "next/navigation";
 
 // https://fkhadra.github.io/react-toastify/installation#the-gist
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+import { cookies } from "next/headers";
+import HeaderUnauthenticatedServer from "@/components/HeaderUnauthenticated/HeaderUnauthenticatedServer";
+import HeaderAuthenticatedServer from "@/components/HeaderAuthenticated/HeaderAuthenticatedServer";
 
 import "@/styles/globals.css";
-
-import { ToastContainer } from "react-toastify";
 
 type Props = {
   children: React.ReactNode;
@@ -35,10 +38,19 @@ const Layout = ({ children, params }: Props) => {
     notFound();
   }
 
+  const accessTokenCookie = cookies().get("accessToken");
+
+  const isAuthenticated = !!accessTokenCookie;
+
   return (
     <html lang={locale}>
       <body>
         <ToastContainer position="bottom-left" autoClose={5000} />
+        {isAuthenticated ? (
+          <HeaderAuthenticatedServer />
+        ) : (
+          <HeaderUnauthenticatedServer />
+        )}
         {children}
       </body>
     </html>

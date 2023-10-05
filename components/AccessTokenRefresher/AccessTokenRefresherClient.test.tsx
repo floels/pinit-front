@@ -1,21 +1,22 @@
 import { render, waitFor, screen, act } from "@testing-library/react";
-import fetchMock from "jest-fetch-mock";
-import defaultMockRouter, { MemoryRouter } from "next-router-mock";
 import AccessTokenRefresherClient from "./AccessTokenRefresherClient";
 import en from "@/messages/en.json";
 
-type MockedRouter = MemoryRouter & {
-  refresh?: jest.MockedFunction<any>;
-};
+const mockRouterRefresh = jest.fn();
 
-// See https://www.npmjs.com/package/next-router-mock#jest-example
-jest.mock("next/navigation", () => require("next-router-mock"));
-
-const mockedRouter = defaultMockRouter as MockedRouter;
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: mockRouterRefresh,
+  }),
+}));
 
 const labels = {
-  component: en.HomePageUnauthenticated,
   commons: en.Common,
+  component: {
+    ...en.LandingPage.Content,
+    LoginForm: en.LandingPage.Header.LoginForm,
+    SignupForm: en.LandingPage.Header.LoginForm,
+  },
 };
 
 const accessTokenRefresher = <AccessTokenRefresherClient labels={labels} />;
@@ -26,11 +27,9 @@ it("should refresh the current route when receiving an OK response from token re
     JSON.stringify({ access_token: "refreshedAccessToken" }),
   );
 
-  mockedRouter.refresh = jest.fn();
-
   render(accessTokenRefresher);
 
-  await waitFor(() => expect(mockedRouter.refresh).toHaveBeenCalledTimes(1));
+  await waitFor(() => expect(mockRouterRefresh).toHaveBeenCalledTimes(1));
 });
 
 it("should call logout endpoint and refresh page when receiving KO response from token refresh endpoint", async () => {
@@ -67,5 +66,5 @@ it("should render unauthenticated homepage when fetch fails", async () => {
     render(accessTokenRefresher);
   });
 
-  screen.getByText(en.HomePageUnauthenticated.PictureSlider.GET_YOUR_NEXT);
+  screen.getByText(en.LandingPage.Content.PictureSlider.GET_YOUR_NEXT);
 });
