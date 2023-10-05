@@ -33,7 +33,6 @@ const fifthFold = (
 // Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter():
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: jest.fn(),
     refresh: jest.fn(),
   }),
 }));

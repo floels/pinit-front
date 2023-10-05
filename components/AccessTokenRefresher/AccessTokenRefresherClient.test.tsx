@@ -6,6 +6,7 @@ const mockRouterRefresh = jest.fn();
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
+    push: jest.fn(),
     refresh: mockRouterRefresh,
   }),
 }));
@@ -15,15 +16,17 @@ const labels = {
   component: en.LandingPage,
 };
 
-const accessTokenRefresher = <AccessTokenRefresherClient labels={labels} />;
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
-it("should refresh the current route when receiving an OK response from token refresh endpoint", async () => {
+it("should refresh the current route when receiving OK response from token refresh endpoint", async () => {
   fetchMock.doMockOnceIf(
     "/api/user/refresh-token",
     JSON.stringify({ access_token: "refreshedAccessToken" }),
   );
 
-  render(accessTokenRefresher);
+  render(<AccessTokenRefresherClient labels={labels} />);
 
   await waitFor(() => expect(mockRouterRefresh).toHaveBeenCalledTimes(1));
 });
@@ -41,7 +44,7 @@ it("should call logout endpoint and refresh page when receiving KO response from
     { status: 401 },
   );
 
-  render(accessTokenRefresher);
+  render(<AccessTokenRefresherClient labels={labels} />);
 
   await waitFor(() => {
     expect(fetch).toHaveBeenCalledWith("/api/user/log-out", {
@@ -49,17 +52,17 @@ it("should call logout endpoint and refresh page when receiving KO response from
       method: "POST",
     });
 
-    expect(window.location.reload).toHaveBeenCalledTimes(1);
+    expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
   });
 });
 
 it("should render unauthenticated homepage when fetch fails", async () => {
-  fetchMock.mockRejectOnce(new Error("Network failure"));
+  fetchMock.mockReject(new Error("Network failure"));
 
   // Since there is asynchronous behavior in the `useEffect` hook of <AccessTokenRefresher />, we need to wrap the `render()` in an `act()`.
   // Otherwise, the test fails.
   await act(async () => {
-    render(accessTokenRefresher);
+    render(<AccessTokenRefresherClient labels={labels} />);
   });
 
   screen.getByText(en.LandingPage.Content.PictureSlider.GET_YOUR_NEXT);

@@ -39,11 +39,10 @@ const AccessTokenRefresherClient = ({
           "Content-Type": "application/json",
         },
       });
-
-      window.location.reload();
     }
 
-    // Token refresh succeeded: refresh current route
+    // Whether the token refresh succeeded or not, we go back to the base route:
+    router.push("/");
     router.refresh();
   }, [router]);
 
