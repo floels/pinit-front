@@ -12,11 +12,7 @@ jest.mock("next/navigation", () => ({
 
 const labels = {
   commons: en.Common,
-  component: {
-    ...en.LandingPage.Content,
-    LoginForm: en.LandingPage.Header.LoginForm,
-    SignupForm: en.LandingPage.Header.LoginForm,
-  },
+  component: en.LandingPage,
 };
 
 const accessTokenRefresher = <AccessTokenRefresherClient labels={labels} />;

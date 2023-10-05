@@ -64,7 +64,7 @@ const HomePageContentClient = ({
     setFetchPinSuggestionsFailed(false);
 
     await updateStateWithNewPinSuggestionsResponse(newPinSuggestionsResponse);
-  }, [currentEndpointPage, labels]);
+  }, [currentEndpointPage]);
 
   const fetchNextPinSuggestionsAndFallBack = useCallback(async () => {
     try {

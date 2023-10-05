@@ -12,7 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 import { cookies } from "next/headers";
-import HeaderUnauthenticatedServer from "@/components/HeaderUnauthenticated/HeaderUnauthenticatedServer";
 import HeaderAuthenticatedServer from "@/components/HeaderAuthenticated/HeaderAuthenticatedServer";
 
 import "@/styles/globals.css";
@@ -46,11 +45,8 @@ const Layout = ({ children, params }: Props) => {
     <html lang={locale}>
       <body>
         <ToastContainer position="bottom-left" autoClose={5000} />
-        {isAuthenticated ? (
-          <HeaderAuthenticatedServer />
-        ) : (
-          <HeaderUnauthenticatedServer />
-        )}
+        {/*  If user is not authenticated, the header will be rendered with <LandingPageClient /> */}
+        {isAuthenticated && <HeaderAuthenticatedServer />}
         {children}
       </body>
     </html>
