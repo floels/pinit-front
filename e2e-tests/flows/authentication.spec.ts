@@ -73,8 +73,8 @@ test("User should be able to log in and then log out", async ({ page }) => {
   await page.waitForSelector('[data-testid="search-bar-input"]');
 
   // Check that all pin suggestions received from the API are displayed
-  await page.waitForSelector('[data-testid="pin-suggestion"]');
-  const pinSuggestions = await page.$$('[data-testid="pin-suggestion"]');
+  await page.waitForSelector('[data-testid="pin-thumbnail"]');
+  const pinSuggestions = await page.$$('[data-testid="pin-thumbnail"]');
   expect(pinSuggestions.length).toBe(NUMBER_PIN_SUGGESTIONS);
 
   // Log out

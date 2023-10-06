@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import styles from "./HomePageContentLoadingState.module.css";
+import styles from "./PinsBoardLoadingState.module.css";
 
-const HomePageContentLoadingState = () => {
+const PinsBoardLoadingState = () => {
   return (
     <div className={styles.container}>
       <FontAwesomeIcon
@@ -16,4 +16,4 @@ const HomePageContentLoadingState = () => {
   );
 };
 
-export default HomePageContentLoadingState;
+export default PinsBoardLoadingState;

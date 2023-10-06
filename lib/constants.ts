@@ -6,6 +6,7 @@ export const ENDPOINT_SIGN_UP = "signup/";
 export const ENDPOINT_GET_ACCOUNTS = "accounts/";
 export const ENDPOINT_GET_PIN_SUGGESTIONS = "pin-suggestions/";
 export const ENDPOINT_SEARCH_AUTOCOMPLETE = "search/autocomplete/";
+export const ENDPOINT_SEARCH_PINS = "search/";
 
 // API error codes
 export const ERROR_CODE_INVALID_EMAIL = "invalid_email";

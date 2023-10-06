@@ -9,6 +9,7 @@ jest.mock("next/navigation", () => ({
     push: jest.fn(),
     refresh: mockRouterRefresh,
   }),
+  usePathname: jest.fn(),
 }));
 
 const labels = {
