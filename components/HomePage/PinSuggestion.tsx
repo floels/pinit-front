@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import styles from "./PinSuggestion.module.css";
 
 export type PinSuggestionType = {

@@ -1,17 +1,13 @@
 import { test } from "@playwright/test";
 import { Response, Express } from "express";
-import { Server } from "http";
 import en from "@/messages/en.json";
-import { PORT_MOCK_API_SERVER, getExpressApp } from "@/e2e-tests/utils";
+import { launchMockAPIServer } from "@/e2e-tests/utils";
 
 const EMAIL_FIXTURE = "john.doe@example.com";
 const PASSWORD_FIXTURE = "Pa$$w0rd";
 const BIRTHDATE_FIXTURE = "1970-01-01";
 
-let mockAPIApp: Express;
-let mockAPIServer: Server;
-
-const configureAPIResponses = () => {
+const configureAPIResponses = (mockAPIApp: Express) => {
   mockAPIApp.post("/api/signup/", (_, response: Response) => {
     response.json({
       access_token: "mock_access_token",
@@ -20,18 +16,8 @@ const configureAPIResponses = () => {
   });
 };
 
-const launchMockAPIServer = () => {
-  return new Promise<void>((resolve) => {
-    mockAPIApp = getExpressApp();
-
-    configureAPIResponses();
-
-    mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER, resolve);
-  });
-};
-
 test("User should be able to sign up", async ({ page }) => {
-  await launchMockAPIServer();
+  const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 
   await page.goto("/");
 
@@ -44,12 +30,12 @@ test("User should be able to sign up", async ({ page }) => {
   await page.click(`text=${en.LandingPage.Header.SignupForm.CONTINUE}`);
 
   // We should land on authenticated homepage
-  await page.waitForSelector(`text=${en.HomePage.Header.NAV_ITEM_HOME}`);
+  await page.waitForSelector('[data-testid="search-bar-input"]');
 
   // If we visit the base route again, we should still land on the authenticated homepage
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.HomePage.Header.NAV_ITEM_HOME}`);
+  await page.waitForSelector('[data-testid="search-bar-input"]');
 
   // Close mock API server
   mockAPIServer.close();
