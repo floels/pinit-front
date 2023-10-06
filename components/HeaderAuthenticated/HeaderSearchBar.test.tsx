@@ -6,6 +6,12 @@ import HeaderSearchBar from "./HeaderSearchBar";
 
 const labels = en.HomePage.Header.SearchBar;
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
 it("should reset input value and blur input upon pressing Escape", async () => {
   render(<HeaderSearchBar labels={labels} />);
 
