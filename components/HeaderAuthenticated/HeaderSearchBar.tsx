@@ -38,7 +38,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
   // is called. This will immediately set isInputFocused to false and unmount the <Link />,
   // and the transition to the target route will not take place.
   const getSuggestionLinkClickHandler = (suggestion: string) => {
-    return (event: React.MouseEvent) => {
+    return () => {
       router.push(`/search/pins?q=${suggestion}`);
     };
   };
@@ -58,14 +58,19 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
     }
   }, [pathname, searchParams]);
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      setInputValue("");
-      if (inputRef.current) {
-        inputRef.current.blur();
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setInputValue("");
+        if (inputRef.current) {
+          inputRef.current.blur();
+        }
+      } else if (event.key === "Enter" && inputValue !== "") {
+        router.push(`/search/pins?q=${inputValue}`);
       }
-    }
-  }, []);
+    },
+    [inputValue, router],
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);

@@ -6,13 +6,27 @@ import HeaderSearchBar from "./HeaderSearchBar";
 
 const labels = en.HomePage.Header.SearchBar;
 
+const mockRouterPush = jest.fn();
+
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: jest.fn(),
+    push: mockRouterPush,
   }),
   usePathname: jest.fn(),
   useSearchParams: jest.fn(),
 }));
+
+// We need to mock Next.js's <Link /> component, otherwise we'll get a console error
+// when clicking one in the tests: "Error: Not implemented: navigation (except hash changes)".
+jest.mock("next/link", () => {
+  const MockedLink = ({ children, ...props }: any) => (
+    <div {...props}>{children}</div>
+  );
+
+  MockedLink.displayName = "MockedLink";
+
+  return MockedLink;
+});
 
 it("should reset input value and blur input upon pressing Escape", async () => {
   render(<HeaderSearchBar labels={labels} />);
@@ -68,14 +82,14 @@ it("should hide icon when focusing the input", async () => {
   expect(screen.queryByTestId("search-icon")).toBeNull();
 });
 
-it("should display autocomplete suggestions when user types", async () => {
+it("should display autocomplete suggestions and navigate to search route when user clicks one", async () => {
   const searchTerm = "foo";
 
   const numberSuggestions = 12;
 
   const dummySuggestions = Array.from(
     { length: numberSuggestions },
-    (_, index) => `${searchTerm} suggestion ${index + 1}`,
+    (_, index) => `foo suggestion ${index + 1}`,
   ); // so dummySuggestions === ["foo suggestion 1", "foo suggestion 2", ..., "foo suggestion 12"]
 
   fetchMock.mockOnceIf(
@@ -94,20 +108,40 @@ it("should display autocomplete suggestions when user types", async () => {
   await userEvent.type(searchInput, searchTerm);
 
   await waitFor(() => {
-    const autoCompleteSuggestionsList = screen.getByTestId(
-      "autocomplete-suggestions-list",
-    );
-
-    const autoCompleteSuggestionsListItems = within(
-      autoCompleteSuggestionsList,
-    ).getAllByTestId("autocomplete-suggestions-list-item");
-
-    expect(autoCompleteSuggestionsListItems).toHaveLength(numberSuggestions);
-
-    // Check that the component inserted the search term as first suggestion:
-    expect(autoCompleteSuggestionsListItems[0]).toHaveTextContent(searchTerm);
-    expect(autoCompleteSuggestionsListItems[1]).toHaveTextContent(
-      `${searchTerm} suggestion 1`,
-    );
+    screen.getByTestId("autocomplete-suggestions-list");
   });
+
+  const autoCompleteSuggestionsList = screen.getByTestId(
+    "autocomplete-suggestions-list",
+  );
+
+  const autoCompleteSuggestionsListItems = within(
+    autoCompleteSuggestionsList,
+  ).getAllByTestId("autocomplete-suggestions-list-item");
+
+  expect(autoCompleteSuggestionsListItems).toHaveLength(numberSuggestions);
+
+  // Check that the component inserted the search term as first suggestion:
+  expect(autoCompleteSuggestionsListItems[0]).toHaveTextContent("foo");
+  expect(autoCompleteSuggestionsListItems[1]).toHaveTextContent(
+    "foo suggestion 1",
+  );
+
+  await userEvent.click(autoCompleteSuggestionsListItems[1]);
+
+  expect(mockRouterPush).toHaveBeenCalledWith(
+    `/search/pins?q=foo suggestion 1`,
+  );
+});
+
+it("should navigate to /search/pins route when user types and presses Enter", async () => {
+  render(<HeaderSearchBar labels={labels} />);
+
+  const searchInput = screen.getByTestId("search-bar-input");
+
+  await userEvent.click(searchInput);
+  await userEvent.type(searchInput, "foo");
+  await userEvent.keyboard("[Enter]");
+
+  expect(mockRouterPush).toHaveBeenCalledWith(`/search/pins?q=foo`);
 });
