@@ -33,9 +33,13 @@ const PinsBoardClient = ({
   const scrolledToBottomSentinel = useRef(null);
 
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
-  const [pinThumbnails, setPinThumbnails] = useState(initialPinThumbnails);
+  const [pinThumbnails, setPinThumbnails] = useState<PinThumbnailType[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
+
+  useEffect(() => {
+    setPinThumbnails([...initialPinThumbnails]);
+  }, [initialPinThumbnails]);
 
   // Fetch next page of pin thumbnails when user scrolled to the bottom of the screen
   const updateStateWithNewPinThumbnailsResponse = async (
