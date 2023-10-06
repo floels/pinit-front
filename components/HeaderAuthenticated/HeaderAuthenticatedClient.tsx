@@ -1,6 +1,5 @@
 "use client";
 
-import _ from "lodash";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";
@@ -33,8 +32,7 @@ const HeaderAuthenticatedClient = ({
   labels,
 }: HeaderAuthenticatedClientProps) => {
   const router = useRouter();
-
-  const currentPathname = usePathname();
+  const pathname = usePathname();
 
   const createFlyoutRef = useRef<HTMLDivElement>(null);
   const createButtonRef = useRef<HTMLDivElement>(null);
@@ -156,7 +154,7 @@ const HeaderAuthenticatedClient = ({
         <Link
           href="/"
           className={`${styles.navigationItem} ${
-            currentPathname === "/" ? styles.active : ""
+            pathname === "/" ? styles.active : ""
           }`}
         >
           {labels.NAV_ITEM_HOME}
@@ -165,7 +163,7 @@ const HeaderAuthenticatedClient = ({
           className={`
             ${styles.navigationItem}
             ${styles.navigationItemCreate}
-            ${currentPathname === "/pin-builder" ? styles.active : ""}
+            ${pathname === "/pin-builder" ? styles.active : ""}
           `}
           ref={createButtonRef}
           onClick={handleClickCreateButton}
@@ -183,7 +181,13 @@ const HeaderAuthenticatedClient = ({
             </Link>
           </div>
         )}
-        <HeaderSearchBar labels={labels.SearchBar} />
+        {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
+        This way, the component will be re-rendered on each route transition, and its value
+        will be cleared. */}
+        <HeaderSearchBar
+          labels={labels.SearchBar}
+          key={`header-search-bar-pathname-${pathname}`}
+        />
         <Link
           href="/florianellis/"
           className={styles.profileLink}

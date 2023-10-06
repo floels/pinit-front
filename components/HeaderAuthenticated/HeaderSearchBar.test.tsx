@@ -10,6 +10,8 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: jest.fn(),
   }),
+  usePathname: jest.fn(),
+  useSearchParams: jest.fn(),
 }));
 
 it("should reset input value and blur input upon pressing Escape", async () => {

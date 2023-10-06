@@ -10,7 +10,8 @@ jest.mock("next/navigation", () => ({
     push: jest.fn(),
     refresh: jest.fn(),
   }),
-  usePathname: () => "/",
+  usePathname: jest.fn(),
+  useSearchParams: jest.fn(),
 }));
 
 it("should have the proper interactivity", async () => {

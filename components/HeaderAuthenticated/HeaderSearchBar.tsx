@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderSearchBar.module.css";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 type HeaderSearchBarPros = {
   labels: { [key: string]: string };
@@ -13,6 +13,8 @@ const DEBOUNCE_DURATION_MS = 300;
 
 const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -44,6 +46,17 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
+
+  // Initialize the input value to the search param if present:
+  useEffect(() => {
+    if (pathname === "/search/pins") {
+      const searchTerm = searchParams.get("q");
+
+      if (searchTerm) {
+        setInputValue(searchTerm);
+      }
+    }
+  }, [pathname, searchParams]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") {
@@ -182,7 +195,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
           {autocompleteSuggestions.map((suggestion, index) => (
             <Link
               href={`/search/pins?q=${suggestion}`}
-              key={index}
+              key={`autocomplete-suggestion-link-${index}`}
               className={styles.autoCompleteSuggestionsLink}
               onMouseDown={getSuggestionLinkClickHandler(suggestion)}
             >
