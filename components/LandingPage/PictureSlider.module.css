@@ -4,7 +4,7 @@
 }
 
 .slider {
-  height: calc(100vh - 80px - 60px);
+  height: calc(100vh - var(--header-height) - 60px);
   position: relative;
 }
 
