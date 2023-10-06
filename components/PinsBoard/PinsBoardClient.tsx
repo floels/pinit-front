@@ -4,7 +4,10 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import styles from "./PinsBoardClient.module.css";
 import PinThumbnail, { PinThumbnailType } from "./PinThumbnail";
-import { getPinThumbnailsWithCamelizedKeys } from "@/lib/utils/misc";
+import {
+  appendQueryParam,
+  getPinThumbnailsWithCamelizedKeys,
+} from "@/lib/utils/misc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTriangleExclamation,
@@ -13,6 +16,7 @@ import {
 
 type PinsBoardClientProps = {
   initialPinThumbnails: PinThumbnailType[];
+  fetchThumbnailsAPIRoute: string;
   labels: {
     commons: { [key: string]: any };
     component: { [key: string]: any };
@@ -22,6 +26,7 @@ type PinsBoardClientProps = {
 
 const PinsBoardClient = ({
   initialPinThumbnails,
+  fetchThumbnailsAPIRoute,
   labels,
   errorCode,
 }: PinsBoardClientProps) => {
@@ -55,10 +60,13 @@ const PinsBoardClient = ({
 
     setIsFetching(true);
 
-    const newPinThumbnailsResponse = await fetch(
-      `/api/pins/suggestions?page=${nextEndpointPage}`,
-      { method: "GET" },
+    const url = appendQueryParam(
+      fetchThumbnailsAPIRoute,
+      "page",
+      nextEndpointPage.toString(),
     );
+
+    const newPinThumbnailsResponse = await fetch(url, { method: "GET" });
 
     setIsFetching(false);
 
@@ -70,7 +78,7 @@ const PinsBoardClient = ({
     setFetchFailed(false);
 
     await updateStateWithNewPinThumbnailsResponse(newPinThumbnailsResponse);
-  }, [currentEndpointPage]);
+  }, [currentEndpointPage, fetchThumbnailsAPIRoute]);
 
   const fetchNextPinThumbnailsAndFallBack = useCallback(async () => {
     try {

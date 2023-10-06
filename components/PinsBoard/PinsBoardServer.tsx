@@ -5,11 +5,13 @@ import { PinThumbnailType } from "./PinThumbnail";
 
 type PinsBoardServerProps = {
   initialPinThumbnails: PinThumbnailType[];
+  fetchThumbnailsAPIRoute: string;
   errorCode?: string;
 };
 
 const PinsBoardServer = ({
   initialPinThumbnails,
+  fetchThumbnailsAPIRoute,
   errorCode,
 }: PinsBoardServerProps) => {
   const homePageTranslator = useTranslations("HomePage");
@@ -32,6 +34,7 @@ const PinsBoardServer = ({
   return (
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
+      fetchThumbnailsAPIRoute={fetchThumbnailsAPIRoute}
       labels={labels}
       errorCode={errorCode}
     />

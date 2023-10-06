@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import LandingPageClient, {
   LandingPageClientProps,
@@ -15,6 +15,7 @@ const AccessTokenRefresherClient = ({
   const [fetchFailed, setFetchFailed] = useState(false);
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const refreshTokenAndRefreshRoute = useCallback(async () => {
     let response;
@@ -32,19 +33,23 @@ const AccessTokenRefresherClient = ({
     }
 
     if (!response.ok) {
-      // Refresh token is expired: logout and refresh page
+      // Refresh token is expired: logout and go back to base route:
       await fetch("/api/user/log-out", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
+
+      if (pathname === "/") {
+        router.refresh();
+      } else {
+        router.push("/");
+      }
     }
 
-    // Whether the token refresh succeeded or not, we go back to the base route:
-    router.push("/");
     router.refresh();
-  }, [router]);
+  }, [router, pathname]);
 
   useEffect(() => {
     refreshTokenAndRefreshRoute();

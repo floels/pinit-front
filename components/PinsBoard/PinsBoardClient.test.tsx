@@ -71,6 +71,7 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
+      fetchThumbnailsAPIRoute="/api/pins/suggestions"
       labels={labels}
     />,
   );
@@ -98,6 +99,7 @@ it("should display loading spinner while fetching new thumbnails", async () => {
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
+      fetchThumbnailsAPIRoute="/api/pins/suggestions"
       labels={labels}
     />,
   );
@@ -123,6 +125,7 @@ it("should display error message in case of KO response upon new thumbnails fetc
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
+      fetchThumbnailsAPIRoute="/api/pins/suggestions"
       labels={labels}
     />,
   );
@@ -138,6 +141,7 @@ it("should display toast in case of fetch failure upon new thumbnails fetch", as
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
+      fetchThumbnailsAPIRoute="/api/pins/suggestions"
       labels={labels}
     />,
   );
