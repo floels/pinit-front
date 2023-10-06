@@ -1,6 +1,5 @@
 "use client";
 
-import _ from "lodash";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";
@@ -183,7 +182,13 @@ const HeaderAuthenticatedClient = ({
             </Link>
           </div>
         )}
-        <HeaderSearchBar labels={labels.SearchBar} />
+        {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
+        This way, the component will be re-rendered on each route transition, and its value
+        will be cleared. */}
+        <HeaderSearchBar
+          labels={labels.SearchBar}
+          key={`header-search-bar-pathname-${currentPathname}`}
+        />
         <Link
           href="/florianellis/"
           className={styles.profileLink}

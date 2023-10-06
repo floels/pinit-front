@@ -182,7 +182,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
           {autocompleteSuggestions.map((suggestion, index) => (
             <Link
               href={`/search/pins?q=${suggestion}`}
-              key={index}
+              key={`autocomplete-suggestion-link-${index}`}
               className={styles.autoCompleteSuggestionsLink}
               onMouseDown={getSuggestionLinkClickHandler(suggestion)}
             >
