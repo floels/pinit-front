@@ -1,5 +1,5 @@
 .container {
-  height: 80px;
+  height: var(--header-height);
   padding: 16px;
   box-sizing: border-box;
   display: flex;
