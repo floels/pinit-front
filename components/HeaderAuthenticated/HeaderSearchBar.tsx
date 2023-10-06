@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderSearchBar.module.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type HeaderSearchBarPros = {
   labels: { [key: string]: string };
@@ -11,6 +12,8 @@ type HeaderSearchBarPros = {
 const DEBOUNCE_DURATION_MS = 300;
 
 const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
+  const router = useRouter();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -22,14 +25,18 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
   };
 
   const handleBlurInput = () => {
-    // We need this small timeout to prevent a race condition. When the user
-    // clicks on a suggestion <Link /> (see below), this `handleBlurInput` handler
-    // is called. Without the timeout, this will immediately
-    // set isInputFocused to false and unmount the <Link />, and the transition to the
-    // target route will not take place.
-    setTimeout(() => {
-      setIsInputFocused(false);
-    }, 100);
+    setIsInputFocused(false);
+  };
+
+  // We need this addition event handler for when the user clicks a suggestion link
+  // in order to circumvent a race condition. Without this event handler, when the user
+  // clicks on a suggestion <Link /> (see below), this `handleBlurInput` handler
+  // is called. This will immediately set isInputFocused to false and unmount the <Link />,
+  // and the transition to the target route will not take place.
+  const getSuggestionLinkClickHandler = (suggestion: string) => {
+    return (event: React.MouseEvent) => {
+      router.push(`/search/pins?q=${suggestion}`);
+    };
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,6 +153,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
               href={`/search/pins?q=${suggestion}`}
               key={index}
               className={styles.autoCompleteSuggestionsLink}
+              onMouseDown={getSuggestionLinkClickHandler(suggestion)}
             >
               <li
                 className={styles.autocompleteSuggestionsListItem}
