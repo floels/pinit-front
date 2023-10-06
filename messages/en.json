@@ -102,8 +102,8 @@
       }
     },
     "Content": {
-      "ERROR_DISPLAY_PIN_SUGGESTIONS": "An error occurred while attempting to display your pin suggestions.",
-      "PinSuggestions": {
+      "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",
+      "PinsBoard": {
         "PIN_BY": "Pin by"
       }
     }

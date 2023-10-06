@@ -1,17 +1,17 @@
 import { useTranslations } from "next-intl";
-import HomePageContentClient from "./HomePageContentClient";
+import PinsBoardClient from "./PinsBoardClient";
 import { getTranslationsObject } from "@/lib/utils/i18n";
-import { PinSuggestionType } from "./PinSuggestion";
+import { PinThumbnailType } from "./PinThumbnail";
 
-type HomePageContentServer = {
-  initialPinSuggestions: PinSuggestionType[];
+type PinsBoardServerProps = {
+  initialPinThumbnails: PinThumbnailType[];
   errorCode?: string;
 };
 
-const HomePageContentServer = ({
-  initialPinSuggestions,
+const PinsBoardServer = ({
+  initialPinThumbnails,
   errorCode,
-}: HomePageContentServer) => {
+}: PinsBoardServerProps) => {
   const homePageTranslator = useTranslations("HomePage");
   const homePageTranslations = getTranslationsObject(
     "HomePage",
@@ -30,12 +30,12 @@ const HomePageContentServer = ({
   };
 
   return (
-    <HomePageContentClient
-      initialPinSuggestions={initialPinSuggestions}
+    <PinsBoardClient
+      initialPinThumbnails={initialPinThumbnails}
       labels={labels}
       errorCode={errorCode}
     />
   );
 };
 
-export default HomePageContentServer;
+export default PinsBoardServer;

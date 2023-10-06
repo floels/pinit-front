@@ -20,7 +20,5 @@ test("Homepage should display warning toast when server is unreachable", async (
 
   await page.goto("/");
 
-  await page.waitForSelector(
-    `text=${en.HomePage.Content.ERROR_DISPLAY_PIN_SUGGESTIONS}`,
-  );
+  await page.waitForSelector(`text=${en.HomePage.Content.ERROR_DISPLAY_PINS}`);
 });

@@ -10,7 +10,7 @@
   max-width: calc(6 * (236px + 16px));
 }
 
-.pinSuggestion {
+.pinThumbnail {
   display: inline-block;
   width: 236px;
   margin-bottom: 16px;

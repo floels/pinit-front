@@ -2,17 +2,17 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
-import styles from "./HomePageContentClient.module.css";
-import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
-import { getPinSuggestionsWithCamelizedKeys } from "@/lib/utils/misc";
+import styles from "./PinsBoardClient.module.css";
+import PinThumbnail, { PinThumbnailType } from "./PinThumbnail";
+import { getPinThumbnailsWithCamelizedKeys } from "@/lib/utils/misc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTriangleExclamation,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
-type HomePageContentClientProps = {
-  initialPinSuggestions: PinSuggestionType[];
+type PinsBoardClientProps = {
+  initialPinThumbnails: PinThumbnailType[];
   labels: {
     commons: { [key: string]: any };
     component: { [key: string]: any };
@@ -20,74 +20,72 @@ type HomePageContentClientProps = {
   errorCode?: string;
 };
 
-const HomePageContentClient = ({
-  initialPinSuggestions,
+const PinsBoardClient = ({
+  initialPinThumbnails,
   labels,
   errorCode,
-}: HomePageContentClientProps) => {
+}: PinsBoardClientProps) => {
   const scrolledToBottomSentinel = useRef(null);
 
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
-  const [pinSuggestions, setPinSuggestions] = useState(initialPinSuggestions);
+  const [pinThumbnails, setPinThumbnails] = useState(initialPinThumbnails);
   const [isFetching, setIsFetching] = useState(false);
-  const [fetchPinSuggestionsFailed, setFetchPinSuggestionsFailed] =
-    useState(false);
+  const [fetchFailed, setFetchFailed] = useState(false);
 
-  // Fetch next page of pin suggestions when user scrolled to the bottom of the screen
-  const updateStateWithNewPinSuggestionsResponse = async (
-    newPinSuggestionsResponse: Response,
+  // Fetch next page of pin thumbnails when user scrolled to the bottom of the screen
+  const updateStateWithNewPinThumbnailsResponse = async (
+    newPinThumbnailsResponse: Response,
   ) => {
-    const newPinSuggestionsResponseData =
-      await newPinSuggestionsResponse.json();
+    const newPinThumbnailsResponseData = await newPinThumbnailsResponse.json();
 
-    const newPinSuggestions = getPinSuggestionsWithCamelizedKeys(
-      newPinSuggestionsResponseData,
+    const newPinThumbnails = getPinThumbnailsWithCamelizedKeys(
+      newPinThumbnailsResponseData,
     );
 
-    setPinSuggestions((existingPinSuggestions) => [
-      ...existingPinSuggestions,
-      ...newPinSuggestions,
+    setPinThumbnails((existingPinThumbnails) => [
+      ...existingPinThumbnails,
+      ...newPinThumbnails,
     ]);
 
     setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
   };
 
-  const fetchNextPinSuggestions = useCallback(async () => {
+  const fetchNextPinThumbnails = useCallback(async () => {
     const nextEndpointPage = currentEndpointPage + 1;
 
     setIsFetching(true);
 
-    const newPinSuggestionsResponse = await fetch(
+    const newPinThumbnailsResponse = await fetch(
       `/api/pins/suggestions?page=${nextEndpointPage}`,
       { method: "GET" },
     );
 
     setIsFetching(false);
 
-    if (!newPinSuggestionsResponse.ok) {
-      setFetchPinSuggestionsFailed(true);
+    if (!newPinThumbnailsResponse.ok) {
+      setFetchFailed(true);
       return;
     }
 
-    setFetchPinSuggestionsFailed(false);
+    setFetchFailed(false);
 
-    await updateStateWithNewPinSuggestionsResponse(newPinSuggestionsResponse);
+    await updateStateWithNewPinThumbnailsResponse(newPinThumbnailsResponse);
   }, [currentEndpointPage]);
 
-  const fetchNextPinSuggestionsAndFallBack = useCallback(async () => {
+  const fetchNextPinThumbnailsAndFallBack = useCallback(async () => {
     try {
-      await fetchNextPinSuggestions();
+      await fetchNextPinThumbnails();
     } catch (error) {
       toast.warn(labels.commons.CONNECTION_ERROR);
       setIsFetching(false);
     }
-  }, [fetchNextPinSuggestions, labels]);
+  }, [fetchNextPinThumbnails, labels]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchNextPinSuggestionsAndFallBack();
+          fetchNextPinThumbnailsAndFallBack();
         }
       },
       { threshold: 1.0 },
@@ -100,15 +98,18 @@ const HomePageContentClient = ({
     return () => {
       observer.disconnect();
     };
-  }, [fetchNextPinSuggestionsAndFallBack]);
+  }, [fetchNextPinThumbnailsAndFallBack]);
 
   return (
     <main className={styles.container}>
-      {pinSuggestions.length > 0 && (
-        <div className={styles.grid} data-testid="pin-suggestions-container">
-          {pinSuggestions.map((pinSuggestion) => (
-            <div className={styles.pinSuggestion} key={pinSuggestion.id}>
-              <PinSuggestion pinSuggestion={pinSuggestion} labels={labels} />
+      {pinThumbnails.length > 0 && (
+        <div className={styles.grid}>
+          {pinThumbnails.map((pinThumbnail) => (
+            <div className={styles.pinThumbnail} key={pinThumbnail.id}>
+              <PinThumbnail
+                pinThumbnail={pinThumbnail}
+                labels={labels.component.PinsBoard}
+              />
             </div>
           ))}
           <div ref={scrolledToBottomSentinel}></div>
@@ -125,18 +126,18 @@ const HomePageContentClient = ({
           />
         </div>
       )}
-      {(errorCode || fetchPinSuggestionsFailed) && (
+      {(errorCode || fetchFailed) && (
         <div className={styles.errorMessage}>
           <FontAwesomeIcon
             icon={faTriangleExclamation}
             size="xs"
             className={styles.errorMessageIcon}
           />
-          {labels.component.ERROR_DISPLAY_PIN_SUGGESTIONS}
+          {labels.component.ERROR_DISPLAY_PINS}
         </div>
       )}
     </main>
   );
 };
 
-export default HomePageContentClient;
+export default PinsBoardClient;

@@ -1,7 +1,7 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
 import en from "@/messages/en.json";
-import HomePageContentClient from "./HomePageContentClient";
-import { PinSuggestionType } from "./PinSuggestion";
+import PinsBoardClient from "./PinsBoardClient";
+import { PinThumbnailType } from "./PinThumbnail";
 import { toast } from "react-toastify";
 
 const SUGGESTIONS_ENDPOINT_PAGE_SIZE = 50;
@@ -12,7 +12,7 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
-const initialPinSuggestions = Array.from(
+const initialPinThumbnails = Array.from(
   { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
   (_, index) => ({
     id: String(index + 1),
@@ -22,7 +22,7 @@ const initialPinSuggestions = Array.from(
     authorUsername: "johndoe",
     authorDisplayName: "John Doe",
   }),
-) as PinSuggestionType[];
+) as PinThumbnailType[];
 
 const labels = {
   commons: en.Common,
@@ -48,8 +48,8 @@ beforeEach(() => {
   }));
 });
 
-it("should fetch new pin suggestions when user scrolls to bottom", async () => {
-  const newPinSuggestions = Array.from(
+it("should fetch new thumbnails when user scrolls to bottom", async () => {
+  const newPinThumbnails = Array.from(
     { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
     (_, index) => ({
       id: String(SUGGESTIONS_ENDPOINT_PAGE_SIZE + index + 1),
@@ -65,17 +65,17 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
 
   fetchMock.doMockOnceIf(
     "/api/pins/suggestions?page=2",
-    JSON.stringify({ results: newPinSuggestions }),
+    JSON.stringify({ results: newPinThumbnails }),
   );
 
   render(
-    <HomePageContentClient
-      initialPinSuggestions={initialPinSuggestions}
+    <PinsBoardClient
+      initialPinThumbnails={initialPinThumbnails}
       labels={labels}
     />,
   );
 
-  const initialRenderedPinSuggestions = screen.getAllByTestId("pin-suggestion");
+  const initialRenderedPinSuggestions = screen.getAllByTestId("pin-thumbnail");
 
   expect(initialRenderedPinSuggestions).toHaveLength(
     SUGGESTIONS_ENDPOINT_PAGE_SIZE,
@@ -84,20 +84,20 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   simulateScrollToBottomOfPage();
 
   await waitFor(() => {
-    const renderedPinSuggestions = screen.getAllByTestId("pin-suggestion");
-    expect(renderedPinSuggestions).toHaveLength(
+    const renderedPinThumbnails = screen.getAllByTestId("pin-thumbnail");
+    expect(renderedPinThumbnails).toHaveLength(
       2 * SUGGESTIONS_ENDPOINT_PAGE_SIZE,
     );
   });
 });
 
-it("should display loading spinner while fetching new suggestions", async () => {
+it("should display loading spinner while fetching new thumbnails", async () => {
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
   render(
-    <HomePageContentClient
-      initialPinSuggestions={initialPinSuggestions}
+    <PinsBoardClient
+      initialPinThumbnails={initialPinThumbnails}
       labels={labels}
     />,
   );
@@ -109,7 +109,7 @@ it("should display loading spinner while fetching new suggestions", async () => 
   screen.getByTestId("loading-spinner");
 });
 
-it("should display error message in case of KO response upon new suggestions fetch", async () => {
+it("should display error message in case of KO response upon new thumbnails fetch", async () => {
   fetchMock.doMockOnceIf("/api/pins/suggestions?page=2", () =>
     Promise.resolve({
       body: JSON.stringify({ message: "Bad Request" }),
@@ -121,8 +121,8 @@ it("should display error message in case of KO response upon new suggestions fet
   );
 
   render(
-    <HomePageContentClient
-      initialPinSuggestions={initialPinSuggestions}
+    <PinsBoardClient
+      initialPinThumbnails={initialPinThumbnails}
       labels={labels}
     />,
   );
@@ -130,14 +130,14 @@ it("should display error message in case of KO response upon new suggestions fet
   simulateScrollToBottomOfPage();
 
   await waitFor(() => {
-    screen.getByText(en.HomePage.Content.ERROR_DISPLAY_PIN_SUGGESTIONS);
+    screen.getByText(en.HomePage.Content.ERROR_DISPLAY_PINS);
   });
 });
 
-it("should display toast in case of fetch failure upon new suggestions fetch", async () => {
+it("should display toast in case of fetch failure upon new thumbnails fetch", async () => {
   render(
-    <HomePageContentClient
-      initialPinSuggestions={initialPinSuggestions}
+    <PinsBoardClient
+      initialPinThumbnails={initialPinThumbnails}
       labels={labels}
     />,
   );

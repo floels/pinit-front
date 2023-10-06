@@ -1,7 +1,7 @@
-import HomePageContentLoadingState from "@/components/HomePage/HomePageContentLoadingState";
+import PinsBoardLoadingState from "@/components/PinsBoard/PinsBoardLoadingState";
 
 const Loading = () => {
-  return <HomePageContentLoadingState />;
+  return <PinsBoardLoadingState />;
 };
 
 export default Loading;

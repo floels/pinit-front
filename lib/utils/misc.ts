@@ -1,11 +1,11 @@
-export const getPinSuggestionsWithCamelizedKeys =
-  (fetchInitialPinSuggestionsData: { results: any[] }) => {
-    return fetchInitialPinSuggestionsData.results.map((pinSuggestion) => ({
-      id: pinSuggestion.id,
-      imageURL: pinSuggestion.image_url,
-      title: pinSuggestion.title,
-      description: pinSuggestion.description,
-      authorUsername: pinSuggestion.author.user_name,
-      authorDisplayName: pinSuggestion.author.display_name,
+export const getPinThumbnailsWithCamelizedKeys =
+  (fetchPinThumbnailsResponseData: { results: any[] }) => {
+    return fetchPinThumbnailsResponseData.results.map((pinThumbnail) => ({
+      id: pinThumbnail.id,
+      imageURL: pinThumbnail.image_url,
+      title: pinThumbnail.title,
+      description: pinThumbnail.description,
+      authorUsername: pinThumbnail.author.user_name,
+      authorDisplayName: pinThumbnail.author.display_name,
     }));
   };

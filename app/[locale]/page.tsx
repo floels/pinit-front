@@ -1,5 +1,5 @@
 import LandingPageServer from "@/components/LandingPage/LandingPageServer";
-import HomePageContentServer from "@/components/HomePage/HomePageContentServer";
+import PinsBoardServer from "@/components/PinsBoard/PinsBoardServer";
 import { cookies } from "next/headers";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
@@ -7,7 +7,7 @@ import {
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
-import { getPinSuggestionsWithCamelizedKeys } from "@/lib/utils/misc";
+import { getPinThumbnailsWithCamelizedKeys } from "@/lib/utils/misc";
 import AccessTokenRefresherServer from "@/components/AccessTokenRefresher/AccessTokenRefresherServer";
 
 const Page = async () => {
@@ -28,8 +28,8 @@ const Page = async () => {
     });
   } catch (error) {
     return (
-      <HomePageContentServer
-        initialPinSuggestions={[]}
+      <PinsBoardServer
+        initialPinThumbnails={[]}
         errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
       />
     );
@@ -42,8 +42,8 @@ const Page = async () => {
 
   if (!fetchPinSuggestionsResponse.ok) {
     return (
-      <HomePageContentServer
-        initialPinSuggestions={[]}
+      <PinsBoardServer
+        initialPinThumbnails={[]}
         errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
       />
     );
@@ -53,18 +53,16 @@ const Page = async () => {
     const fetchPinSuggestionsResponseData =
       await fetchPinSuggestionsResponse.json();
 
-    const initialPinSuggestions = getPinSuggestionsWithCamelizedKeys(
+    const initialPinSuggestions = getPinThumbnailsWithCamelizedKeys(
       fetchPinSuggestionsResponseData,
     );
 
-    return (
-      <HomePageContentServer initialPinSuggestions={initialPinSuggestions} />
-    );
+    return <PinsBoardServer initialPinThumbnails={initialPinSuggestions} />;
   } catch (error) {
     // Malformed response
     return (
-      <HomePageContentServer
-        initialPinSuggestions={[]}
+      <PinsBoardServer
+        initialPinThumbnails={[]}
         errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
       />
     );
