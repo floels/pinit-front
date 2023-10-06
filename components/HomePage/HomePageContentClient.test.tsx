@@ -29,6 +29,13 @@ const labels = {
   component: en.HomePage.Content,
 };
 
+const simulateScrollToBottomOfPage = () => {
+  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
+  act(() => {
+    callback([{ isIntersecting: true }]);
+  });
+};
+
 beforeEach(() => {
   global.IntersectionObserver = jest.fn(() => ({
     observe: jest.fn(),
@@ -74,12 +81,7 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
     SUGGESTIONS_ENDPOINT_PAGE_SIZE,
   );
 
-  // Simulate the intersection of the sentinel div with the bottom of the viewport
-  // by directly triggering the IntersectionObserver callback:
-  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
-  act(() => {
-    callback([{ isIntersecting: true }]);
-  });
+  simulateScrollToBottomOfPage();
 
   await waitFor(() => {
     const renderedPinSuggestions = screen.getAllByTestId("pin-suggestion");
@@ -89,7 +91,25 @@ it("should fetch new pin suggestions when user scrolls to bottom", async () => {
   });
 });
 
-it("should display toast in case of KO response upon new suggestions fetch", async () => {
+it("should display loading spinner while fetching new suggestions", async () => {
+  const eternalPromise = new Promise<Response>(() => {});
+  fetchMock.mockImplementationOnce(() => eternalPromise);
+
+  render(
+    <HomePageContentClient
+      initialPinSuggestions={initialPinSuggestions}
+      labels={labels}
+    />,
+  );
+
+  expect(screen.queryByTestId("loading-spinner")).toBeNull();
+
+  simulateScrollToBottomOfPage();
+
+  screen.getByTestId("loading-spinner");
+});
+
+it("should display error message in case of KO response upon new suggestions fetch", async () => {
   fetchMock.doMockOnceIf("/api/pins/suggestions?page=2", () =>
     Promise.resolve({
       body: JSON.stringify({ message: "Bad Request" }),
@@ -107,12 +127,7 @@ it("should display toast in case of KO response upon new suggestions fetch", asy
     />,
   );
 
-  // Simulate the intersection of the sentinel div with the bottom of the viewport
-  // by directly triggering the IntersectionObserver callback:
-  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
-  act(() => {
-    callback([{ isIntersecting: true }]);
-  });
+  simulateScrollToBottomOfPage();
 
   await waitFor(() => {
     screen.getByText(en.HomePage.Content.ERROR_DISPLAY_PIN_SUGGESTIONS);
@@ -127,12 +142,7 @@ it("should display toast in case of fetch failure upon new suggestions fetch", a
     />,
   );
 
-  // Simulate the intersection of the sentinel div with the bottom of the viewport
-  // by directly triggering the IntersectionObserver callback:
-  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
-  act(() => {
-    callback([{ isIntersecting: true }]);
-  });
+  simulateScrollToBottomOfPage();
 
   await waitFor(() => {
     expect(toast.warn).toHaveBeenCalledWith(en.Common.CONNECTION_ERROR);

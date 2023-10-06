@@ -17,6 +17,16 @@
   break-inside: avoid;
 }
 
+.loadingIconContainer {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.loadingSpinner {
+  color: var(--color-gray-400);
+}
+
 .errorMessage {
   display: flex;
   justify-content: center;

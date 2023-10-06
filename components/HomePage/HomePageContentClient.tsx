@@ -6,7 +6,10 @@ import styles from "./HomePageContentClient.module.css";
 import PinSuggestion, { PinSuggestionType } from "./PinSuggestion";
 import { getPinSuggestionsWithCamelizedKeys } from "@/lib/utils/misc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTriangleExclamation,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 
 type HomePageContentClientProps = {
   initialPinSuggestions: PinSuggestionType[];
@@ -26,6 +29,7 @@ const HomePageContentClient = ({
 
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pinSuggestions, setPinSuggestions] = useState(initialPinSuggestions);
+  const [isFetching, setIsFetching] = useState(false);
   const [fetchPinSuggestionsFailed, setFetchPinSuggestionsFailed] =
     useState(false);
 
@@ -51,10 +55,14 @@ const HomePageContentClient = ({
   const fetchNextPinSuggestions = useCallback(async () => {
     const nextEndpointPage = currentEndpointPage + 1;
 
+    setIsFetching(true);
+
     const newPinSuggestionsResponse = await fetch(
       `/api/pins/suggestions?page=${nextEndpointPage}`,
       { method: "GET" },
     );
+
+    setIsFetching(false);
 
     if (!newPinSuggestionsResponse.ok) {
       setFetchPinSuggestionsFailed(true);
@@ -71,6 +79,7 @@ const HomePageContentClient = ({
       await fetchNextPinSuggestions();
     } catch (error) {
       toast.warn(labels.commons.CONNECTION_ERROR);
+      setIsFetching(false);
     }
   }, [fetchNextPinSuggestions, labels]);
 
@@ -103,6 +112,17 @@ const HomePageContentClient = ({
             </div>
           ))}
           <div ref={scrolledToBottomSentinel}></div>
+        </div>
+      )}
+      {isFetching && (
+        <div className={styles.loadingIconContainer}>
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            spin
+            className={styles.loadingSpinner}
+            data-testid="loading-spinner"
+          />
         </div>
       )}
       {(errorCode || fetchPinSuggestionsFailed) && (
