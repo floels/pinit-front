@@ -32,8 +32,7 @@ const HeaderAuthenticatedClient = ({
   labels,
 }: HeaderAuthenticatedClientProps) => {
   const router = useRouter();
-
-  const currentPathname = usePathname();
+  const pathname = usePathname();
 
   const createFlyoutRef = useRef<HTMLDivElement>(null);
   const createButtonRef = useRef<HTMLDivElement>(null);
@@ -155,7 +154,7 @@ const HeaderAuthenticatedClient = ({
         <Link
           href="/"
           className={`${styles.navigationItem} ${
-            currentPathname === "/" ? styles.active : ""
+            pathname === "/" ? styles.active : ""
           }`}
         >
           {labels.NAV_ITEM_HOME}
@@ -164,7 +163,7 @@ const HeaderAuthenticatedClient = ({
           className={`
             ${styles.navigationItem}
             ${styles.navigationItemCreate}
-            ${currentPathname === "/pin-builder" ? styles.active : ""}
+            ${pathname === "/pin-builder" ? styles.active : ""}
           `}
           ref={createButtonRef}
           onClick={handleClickCreateButton}
@@ -187,7 +186,7 @@ const HeaderAuthenticatedClient = ({
         will be cleared. */}
         <HeaderSearchBar
           labels={labels.SearchBar}
-          key={`header-search-bar-pathname-${currentPathname}`}
+          key={`header-search-bar-pathname-${pathname}`}
         />
         <Link
           href="/florianellis/"
