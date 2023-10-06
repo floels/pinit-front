@@ -11,6 +11,27 @@ type HeaderSearchBarPros = {
 
 const DEBOUNCE_DURATION_MS = 300;
 
+const getRefinedSuggestions = (
+  searchTerm: string,
+  suggestionsfromAPI: string[],
+) => {
+  const MAX_SUGGESTIONS = 12;
+
+  const isSearchTermIncludedInSuggestions =
+    suggestionsfromAPI.includes(searchTerm);
+
+  if (isSearchTermIncludedInSuggestions) {
+    // NB: normally the API returns 12 suggestions at most
+    // so this `slice` is just for precaution.
+    return suggestionsfromAPI.slice(0, MAX_SUGGESTIONS);
+  }
+
+  // If search term is not present, add searchTerm as the first suggestion
+  // (and drop the last suggestion received from the API):
+  const remainingSuggestions = suggestionsfromAPI.slice(0, MAX_SUGGESTIONS - 1);
+  return [searchTerm, ...remainingSuggestions];
+};
+
 const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -109,30 +130,6 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
 
     setAutocompleteSuggestions(refinedSuggestions);
   }, [inputValue]);
-
-  const getRefinedSuggestions = (
-    searchTerm: string,
-    suggestionsfromAPI: string[],
-  ) => {
-    const MAX_SUGGESTIONS = 12;
-
-    const isSearchTermIncludedInSuggestions =
-      suggestionsfromAPI.includes(searchTerm);
-
-    if (isSearchTermIncludedInSuggestions) {
-      // NB: normally the API returns 12 suggestions at most
-      // so this `slice` is just for precaution.
-      return suggestionsfromAPI.slice(0, MAX_SUGGESTIONS);
-    }
-
-    // If search term is not present, add searchTerm as the first suggestion
-    // (and drop the last suggestion received from the API):
-    const remainingSuggestions = suggestionsfromAPI.slice(
-      0,
-      MAX_SUGGESTIONS - 1,
-    );
-    return [searchTerm, ...remainingSuggestions];
-  };
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
