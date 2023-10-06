@@ -67,14 +67,14 @@ it("should hide icon when focusing the input", async () => {
 });
 
 it("should display autocomplete suggestions when user types", async () => {
-  const searchTerm = "abc";
+  const searchTerm = "foo";
 
-  const numberSuggestions = 10;
+  const numberSuggestions = 12;
 
   const dummySuggestions = Array.from(
     { length: numberSuggestions },
-    () => "abcde",
-  );
+    (_, index) => `${searchTerm} suggestion ${index + 1}`,
+  ); // so dummySuggestions === ["foo suggestion 1", "foo suggestion 2", ..., "foo suggestion 12"]
 
   fetchMock.mockOnceIf(
     `/api/pins/search/autocomplete?search=${searchTerm}`,
@@ -101,5 +101,11 @@ it("should display autocomplete suggestions when user types", async () => {
     ).getAllByTestId("autocomplete-suggestions-list-item");
 
     expect(autoCompleteSuggestionsListItems).toHaveLength(numberSuggestions);
+
+    // Check that the component inserted the search term as first suggestion:
+    expect(autoCompleteSuggestionsListItems[0]).toHaveTextContent(searchTerm);
+    expect(autoCompleteSuggestionsListItems[1]).toHaveTextContent(
+      `${searchTerm} suggestion 1`,
+    );
   });
 });

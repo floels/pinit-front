@@ -18,7 +18,9 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState([]);
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<
+    string[]
+  >([]);
 
   const handleFocusInput = () => {
     setIsInputFocused(true);
@@ -82,8 +84,37 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
 
     const responseData = await response.json();
 
-    setAutocompleteSuggestions(responseData.results);
+    const refinedSuggestions = getRefinedSuggestions(
+      inputValue,
+      responseData.results,
+    );
+
+    setAutocompleteSuggestions(refinedSuggestions);
   }, [inputValue]);
+
+  const getRefinedSuggestions = (
+    searchTerm: string,
+    suggestionsfromAPI: string[],
+  ) => {
+    const MAX_SUGGESTIONS = 12;
+
+    const isSearchTermIncludedInSuggestions =
+      suggestionsfromAPI.includes(searchTerm);
+
+    if (isSearchTermIncludedInSuggestions) {
+      // NB: normally the API returns 12 suggestions at most
+      // so this `slice` is just for precaution.
+      return suggestionsfromAPI.slice(0, MAX_SUGGESTIONS);
+    }
+
+    // If search term is not present, add searchTerm as the first suggestion
+    // (and drop the last suggestion received from the API):
+    const remainingSuggestions = suggestionsfromAPI.slice(
+      0,
+      MAX_SUGGESTIONS - 1,
+    );
+    return [searchTerm, ...remainingSuggestions];
+  };
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
