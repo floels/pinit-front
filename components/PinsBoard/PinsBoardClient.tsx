@@ -1,18 +1,13 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import styles from "./PinsBoardClient.module.css";
-import PinThumbnail, { PinThumbnailType } from "./PinThumbnail";
+import { PinThumbnailType } from "./PinThumbnail";
 import {
   appendQueryParam,
   getPinThumbnailsWithCamelizedKeys,
 } from "@/lib/utils/misc";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTriangleExclamation,
-  faSpinner,
-} from "@fortawesome/free-solid-svg-icons";
+import PinsBoardDisplay from "./PinsBoardDisplay";
 
 type PinsBoardClientProps = {
   initialPinThumbnails: PinThumbnailType[];
@@ -30,8 +25,6 @@ const PinsBoardClient = ({
   labels,
   errorCode,
 }: PinsBoardClientProps) => {
-  const scrolledToBottomSentinel = useRef(null);
-
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pinThumbnails, setPinThumbnails] = useState<PinThumbnailType[]>([]);
   const [isFetching, setIsFetching] = useState(false);
@@ -41,25 +34,16 @@ const PinsBoardClient = ({
     setPinThumbnails([...initialPinThumbnails]);
   }, [initialPinThumbnails]);
 
-  // Fetch next page of pin thumbnails when user scrolled to the bottom of the screen
-  const updateStateWithNewPinThumbnailsResponse = async (
-    newPinThumbnailsResponse: Response,
-  ) => {
-    const newPinThumbnailsResponseData = await newPinThumbnailsResponse.json();
-
-    const newPinThumbnails = getPinThumbnailsWithCamelizedKeys(
-      newPinThumbnailsResponseData,
-    );
-
-    setPinThumbnails((existingPinThumbnails) => [
-      ...existingPinThumbnails,
-      ...newPinThumbnails,
-    ]);
-
-    setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
+  const fetchNextPinThumbnailsAndFallBack = async () => {
+    try {
+      await fetchNextPinThumbnails();
+    } catch (error) {
+      toast.warn(labels.commons.CONNECTION_ERROR);
+      setIsFetching(false);
+    }
   };
 
-  const fetchNextPinThumbnails = useCallback(async () => {
+  const fetchNextPinThumbnails = async () => {
     const nextEndpointPage = currentEndpointPage + 1;
 
     setIsFetching(true);
@@ -82,73 +66,35 @@ const PinsBoardClient = ({
     setFetchFailed(false);
 
     await updateStateWithNewPinThumbnailsResponse(newPinThumbnailsResponse);
-  }, [currentEndpointPage, fetchThumbnailsAPIRoute]);
+  };
 
-  const fetchNextPinThumbnailsAndFallBack = useCallback(async () => {
-    try {
-      await fetchNextPinThumbnails();
-    } catch (error) {
-      toast.warn(labels.commons.CONNECTION_ERROR);
-      setIsFetching(false);
-    }
-  }, [fetchNextPinThumbnails, labels]);
+  const updateStateWithNewPinThumbnailsResponse = async (
+    newPinThumbnailsResponse: Response,
+  ) => {
+    const newPinThumbnailsResponseData = await newPinThumbnailsResponse.json();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPinThumbnailsAndFallBack();
-        }
-      },
-      { threshold: 1.0 },
+    const newPinThumbnails = getPinThumbnailsWithCamelizedKeys(
+      newPinThumbnailsResponseData,
     );
 
-    if (scrolledToBottomSentinel.current) {
-      observer.observe(scrolledToBottomSentinel.current);
-    }
+    setPinThumbnails((existingPinThumbnails) => [
+      ...existingPinThumbnails,
+      ...newPinThumbnails,
+    ]);
 
-    return () => {
-      observer.disconnect();
-    };
-  }, [fetchNextPinThumbnailsAndFallBack]);
+    setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
+  };
+
+  const isFetchError = errorCode !== undefined || fetchFailed;
 
   return (
-    <main className={styles.container}>
-      {pinThumbnails.length > 0 && (
-        <div className={styles.grid}>
-          {pinThumbnails.map((pinThumbnail) => (
-            <div className={styles.pinThumbnail} key={pinThumbnail.id}>
-              <PinThumbnail
-                pinThumbnail={pinThumbnail}
-                labels={labels.component.PinsBoard}
-              />
-            </div>
-          ))}
-          <div ref={scrolledToBottomSentinel}></div>
-        </div>
-      )}
-      {isFetching && (
-        <div className={styles.loadingIconContainer}>
-          <FontAwesomeIcon
-            icon={faSpinner}
-            size="2x"
-            spin
-            className={styles.loadingSpinner}
-            data-testid="loading-spinner"
-          />
-        </div>
-      )}
-      {(errorCode || fetchFailed) && (
-        <div className={styles.errorMessage}>
-          <FontAwesomeIcon
-            icon={faTriangleExclamation}
-            size="xs"
-            className={styles.errorMessageIcon}
-          />
-          {labels.component.ERROR_DISPLAY_PINS}
-        </div>
-      )}
-    </main>
+    <PinsBoardDisplay
+      pinThumbnails={pinThumbnails}
+      labels={labels}
+      isFetching={isFetching}
+      isFetchError={isFetchError}
+      handleFetchMoreThumbnails={fetchNextPinThumbnailsAndFallBack}
+    />
   );
 };
 
