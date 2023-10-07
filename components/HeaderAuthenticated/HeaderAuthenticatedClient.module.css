@@ -13,6 +13,8 @@
 .logoContainer {
   height: 48px;
   width: 48px;
+  min-width: 48px; /* otherwise the element gets squashed against 
+  the first nav link on its right on small screens */
   border-radius: 50%;
   display: flex;
   justify-content: center;

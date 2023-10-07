@@ -3,12 +3,12 @@ import { Response, Express } from "express";
 import en from "@/messages/en.json";
 import { launchMockAPIServer } from "../utils";
 
-const NUMBER_PIN_SUGGESTIONS = 50;
+const NUMBER_SEARCH_RESULTS = 50;
 
 const configureAPIResponses = (mockAPIApp: Express) => {
-  mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
+  mockAPIApp.get("/api/search/", (_, response: Response) => {
     response.json({
-      results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
+      results: Array.from({ length: NUMBER_SEARCH_RESULTS }, (_, index) => ({
         id: index + 1,
         image_url: "https://some.url",
         title: "",
@@ -20,9 +20,15 @@ const configureAPIResponses = (mockAPIApp: Express) => {
       })),
     });
   });
+
+  mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
+    response.json({
+      results: [],
+    });
+  });
 };
 
-test("should display pin suggestions if user is logged in", async ({
+test("should display search results if user is logged in", async ({
   page,
   context,
 }) => {
@@ -39,21 +45,21 @@ test("should display pin suggestions if user is logged in", async ({
     },
   ]);
 
-  await page.goto("/");
+  await page.goto("/search/pins?q=mysearch");
 
   await page.waitForSelector('[data-testid="pin-thumbnail"]');
   const pinSuggestions = await page.$$('[data-testid="pin-thumbnail"]');
-  expect(pinSuggestions.length).toBe(NUMBER_PIN_SUGGESTIONS);
+  expect(pinSuggestions.length).toBe(NUMBER_SEARCH_RESULTS);
 
   mockAPIServer.close();
 });
 
-test("should display error message when server is unreachable", async ({
+test("should redirect to homepage if search is empty and user is logged in", async ({
   page,
   context,
 }) => {
-  // We set an 'accessToken' cookie so that the page tries to reach the server.
-  // We don't launch a mock API server for this test, which simulates an unreachable server.
+  const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
+
   await context.addCookies([
     {
       name: "accessToken",
@@ -65,7 +71,17 @@ test("should display error message when server is unreachable", async ({
     },
   ]);
 
-  await page.goto("/");
+  await page.goto("/search/pins?q=");
 
-  await page.waitForSelector(`text=${en.HomePage.Content.ERROR_DISPLAY_PINS}`);
+  await page.waitForSelector('[data-testid="search-bar-input"]');
+
+  mockAPIServer.close();
+});
+
+test("should redirect to landing page if user is not logged in", async ({
+  page,
+}) => {
+  await page.goto("/search/pins?q=mysearch");
+
+  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
 });
