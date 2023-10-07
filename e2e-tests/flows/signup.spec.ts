@@ -16,7 +16,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   });
 };
 
-test("User should be able to sign up", async ({ page }) => {
+test("user should be able to sign up", async ({ page }) => {
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 
   await page.goto("/");
@@ -37,6 +37,5 @@ test("User should be able to sign up", async ({ page }) => {
 
   await page.waitForSelector('[data-testid="search-bar-input"]');
 
-  // Close mock API server
   mockAPIServer.close();
 });
