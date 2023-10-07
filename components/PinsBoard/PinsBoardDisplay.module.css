@@ -1,0 +1,48 @@
+.container {
+  width: 100%;
+}
+
+.thumbnailsGrid {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px; /* should be consistent with the `SIDE_PADDING_PX` constant in the .tsx file */
+  box-sizing: border-box;
+}
+
+/* At 536px, we switch to only one column. We want it to be centered horizontally,
+but having `justify-content: space-between;` as defined above will align it to the left,
+so we need to override with a media query: */
+@media only screen and (max-width: 535px) {
+  .thumbnailsGrid {
+    justify-content: center;
+  }
+}
+
+.pinThumbnail {
+  width: 236px;
+  margin-bottom: 16px;
+  break-inside: avoid;
+}
+
+.loadingIconContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+.loadingSpinner {
+  color: var(--color-gray-400);
+}
+
+.errorMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.errorMessageIcon {
+  margin-right: 8px;
+}

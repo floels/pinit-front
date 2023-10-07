@@ -12,6 +12,12 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
+Object.defineProperty(window, "innerWidth", {
+  writable: true,
+  configurable: true,
+  value: 1200,
+});
+
 const initialPinThumbnails = Array.from(
   { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
   (_, index) => ({
