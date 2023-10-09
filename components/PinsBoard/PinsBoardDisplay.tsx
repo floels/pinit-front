@@ -89,7 +89,10 @@ const PinsBoardDisplay = ({
   const thumbnailsGrid = (
     <div className={styles.thumbnailsGrid}>
       {Array.from({ length: castedNumberOfColumns }).map((_, columnIndex) => (
-        <div key={`thumbnails-column-${columnIndex + 1}`}>
+        <div
+          key={`thumbnails-column-${columnIndex + 1}`}
+          data-testid="thumbnails-column"
+        >
           {pinThumbnails.map((pinThumbnail, pinThumbnailIndex) => {
             if (pinThumbnailIndex % castedNumberOfColumns === columnIndex) {
               return (
