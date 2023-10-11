@@ -12,10 +12,12 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
+const VIEWPORT_WIDTH_PX = 1200;
+
 Object.defineProperty(window, "innerWidth", {
   writable: true,
   configurable: true,
-  value: 1200,
+  value: VIEWPORT_WIDTH_PX,
 });
 
 const initialPinThumbnails = Array.from(
@@ -54,6 +56,26 @@ beforeEach(() => {
   }));
 });
 
+it("should render the thumbnails with the right number of columns", async () => {
+  render(
+    <PinsBoardClient
+      initialPinThumbnails={initialPinThumbnails}
+      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      labels={labels}
+    />,
+  );
+
+  const initialRenderedPinSuggestions = screen.getAllByTestId("pin-thumbnail");
+
+  expect(initialRenderedPinSuggestions).toHaveLength(
+    SUGGESTIONS_ENDPOINT_PAGE_SIZE,
+  );
+
+  const thumbnailsColumns = screen.getAllByTestId("thumbnails-column");
+
+  expect(thumbnailsColumns).toHaveLength(4); // given `const VIEWPORT_WIDTH_PX = 1200;`
+});
+
 it("should fetch new thumbnails when user scrolls to bottom", async () => {
   const newPinThumbnails = Array.from(
     { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
@@ -80,12 +102,6 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
       fetchThumbnailsAPIRoute="/api/pins/suggestions"
       labels={labels}
     />,
-  );
-
-  const initialRenderedPinSuggestions = screen.getAllByTestId("pin-thumbnail");
-
-  expect(initialRenderedPinSuggestions).toHaveLength(
-    SUGGESTIONS_ENDPOINT_PAGE_SIZE,
   );
 
   simulateScrollToBottomOfPage();
@@ -144,6 +160,8 @@ it("should display error message in case of KO response upon new thumbnails fetc
 });
 
 it("should display toast in case of fetch failure upon new thumbnails fetch", async () => {
+  fetchMock.mockRejectOnce(new Error("Network failure"));
+
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
