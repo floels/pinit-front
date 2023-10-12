@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 import en from "@/messages/en.json";
 
 const labels = {
-  component: en.LandingPage.Header.LoginForm,
+  component: en.LandingPage.LoginForm,
   commons: en.Common,
 };
 
@@ -39,36 +39,34 @@ it("should display relevant input errors, send request only when inputs are vali
 
   render(loginForm);
 
-  screen.getByText(en.LandingPage.Header.LoginForm.WELCOME_TO_PINIT);
+  screen.getByText(en.LandingPage.LoginForm.WELCOME_TO_PINIT);
 
-  const emailInput = screen.getByLabelText(
-    en.LandingPage.Header.LoginForm.EMAIL,
-  );
+  const emailInput = screen.getByLabelText(en.LandingPage.LoginForm.EMAIL);
   const passwordInput = screen.getByLabelText(
-    en.LandingPage.Header.LoginForm.PASSWORD,
+    en.LandingPage.LoginForm.PASSWORD,
   );
-  const submitButton = screen.getByText(en.LandingPage.Header.LoginForm.LOG_IN);
+  const submitButton = screen.getByText(en.LandingPage.LoginForm.LOG_IN);
 
   // Fill form with invalid email and pasword and submit:
   await userEvent.type(emailInput, "test@example");
   await userEvent.type(passwordInput, "Pa$$");
   await userEvent.click(submitButton);
 
-  screen.getByText(en.LandingPage.Header.LoginForm.INVALID_EMAIL_INPUT);
+  screen.getByText(en.LandingPage.LoginForm.INVALID_EMAIL_INPUT);
 
   // Fix email but not password:
   await userEvent.type(emailInput, ".com");
   await userEvent.click(submitButton);
 
   expect(
-    screen.queryByText(en.LandingPage.Header.LoginForm.INVALID_EMAIL_INPUT),
+    screen.queryByText(en.LandingPage.LoginForm.INVALID_EMAIL_INPUT),
   ).toBeNull();
-  screen.getByText(en.LandingPage.Header.LoginForm.INVALID_PASSWORD_INPUT);
+  screen.getByText(en.LandingPage.LoginForm.INVALID_PASSWORD_INPUT);
 
   // Fix password input:
   await userEvent.type(passwordInput, "w0rd");
   expect(
-    screen.queryByText(en.LandingPage.Header.LoginForm.INVALID_PASSWORD_INPUT),
+    screen.queryByText(en.LandingPage.LoginForm.INVALID_PASSWORD_INPUT),
   ).toBeNull();
 
   // Submit with correct inputs:
@@ -79,13 +77,11 @@ it("should display relevant input errors, send request only when inputs are vali
 it("should display relevant errors when receiving 401 responses", async () => {
   render(loginForm);
 
-  const emailInput = screen.getByLabelText(
-    en.LandingPage.Header.LoginForm.EMAIL,
-  );
+  const emailInput = screen.getByLabelText(en.LandingPage.LoginForm.EMAIL);
   const passwordInput = screen.getByLabelText(
-    en.LandingPage.Header.LoginForm.PASSWORD,
+    en.LandingPage.LoginForm.PASSWORD,
   );
-  const submitButton = screen.getByText(en.LandingPage.Header.LoginForm.LOG_IN);
+  const submitButton = screen.getByText(en.LandingPage.LoginForm.LOG_IN);
 
   await userEvent.type(emailInput, "test@example.com");
   await userEvent.type(passwordInput, "Pa$$w0rd");
@@ -97,7 +93,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
   );
   await userEvent.click(submitButton);
 
-  screen.getByText(en.LandingPage.Header.LoginForm.INVALID_EMAIL_LOGIN);
+  screen.getByText(en.LandingPage.LoginForm.INVALID_EMAIL_LOGIN);
 
   fetchMock.doMockOnceIf(
     "/api/user/obtain-token",
@@ -107,19 +103,17 @@ it("should display relevant errors when receiving 401 responses", async () => {
   await userEvent.type(passwordInput, "IsWr0ng");
   await userEvent.click(submitButton);
 
-  screen.getByText(en.LandingPage.Header.LoginForm.INVALID_PASSWORD_LOGIN);
+  screen.getByText(en.LandingPage.LoginForm.INVALID_PASSWORD_LOGIN);
 });
 
 it("should display loading state while expecting network response", async () => {
   render(loginForm);
 
-  const emailInput = screen.getByLabelText(
-    en.LandingPage.Header.LoginForm.EMAIL,
-  );
+  const emailInput = screen.getByLabelText(en.LandingPage.LoginForm.EMAIL);
   const passwordInput = screen.getByLabelText(
-    en.LandingPage.Header.LoginForm.PASSWORD,
+    en.LandingPage.LoginForm.PASSWORD,
   );
-  const submitButton = screen.getByText(en.LandingPage.Header.LoginForm.LOG_IN);
+  const submitButton = screen.getByText(en.LandingPage.LoginForm.LOG_IN);
 
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);

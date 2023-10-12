@@ -12,7 +12,7 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
   return (
     <div
       className={styles.overlay}
-      data-testid="overlay-modal-overlay"
+      data-testid="overlay-modal"
       onClick={onClose}
     >
       <div

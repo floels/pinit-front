@@ -1,13 +1,18 @@
 import { useTranslations } from "next-intl";
 import { getTranslationsObject } from "@/lib/utils/i18n";
 import AccessTokenRefresherClient from "./AccessTokenRefresherClient";
+import SignupForm from "../SignupForm/SignupForm";
 
 const AccessTokenRefresherServer = () => {
   const landingPageTranslator = useTranslations("LandingPage");
   const landingPageTranslations = getTranslationsObject(
     "LandingPage",
     landingPageTranslator,
-  ) as { Header: { [key: string]: any }; Content: { [key: string]: any } };
+  ) as {
+    LoginForm: { [key: string]: string };
+    SignupForm: { [key: string]: string };
+    Content: { [key: string]: any };
+  };
 
   const commonsTranslator = useTranslations("Common");
   const commonsTranslations = getTranslationsObject(
@@ -19,8 +24,8 @@ const AccessTokenRefresherServer = () => {
     commons: commonsTranslations,
     component: {
       ...landingPageTranslations.Content,
-      LoginForm: landingPageTranslations.Header.LoginForm,
-      SignupForm: landingPageTranslations.Header.LoginForm,
+      LoginForm: landingPageTranslations.LoginForm,
+      SignupForm: landingPageTranslations.LoginForm,
     },
   };
 
