@@ -16,8 +16,8 @@ const mockOnClickBackToTop = jest.fn();
 const labels = {
   component: {
     ...en.LandingPage.Content.FifthFold,
-    LoginForm: en.LandingPage.Header.LoginForm,
-    SignupForm: en.LandingPage.Header.SignupForm,
+    LoginForm: en.LandingPage.LoginForm,
+    SignupForm: en.LandingPage.SignupForm,
   },
   commons: en.Common,
 };
@@ -47,12 +47,12 @@ it("should switch to login form upon click on 'Already have an account'", async 
   render(fifthFold);
 
   const alreadyHaveAccountButton = screen.getByText(
-    en.LandingPage.Header.SignupForm.LOG_IN,
+    en.LandingPage.SignupForm.LOG_IN,
   );
 
   await userEvent.click(alreadyHaveAccountButton);
 
-  screen.getByText(en.LandingPage.Header.LoginForm.NO_ACCOUNT_YET);
+  screen.getByText(en.LandingPage.LoginForm.NO_ACCOUNT_YET);
 });
 
 it("should call onClickBackToTop when corresponding button is clicked", async () => {

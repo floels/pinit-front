@@ -10,7 +10,10 @@ import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
-import HeaderUnauthenticatedClient from "../HeaderUnauthenticated/HeaderUnauthenticatedClient";
+import HeaderUnauthenticatedClient from "./HeaderUnauthenticatedClient";
+import OverlayModal from "../OverlayModal/OverlayModal";
+import LoginForm from "../LoginForm/LoginForm";
+import SignupForm from "../SignupForm/SignupForm";
 
 export type LandingPageClientProps = LandingPageServerProps & {
   labels: {
@@ -23,17 +26,12 @@ const NUMBER_FOLDS = 5;
 const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
 const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
-  const headerLabels = {
-    commons: labels.commons,
-    component: labels.component.Header,
-  };
-
   const fifthFoldLabels = {
     commons: labels.commons,
     component: {
       ...labels.component.Content.FifthFold,
-      LoginForm: labels.component.Header.LoginForm,
-      SignupForm: labels.component.Header.SignupForm,
+      LoginForm: labels.component.LoginForm,
+      SignupForm: labels.component.SignupForm,
     },
   };
 
@@ -51,6 +49,35 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
     down: null,
     up: null,
   });
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+
+  const handleClickLogInButton = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const handleClickSignUpButton = () => {
+    setIsSignupModalOpen(true);
+  };
+
+  const handleClickNoAccountYet = () => {
+    setIsLoginModalOpen(false);
+    setIsSignupModalOpen(true);
+  };
+
+  const handleCloseLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleClickAlreadyHaveAccount = () => {
+    setIsSignupModalOpen(false);
+    setIsLoginModalOpen(true);
+  };
+
+  const handleCloseSignupModal = () => {
+    setIsSignupModalOpen(false);
+  };
 
   const handleClickHeroSeeBelow = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
@@ -123,7 +150,11 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero} ref={heroRef}>
-          <HeaderUnauthenticatedClient labels={headerLabels} />
+          <HeaderUnauthenticatedClient
+            labels={labels.component.Header}
+            handleClickLogInButton={handleClickLogInButton}
+            handleClickSignUpButton={handleClickSignUpButton}
+          />
           <div className={styles.pictureSlider}>
             <PictureSlider
               onClickSeeBelow={handleClickHeroSeeBelow}
@@ -140,6 +171,28 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
           labels={fifthFoldLabels}
         />
       </div>
+      {isLoginModalOpen && (
+        <OverlayModal onClose={handleCloseLoginModal}>
+          <LoginForm
+            onClickNoAccountYet={handleClickNoAccountYet}
+            labels={{
+              component: labels.component.LoginForm,
+              commons: labels.commons,
+            }}
+          />
+        </OverlayModal>
+      )}
+      {isSignupModalOpen && (
+        <OverlayModal onClose={handleCloseSignupModal}>
+          <SignupForm
+            onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
+            labels={{
+              component: labels.component.SignupForm,
+              commons: labels.commons,
+            }}
+          />
+        </OverlayModal>
+      )}
     </main>
   );
 };

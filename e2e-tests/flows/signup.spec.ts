@@ -21,13 +21,24 @@ test("user should be able to sign up", async ({ page }) => {
 
   await page.goto("/");
 
-  await page.click(`text=${en.LandingPage.Header.SIGN_UP}`);
+  await page.click('[data-testid="header-sign-up-button"]');
 
-  await page.fill("input[name='email']", EMAIL_FIXTURE);
-  await page.fill("input[name='password']", PASSWORD_FIXTURE);
-  await page.fill("input[name='birthdate']", BIRTHDATE_FIXTURE);
+  await page.fill(
+    "div[data-testid='overlay-modal'] >> input[name='email']",
+    EMAIL_FIXTURE,
+  );
+  await page.fill(
+    "div[data-testid='overlay-modal'] >> input[name='password']",
+    PASSWORD_FIXTURE,
+  );
+  await page.fill(
+    "div[data-testid='overlay-modal'] >> input[name='birthdate']",
+    BIRTHDATE_FIXTURE,
+  );
 
-  await page.click(`text=${en.LandingPage.Header.SignupForm.CONTINUE}`);
+  await page.click(
+    `div[data-testid='overlay-modal'] >> text=${en.LandingPage.SignupForm.CONTINUE}`,
+  );
 
   // We should land on authenticated homepage
   await page.waitForSelector('[data-testid="search-bar-input"]');
