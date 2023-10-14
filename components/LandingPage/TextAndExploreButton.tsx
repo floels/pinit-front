@@ -1,15 +1,19 @@
-import styles from "./TextAndLink.module.css";
+import styles from "./TextAndExploreButton.module.css";
 
-type TextAndLinkProps = {
+type TextAndExploreButtonProps = {
   labels: { [key: string]: any };
-  linkTarget: string;
   colors: {
     primary: string;
     secondary: string;
   };
+  handleClickExploreButton: () => void;
 };
 
-const TextAndLink = ({ labels, linkTarget, colors }: TextAndLinkProps) => {
+const TextAndExploreButton = ({
+  labels,
+  colors,
+  handleClickExploreButton,
+}: TextAndExploreButtonProps) => {
   return (
     <div
       className={styles.container}
@@ -17,18 +21,19 @@ const TextAndLink = ({ labels, linkTarget, colors }: TextAndLinkProps) => {
     >
       <div className={styles.header}>{labels.header}</div>
       <div className={styles.paragraph}>{labels.paragraph}</div>
-      <a
-        href={linkTarget}
+      <button
+        onClick={handleClickExploreButton}
         className={styles.link}
         style={{
           backgroundColor: `var(${colors.primary})`,
           color: `var(${colors.secondary})`,
         }}
+        data-testid="explore-button"
       >
         {labels.link}
-      </a>
+      </button>
     </div>
   );
 };
 
-export default TextAndLink;
+export default TextAndExploreButton;

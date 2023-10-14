@@ -1,12 +1,13 @@
 import Image from "next/image";
-import TextAndLink from "./TextAndLink";
+import TextAndExploreButton from "./TextAndExploreButton";
 import styles from "./ThirdFold.module.css";
 
 type ThirdFoldProps = {
   labels: { [key: string]: any };
+  handleClickExploreButton: () => void;
 };
 
-const ThirdFold = ({ labels }: ThirdFoldProps) => {
+const ThirdFold = ({ labels, handleClickExploreButton }: ThirdFoldProps) => {
   const textAndLinkLabels = {
     header: labels.HEADER,
     paragraph: labels.PARAGRAPH,
@@ -19,12 +20,12 @@ const ThirdFold = ({ labels }: ThirdFoldProps) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="landing-page-third-fold">
       <div className={styles.textArea}>
-        <TextAndLink
+        <TextAndExploreButton
           labels={textAndLinkLabels}
-          linkTarget="#"
           colors={textAndLinkColors}
+          handleClickExploreButton={handleClickExploreButton}
         />
       </div>
       <div className={styles.picturesArea}>
