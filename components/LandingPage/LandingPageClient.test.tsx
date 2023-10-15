@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LandingPageClient from "./LandingPageClient";
 import en from "@/messages/en.json";
@@ -14,6 +14,29 @@ jest.mock("next/navigation", () => ({
     refresh: jest.fn(),
   }),
 }));
+
+// We mock the <PictureSlider /> component because its internal timer causes the error:
+// "Warning: An update to PictureSlider inside a test was not wrapped in act(...).
+// When testing, code that causes React state updates should be wrapped into act(...):
+// ...
+// This ensures that you're testing the behavior the user would see in the browser."
+jest.mock("./PictureSlider", () => {
+  const MockedPictureSlider = () => <div>Mocked picture slider</div>;
+  MockedPictureSlider.displayName = "MockedPictureSlider";
+  return MockedPictureSlider;
+});
+
+const checkAndCloseSignUpModal = () => {
+  const modal = screen.getByTestId("overlay-modal");
+
+  within(modal).getByText(en.LandingPage.SignupForm.FIND_NEW_IDEAS);
+
+  const modalCloseButton = within(modal).getByTestId(
+    "overlay-modal-close-button",
+  );
+
+  userEvent.click(modalCloseButton);
+};
 
 it("should render without any modal open", () => {
   render(<LandingPageClient labels={labels} />);
@@ -75,4 +98,41 @@ it("should open signup modal when user clicks on Signup button, and switch to lo
   ).toBeNull();
 
   within(modal).getByText(en.LandingPage.LoginForm.WELCOME_TO_PINIT);
+});
+
+it("should open signup modal when clicking on 'Explore' buttons", async () => {
+  render(<LandingPageClient labels={labels} />);
+
+  const secondFold = screen.getByTestId("landing-page-second-fold");
+
+  const exploreButtonSecondFold =
+    within(secondFold).getByTestId("explore-button");
+
+  userEvent.click(exploreButtonSecondFold);
+
+  await waitFor(() => {
+    checkAndCloseSignUpModal();
+  });
+
+  const thirdFold = screen.getByTestId("landing-page-third-fold");
+
+  const exploreButtonThirdFold =
+    within(thirdFold).getByTestId("explore-button");
+
+  userEvent.click(exploreButtonThirdFold);
+
+  await waitFor(() => {
+    checkAndCloseSignUpModal();
+  });
+
+  const fourthFold = screen.getByTestId("landing-page-fourth-fold");
+
+  const exploreButtonFourthFold =
+    within(fourthFold).getByTestId("explore-button");
+
+  userEvent.click(exploreButtonFourthFold);
+
+  await waitFor(() => {
+    checkAndCloseSignUpModal();
+  });
 });

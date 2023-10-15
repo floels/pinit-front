@@ -1,12 +1,13 @@
 import Image from "next/image";
 import styles from "./FourthFold.module.css";
-import TextAndLink from "./TextAndLink";
+import TextAndExploreButton from "./TextAndExploreButton";
 
 type FourthFoldProps = {
   labels: { [key: string]: any };
+  handleClickExploreButton: () => void;
 };
 
-const FourthFold = ({ labels }: FourthFoldProps) => {
+const FourthFold = ({ labels, handleClickExploreButton }: FourthFoldProps) => {
   const textAndLinkLabels = {
     header: labels.HEADER,
     paragraph: labels.PARAGRAPH,
@@ -19,7 +20,7 @@ const FourthFold = ({ labels }: FourthFoldProps) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="landing-page-fourth-fold">
       <div className={styles.picturesArea}>
         <Image
           src="https://s.pinimg.com/webapp/shop-bd0c8a04.png"
@@ -54,10 +55,10 @@ const FourthFold = ({ labels }: FourthFoldProps) => {
         </div>
       </div>
       <div className={styles.textArea}>
-        <TextAndLink
+        <TextAndExploreButton
           labels={textAndLinkLabels}
-          linkTarget="#"
           colors={textAndLinkColors}
+          handleClickExploreButton={handleClickExploreButton}
         />
       </div>
     </div>

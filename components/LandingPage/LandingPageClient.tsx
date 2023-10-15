@@ -53,11 +53,11 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
-  const handleClickLogInButton = () => {
+  const openLogInModal = () => {
     setIsLoginModalOpen(true);
   };
 
-  const handleClickSignUpButton = () => {
+  const openSignUpModal = () => {
     setIsSignupModalOpen(true);
   };
 
@@ -152,8 +152,8 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
         <div className={styles.hero} ref={heroRef}>
           <HeaderUnauthenticatedClient
             labels={labels.component.Header}
-            handleClickLogInButton={handleClickLogInButton}
-            handleClickSignUpButton={handleClickSignUpButton}
+            handleClickLogInButton={openLogInModal}
+            handleClickSignUpButton={openSignUpModal}
           />
           <div className={styles.pictureSlider}>
             <PictureSlider
@@ -162,9 +162,18 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
             />
           </div>
         </div>
-        <SecondFold labels={labels.component.Content.SecondFold} />
-        <ThirdFold labels={labels.component.Content.ThirdFold} />
-        <FourthFold labels={labels.component.Content.FourthFold} />
+        <SecondFold
+          labels={labels.component.Content.SecondFold}
+          handleClickExploreButton={openSignUpModal}
+        />
+        <ThirdFold
+          labels={labels.component.Content.ThirdFold}
+          handleClickExploreButton={openSignUpModal}
+        />
+        <FourthFold
+          labels={labels.component.Content.FourthFold}
+          handleClickExploreButton={openSignUpModal}
+        />
         <FifthFold
           heroRef={heroRef}
           onClickBackToTop={handleClickBackToTop}

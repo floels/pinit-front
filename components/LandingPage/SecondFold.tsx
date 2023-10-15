@@ -2,13 +2,14 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./SecondFold.module.css";
-import TextAndLink from "./TextAndLink";
+import TextAndExploreButton from "./TextAndExploreButton";
 
 type SecondFoldProps = {
   labels: { [key: string]: any };
+  handleClickExploreButton: () => void;
 };
 
-const SecondFold = ({ labels }: SecondFoldProps) => {
+const SecondFold = ({ labels, handleClickExploreButton }: SecondFoldProps) => {
   const textAndLinkLabels = {
     header: labels.HEADER,
     paragraph: labels.PARAGRAPH,
@@ -21,7 +22,7 @@ const SecondFold = ({ labels }: SecondFoldProps) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="landing-page-second-fold">
       <div className={styles.picturesArea}>
         <div className={styles.picturesContainer}>
           <div className={styles.pictureLeftContainer}>
@@ -60,20 +61,20 @@ const SecondFold = ({ labels }: SecondFoldProps) => {
               className={styles.picture}
             />
           </div>
-          <a href="#" className={styles.searchBarLink}>
+          <p className={styles.searchBarLink}>
             <FontAwesomeIcon
               icon={faSearch}
               className={styles.searchBarLinkIcon}
             />
             {labels.EASY_CHICKEN_DINNER}
-          </a>
+          </p>
         </div>
       </div>
       <div className={styles.textArea}>
-        <TextAndLink
+        <TextAndExploreButton
           labels={textAndLinkLabels}
-          linkTarget="#"
           colors={textAndLinkColors}
+          handleClickExploreButton={handleClickExploreButton}
         />
       </div>
     </div>
