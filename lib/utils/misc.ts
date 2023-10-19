@@ -1,7 +1,7 @@
 export const getPinThumbnailsWithCamelizedKeys =
   (fetchPinThumbnailsResponseData: { results: any[] }) => {
     return fetchPinThumbnailsResponseData.results.map((pinThumbnail) => ({
-      id: pinThumbnail.id,
+      id: pinThumbnail.unique_id,
       imageURL: pinThumbnail.image_url,
       title: pinThumbnail.title,
       description: pinThumbnail.description,

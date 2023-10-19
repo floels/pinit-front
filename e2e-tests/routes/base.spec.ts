@@ -9,7 +9,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
     response.json({
       results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
-        id: index + 1,
+        unique_id: index + 1,
         image_url: "https://some.url",
         title: "",
         description: "",

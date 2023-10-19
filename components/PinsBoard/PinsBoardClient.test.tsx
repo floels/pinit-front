@@ -80,7 +80,7 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   const newPinThumbnails = Array.from(
     { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
     (_, index) => ({
-      id: String(SUGGESTIONS_ENDPOINT_PAGE_SIZE + index + 1),
+      unique_id: String(SUGGESTIONS_ENDPOINT_PAGE_SIZE + index + 1),
       image_url: "https://some.url",
       title: "",
       description: "",
