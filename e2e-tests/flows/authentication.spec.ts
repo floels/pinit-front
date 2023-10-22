@@ -14,7 +14,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
     });
   });
 
-  mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
+  mockAPIApp.get("/api/pins/suggestions/", (_, response: Response) => {
     response.json({
       results: [],
     });
