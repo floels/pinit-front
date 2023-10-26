@@ -1,7 +1,10 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getPinThumbnailsFetcherAndRenderer } from "../../page";
-import { ENDPOINT_SEARCH_PINS } from "@/lib/constants";
+import {
+  API_ROUTE_PINS_SEARCH,
+  API_ENDPOINT_SEARCH_PINS,
+} from "@/lib/constants";
 
 type PageProps = {
   searchParams: { q: string };
@@ -16,10 +19,10 @@ const Page = async ({ searchParams }: PageProps) => {
 
   const accessToken = accessTokenCookie.value;
 
-  const pinSuggestionsFetcherAndRenderer = getPinThumbnailsFetcherAndRenderer(
-    `/api/pins/search?q=${searchParams.q}`,
-    `${ENDPOINT_SEARCH_PINS}?q=${searchParams.q}`,
-  );
+  const pinSuggestionsFetcherAndRenderer = getPinThumbnailsFetcherAndRenderer({
+    fetchThumbnailsAPIRoute: `${API_ROUTE_PINS_SEARCH}?q=${searchParams.q}`,
+    fetchThumbnailsAPIEndpoint: `${API_ENDPOINT_SEARCH_PINS}/?q=${searchParams.q}`,
+  });
 
   const renderedComponent = await pinSuggestionsFetcherAndRenderer(accessToken);
 
