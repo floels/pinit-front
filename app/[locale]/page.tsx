@@ -3,23 +3,27 @@ import PinsBoardServer from "@/components/PinsBoard/PinsBoardServer";
 import { cookies } from "next/headers";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
-  ENDPOINT_GET_PIN_SUGGESTIONS,
+  API_ROUTE_PINS_SUGGESTIONS,
+  API_ENDPOINT_GET_PIN_SUGGESTIONS,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 import { getPinThumbnailsWithCamelizedKeys } from "@/lib/utils/misc";
 import AccessTokenRefresherServer from "@/components/AccessTokenRefresher/AccessTokenRefresherServer";
 
-export const getPinThumbnailsFetcherAndRenderer = (
-  fetchThumbnailsAPIRoute: string,
-  fetchThumbnailsAPIEndpoint: string,
-) => {
+export const getPinThumbnailsFetcherAndRenderer = ({
+  fetchThumbnailsAPIRoute,
+  fetchThumbnailsAPIEndpoint,
+}: {
+  fetchThumbnailsAPIRoute: string;
+  fetchThumbnailsAPIEndpoint: string;
+}) => {
   return async (accessToken: string) => {
     let fetchResponse;
 
     try {
       fetchResponse = await fetchWithAuthentication({
-        endpoint: fetchThumbnailsAPIEndpoint,
+        endpoint: `${fetchThumbnailsAPIEndpoint}/`,
         accessToken,
       });
     } catch (error) {
@@ -81,10 +85,10 @@ const Page = async () => {
 
   const accessToken = accessTokenCookie.value;
 
-  const pinSuggestionsFetcherAndRenderer = getPinThumbnailsFetcherAndRenderer(
-    "/api/pins/suggestions",
-    ENDPOINT_GET_PIN_SUGGESTIONS,
-  );
+  const pinSuggestionsFetcherAndRenderer = getPinThumbnailsFetcherAndRenderer({
+    fetchThumbnailsAPIRoute: API_ROUTE_PINS_SUGGESTIONS,
+    fetchThumbnailsAPIEndpoint: API_ENDPOINT_GET_PIN_SUGGESTIONS,
+  });
 
   const renderedComponent = await pinSuggestionsFetcherAndRenderer(accessToken);
 

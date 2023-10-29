@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import {
   API_BASE_URL,
-  ENDPOINT_REFRESH_TOKEN,
+  API_ENDPOINT_REFRESH_TOKEN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
 } from "@/lib/constants";
 
@@ -23,15 +23,18 @@ export async function POST() {
   let backendResponse;
 
   try {
-    backendResponse = await fetch(`${API_BASE_URL}/${ENDPOINT_REFRESH_TOKEN}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    backendResponse = await fetch(
+      `${API_BASE_URL}/${API_ENDPOINT_REFRESH_TOKEN}/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refresh_token: refreshToken,
+        }),
       },
-      body: JSON.stringify({
-        refresh_token: refreshToken,
-      }),
-    });
+    );
   } catch (error) {
     return Response.json(
       { errors: [ERROR_CODE_FETCH_BACKEND_FAILED] },

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import {
-  ENDPOINT_GET_PIN_SUGGESTIONS,
+  API_ENDPOINT_GET_PIN_SUGGESTIONS,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_MISSING_ACCESS_TOKEN,
 } from "@/lib/constants";
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
   try {
     backendResponse = await fetchWithAuthentication({
-      endpoint: `${ENDPOINT_GET_PIN_SUGGESTIONS}?page=${page}`,
+      endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/?page=${page}`,
       accessToken,
     });
   } catch (error) {

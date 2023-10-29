@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   API_BASE_URL,
-  ENDPOINT_SIGN_UP,
+  API_ENDPOINT_SIGN_UP,
   ERROR_CODE_FETCH_BACKEND_FAILED,
 } from "@/lib/constants";
 
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   let backendResponse;
 
   try {
-    backendResponse = await fetch(`${API_BASE_URL}/${ENDPOINT_SIGN_UP}`, {
+    backendResponse = await fetch(`${API_BASE_URL}/${API_ENDPOINT_SIGN_UP}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
