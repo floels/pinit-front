@@ -1,17 +1,17 @@
 import { useTranslations } from "next-intl";
 import PinsBoardClient from "./PinsBoardClient";
 import { getTranslationsObject } from "@/lib/utils/i18n";
-import { PinThumbnailType } from "./PinThumbnail";
+import { PinType } from "@/lib/types";
 
 type PinsBoardServerProps = {
-  initialPinThumbnails: PinThumbnailType[];
-  fetchThumbnailsAPIRoute: string;
+  initialPins: PinType[];
+  fetchPinsAPIRoute: string;
   errorCode?: string;
 };
 
 const PinsBoardServer = ({
-  initialPinThumbnails,
-  fetchThumbnailsAPIRoute,
+  initialPins,
+  fetchPinsAPIRoute,
   errorCode,
 }: PinsBoardServerProps) => {
   const homePageTranslator = useTranslations("HomePage");
@@ -33,8 +33,8 @@ const PinsBoardServer = ({
 
   return (
     <PinsBoardClient
-      initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute={fetchThumbnailsAPIRoute}
+      initialPins={initialPins}
+      fetchPinsAPIRoute={fetchPinsAPIRoute}
       labels={labels}
       errorCode={errorCode}
     />

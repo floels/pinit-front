@@ -2,38 +2,29 @@
 
 import Link from "next/link";
 import styles from "./PinThumbnail.module.css";
-
-export type PinThumbnailType = {
-  id: string;
-  title: string;
-  imageURL: string;
-  authorUsername: string;
-  authorDisplayName: string;
-};
+import { PinType } from "@/lib/types";
 
 type PinThumbnailProps = {
-  pinThumbnail: PinThumbnailType;
+  pin: PinType;
   labels: { [key: string]: any };
 };
 
-const PinThumbnail = ({ pinThumbnail, labels }: PinThumbnailProps) => {
+const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
   return (
     <div className={styles.container} data-testid="pin-thumbnail">
       {/* We don't use Next's Image component because we don't know the image's display height in advance. */}
-      <Link href={`/pin/${pinThumbnail.id}`}>
+      <Link href={`/pin/${pin.id}`}>
         <img
           alt={
-            pinThumbnail.title
-              ? pinThumbnail.title
-              : `${labels.PIN_BY} ${pinThumbnail.authorDisplayName}`
+            pin.title ? pin.title : `${labels.PIN_BY} ${pin.authorDisplayName}`
           }
-          src={pinThumbnail.imageURL}
+          src={pin.imageURL}
           className={styles.image}
         />
       </Link>
-      {pinThumbnail.title && (
-        <Link href={`/pin/${pinThumbnail.id}`} className={styles.title}>
-          {pinThumbnail.title}
+      {pin.title && (
+        <Link href={`/pin/${pin.id}`} className={styles.title}>
+          {pin.title}
         </Link>
       )}
     </div>
