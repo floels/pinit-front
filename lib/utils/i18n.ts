@@ -15,7 +15,7 @@ export const getTranslationsObjectFromDefaultTranslations = (
   defaultTranslations: {},
   namespace: string,
   translator: (key: string) => string,
-) => {
+): { [key: string]: any } => {
   const namespacedDefaultTranslations = _.get(defaultTranslations, namespace);
 
   const translationsObject = {};

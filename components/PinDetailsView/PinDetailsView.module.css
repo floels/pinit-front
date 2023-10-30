@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.backButton {
+  position: absolute;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  background: none;
+  border-radius: 50%;
+}
+
+.backButton:hover {
+  background-color: var(--color-background-secondary);
+}
+
+.image {
+  width: 500px;
+}
+
+.pinViewContainer {
+  display: flex;
+  border-radius: 32px;
+  overflow: hidden; /* so that the border-radius affects child elements */
+}
+
+.pinInformation {
+  width: 500px;
+}

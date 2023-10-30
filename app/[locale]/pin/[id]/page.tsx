@@ -1,4 +1,6 @@
+import PinDetailsView from "@/components/PinDetailsView/PinDetailsView";
 import { API_BASE_URL, API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
+import { getPinWithCamelizedKeys } from "@/lib/utils/misc";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -19,9 +21,11 @@ const Page = async ({ params }: PageProps) => {
     `${API_BASE_URL}/${API_ENDPOINT_PIN_DETAILS}/${pinID}/`,
   );
 
-  const data = await response.json();
+  const responseData = await response.json();
 
-  return <div>{JSON.stringify(data)}</div>;
+  const pin = getPinWithCamelizedKeys(responseData);
+
+  return <PinDetailsView pin={pin} />;
 };
 
 export default Page;
