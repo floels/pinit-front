@@ -60,7 +60,7 @@ it("should render the thumbnails with the right number of columns", async () => 
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      fetchThumbnailsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -92,14 +92,14 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   );
 
   fetchMock.doMockOnceIf(
-    "/api/pins/suggestions?page=2",
+    "/api/pin-suggestions?page=2",
     JSON.stringify({ results: newPinThumbnails }),
   );
 
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      fetchThumbnailsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -121,7 +121,7 @@ it("should display loading spinner while fetching new thumbnails", async () => {
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      fetchThumbnailsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -134,7 +134,7 @@ it("should display loading spinner while fetching new thumbnails", async () => {
 });
 
 it("should display error message in case of KO response upon new thumbnails fetch", async () => {
-  fetchMock.doMockOnceIf("/api/pins/suggestions?page=2", () =>
+  fetchMock.doMockOnceIf("/api/pin-suggestions?page=2", () =>
     Promise.resolve({
       body: JSON.stringify({ message: "Bad Request" }),
       status: 400,
@@ -147,7 +147,7 @@ it("should display error message in case of KO response upon new thumbnails fetc
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      fetchThumbnailsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -165,7 +165,7 @@ it("should display toast in case of fetch failure upon new thumbnails fetch", as
   render(
     <PinsBoardClient
       initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      fetchThumbnailsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
