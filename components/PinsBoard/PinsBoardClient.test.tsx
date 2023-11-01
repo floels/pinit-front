@@ -1,8 +1,8 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
 import en from "@/messages/en.json";
 import PinsBoardClient from "./PinsBoardClient";
-import { PinThumbnailType } from "./PinThumbnail";
 import { toast } from "react-toastify";
+import { PinType } from "@/lib/types";
 
 const SUGGESTIONS_ENDPOINT_PAGE_SIZE = 50;
 
@@ -20,7 +20,7 @@ Object.defineProperty(window, "innerWidth", {
   value: VIEWPORT_WIDTH_PX,
 });
 
-const initialPinThumbnails = Array.from(
+const initialPins = Array.from(
   { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
   (_, index) => ({
     id: String(index + 1),
@@ -30,7 +30,7 @@ const initialPinThumbnails = Array.from(
     authorUsername: "johndoe",
     authorDisplayName: "John Doe",
   }),
-) as PinThumbnailType[];
+) as PinType[];
 
 const labels = {
   commons: en.Common,
@@ -59,8 +59,8 @@ beforeEach(() => {
 it("should render the thumbnails with the right number of columns", async () => {
   render(
     <PinsBoardClient
-      initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      initialPins={initialPins}
+      fetchPinsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -77,7 +77,7 @@ it("should render the thumbnails with the right number of columns", async () => 
 });
 
 it("should fetch new thumbnails when user scrolls to bottom", async () => {
-  const newPinThumbnails = Array.from(
+  const newPins = Array.from(
     { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
     (_, index) => ({
       unique_id: String(SUGGESTIONS_ENDPOINT_PAGE_SIZE + index + 1),
@@ -92,14 +92,14 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   );
 
   fetchMock.doMockOnceIf(
-    "/api/pins/suggestions?page=2",
-    JSON.stringify({ results: newPinThumbnails }),
+    "/api/pin-suggestions?page=2",
+    JSON.stringify({ results: newPins }),
   );
 
   render(
     <PinsBoardClient
-      initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      initialPins={initialPins}
+      fetchPinsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -120,8 +120,8 @@ it("should display loading spinner while fetching new thumbnails", async () => {
 
   render(
     <PinsBoardClient
-      initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      initialPins={initialPins}
+      fetchPinsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -134,7 +134,7 @@ it("should display loading spinner while fetching new thumbnails", async () => {
 });
 
 it("should display error message in case of KO response upon new thumbnails fetch", async () => {
-  fetchMock.doMockOnceIf("/api/pins/suggestions?page=2", () =>
+  fetchMock.doMockOnceIf("/api/pin-suggestions?page=2", () =>
     Promise.resolve({
       body: JSON.stringify({ message: "Bad Request" }),
       status: 400,
@@ -146,8 +146,8 @@ it("should display error message in case of KO response upon new thumbnails fetc
 
   render(
     <PinsBoardClient
-      initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      initialPins={initialPins}
+      fetchPinsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );
@@ -164,8 +164,8 @@ it("should display toast in case of fetch failure upon new thumbnails fetch", as
 
   render(
     <PinsBoardClient
-      initialPinThumbnails={initialPinThumbnails}
-      fetchThumbnailsAPIRoute="/api/pins/suggestions"
+      initialPins={initialPins}
+      fetchPinsAPIRoute="/api/pin-suggestions"
       labels={labels}
     />,
   );

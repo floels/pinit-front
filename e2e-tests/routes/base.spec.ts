@@ -6,7 +6,7 @@ import { launchMockAPIServer } from "../utils";
 const NUMBER_PIN_SUGGESTIONS = 50;
 
 const configureAPIResponses = (mockAPIApp: Express) => {
-  mockAPIApp.get("/api/pins/suggestions/", (_, response: Response) => {
+  mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
     response.json({
       results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
         unique_id: index + 1,

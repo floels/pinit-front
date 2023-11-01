@@ -8,29 +8,29 @@ import {
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
-import { getPinThumbnailsWithCamelizedKeys } from "@/lib/utils/misc";
+import { getPinsWithCamelizedKeys } from "@/lib/utils/misc";
 import AccessTokenRefresherServer from "@/components/AccessTokenRefresher/AccessTokenRefresherServer";
 
-export const getPinThumbnailsFetcherAndRenderer = ({
-  fetchThumbnailsAPIRoute,
-  fetchThumbnailsAPIEndpoint,
+export const getPinsFetcherAndRenderer = ({
+  fetchPinsAPIRoute,
+  fetchPinsAPIEndpoint,
 }: {
-  fetchThumbnailsAPIRoute: string;
-  fetchThumbnailsAPIEndpoint: string;
+  fetchPinsAPIRoute: string;
+  fetchPinsAPIEndpoint: string;
 }) => {
   return async (accessToken: string) => {
     let fetchResponse;
 
     try {
       fetchResponse = await fetchWithAuthentication({
-        endpoint: `${fetchThumbnailsAPIEndpoint}/`,
+        endpoint: `${fetchPinsAPIEndpoint}/`,
         accessToken,
       });
     } catch (error) {
       return (
         <PinsBoardServer
-          initialPinThumbnails={[]}
-          fetchThumbnailsAPIRoute={fetchThumbnailsAPIRoute}
+          initialPins={[]}
+          fetchPinsAPIRoute={fetchPinsAPIRoute}
           errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
         />
       );
@@ -44,8 +44,8 @@ export const getPinThumbnailsFetcherAndRenderer = ({
     if (!fetchResponse.ok) {
       return (
         <PinsBoardServer
-          initialPinThumbnails={[]}
-          fetchThumbnailsAPIRoute={fetchThumbnailsAPIRoute}
+          initialPins={[]}
+          fetchPinsAPIRoute={fetchPinsAPIRoute}
           errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
         />
       );
@@ -54,21 +54,20 @@ export const getPinThumbnailsFetcherAndRenderer = ({
     try {
       const fetchResponseData = await fetchResponse.json();
 
-      const initialPinThumbnails =
-        getPinThumbnailsWithCamelizedKeys(fetchResponseData);
+      const initialPins = getPinsWithCamelizedKeys(fetchResponseData);
 
       return (
         <PinsBoardServer
-          initialPinThumbnails={initialPinThumbnails}
-          fetchThumbnailsAPIRoute={fetchThumbnailsAPIRoute}
+          initialPins={initialPins}
+          fetchPinsAPIRoute={fetchPinsAPIRoute}
         />
       );
     } catch (error) {
       // Malformed response
       return (
         <PinsBoardServer
-          initialPinThumbnails={[]}
-          fetchThumbnailsAPIRoute={fetchThumbnailsAPIRoute}
+          initialPins={[]}
+          fetchPinsAPIRoute={fetchPinsAPIRoute}
           errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
         />
       );
@@ -85,9 +84,9 @@ const Page = async () => {
 
   const accessToken = accessTokenCookie.value;
 
-  const pinSuggestionsFetcherAndRenderer = getPinThumbnailsFetcherAndRenderer({
-    fetchThumbnailsAPIRoute: API_ROUTE_PINS_SUGGESTIONS,
-    fetchThumbnailsAPIEndpoint: API_ENDPOINT_GET_PIN_SUGGESTIONS,
+  const pinSuggestionsFetcherAndRenderer = getPinsFetcherAndRenderer({
+    fetchPinsAPIRoute: API_ROUTE_PINS_SUGGESTIONS,
+    fetchPinsAPIEndpoint: API_ENDPOINT_GET_PIN_SUGGESTIONS,
   });
 
   const renderedComponent = await pinSuggestionsFetcherAndRenderer(accessToken);

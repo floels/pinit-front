@@ -2,16 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { PinThumbnailType } from "./PinThumbnail";
-import {
-  appendQueryParam,
-  getPinThumbnailsWithCamelizedKeys,
-} from "@/lib/utils/misc";
+import { appendQueryParam, getPinsWithCamelizedKeys } from "@/lib/utils/misc";
 import PinsBoardDisplay from "./PinsBoardDisplay";
+import { PinType } from "@/lib/types";
 
 type PinsBoardClientProps = {
-  initialPinThumbnails: PinThumbnailType[];
-  fetchThumbnailsAPIRoute: string;
+  initialPins: PinType[];
+  fetchPinsAPIRoute: string;
   labels: {
     commons: { [key: string]: any };
     component: { [key: string]: any };
@@ -20,67 +17,60 @@ type PinsBoardClientProps = {
 };
 
 const PinsBoardClient = ({
-  initialPinThumbnails,
-  fetchThumbnailsAPIRoute,
+  initialPins,
+  fetchPinsAPIRoute,
   labels,
   errorCode,
 }: PinsBoardClientProps) => {
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
-  const [pinThumbnails, setPinThumbnails] = useState<PinThumbnailType[]>([]);
+  const [pins, setPins] = useState<PinType[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
 
   useEffect(() => {
-    setPinThumbnails([...initialPinThumbnails]);
-  }, [initialPinThumbnails]);
+    setPins([...initialPins]);
+  }, [initialPins]);
 
-  const fetchNextPinThumbnailsAndFallBack = async () => {
+  const fetchNextPinsAndFallBack = async () => {
     try {
-      await fetchNextPinThumbnails();
+      await fetchNextPins();
     } catch (error) {
       toast.warn(labels.commons.CONNECTION_ERROR);
       setIsFetching(false);
     }
   };
 
-  const fetchNextPinThumbnails = async () => {
+  const fetchNextPins = async () => {
     const nextEndpointPage = currentEndpointPage + 1;
 
     setIsFetching(true);
 
     const url = appendQueryParam(
-      fetchThumbnailsAPIRoute,
+      fetchPinsAPIRoute,
       "page",
       nextEndpointPage.toString(),
     );
 
-    const newPinThumbnailsResponse = await fetch(url, { method: "GET" });
+    const newPinsResponse = await fetch(url, { method: "GET" });
 
     setIsFetching(false);
 
-    if (!newPinThumbnailsResponse.ok) {
+    if (!newPinsResponse.ok) {
       setFetchFailed(true);
       return;
     }
 
     setFetchFailed(false);
 
-    await updateStateWithNewPinThumbnailsResponse(newPinThumbnailsResponse);
+    await updateStateWithNewPinsResponse(newPinsResponse);
   };
 
-  const updateStateWithNewPinThumbnailsResponse = async (
-    newPinThumbnailsResponse: Response,
-  ) => {
-    const newPinThumbnailsResponseData = await newPinThumbnailsResponse.json();
+  const updateStateWithNewPinsResponse = async (newPinsResponse: Response) => {
+    const newPinsResponseData = await newPinsResponse.json();
 
-    const newPinThumbnails = getPinThumbnailsWithCamelizedKeys(
-      newPinThumbnailsResponseData,
-    );
+    const newPins = getPinsWithCamelizedKeys(newPinsResponseData);
 
-    setPinThumbnails((existingPinThumbnails) => [
-      ...existingPinThumbnails,
-      ...newPinThumbnails,
-    ]);
+    setPins((existingPins) => [...existingPins, ...newPins]);
 
     setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
   };
@@ -89,11 +79,11 @@ const PinsBoardClient = ({
 
   return (
     <PinsBoardDisplay
-      pinThumbnails={pinThumbnails}
+      pins={pins}
       labels={labels}
       isFetching={isFetching}
       isFetchError={isFetchError}
-      handleFetchMoreThumbnails={fetchNextPinThumbnailsAndFallBack}
+      handleFetchMorePins={fetchNextPinsAndFallBack}
     />
   );
 };

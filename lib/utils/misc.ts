@@ -1,14 +1,19 @@
-export const getPinThumbnailsWithCamelizedKeys =
-  (fetchPinThumbnailsResponseData: { results: any[] }) => {
-    return fetchPinThumbnailsResponseData.results.map((pinThumbnail) => ({
-      id: pinThumbnail.unique_id,
-      imageURL: pinThumbnail.image_url,
-      title: pinThumbnail.title,
-      description: pinThumbnail.description,
-      authorUsername: pinThumbnail.author.user_name,
-      authorDisplayName: pinThumbnail.author.display_name,
-    }));
+export const getPinWithCamelizedKeys = (pin: any) => {
+  return {
+    id: pin.unique_id,
+    imageURL: pin.image_url,
+    title: pin.title,
+    description: pin.description,
+    authorUsername: pin.author.user_name,
+    authorDisplayName: pin.author.display_name,
   };
+};
+
+export const getPinsWithCamelizedKeys = (fetchPinsResponseData: {
+  results: any[];
+}) => {
+  return fetchPinsResponseData.results.map(getPinWithCamelizedKeys);
+};
 
 export const appendQueryParam = (url: string, key: string, value: string) => {
   const separator = url.includes("?") ? "&" : "?";

@@ -1,22 +1,23 @@
 import { useRef, useState, useEffect } from "react";
 import styles from "./PinsBoardDisplay.module.css";
-import PinThumbnail, { PinThumbnailType } from "./PinThumbnail";
+import PinThumbnail from "./PinThumbnail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTriangleExclamation,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { useViewportWidth } from "@/lib/utils/custom-hooks";
+import { PinType } from "@/lib/types";
 
 type PinsBoardDisplayProps = {
-  pinThumbnails: PinThumbnailType[];
+  pins: PinType[];
   labels: {
     commons: { [key: string]: any };
     component: { [key: string]: any };
   };
   isFetching: boolean;
   isFetchError: boolean;
-  handleFetchMoreThumbnails: () => void;
+  handleFetchMorePins: () => void;
 };
 
 const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set width of 236px and side margins of 8px
@@ -37,9 +38,9 @@ const getNumberOfColumns = (viewportWidth: number) => {
 };
 
 const PinsBoardDisplay = ({
-  pinThumbnails,
+  pins,
   labels,
-  handleFetchMoreThumbnails,
+  handleFetchMorePins,
   isFetching,
   isFetchError,
 }: PinsBoardDisplayProps) => {
@@ -49,12 +50,12 @@ const PinsBoardDisplay = ({
   const viewportWidth = useViewportWidth();
 
   const shouldRenderPinThumbnailsAndSentinelDiv =
-    !!numberOfColumns && pinThumbnails.length > 0;
+    !!numberOfColumns && pins.length > 0;
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        handleFetchMoreThumbnails();
+        handleFetchMorePins();
       }
     });
 
@@ -65,7 +66,7 @@ const PinsBoardDisplay = ({
     return () => {
       observer.disconnect();
     };
-  }, [handleFetchMoreThumbnails, shouldRenderPinThumbnailsAndSentinelDiv]);
+  }, [handleFetchMorePins, shouldRenderPinThumbnailsAndSentinelDiv]);
 
   useEffect(() => {
     if (viewportWidth) {
@@ -93,17 +94,14 @@ const PinsBoardDisplay = ({
           key={`thumbnails-column-${columnIndex + 1}`}
           data-testid="thumbnails-column"
         >
-          {pinThumbnails.map((pinThumbnail, pinThumbnailIndex) => {
-            if (pinThumbnailIndex % castedNumberOfColumns === columnIndex) {
+          {pins.map((pin, pinIndex) => {
+            if (pinIndex % castedNumberOfColumns === columnIndex) {
               return (
                 <div
                   className={styles.pinThumbnail}
-                  key={`pin-thumbnail-${pinThumbnailIndex + 1}`}
+                  key={`pin-thumbnail-${pinIndex + 1}`}
                 >
-                  <PinThumbnail
-                    pinThumbnail={pinThumbnail}
-                    labels={labels.component.PinsBoard}
-                  />
+                  <PinThumbnail pin={pin} labels={labels.component.PinsBoard} />
                 </div>
               );
             }
