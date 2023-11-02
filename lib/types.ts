@@ -4,4 +4,5 @@ export type PinType = {
   imageURL: string;
   authorUsername: string;
   authorDisplayName: string;
+  description?: string;
 };

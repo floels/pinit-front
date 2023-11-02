@@ -24,7 +24,7 @@ const initialPins = Array.from(
   { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
   (_, index) => ({
     id: String(index + 1),
-    imageURL: "https://some.url",
+    imageURL: "https://pin.url",
     title: "",
     description: "",
     authorUsername: "johndoe",
