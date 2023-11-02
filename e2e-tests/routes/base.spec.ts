@@ -21,6 +21,33 @@ const addAccessTokenTookie = (context: BrowserContext) => {
   ]);
 };
 
+const NUMBER_PIN_SUGGESTIONS = 50;
+
+const configureAPIResponses = (mockAPIApp: Express) => {
+  mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
+    response.json({
+      results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
+        unique_id: index + 1,
+        image_url: "https://some.url",
+        title: "",
+        description: "",
+        author: {
+          username: "johndoe",
+          display_name: "John Doe",
+        },
+      })),
+    });
+  });
+};
+
+test("should display landing page if user is not logged in", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await page.waitForSelector('[data-testid="header-log-in-button"]');
+});
+
 test("should display pin suggestions if user is logged in", async ({
   page,
   context,
