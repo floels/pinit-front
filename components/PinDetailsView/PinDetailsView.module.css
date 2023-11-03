@@ -30,4 +30,16 @@
 
 .pinInformation {
   width: 500px;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.pinTitle {
+  font-size: var(--font-size-500);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+}
+
+.pinDescription {
+  padding: 8px 0;
 }

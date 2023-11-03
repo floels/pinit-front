@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -31,7 +33,10 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
           }
           className={styles.image}
         />
-        <div className={styles.pinInformation}>{JSON.stringify(pin)}</div>
+        <div className={styles.pinInformation}>
+          <h1 className={styles.pinTitle}>{pin.title}</h1>
+          <p className={styles.pinDescription}>{pin.description}</p>
+        </div>
       </div>
     </div>
   );
