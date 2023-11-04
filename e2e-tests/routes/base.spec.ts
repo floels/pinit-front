@@ -21,25 +21,6 @@ const addAccessTokenTookie = (context: BrowserContext) => {
   ]);
 };
 
-const NUMBER_PIN_SUGGESTIONS = 50;
-
-const configureAPIResponses = (mockAPIApp: Express) => {
-  mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
-    response.json({
-      results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
-        unique_id: index + 1,
-        image_url: "https://some.url",
-        title: "",
-        description: "",
-        author: {
-          username: "johndoe",
-          display_name: "John Doe",
-        },
-      })),
-    });
-  });
-};
-
 test("should display landing page if user is not logged in", async ({
   page,
 }) => {
@@ -124,5 +105,7 @@ test("should display error message when server is unreachable", async ({
 
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.HomePage.Content.ERROR_DISPLAY_PINS}`);
+  await page.waitForSelector(
+    `text=${en.HomePage.Content.PinsBoard.ERROR_DISPLAY_PINS}`,
+  );
 });

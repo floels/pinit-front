@@ -34,7 +34,7 @@ const initialPins = Array.from(
 
 const labels = {
   commons: en.Common,
-  component: en.HomePage.Content,
+  component: en.HomePage.Content.PinsBoard,
 };
 
 const simulateScrollToBottomOfPage = () => {
@@ -155,7 +155,7 @@ it("should display error message in case of KO response upon new thumbnails fetc
   simulateScrollToBottomOfPage();
 
   await waitFor(() => {
-    screen.getByText(en.HomePage.Content.ERROR_DISPLAY_PINS);
+    screen.getByText(en.HomePage.Content.PinsBoard.ERROR_DISPLAY_PINS);
   });
 });
 
