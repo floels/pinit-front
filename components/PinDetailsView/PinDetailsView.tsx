@@ -3,6 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import Image from "next/image";
 import { PinType } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { getTranslationsObject } from "@/lib/utils/i18n";
@@ -12,9 +13,14 @@ type PinDetailsViewProps = {
   pin: PinType;
 };
 
+const AUTHOR_PROFILE_PICTURE_SIZE_PX = 48;
+
 const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
   const translator = useTranslations("PinDetails");
   const translations = getTranslationsObject("PinDetails", translator);
+
+  const shouldDisplayAuthorDetails =
+    !!pin.authorDisplayName && !!pin.authorProfilePictureURL;
 
   return (
     <div className={styles.container}>
@@ -35,7 +41,24 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
         />
         <div className={styles.pinInformation}>
           <h1 className={styles.pinTitle}>{pin.title}</h1>
-          <p className={styles.pinDescription}>{pin.description}</p>
+          {pin.description && (
+            <p className={styles.pinDescription}>{pin.description}</p>
+          )}
+          {shouldDisplayAuthorDetails && (
+            <div
+              className={styles.authorDetails}
+              data-testid="pin-author-details"
+            >
+              <Image
+                className={styles.authorProfilePicture}
+                width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
+                height={AUTHOR_PROFILE_PICTURE_SIZE_PX}
+                src={pin.authorProfilePictureURL as string}
+                alt={`${translations.ALT_PROFILE_PICTURE_OF} ${pin.authorDisplayName}`}
+              />
+              <span className={styles.authorName}>{pin.authorDisplayName}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

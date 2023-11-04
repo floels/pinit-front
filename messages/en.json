@@ -110,6 +110,7 @@
     }
   },
   "PinDetails": {
-    "ALT_PIN_BY": "Pin by"
+    "ALT_PIN_BY": "Pin by",
+    "ALT_PROFILE_PICTURE_OF": "Profile picture of"
   }
 }

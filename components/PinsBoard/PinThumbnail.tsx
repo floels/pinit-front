@@ -44,7 +44,7 @@ const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
             src={pin.authorProfilePictureURL as string}
             alt={`${labels.ALT_PROFILE_PICTURE_OF} ${pin.authorDisplayName}`}
           />
-          <p className={styles.authorName}>{pin.authorDisplayName}</p>
+          <span className={styles.authorName}>{pin.authorDisplayName}</span>
         </div>
       )}
     </div>

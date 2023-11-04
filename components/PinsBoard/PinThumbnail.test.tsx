@@ -23,6 +23,8 @@ it("should render image, title and author details when author details are provid
 
   screen.getByText(pin.title);
 
+  screen.getByTestId("pin-author-details");
+
   const authorProfilePicture = screen.getByAltText(
     "Profile picture of John Doe",
   ) as HTMLImageElement;
