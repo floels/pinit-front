@@ -1,9 +1,10 @@
 import { test } from "@playwright/test";
+import en from "@/messages/en.json";
 
-test("should redirect to base route if user is not logged in", async ({
+test("should redirect to landing page if user is not logged in", async ({
   page,
 }) => {
   await page.goto("/pin/123456");
 
-  await page.waitForURL("/");
+  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
 });
