@@ -6,6 +6,7 @@ export const getPinWithCamelizedKeys = (pin: any) => {
     description: pin.description,
     authorUsername: pin.author.user_name,
     authorDisplayName: pin.author.display_name,
+    authorProfilePictureURL: pin.author.profile_picture_url,
   };
 };
 

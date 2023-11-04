@@ -17,3 +17,20 @@
   color: inherit;
   text-decoration: none;
 }
+
+.authorDetails {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.authorProfilePicture {
+  border-radius: 50%;
+  display: block;
+  margin-right: 6px;
+}
+
+.authorName {
+  margin: 0;
+  font-size: var(--font-size-200);
+}

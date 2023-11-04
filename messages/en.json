@@ -104,11 +104,12 @@
     "Content": {
       "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",
       "PinsBoard": {
-        "PIN_BY": "Pin by"
+        "ALT_PIN_BY": "Pin by",
+        "ALT_PROFILE_PICTURE_OF": "Profile picture of"
       }
     }
   },
   "PinDetails": {
-    "PIN_BY": "Pin by"
+    "ALT_PIN_BY": "Pin by"
   }
 }
