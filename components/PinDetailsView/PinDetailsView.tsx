@@ -29,7 +29,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
           alt={
             pin.title
               ? pin.title
-              : `${translations.PIN_BY} ${pin.authorDisplayName}`
+              : `${translations.ALT_PIN_BY} ${pin.authorDisplayName}`
           }
           className={styles.image}
         />
