@@ -36,7 +36,7 @@ const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
         </Link>
       )}
       {shouldDisplayAuthorDetails && (
-        <div className={styles.authorDetails}>
+        <div className={styles.authorDetails} data-testid="pin-author-details">
           <Image
             className={styles.authorProfilePicture}
             width={AUTHOR_PROFILE_PICTURE_SIZE_PX}

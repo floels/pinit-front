@@ -101,7 +101,7 @@ const PinsBoardDisplay = ({
                   className={styles.pinThumbnail}
                   key={`pin-thumbnail-${pinIndex + 1}`}
                 >
-                  <PinThumbnail pin={pin} labels={labels.component.PinsBoard} />
+                  <PinThumbnail pin={pin} labels={labels.component} />
                 </div>
               );
             }

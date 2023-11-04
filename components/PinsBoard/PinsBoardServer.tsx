@@ -27,7 +27,7 @@ const PinsBoardServer = ({
   );
 
   const labels = {
-    component: homePageTranslations.Content,
+    component: homePageTranslations.Content.PinsBoard,
     commons: commonsTranslations,
   };
 
