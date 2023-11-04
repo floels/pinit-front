@@ -23,8 +23,8 @@ export async function POST(request: Request) {
       }),
     });
   } catch (error) {
-    return Response.json(
-      { errors: [ERROR_CODE_FETCH_BACKEND_FAILED] },
+    return new NextResponse(
+      JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
     );
   }
@@ -32,8 +32,8 @@ export async function POST(request: Request) {
   const backendResponseData = await backendResponse.json();
 
   if (!backendResponse.ok) {
-    return Response.json(
-      { errors: backendResponseData.errors },
+    return new NextResponse(
+      JSON.stringify({ errors: backendResponseData.errors }),
       { status: backendResponseData.status },
     );
   }

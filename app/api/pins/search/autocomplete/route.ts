@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   API_ENDPOINT_SEARCH_AUTOCOMPLETE,
   ERROR_CODE_FETCH_BACKEND_FAILED,
@@ -13,8 +13,8 @@ export async function GET(request: NextRequest) {
   const accessToken = cookieStore.get("accessToken")?.value;
 
   if (!accessToken) {
-    return Response.json(
-      { errors: [ERROR_CODE_MISSING_ACCESS_TOKEN] },
+    return new NextResponse(
+      JSON.stringify({ errors: [ERROR_CODE_MISSING_ACCESS_TOKEN] }),
       { status: 401 },
     );
   }
@@ -31,8 +31,8 @@ export async function GET(request: NextRequest) {
       accessToken,
     });
   } catch (error) {
-    return Response.json(
-      { errors: [ERROR_CODE_FETCH_BACKEND_FAILED] },
+    return new NextResponse(
+      JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
     );
   }
