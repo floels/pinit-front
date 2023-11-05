@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import { getTranslationsObject } from "@/lib/utils/i18n";
 import AccessTokenRefresherClient from "./AccessTokenRefresherClient";
-import SignupForm from "../SignupForm/SignupForm";
 
 const AccessTokenRefresherServer = () => {
   const landingPageTranslator = useTranslations("LandingPage");

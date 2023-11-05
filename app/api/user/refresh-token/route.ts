@@ -14,8 +14,8 @@ export async function POST() {
   const refreshToken = cookieStore.get("refreshToken")?.value;
 
   if (!refreshToken) {
-    return Response.json(
-      { errors: [ERROR_CODE_MISSING_REFRESH_TOKEN] },
+    return new NextResponse(
+      JSON.stringify({ errors: [ERROR_CODE_MISSING_REFRESH_TOKEN] }),
       { status: 400 },
     );
   }
@@ -36,8 +36,8 @@ export async function POST() {
       },
     );
   } catch (error) {
-    return Response.json(
-      { errors: [ERROR_CODE_FETCH_BACKEND_FAILED] },
+    return new NextResponse(
+      JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
     );
   }
@@ -45,9 +45,9 @@ export async function POST() {
   const backendResponseData = await backendResponse.json();
 
   if (!backendResponse.ok) {
-    return Response.json(
-      { errors: backendResponseData.errors },
-      { status: backendResponseData.status },
+    return new NextResponse(
+      JSON.stringify({ errors: backendResponseData.errors }),
+      { status: backendResponse.status },
     );
   }
 

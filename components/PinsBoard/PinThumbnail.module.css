@@ -10,7 +10,8 @@
 }
 
 .title {
-  padding: 8px 6px 16px;
+  display: block;
+  padding: 6px 0;
   font-size: var(--font-size-200);
   font-weight: var(--font-weight-semibold);
   cursor: zoom-in;
