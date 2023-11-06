@@ -21,6 +21,14 @@ const addAccessTokenTookie = (context: BrowserContext) => {
   ]);
 };
 
+test("should display landing page if user is not logged in", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await page.waitForSelector('[data-testid="header-log-in-button"]');
+});
+
 test("should display pin suggestions if user is logged in", async ({
   page,
   context,
@@ -97,5 +105,7 @@ test("should display error message when server is unreachable", async ({
 
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.HomePage.Content.ERROR_DISPLAY_PINS}`);
+  await page.waitForSelector(
+    `text=${en.HomePage.Content.PinsBoard.ERROR_DISPLAY_PINS}`,
+  );
 });

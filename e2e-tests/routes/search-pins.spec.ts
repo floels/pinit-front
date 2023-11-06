@@ -34,7 +34,7 @@ test("should display search results if user is logged in", async ({
 }) => {
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 
-  await context.addCookies([
+  context.addCookies([
     {
       name: "accessToken",
       value: "dummy_access_token",
@@ -60,7 +60,7 @@ test("should redirect to homepage if search is empty and user is logged in", asy
 }) => {
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 
-  await context.addCookies([
+  context.addCookies([
     {
       name: "accessToken",
       value: "dummy_access_token",
