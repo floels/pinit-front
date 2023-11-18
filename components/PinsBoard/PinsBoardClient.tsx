@@ -68,7 +68,9 @@ const PinsBoardClient = ({
   const updateStateWithNewPinsResponse = async (newPinsResponse: Response) => {
     const newPinsResponseData = await newPinsResponse.json();
 
-    const newPins = getPinsWithCamelizedKeys(newPinsResponseData);
+    const newPinsFetched = newPinsResponseData.results;
+
+    const newPins = getPinsWithCamelizedKeys(newPinsFetched);
 
     setPins((existingPins) => [...existingPins, ...newPins]);
 

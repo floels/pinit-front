@@ -11,6 +11,7 @@ export const API_ENDPOINT_GET_PIN_SUGGESTIONS = "pin-suggestions";
 export const API_ENDPOINT_SEARCH_AUTOCOMPLETE = "search/autocomplete";
 export const API_ENDPOINT_SEARCH_PINS = "search";
 export const API_ENDPOINT_PIN_DETAILS = "pins";
+export const API_ENDPOINT_ACCOUNT_DETAILS = "accounts";
 
 // API error codes
 export const ERROR_CODE_UNAUTHORIZED = "unauthorized";

@@ -10,10 +10,8 @@ export const getPinWithCamelizedKeys = (pin: any) => {
   };
 };
 
-export const getPinsWithCamelizedKeys = (fetchPinsResponseData: {
-  results: any[];
-}) => {
-  return fetchPinsResponseData.results.map(getPinWithCamelizedKeys);
+export const getPinsWithCamelizedKeys = (pins: any[]) => {
+  return pins.map(getPinWithCamelizedKeys);
 };
 
 export const appendQueryParam = (url: string, key: string, value: string) => {
