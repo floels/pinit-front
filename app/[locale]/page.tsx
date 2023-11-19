@@ -54,7 +54,9 @@ export const getPinsFetcherAndRenderer = ({
     try {
       const fetchResponseData = await fetchResponse.json();
 
-      const initialPins = getPinsWithCamelizedKeys(fetchResponseData);
+      const fetchedPins = fetchResponseData.results;
+
+      const initialPins = getPinsWithCamelizedKeys(fetchedPins);
 
       return (
         <PinsBoardServer
