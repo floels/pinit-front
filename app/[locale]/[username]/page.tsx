@@ -1,4 +1,5 @@
 import { API_BASE_URL, API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
+import AccountDetailsView from "@/components/AccountDetailsView/AccountDetailsView";
 
 type PageProps = {
   params: { username: string };
@@ -21,7 +22,7 @@ const Page = async ({ params }: PageProps) => {
     description: responseData.description,
   };
 
-  return <div>{JSON.stringify(accountDetails)}</div>;
+  return <AccountDetailsView {...accountDetails} />;
 };
 
 export default Page;

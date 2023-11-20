@@ -112,5 +112,9 @@
   "PinDetails": {
     "ALT_PIN_BY": "Pin by",
     "ALT_PROFILE_PICTURE_OF": "Profile picture of"
+  },
+  "AccountDetails": {
+    "ALT_BACKGROUND_PICTURE_OF": "Background picture of",
+    "ALT_PROFILE_PICTURE_OF": "Profile picture of"
   }
 }
