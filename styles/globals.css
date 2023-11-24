@@ -23,7 +23,7 @@
 
   --color-text-default: var(--color-gray-500);
   --color-text-inverse: var(--color-white);
-  --color-text-icon-subtle: #5f5f5f;
+  --color-text-subtle: #5f5f5f;
   --color-text-error: #c00;
 
   --font-size-100: 12px;
@@ -31,6 +31,7 @@
   --font-size-300: 16px;
   --font-size-400: 20px;
   --font-size-500: 28px;
+  --font-size-600: 36px;
 
   --font-weight-normal: 400;
   --font-weight-semibold: 600;

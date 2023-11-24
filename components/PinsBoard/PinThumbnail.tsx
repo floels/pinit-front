@@ -14,7 +14,9 @@ const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
 
 const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
   const shouldDisplayAuthorDetails =
-    !!pin.authorProfilePictureURL && !!pin.authorDisplayName;
+    !!pin.authorProfilePictureURL &&
+    !!pin.authorDisplayName &&
+    !!pin.authorUsername;
 
   return (
     <div className={styles.container} data-testid="pin-thumbnail">
@@ -36,7 +38,11 @@ const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
         </Link>
       )}
       {shouldDisplayAuthorDetails && (
-        <div className={styles.authorDetails} data-testid="pin-author-details">
+        <Link
+          className={styles.authorDetails}
+          data-testid="pin-author-details"
+          href={`/${pin.authorUsername}`}
+        >
           <Image
             className={styles.authorProfilePicture}
             width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
@@ -45,7 +51,7 @@ const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
             alt={`${labels.ALT_PROFILE_PICTURE_OF} ${pin.authorDisplayName}`}
           />
           <span className={styles.authorName}>{pin.authorDisplayName}</span>
-        </div>
+        </Link>
       )}
     </div>
   );
