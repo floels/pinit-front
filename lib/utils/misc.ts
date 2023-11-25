@@ -4,7 +4,7 @@ export const getPinWithCamelizedKeys = (pin: any) => {
     imageURL: pin.image_url,
     title: pin.title,
     description: pin.description,
-    authorUsername: pin.author.user_name,
+    authorUsername: pin.author.username,
     authorDisplayName: pin.author.display_name,
     authorProfilePictureURL: pin.author.profile_picture_url,
   };
