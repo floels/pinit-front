@@ -58,3 +58,8 @@
   color: var(--color-text-subtle);
   fill: currentColor;
 }
+
+.description {
+  margin-top: 16px;
+  font-size: var(--font-size-300);
+}

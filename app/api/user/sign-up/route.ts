@@ -34,7 +34,7 @@ export async function POST(request: Request) {
   if (!backendResponse.ok) {
     return new NextResponse(
       JSON.stringify({ errors: backendResponseData.errors }),
-      { status: backendResponseData.status },
+      { status: backendResponse.status },
     );
   }
 

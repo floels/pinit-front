@@ -16,16 +16,14 @@ export const isValidBirthdate = (input: string) => {
   const dateObject = new Date(input);
   const dateNow = new Date();
 
-  const year = dateObject.getFullYear();
-  const month = dateObject.getMonth() + 1;
-  const day = dateObject.getDate();
+  // Check if the date string is not the same date as parsed date (to catch cases like 2020-02-31)
+  if (dateObject.toISOString().substring(0, 10) !== input) {
+    return false;
+  }
 
-  const inputYear = parseInt(input.slice(0, 4));
-  const inputMonth = parseInt(input.slice(5, 7));
-  const inputDay = parseInt(input.slice(8, 10));
+  if (dateObject > dateNow) {
+    return false;
+  }
 
-  const dateObjectMatchesInputs =
-    year === inputYear && month === inputMonth && day === inputDay;
-
-  return dateObjectMatchesInputs && year > 1880 && dateObject < dateNow;
+  return true;
 };

@@ -67,7 +67,7 @@ it("should display relevant input errors, send request only when inputs are vali
   ).toBeNull();
   screen.getByText(en.LandingPage.SignupForm.INVALID_BIRTHDATE_INPUT);
 
-  // Fix birthdate ipnut:
+  // Fix birthdate input:
   await userEvent.type(birthdateInput, "1970-01-01");
   expect(
     screen.queryByText(en.LandingPage.SignupForm.INVALID_BIRTHDATE_INPUT),

@@ -7,8 +7,8 @@ type AccountDetailsViewProps = {
   username: string;
   displayName: string;
   profilePictureURL: string;
-  backgroundPictureURL: string;
-  description?: string;
+  backgroundPictureURL: string | null;
+  description: string | null;
 };
 
 const BACKGROUND_PICTURE_WIDTH_PX = 656;
@@ -85,7 +85,7 @@ const AccountDetailsView = ({
             <span>{username}</span>
           </div>
         </div>
-        <div>{description}</div>
+        <div className={styles.description}>{description}</div>
       </div>
     </div>
   );

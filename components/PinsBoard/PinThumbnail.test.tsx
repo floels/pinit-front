@@ -28,10 +28,8 @@ it("should render image, title and author details when author details are provid
   const authorProfilePicture = screen.getByAltText(
     "Profile picture of John Doe",
   ) as HTMLImageElement;
-  expect(
-    authorProfilePicture.src.startsWith(
-      "/_next/image?url=https%3A%2F%2Fprofile.picture.url",
-    ),
+  expect(authorProfilePicture.src).toMatch(
+    /_next\/image\?url=https%3A%2F%2Fprofile\.picture\.url/,
   ); // Since the `src` attribute is transformed by the use of <Image /> from 'next/image'
 
   screen.getByText(pin.authorDisplayName);
