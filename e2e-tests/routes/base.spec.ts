@@ -89,7 +89,7 @@ test("should redirect to landing page when access token and refresh token are ex
 
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
+  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 
   mockAPIServer.close();
 });
@@ -105,7 +105,5 @@ test("should display error message when server is unreachable", async ({
 
   await page.goto("/");
 
-  await page.waitForSelector(
-    `text=${en.HomePage.Content.PinsBoard.ERROR_DISPLAY_PINS}`,
-  );
+  await page.waitForSelector(`text=${en.PinsBoard.ERROR_DISPLAY_PINS}`);
 });
