@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 import { cookies } from "next/headers";
-import HeaderAuthenticated from "@/components/HeaderAuthenticated/HeaderAuthenticated";
+import HeaderAuthenticated from "@/components/Header/HeaderAuthenticated";
 
 import "@/styles/globals.css";
 

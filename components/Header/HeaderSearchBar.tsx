@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
-import styles from "./HeaderSearchBar.module.css";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import styles from "./HeaderSearchBar.module.css";
 
 const DEBOUNCE_DURATION_MS = 300;
 

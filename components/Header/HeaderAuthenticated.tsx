@@ -5,12 +5,12 @@ import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBar from "./HeaderSearchBar";
 import styles from "./HeaderAuthenticated.module.css";
-import { useTranslations } from "next-intl";
 
 export enum TypesOfAccount {
   PERSONAL = "personal",

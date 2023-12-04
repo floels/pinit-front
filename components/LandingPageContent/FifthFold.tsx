@@ -1,11 +1,11 @@
 import { useState, useEffect, RefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { useTranslations } from "next-intl";
 import styles from "./FifthFold.module.css";
 import SignupForm from "../SignupForm/SignupForm";
 import LoginForm from "../LoginForm/LoginForm";
 import FifthFoldPicturesBackground from "./FifthFoldPicturesBackground";
-import { useTranslations } from "next-intl";
 
 type FifthFoldProps = {
   heroRef: RefObject<HTMLDivElement>;

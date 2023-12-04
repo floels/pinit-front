@@ -1,6 +1,9 @@
 import { useRef, useState, useEffect, MouseEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   ERROR_CODE_EMAIL_ALREADY_SIGNED_UP,
   ERROR_CODE_INVALID_BIRTHDATE,
@@ -9,14 +12,11 @@ import {
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./SignupForm.module.css";
-import Image from "next/image";
 import {
   isValidBirthdate,
   isValidEmail,
   isValidPassword,
 } from "../../lib/utils/validation";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 
 export type SignupFormProps = {
   onClickAlreadyHaveAccount: () => void;

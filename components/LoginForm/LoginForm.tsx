@@ -1,6 +1,9 @@
 import { useRef, useState, useEffect, MouseEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
@@ -8,10 +11,7 @@ import {
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
-import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 
 export type LoginFormProps = {
   onClickNoAccountYet: () => void;

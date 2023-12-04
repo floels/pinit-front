@@ -1,14 +1,14 @@
 import { useRef, useState, useEffect } from "react";
-import styles from "./PinsBoardDisplay.module.css";
-import PinThumbnail from "./PinThumbnail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTriangleExclamation,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
+import { useTranslations } from "next-intl";
+import styles from "./PinsBoardDisplay.module.css";
+import PinThumbnail from "./PinThumbnail";
 import { useViewportWidth } from "@/lib/utils/custom-hooks";
 import { PinType } from "@/lib/types";
-import { useTranslations } from "next-intl";
 
 type PinsBoardDisplayProps = {
   pins: PinType[];

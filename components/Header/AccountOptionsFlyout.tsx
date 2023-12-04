@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./AccountOptionsFlyout.module.css";
 import { useTranslations } from "next-intl";
+import styles from "./AccountOptionsFlyout.module.css";
 
 type AccountOptionsFlyoutProps = {
   handleClickLogOut: () => void;

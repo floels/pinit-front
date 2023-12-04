@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import LandingPage from "./LandingPage";
+import LandingPageContent from "./LandingPageContent";
 import en from "@/messages/en.json";
 
 const messages = en.LandingPageContent;
@@ -36,13 +36,13 @@ const checkAndCloseSignUpModal = () => {
 };
 
 it("should render without any modal open", () => {
-  render(<LandingPage />);
+  render(<LandingPageContent />);
 
   expect(screen.queryByTestId("overlay-modal")).toBeNull();
 });
 
 it("should open login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {
-  render(<LandingPage />);
+  render(<LandingPageContent />);
 
   const loginButton = screen.getByTestId("header-log-in-button");
 
@@ -68,7 +68,7 @@ it("should open login modal when user clicks on Login button, and switch to sign
 });
 
 it("should open signup modal when user clicks on Signup button, and switch to login modal when user clicks on 'Log in'", async () => {
-  render(<LandingPage />);
+  render(<LandingPageContent />);
 
   const signupButton = screen.getByTestId("header-sign-up-button");
 
@@ -98,7 +98,7 @@ it("should open signup modal when user clicks on Signup button, and switch to lo
 });
 
 it("should open signup modal when clicking on 'Explore' buttons", async () => {
-  render(<LandingPage />);
+  render(<LandingPageContent />);
 
   const secondFold = screen.getByTestId("landing-page-second-fold");
 

@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import styles from "./HeaderUnauthenticatedClient.module.css";
 import { useTranslations } from "next-intl";
+import styles from "./HeaderUnauthenticated.module.css";
 
-type HeaderUnauthenticatedClientProps = {
+type HeaderUnauthenticatedProps = {
   handleClickLogInButton: () => void;
   handleClickSignUpButton: () => void;
 };
 
-const HeaderUnauthenticatedClient = ({
+const HeaderUnauthenticated = ({
   handleClickLogInButton,
   handleClickSignUpButton,
-}: HeaderUnauthenticatedClientProps) => {
+}: HeaderUnauthenticatedProps) => {
   const t = useTranslations("HeaderUnauthenticated");
 
   return (
@@ -39,4 +39,4 @@ const HeaderUnauthenticatedClient = ({
   );
 };
 
-export default HeaderUnauthenticatedClient;
+export default HeaderUnauthenticated;

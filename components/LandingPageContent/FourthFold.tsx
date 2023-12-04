@@ -1,7 +1,7 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import styles from "./FourthFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
-import { useTranslations } from "next-intl";
 
 type FourthFoldProps = {
   handleClickExploreButton: () => void;

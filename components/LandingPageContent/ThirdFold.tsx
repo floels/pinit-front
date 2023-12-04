@@ -1,7 +1,7 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import TextAndExploreButton from "./TextAndExploreButton";
 import styles from "./ThirdFold.module.css";
-import { useTranslations } from "next-intl";
 
 type ThirdFoldProps = {
   handleClickExploreButton: () => void;
