@@ -9,7 +9,8 @@ import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBar from "./HeaderSearchBar";
-import styles from "./HeaderAuthenticatedClient.module.css";
+import styles from "./HeaderAuthenticated.module.css";
+import { useTranslations } from "next-intl";
 
 export enum TypesOfAccount {
   PERSONAL = "personal",
@@ -24,13 +25,7 @@ export type AccountType = {
   ownerEmail: string;
 };
 
-type HeaderAuthenticatedClientProps = {
-  labels: { [key: string]: any };
-};
-
-const HeaderAuthenticatedClient = ({
-  labels,
-}: HeaderAuthenticatedClientProps) => {
+const HeaderAuthenticatedClient = () => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -46,6 +41,9 @@ const HeaderAuthenticatedClient = ({
     useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
+
+  const translatorCommon = useTranslations("Common");
+  const translatorComponent = useTranslations("HeaderAuthenticated");
 
   const handleClickCreateButton = () => {
     setIsCreateFlyoutOpen(!isCreateFlyoutOpen);
@@ -126,7 +124,7 @@ const HeaderAuthenticatedClient = ({
       router.push("/");
       router.refresh();
     } catch (error) {
-      toast.warn(labels.commons.CONNECTION_ERROR);
+      toast.warn(translatorCommon("CONNECTION_ERROR"));
     }
   };
 
@@ -157,7 +155,7 @@ const HeaderAuthenticatedClient = ({
             pathname === "/" ? styles.active : ""
           }`}
         >
-          {labels.NAV_ITEM_HOME}
+          {translatorComponent("NAV_ITEM_HOME")}
         </Link>
         <div
           className={`
@@ -168,7 +166,7 @@ const HeaderAuthenticatedClient = ({
           ref={createButtonRef}
           onClick={handleClickCreateButton}
         >
-          {labels.CREATE}
+          {translatorComponent("CREATE")}
           <FontAwesomeIcon
             icon={faAngleDown}
             className={styles.createButtonIcon}
@@ -177,17 +175,14 @@ const HeaderAuthenticatedClient = ({
         {isCreateFlyoutOpen && (
           <div className={styles.createFlyout} ref={createFlyoutRef}>
             <Link href="/pin-builder" className={styles.createFlyoutItem}>
-              {labels.CREATE_PIN}
+              {translatorComponent("CREATE_PIN")}
             </Link>
           </div>
         )}
         {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
         This way, the component will be re-rendered on each route transition, and its value
         will be cleared. */}
-        <HeaderSearchBar
-          labels={labels.SearchBar}
-          key={`header-search-bar-pathname-${pathname}`}
-        />
+        <HeaderSearchBar key={`header-search-bar-pathname-${pathname}`} />
         <Link
           href="/florianellis/"
           className={styles.profileLink}
@@ -199,7 +194,7 @@ const HeaderAuthenticatedClient = ({
         </Link>
         {isProfileLinkHovered && (
           <div className={`${styles.tooltip} ${styles.profileLinkTooltip}`}>
-            {labels.YOUR_PROFILE}
+            {translatorComponent("YOUR_PROFILE")}
           </div>
         )}
         <button
@@ -215,7 +210,7 @@ const HeaderAuthenticatedClient = ({
           <div
             className={`${styles.tooltip} ${styles.accountOptionsButtonTooltip}`}
           >
-            {labels.ACCOUNT_OPTIONS}
+            {translatorComponent("ACCOUNT_OPTIONS")}
           </div>
         )}
       </div>
@@ -223,7 +218,6 @@ const HeaderAuthenticatedClient = ({
         <AccountOptionsFlyout
           ref={accountOptionsFlyoutRef}
           handleClickLogOut={handleClickLogOut}
-          labels={labels.AccountOptionsFlyout}
         />
       )}
     </nav>

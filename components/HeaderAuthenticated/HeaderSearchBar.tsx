@@ -4,10 +4,7 @@ import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HeaderSearchBar.module.css";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-
-type HeaderSearchBarPros = {
-  labels: { [key: string]: string };
-};
+import { useTranslations } from "next-intl";
 
 const DEBOUNCE_DURATION_MS = 300;
 
@@ -32,10 +29,12 @@ const getRefinedSuggestions = (
   return [searchTerm, ...remainingSuggestions];
 };
 
-const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
+const HeaderSearchBar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const t = useTranslations("HeaderAuthenticated");
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -175,7 +174,7 @@ const HeaderSearchBar = ({ labels }: HeaderSearchBarPros) => {
         autoComplete="off"
         autoCorrect="off"
         className={styles.searchInput}
-        placeholder={labels.PLACEHOLDER_SEARCH}
+        placeholder={t("PLACEHOLDER_SEARCH")}
         onChange={handleInputChange}
         onFocus={handleFocusInput}
         onBlur={handleBlurInput}

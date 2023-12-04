@@ -1,10 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
-import en from "@/messages/en.json";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HeaderSearchBar from "./HeaderSearchBar";
-
-const labels = en.HomePage.Header.SearchBar;
 
 const mockRouterPush = jest.fn();
 
@@ -29,7 +26,7 @@ jest.mock("next/link", () => {
 });
 
 it("should reset input value and blur input upon pressing Escape", async () => {
-  render(<HeaderSearchBar labels={labels} />);
+  render(<HeaderSearchBar />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -48,7 +45,7 @@ it("should reset input value and blur input upon pressing Escape", async () => {
 });
 
 it("should reset input value, blur input and hide Clear icon upon pressing the Clear icon", async () => {
-  render(<HeaderSearchBar labels={labels} />);
+  render(<HeaderSearchBar />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -71,7 +68,7 @@ it("should reset input value, blur input and hide Clear icon upon pressing the C
 });
 
 it("should hide icon when focusing the input", async () => {
-  render(<HeaderSearchBar labels={labels} />);
+  render(<HeaderSearchBar />);
 
   screen.getByTestId("search-icon");
 
@@ -97,7 +94,7 @@ it("should display autocomplete suggestions and navigate to search route when us
     JSON.stringify({ results: dummySuggestions }),
   );
 
-  render(<HeaderSearchBar labels={labels} />);
+  render(<HeaderSearchBar />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -135,7 +132,7 @@ it("should display autocomplete suggestions and navigate to search route when us
 });
 
 it("should navigate to /search/pins route when user types and presses Enter", async () => {
-  render(<HeaderSearchBar labels={labels} />);
+  render(<HeaderSearchBar />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 

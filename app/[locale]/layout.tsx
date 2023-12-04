@@ -4,15 +4,17 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
 // https://next-intl-docs.vercel.app/docs/next-13/server-components#applocalelayouttsx
-import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
+
+// https://next-intl-docs.vercel.app/docs/environments/server-client-components#option-4-providing-all-messages
+import { NextIntlClientProvider, useMessages } from "next-intl";
 
 // https://fkhadra.github.io/react-toastify/installation#the-gist
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 import { cookies } from "next/headers";
-import HeaderAuthenticatedServer from "@/components/HeaderAuthenticated/HeaderAuthenticatedServer";
+import HeaderAuthenticated from "@/components/HeaderAuthenticated/HeaderAuthenticated";
 
 import "@/styles/globals.css";
 
@@ -29,13 +31,16 @@ export const metadata = {
   },
 };
 
-const Layout = ({ children, params }: Props) => {
-  const locale = useLocale();
+const locales = ["en"];
 
-  // Show a 404 error if the user requests an unknown locale
-  if (params.locale !== locale) {
+const Layout = ({ children, params: { locale } }: Props) => {
+  // Validate that the incoming `locale` parameter is valid
+  if (!locales.includes(locale as any)) {
     notFound();
   }
+
+  // Receive messages provided in `i18n.ts`
+  const messages = useMessages();
 
   const accessTokenCookie = cookies().get("accessToken");
 
@@ -44,10 +49,12 @@ const Layout = ({ children, params }: Props) => {
   return (
     <html lang={locale}>
       <body>
-        <ToastContainer position="bottom-left" autoClose={5000} />
-        {/*  If user is not authenticated, the header will be rendered with <LandingPageClient /> */}
-        {isAuthenticated && <HeaderAuthenticatedServer />}
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ToastContainer position="bottom-left" autoClose={5000} />
+          {/*  If user is not authenticated, the header will be rendered with <LandingPageClient /> */}
+          {isAuthenticated && <HeaderAuthenticated />}
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
