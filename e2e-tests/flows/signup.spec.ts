@@ -37,7 +37,7 @@ test("user should be able to sign up", async ({ page }) => {
   );
 
   await page.click(
-    `div[data-testid='overlay-modal'] >> text=${en.LandingPage.SignupForm.CONTINUE}`,
+    `div[data-testid='overlay-modal'] >> text=${en.LandingPageContent.SignupForm.CONTINUE}`,
   );
 
   // We should land on authenticated homepage

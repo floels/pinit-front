@@ -83,5 +83,5 @@ test("should redirect to landing page if user is not logged in", async ({
 }) => {
   await page.goto("/search/pins?q=mysearch");
 
-  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
+  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 });

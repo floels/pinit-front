@@ -1,11 +1,6 @@
 import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).toHaveAttribute(...)`
 import { render, screen } from "@testing-library/react";
-import en from "@/messages/en.json";
 import PinDetailsView from "./PinDetailsView";
-
-jest.mock("next-intl", () => ({
-  useTranslations: () => (key: string) => (en.PinDetails as any)[key],
-}));
 
 it("should render image, title, description and author details when all are provided", async () => {
   const pin = {

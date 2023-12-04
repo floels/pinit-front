@@ -39,7 +39,7 @@ test("user should be able to log in and then log out", async ({ page }) => {
   );
 
   await page.click(
-    `div[data-testid="overlay-modal"] >> text=${en.LandingPage.LoginForm.LOG_IN}`,
+    `div[data-testid="overlay-modal"] >> text=${en.LandingPageContent.LoginForm.LOG_IN}`,
   );
 
   // We should land on authenticated homepage
@@ -47,15 +47,15 @@ test("user should be able to log in and then log out", async ({ page }) => {
 
   // Log out
   await page.click('[data-testid="account-options-button"]');
-  await page.click(`text=${en.HomePage.Header.AccountOptionsFlyout.LOG_OUT}`);
+  await page.click(`text=${en.HeaderAuthenticated.LOG_OUT}`);
 
   // We should land back on landing page
-  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
+  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 
   // If we visit the base route again, we should still land on the landing page
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.LandingPage.Header.LOG_IN}`);
+  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 
   mockAPIServer.close();
 });

@@ -9,10 +9,6 @@ const accountDetailsWithoutBackgroundPictureURL = {
   profilePictureURL: "https://profile.picture.url",
 };
 
-jest.mock("next-intl", () => ({
-  useTranslations: () => (key: string) => (en.AccountDetails as any)[key],
-}));
-
 it("should render relevant details when provided", async () => {
   render(
     <AccountDetailsView

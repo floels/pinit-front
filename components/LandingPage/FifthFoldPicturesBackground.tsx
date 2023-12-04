@@ -37,7 +37,7 @@ const FifthFoldPicturesBackground = () => {
         src={PICTURE_URLS[pictureIndex]}
         width={236}
         height={350}
-        alt={t("FifthFold.PICTURE_FOOLD_ALT")}
+        alt={t("FifthFold.PICTURE_FOOD_ALT")}
         className={styles.backgroundPicture}
       />
     );
