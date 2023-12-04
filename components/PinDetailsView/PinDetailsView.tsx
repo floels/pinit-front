@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { PinType } from "@/lib/types";
 import { useTranslations } from "next-intl";
-import { getTranslationsObject } from "@/lib/utils/i18n";
 import styles from "./PinDetailsView.module.css";
 
 type PinDetailsViewProps = {
@@ -16,8 +15,7 @@ type PinDetailsViewProps = {
 const AUTHOR_PROFILE_PICTURE_SIZE_PX = 48;
 
 const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
-  const translator = useTranslations("PinDetails");
-  const translations = getTranslationsObject("PinDetails", translator);
+  const t = useTranslations("PinDetails");
 
   const shouldDisplayAuthorDetails =
     !!pin.authorDisplayName && !!pin.authorProfilePictureURL;
@@ -35,7 +33,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
           alt={
             pin.title
               ? pin.title
-              : `${translations.ALT_PIN_BY} ${pin.authorDisplayName}`
+              : `${t("ALT_PIN_BY")} ${pin.authorDisplayName}`
           }
           className={styles.image}
         />
@@ -54,7 +52,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
                 width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
                 height={AUTHOR_PROFILE_PICTURE_SIZE_PX}
                 src={pin.authorProfilePictureURL as string}
-                alt={`${translations.ALT_PROFILE_PICTURE_OF} ${pin.authorDisplayName}`}
+                alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.authorDisplayName}`}
               />
               <span className={styles.authorName}>{pin.authorDisplayName}</span>
             </div>
