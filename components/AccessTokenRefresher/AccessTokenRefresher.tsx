@@ -3,15 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
-import LandingPageClient, {
-  LandingPageClientProps,
-} from "../LandingPage/LandingPageClient";
+import LandingPage from "../LandingPage/LandingPage";
 
-type AccessTokenRefresherClientProps = LandingPageClientProps;
-
-const AccessTokenRefresherClient = ({
-  labels,
-}: AccessTokenRefresherClientProps) => {
+const AccessTokenRefresher = () => {
   const [fetchFailed, setFetchFailed] = useState(false);
 
   const router = useRouter();
@@ -56,15 +50,10 @@ const AccessTokenRefresherClient = ({
   }, [refreshTokenAndRefreshRoute]);
 
   if (fetchFailed) {
-    return (
-      <LandingPageClient
-        errorCode={ERROR_CODE_CLIENT_FETCH_FAILED}
-        labels={labels}
-      />
-    );
+    return <LandingPage errorCode={ERROR_CODE_CLIENT_FETCH_FAILED} />;
   }
 
   return null;
 };
 
-export default AccessTokenRefresherClient;
+export default AccessTokenRefresher;

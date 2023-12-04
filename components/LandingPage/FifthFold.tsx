@@ -5,17 +5,16 @@ import styles from "./FifthFold.module.css";
 import SignupForm from "../SignupForm/SignupForm";
 import LoginForm from "../LoginForm/LoginForm";
 import FifthFoldPicturesBackground from "./FifthFoldPicturesBackground";
+import { useTranslations } from "next-intl";
 
 type FifthFoldProps = {
   heroRef: RefObject<HTMLDivElement>;
   onClickBackToTop: () => void;
-  labels: {
-    component: { [key: string]: any };
-    commons: { [key: string]: string };
-  };
 };
 
-const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
+const FifthFold = ({ heroRef, onClickBackToTop }: FifthFoldProps) => {
+  const t = useTranslations("LandingPageContent");
+
   const [showLoginInsteadOfSignup, setShowLoginInsteadOfSignup] =
     useState(false);
 
@@ -39,32 +38,20 @@ const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        <FifthFoldPicturesBackground
-          labels={labels.component.PicturesBackground}
-        />
+        <FifthFoldPicturesBackground />
         <div className={styles.overlay}>
           <div className={styles.textArea}>
-            <h1 className={styles.header}>{labels.component.SIGNUP_HEADER}</h1>
+            <h1 className={styles.header}>{t("FifthFold.SIGNUP_HEADER")}</h1>
           </div>
           <div className={styles.formArea}>
             <div className={styles.formContainer}>
               {!showLoginInsteadOfSignup && (
                 <SignupForm
                   onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
-                  labels={{
-                    commons: labels.commons,
-                    component: labels.component.SignupForm,
-                  }}
                 />
               )}
               {showLoginInsteadOfSignup && (
-                <LoginForm
-                  onClickNoAccountYet={handleClickNoAccountYet}
-                  labels={{
-                    commons: labels.commons,
-                    component: labels.component.LoginForm,
-                  }}
-                />
+                <LoginForm onClickNoAccountYet={handleClickNoAccountYet} />
               )}
             </div>
           </div>
@@ -83,13 +70,13 @@ const FifthFold = ({ heroRef, onClickBackToTop, labels }: FifthFoldProps) => {
       </div>
       <footer className={styles.footer}>
         <a href="#" className={styles.footerLink}>
-          {labels.component.TERMS_OF_SERVICE}
+          {t("FifthFold.TERMS_OF_SERVICE")}
         </a>
         <a href="#" className={styles.footerLink}>
-          {labels.component.PRIVACY_POLICY}
+          {t("FifthFold.PRIVACY_POLICY")}
         </a>
         <a href="#" className={styles.footerLink}>
-          {labels.component.HELP}
+          {t("FifthFold.HELP")}
         </a>
       </footer>
     </div>

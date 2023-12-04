@@ -1,9 +1,6 @@
 import Image from "next/image";
 import styles from "./FifthFoldPicturesBackground.module.css";
-
-type FifthFoldPicturesBackgroundProps = {
-  labels: { [key: string]: string };
-};
+import { useTranslations } from "next-intl";
 
 const PICTURE_URLS = [
   "https://i.pinimg.com/236x/e3/41/4b/e3414b2fcf00375a199ba6964be551af.jpg",
@@ -31,65 +28,59 @@ const PICTURE_URLS = [
   "https://i.pinimg.com/236x/18/dc/f7/18dcf759aa96740f8d335dc6231a9cf9.jpg",
 ];
 
-const BackgroundPicture = ({
-  pictureIndex,
-  alt,
-}: {
-  pictureIndex: number;
-  alt: string;
-}) => {
-  return (
-    <Image
-      src={PICTURE_URLS[pictureIndex]}
-      width={236}
-      height={350}
-      alt={alt}
-      className={styles.backgroundPicture}
-    />
-  );
-};
+const FifthFoldPicturesBackground = () => {
+  const t = useTranslations("LandingPageContent");
 
-const FifthFoldPicturesBackground = ({
-  labels,
-}: FifthFoldPicturesBackgroundProps) => {
+  const BackgroundPicture = ({ pictureIndex }: { pictureIndex: number }) => {
+    return (
+      <Image
+        src={PICTURE_URLS[pictureIndex]}
+        width={236}
+        height={350}
+        alt={t("FifthFold.PICTURE_FOOLD_ALT")}
+        className={styles.backgroundPicture}
+      />
+    );
+  };
+
   return (
     <div className={styles.picturesBackground}>
       <div>
-        <BackgroundPicture pictureIndex={0} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={1} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={2} alt={labels.PICTURE_FOOD_ALT} />
+        <BackgroundPicture pictureIndex={0} />
+        <BackgroundPicture pictureIndex={1} />
+        <BackgroundPicture pictureIndex={2} />
       </div>
       <div className={styles.picturesBackgroundSecondColumn}>
-        <BackgroundPicture pictureIndex={3} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={4} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={5} alt={labels.PICTURE_FOOD_ALT} />
+        <BackgroundPicture pictureIndex={3} />
+        <BackgroundPicture pictureIndex={4} />
+        <BackgroundPicture pictureIndex={5} />
       </div>
       <div className={styles.picturesBackgroundThirdColumn}>
-        <BackgroundPicture pictureIndex={6} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={7} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={8} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={9} alt={labels.PICTURE_FOOD_ALT} />
+        <BackgroundPicture pictureIndex={6} />
+        <BackgroundPicture pictureIndex={7} />
+        <BackgroundPicture pictureIndex={8} />
+        <BackgroundPicture pictureIndex={9} />
       </div>
       <div className={styles.picturesBackgroundFourthColumn}>
-        <BackgroundPicture pictureIndex={10} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={11} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={12} alt={labels.PICTURE_FOOD_ALT} />
+        <BackgroundPicture pictureIndex={10} />
+        <BackgroundPicture pictureIndex={11} />
+        <BackgroundPicture pictureIndex={12} />
       </div>
       <div className={styles.picturesBackgroundFifthColumn}>
-        <BackgroundPicture pictureIndex={13} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={14} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={15} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={16} alt={labels.PICTURE_FOOD_ALT} />
+        <BackgroundPicture pictureIndex={13} />
+        <BackgroundPicture pictureIndex={14} />
+        <BackgroundPicture pictureIndex={15} />
+        <BackgroundPicture pictureIndex={16} />
       </div>
       <div className={styles.picturesBackgroundSixthColumn}>
-        <BackgroundPicture pictureIndex={17} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={18} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={19} alt={labels.PICTURE_FOOD_ALT} />
+        <BackgroundPicture pictureIndex={17} />
+        <BackgroundPicture pictureIndex={18} />
+        <BackgroundPicture pictureIndex={19} />
       </div>
       <div className={styles.picturesColumn}>
-        <BackgroundPicture pictureIndex={20} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={21} alt={labels.PICTURE_FOOD_ALT} />
-        <BackgroundPicture pictureIndex={22} alt={labels.PICTURE_FOOD_ALT} />
+        <BackgroundPicture pictureIndex={20} />
+        <BackgroundPicture pictureIndex={21} />
+        <BackgroundPicture pictureIndex={22} />
       </div>
     </div>
   );

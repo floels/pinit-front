@@ -1,5 +1,5 @@
 import { render, waitFor, screen, act } from "@testing-library/react";
-import AccessTokenRefresherClient from "./AccessTokenRefresherClient";
+import AccessTokenRefresher from "./AccessTokenRefresher";
 import en from "@/messages/en.json";
 
 const mockRouterRefresh = jest.fn();
@@ -12,11 +12,6 @@ jest.mock("next/navigation", () => ({
   usePathname: jest.fn(),
 }));
 
-const labels = {
-  commons: en.Common,
-  component: en.LandingPage,
-};
-
 afterEach(() => {
   jest.resetAllMocks();
 });
@@ -27,7 +22,7 @@ it("should refresh the current route when receiving OK response from token refre
     JSON.stringify({ access_token: "refreshedAccessToken" }),
   );
 
-  render(<AccessTokenRefresherClient labels={labels} />);
+  render(<AccessTokenRefresher />);
 
   await waitFor(() => expect(mockRouterRefresh).toHaveBeenCalledTimes(1));
 });
@@ -45,7 +40,7 @@ it("should call logout endpoint and refresh page when receiving KO response from
     { status: 401 },
   );
 
-  render(<AccessTokenRefresherClient labels={labels} />);
+  render(<AccessTokenRefresher />);
 
   await waitFor(() => {
     expect(fetch).toHaveBeenCalledWith("/api/user/log-out", {
@@ -63,8 +58,8 @@ it("should render unauthenticated homepage when fetch fails", async () => {
   // Since there is asynchronous behavior in the `useEffect` hook of <AccessTokenRefresher />, we need to wrap the `render()` in an `act()`.
   // Otherwise, the test fails.
   await act(async () => {
-    render(<AccessTokenRefresherClient labels={labels} />);
+    render(<AccessTokenRefresher />);
   });
 
-  screen.getByText(en.LandingPage.Content.PictureSlider.GET_YOUR_NEXT);
+  screen.getByText(en.LandingPageContent.PictureSlider.GET_YOUR_NEXT);
 });

@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import PictureSlider from "./PictureSlider";
-import styles from "./LandingPageClient.module.css";
-import { LandingPageServerProps } from "./LandingPageServer";
+import styles from "./LandingPage.module.css";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
@@ -14,26 +13,17 @@ import HeaderUnauthenticatedClient from "./HeaderUnauthenticatedClient";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginForm from "../LoginForm/LoginForm";
 import SignupForm from "../SignupForm/SignupForm";
+import { useTranslations } from "next-intl";
 
-export type LandingPageClientProps = LandingPageServerProps & {
-  labels: {
-    component: { [key: string]: any };
-    commons: { [key: string]: string };
-  };
+export type LandingPageProps = {
+  errorCode?: string;
 };
 
 const NUMBER_FOLDS = 5;
 const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
-const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
-  const fifthFoldLabels = {
-    commons: labels.commons,
-    component: {
-      ...labels.component.Content.FifthFold,
-      LoginForm: labels.component.LoginForm,
-      SignupForm: labels.component.SignupForm,
-    },
-  };
+const LandingPage = ({ errorCode }: LandingPageProps) => {
+  const t = useTranslations("Common");
 
   // This will be needed to scroll back to the top of the page in the `useEffect` hook of the <FithFold /> child component,
   // Otherwise, for some reason, browsers scroll down to the <FifthFold /> component and focus on the first input of the
@@ -132,15 +122,15 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
 
   useEffect(() => {
     if (errorCode === ERROR_CODE_CLIENT_FETCH_FAILED) {
-      toast.warn(labels.commons.CONNECTION_ERROR, {
+      toast.warn(t("CONNECTION_ERROR"), {
         toastId: "toast-id-connection-error",
       });
     } else if (errorCode) {
-      toast.warn(labels.commons.UNFORESEEN_ERROR, {
+      toast.warn(t("UNFORESEEN_ERROR"), {
         toastId: "toast-id-unforeseen-error",
       });
     }
-  }, [errorCode, labels]);
+  }, [errorCode, t]);
 
   return (
     <main className={styles.container}>
@@ -151,54 +141,27 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
       >
         <div className={styles.hero} ref={heroRef}>
           <HeaderUnauthenticatedClient
-            labels={labels.component.Header}
             handleClickLogInButton={openLogInModal}
             handleClickSignUpButton={openSignUpModal}
           />
           <div className={styles.pictureSlider}>
-            <PictureSlider
-              onClickSeeBelow={handleClickHeroSeeBelow}
-              labels={labels.component.Content.PictureSlider}
-            />
+            <PictureSlider onClickSeeBelow={handleClickHeroSeeBelow} />
           </div>
         </div>
-        <SecondFold
-          labels={labels.component.Content.SecondFold}
-          handleClickExploreButton={openSignUpModal}
-        />
-        <ThirdFold
-          labels={labels.component.Content.ThirdFold}
-          handleClickExploreButton={openSignUpModal}
-        />
-        <FourthFold
-          labels={labels.component.Content.FourthFold}
-          handleClickExploreButton={openSignUpModal}
-        />
-        <FifthFold
-          heroRef={heroRef}
-          onClickBackToTop={handleClickBackToTop}
-          labels={fifthFoldLabels}
-        />
+        <SecondFold handleClickExploreButton={openSignUpModal} />
+        <ThirdFold handleClickExploreButton={openSignUpModal} />
+        <FourthFold handleClickExploreButton={openSignUpModal} />
+        <FifthFold heroRef={heroRef} onClickBackToTop={handleClickBackToTop} />
       </div>
       {isLoginModalOpen && (
         <OverlayModal onClose={handleCloseLoginModal}>
-          <LoginForm
-            onClickNoAccountYet={handleClickNoAccountYet}
-            labels={{
-              component: labels.component.LoginForm,
-              commons: labels.commons,
-            }}
-          />
+          <LoginForm onClickNoAccountYet={handleClickNoAccountYet} />
         </OverlayModal>
       )}
       {isSignupModalOpen && (
         <OverlayModal onClose={handleCloseSignupModal}>
           <SignupForm
             onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
-            labels={{
-              component: labels.component.SignupForm,
-              commons: labels.commons,
-            }}
           />
         </OverlayModal>
       )}
@@ -206,4 +169,4 @@ const LandingPageClient = ({ errorCode, labels }: LandingPageClientProps) => {
   );
 };
 
-export default LandingPageClient;
+export default LandingPage;

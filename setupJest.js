@@ -7,7 +7,7 @@ enableMocks();
 // Mock `useTranslations` from next-intl
 const mockUseTranslations = (namespace) => (key) => {
   const keys = key.split(".");
-  let result = messages[namespace];
+  let result = namespace ? messages[namespace] : messages;
 
   for (const k of keys) {
     result = result[k];

@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FifthFold from "./FifthFold";
 
+const messages = en.LandingPageContent;
+
 const mockScrollIntoView = jest.fn();
 
 const heroRef = {
@@ -13,21 +15,8 @@ const heroRef = {
 
 const mockOnClickBackToTop = jest.fn();
 
-const labels = {
-  component: {
-    ...en.LandingPage.Content.FifthFold,
-    LoginForm: en.LandingPage.LoginForm,
-    SignupForm: en.LandingPage.SignupForm,
-  },
-  commons: en.Common,
-};
-
 const fifthFold = (
-  <FifthFold
-    heroRef={heroRef}
-    onClickBackToTop={mockOnClickBackToTop}
-    labels={labels}
-  />
+  <FifthFold heroRef={heroRef} onClickBackToTop={mockOnClickBackToTop} />
 );
 
 // Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter():
@@ -46,13 +35,11 @@ it("should scroll hero ref into view upon rendering", async () => {
 it("should switch to login form upon click on 'Already have an account'", async () => {
   render(fifthFold);
 
-  const alreadyHaveAccountButton = screen.getByText(
-    en.LandingPage.SignupForm.LOG_IN,
-  );
+  const alreadyHaveAccountButton = screen.getByText(messages.SignupForm.LOG_IN);
 
   await userEvent.click(alreadyHaveAccountButton);
 
-  screen.getByText(en.LandingPage.LoginForm.NO_ACCOUNT_YET);
+  screen.getByText(messages.LoginForm.NO_ACCOUNT_YET);
 });
 
 it("should call onClickBackToTop when corresponding button is clicked", async () => {

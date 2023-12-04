@@ -3,11 +3,11 @@
     "CONNECTION_ERROR": "We couldn't reach the server. Please check your Internet connection and try again.",
     "UNFORESEEN_ERROR": "An unforeseen error happened. Please try again later."
   },
-  "LandingPage": {
-    "Header": {
-      "SIGN_UP": "Sign up",
-      "LOG_IN": "Log in"
-    },
+  "HeaderUnauthenticated": {
+    "SIGN_UP": "Sign up",
+    "LOG_IN": "Log in"
+  },
+  "LandingPageContent": {
     "LoginForm": {
       "WELCOME_TO_PINIT": "Welcome to PinIt",
       "MISSING_EMAIL": "You missed a spot! Don't forget to add your email.",
@@ -39,51 +39,48 @@
       "ALREADY_HAVE_ACCOUNT": "Already a member?",
       "LOG_IN": "Log in"
     },
-    "Content": {
-      "PictureSlider": {
-        "GET_YOUR_NEXT": "Get your next",
-        "HEADER_FOOD": "weeknight dinner idea",
-        "HEADER_HOME": "home decor idea",
-        "HEADER_OUTFIT": "new look outfit",
-        "HEADER_GARDENING": "green thumb idea",
-        "HOW_IT_WORKS": "Here's how it works"
-      },
-      "SecondFold": {
-        "HEADER": "Search for an idea",
-        "PARAGRAPH": "What do you want to try next? Think of something you’re into—like “easy chicken dinner”—and see what you find.",
-        "LINK": "Explore",
-        "EASY_CHICKEN_DINNER": "easy chicken dinner",
-        "SIGN_UP_TO_GET_IDEAS": "Sign up to get your ideas"
-      },
-      "ThirdFold": {
-        "HEADER": "Save ideas you like",
-        "PARAGRAPH": "Collect your favorites so you can get back to them later.",
-        "LINK": "Explore",
-        "FUTURE_HOME_VIBES": "Fern future home vibes",
-        "SCANDINAVIAN_BEDROOM": "My Scandinavian bedroom",
-        "DECK_OF_MY_DREAMS": "The deck of my dreams",
-        "SERVE_DRINKS": "Serve my drinks in style",
-        "BATHROOM_UPGRADE": "Our bathroom upgrade"
-      },
-      "FourthFold": {
-        "HEADER": "See it, make it, try it, do it",
-        "PARAGRAPH": "The best part of Pinterest is discovering new things and ideas from people around the world.",
-        "LINK": "Explore",
-        "LIP_SHADE_PICTURE_ALT": "lip shade image",
-        "EYE_SHADE_PICTURE_ALT": "eye shade image",
-        "SECONDARY_PICTURE_TEXT_TITLE": "Scout the City",
-        "SECONDARY_PICTURE_TEXT_SUBTITLE": "56.7k followers",
-        "CREATOR_THUMBNAIL_PICTURE": "creator thumbnail picture"
-      },
-      "FifthFold": {
-        "PicturesBackground": {
-          "PICTURE_FOOD_ALT": "food"
-        },
-        "SIGNUP_HEADER": "Sign up to get your ideas",
-        "TERMS_OF_SERVICE": "Terms of service",
-        "PRIVACY_POLICY": "Privacy policy",
-        "HELP": "Help"
-      }
+    "PictureSlider": {
+      "GET_YOUR_NEXT": "Get your next",
+      "HEADER_FOOD": "weeknight dinner idea",
+      "HEADER_HOME": "home decor idea",
+      "HEADER_OUTFIT": "new look outfit",
+      "HEADER_GARDENING": "green thumb idea",
+      "HOW_IT_WORKS": "Here's how it works"
+    },
+    "SecondFold": {
+      "HEADER": "Search for an idea",
+      "PARAGRAPH": "What do you want to try next? Think of something you’re into—like “easy chicken dinner”—and see what you find.",
+      "LINK": "Explore",
+      "EASY_CHICKEN_DINNER": "easy chicken dinner",
+      "SIGN_UP_TO_GET_IDEAS": "Sign up to get your ideas",
+      "CHICKEN_PLATE": "Chicken plate"
+    },
+    "ThirdFold": {
+      "HEADER": "Save ideas you like",
+      "PARAGRAPH": "Collect your favorites so you can get back to them later.",
+      "LINK": "Explore",
+      "FUTURE_HOME_VIBES": "Fern future home vibes",
+      "SCANDINAVIAN_BEDROOM": "My Scandinavian bedroom",
+      "DECK_OF_MY_DREAMS": "The deck of my dreams",
+      "SERVE_DRINKS": "Serve my drinks in style",
+      "BATHROOM_UPGRADE": "Our bathroom upgrade"
+    },
+    "FourthFold": {
+      "HEADER": "See it, make it, try it, do it",
+      "PARAGRAPH": "The best part of Pinterest is discovering new things and ideas from people around the world.",
+      "LINK": "Explore",
+      "LIP_SHADE_PICTURE_ALT": "lip shade image",
+      "EYE_SHADE_PICTURE_ALT": "eye shade image",
+      "SECONDARY_PICTURE_TEXT_TITLE": "Scout the City",
+      "SECONDARY_PICTURE_TEXT_SUBTITLE": "56.7k followers",
+      "CREATOR_THUMBNAIL_PICTURE": "creator thumbnail picture"
+    },
+    "FifthFold": {
+      "PICTURE_FOOD_ALT": "food",
+      "SIGNUP_HEADER": "Sign up to get your ideas",
+      "TERMS_OF_SERVICE": "Terms of service",
+      "PRIVACY_POLICY": "Privacy policy",
+      "HELP": "Help"
     }
   },
   "HeaderAuthenticated": {

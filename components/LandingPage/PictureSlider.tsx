@@ -4,6 +4,7 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./PictureSlider.module.css";
 import PictureSliderPicture from "./PictureSliderPicture";
+import { useTranslations } from "next-intl";
 
 type TopicsType = "FOOD" | "HOME" | "OUTFIT" | "GARDENING";
 
@@ -23,7 +24,6 @@ type TopicColorsType = {
 
 type PictureSliderProps = {
   onClickSeeBelow: () => void;
-  labels: { [key: string]: string };
 };
 
 type PictureSliderState = {
@@ -44,7 +44,9 @@ const DURATION_TRANSITION_OUT_HEADERS_MS = 1500;
 const MAX_TRANSLATION_HEADERS_PX = 40;
 const TIMER_TIME_STEP_MS = 100;
 
-const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
+const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
+  const t = useTranslations("LandingPageContent");
+
   const [state, setState] = useState<PictureSliderState>({
     previousStep: null,
     currentStep: 1,
@@ -110,7 +112,9 @@ const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
       <div className={styles.slider}>
         <div className={styles.headerAndStepper}>
           <div className={styles.headersContainer}>
-            <p className={styles.headerFixedSentence}>{labels.GET_YOUR_NEXT}</p>
+            <p className={styles.headerFixedSentence}>
+              {t("PictureSlider.GET_YOUR_NEXT")}
+            </p>
             <div className={styles.topicHeadersContainer}>
               {PICTURE_SLIDER_TOPICS.map((topic, index) => (
                 <p
@@ -127,7 +131,7 @@ const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
                     )}px)`,
                   }}
                 >
-                  {labels[`HEADER_${topic}`]}
+                  {t(`PictureSlider.HEADER_${topic}`)}
                 </p>
               ))}
             </div>
@@ -266,7 +270,7 @@ const PictureSlider = ({ onClickSeeBelow, labels }: PictureSliderProps) => {
         </div>
         <div className={styles.footer} onClick={onClickSeeBelow}>
           <div className={styles.footerTextAndIcon}>
-            {labels.HOW_IT_WORKS}
+            {t("PictureSlider.HOW_IT_WORKS")}
             <FontAwesomeIcon icon={faAngleDown} className={styles.footerIcon} />
           </div>
         </div>

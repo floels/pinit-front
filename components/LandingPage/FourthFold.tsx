@@ -1,22 +1,24 @@
 import Image from "next/image";
 import styles from "./FourthFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
+import { useTranslations } from "next-intl";
 
 type FourthFoldProps = {
-  labels: { [key: string]: any };
   handleClickExploreButton: () => void;
 };
 
-const FourthFold = ({ labels, handleClickExploreButton }: FourthFoldProps) => {
-  const textAndLinkLabels = {
-    header: labels.HEADER,
-    paragraph: labels.PARAGRAPH,
-    link: labels.LINK,
-  };
-
+const FourthFold = ({ handleClickExploreButton }: FourthFoldProps) => {
   const textAndLinkColors = {
     primary: "--color-red-fiery",
     secondary: "--color-pink",
+  };
+
+  const t = useTranslations("LandingPageContent");
+
+  const textAndLinkLabels = {
+    header: t("FourthFold.HEADER"),
+    paragraph: t("FourthFold.PARAGRAPH"),
+    link: t("FourthFold.LINK"),
   };
 
   return (
@@ -24,7 +26,7 @@ const FourthFold = ({ labels, handleClickExploreButton }: FourthFoldProps) => {
       <div className={styles.picturesArea}>
         <Image
           src="https://s.pinimg.com/webapp/shop-bd0c8a04.png"
-          alt={labels.LIP_SHADE_PICTURE_ALT}
+          alt={t("FourthFold.LIP_SHADE_PICTURE_ALT")}
           fill
           sizes="50vw"
           className={styles.coverPicture}
@@ -32,24 +34,24 @@ const FourthFold = ({ labels, handleClickExploreButton }: FourthFoldProps) => {
         <div className={styles.picturesOverlay}>
           <Image
             src="https://s.pinimg.com/webapp/creator-pin-img-491ebb56.png"
-            alt={labels.EYE_SHADE_PICTURE_ALT}
+            alt={t("FourthFold.EYE_SHADE_PICTURE_ALT")}
             width={216}
             height={384}
             className={styles.secondaryPicture}
           />
           <Image
             src="https://s.pinimg.com/webapp/creator-avatar-d7a05622.png"
-            alt={labels.CREATOR_THUMBNAIL_PICTURE}
+            alt={t("FourthFold.CREATOR_THUMBNAIL_PICTURE")}
             width={96}
             height={96}
             className={styles.thumbnailPicture}
           />
           <div className={styles.secondaryPictureText}>
             <span className={styles.secondaryPictureTextTitle}>
-              {labels.SECONDARY_PICTURE_TEXT_TITLE}
+              {t("FourthFold.SECONDARY_PICTURE_TEXT_TITLE")}
             </span>
             <span className={styles.secondaryPictureTextSubtitle}>
-              {labels.SECONDARY_PICTURE_TEXT_SUBTITLE}
+              {t("FourthFold.SECONDARY_PICTURE_TEXT_SUBTITLE")}
             </span>
           </div>
         </div>
