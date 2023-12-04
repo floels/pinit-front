@@ -11,13 +11,10 @@ import styles from "./LoginForm.module.css";
 import Image from "next/image";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export type LoginFormProps = {
   onClickNoAccountYet: () => void;
-  labels: {
-    component: { [key: string]: string };
-    commons: { [key: string]: string };
-  };
 };
 
 const computeFormErrors = (values: { email: string; password: string }) => {
@@ -36,7 +33,9 @@ const computeFormErrors = (values: { email: string; password: string }) => {
   return {};
 };
 
-const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
+const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
+  const t = useTranslations();
+
   const router = useRouter();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -150,18 +149,20 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
         height={40}
         className={styles.logo}
       />
-      <h1 className={styles.title}>{labels.component.WELCOME_TO_PINIT}</h1>
+      <h1 className={styles.title}>
+        {t("LandingPageContent.LoginForm.WELCOME_TO_PINIT")}
+      </h1>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            label={labels.component.EMAIL}
-            placeholder={labels.component.EMAIL}
+            label={t("LandingPageContent.LoginForm.EMAIL")}
+            placeholder={t("LandingPageContent.LoginForm.EMAIL")}
             type="email"
             value={credentials.email}
             errorMessage={
               showFormErrors && formErrors.email
-                ? labels.component[formErrors.email]
+                ? t(`LandingPageContent.LoginForm.${formErrors.email}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -172,13 +173,13 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            label={labels.component.PASSWORD}
-            placeholder={labels.component.PASSWORD}
+            label={t("LandingPageContent.LoginForm.PASSWORD")}
+            placeholder={t("LandingPageContent.LoginForm.PASSWORD")}
             type="password"
             value={credentials.password}
             errorMessage={
               showFormErrors && formErrors.password
-                ? labels.component[formErrors.password]
+                ? t(`LandingPageContent.LoginForm.${formErrors.password}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -189,21 +190,21 @@ const LoginForm = ({ onClickNoAccountYet, labels }: LoginFormProps) => {
           <div className={styles.otherErrorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.otherErrorText}>
-              {labels.commons[formErrors.other]}
+              {t(`LandingPageContent.LoginForm.${formErrors.other}`)}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {labels.component.LOG_IN}
+          {t("LandingPageContent.LoginForm.LOG_IN")}
         </button>
       </form>
       <div className={styles.noAccountYet}>
-        {labels.component.NO_ACCOUNT_YET}
+        {t("LandingPageContent.LoginForm.NO_ACCOUNT_YET")}
         <button
           className={styles.noAccountYetButton}
           onClick={onClickNoAccountYet}
         >
-          {labels.component.SIGN_UP}
+          {t("LandingPageContent.LoginForm.SIGN_UP")}
         </button>
       </div>
       {isLoading && (

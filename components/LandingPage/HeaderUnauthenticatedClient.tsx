@@ -2,18 +2,19 @@
 
 import Image from "next/image";
 import styles from "./HeaderUnauthenticatedClient.module.css";
+import { useTranslations } from "next-intl";
 
 type HeaderUnauthenticatedClientProps = {
   handleClickLogInButton: () => void;
   handleClickSignUpButton: () => void;
-  labels: { [key: string]: string };
 };
 
 const HeaderUnauthenticatedClient = ({
   handleClickLogInButton,
   handleClickSignUpButton,
-  labels,
 }: HeaderUnauthenticatedClientProps) => {
+  const t = useTranslations("HeaderUnauthenticated");
+
   return (
     <nav className={styles.container}>
       <a href="/" className={styles.logoContainer}>
@@ -25,14 +26,14 @@ const HeaderUnauthenticatedClient = ({
         onClick={handleClickLogInButton}
         data-testid="header-log-in-button"
       >
-        {labels.LOG_IN}
+        {t("LOG_IN")}
       </button>
       <button
         className={styles.signUpButton}
         onClick={handleClickSignUpButton}
         data-testid="header-sign-up-button"
       >
-        {labels.SIGN_UP}
+        {t("SIGN_UP")}
       </button>
     </nav>
   );

@@ -1,7 +1,7 @@
 import styles from "./TextAndExploreButton.module.css";
 
 type TextAndExploreButtonProps = {
-  labels: { [key: string]: any };
+  labels: { [key: string]: string };
   colors: {
     primary: string;
     secondary: string;

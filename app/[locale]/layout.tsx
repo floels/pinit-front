@@ -51,7 +51,7 @@ const Layout = ({ children, params: { locale } }: Props) => {
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ToastContainer position="bottom-left" autoClose={5000} />
-          {/*  If user is not authenticated, the header will be rendered with <LandingPageClient /> */}
+          {/*  If user is not authenticated, the header will be rendered with <LandingPage /> */}
           {isAuthenticated && <HeaderAuthenticated />}
           {children}
         </NextIntlClientProvider>

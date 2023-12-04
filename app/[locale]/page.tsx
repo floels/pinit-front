@@ -1,4 +1,4 @@
-import LandingPageServer from "@/components/LandingPage/LandingPageServer";
+import LandingPage from "@/components/LandingPage/LandingPage";
 import PinsBoardServer from "@/components/PinsBoard/PinsBoardServer";
 import { cookies } from "next/headers";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
@@ -9,7 +9,7 @@ import {
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 import { getPinsWithCamelizedKeys } from "@/lib/utils/misc";
-import AccessTokenRefresherServer from "@/components/AccessTokenRefresher/AccessTokenRefresherServer";
+import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
 
 export const getPinsFetcherAndRenderer = ({
   fetchPinsAPIRoute,
@@ -38,7 +38,7 @@ export const getPinsFetcherAndRenderer = ({
 
     if (fetchResponse.status === 401) {
       // Access token is likely expired:
-      return <AccessTokenRefresherServer />;
+      return <AccessTokenRefresher />;
     }
 
     if (!fetchResponse.ok) {
@@ -81,7 +81,7 @@ const Page = async () => {
   const accessTokenCookie = cookies().get("accessToken");
 
   if (!accessTokenCookie) {
-    return <LandingPageServer />;
+    return <LandingPage />;
   }
 
   const accessToken = accessTokenCookie.value;

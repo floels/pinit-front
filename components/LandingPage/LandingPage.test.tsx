@@ -1,12 +1,9 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import LandingPageClient from "./LandingPageClient";
+import LandingPage from "./LandingPage";
 import en from "@/messages/en.json";
 
-const labels = {
-  component: en.LandingPage,
-  commons: en.Common,
-};
+const messages = en.LandingPageContent;
 
 // Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter().refresh():
 jest.mock("next/navigation", () => ({
@@ -29,7 +26,7 @@ jest.mock("./PictureSlider", () => {
 const checkAndCloseSignUpModal = () => {
   const modal = screen.getByTestId("overlay-modal");
 
-  within(modal).getByText(en.LandingPage.SignupForm.FIND_NEW_IDEAS);
+  within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
 
   const modalCloseButton = within(modal).getByTestId(
     "overlay-modal-close-button",
@@ -39,13 +36,13 @@ const checkAndCloseSignUpModal = () => {
 };
 
 it("should render without any modal open", () => {
-  render(<LandingPageClient labels={labels} />);
+  render(<LandingPage />);
 
   expect(screen.queryByTestId("overlay-modal")).toBeNull();
 });
 
 it("should open login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {
-  render(<LandingPageClient labels={labels} />);
+  render(<LandingPage />);
 
   const loginButton = screen.getByTestId("header-log-in-button");
 
@@ -53,25 +50,25 @@ it("should open login modal when user clicks on Login button, and switch to sign
 
   let modal = screen.getByTestId("overlay-modal");
 
-  within(modal).getByText(en.LandingPage.LoginForm.WELCOME_TO_PINIT);
+  within(modal).getByText(messages.LoginForm.WELCOME_TO_PINIT);
 
   const noAccountYetDiv = within(modal).getByText(
-    en.LandingPage.LoginForm.NO_ACCOUNT_YET,
+    messages.LoginForm.NO_ACCOUNT_YET,
   );
 
   const noAccountYetSignupButton = within(noAccountYetDiv).getByText(
-    en.LandingPage.LoginForm.SIGN_UP,
+    messages.LoginForm.SIGN_UP,
   );
 
   await userEvent.click(noAccountYetSignupButton);
 
   modal = screen.getByTestId("overlay-modal");
 
-  within(modal).getByText(en.LandingPage.SignupForm.FIND_NEW_IDEAS);
+  within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
 });
 
 it("should open signup modal when user clicks on Signup button, and switch to login modal when user clicks on 'Log in'", async () => {
-  render(<LandingPageClient labels={labels} />);
+  render(<LandingPage />);
 
   const signupButton = screen.getByTestId("header-sign-up-button");
 
@@ -79,29 +76,29 @@ it("should open signup modal when user clicks on Signup button, and switch to lo
 
   let modal = screen.getByTestId("overlay-modal");
 
-  within(modal).getByText(en.LandingPage.SignupForm.FIND_NEW_IDEAS);
+  within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
 
   const alreadyHaveAccountDiv = within(modal).getByText(
-    en.LandingPage.SignupForm.ALREADY_HAVE_ACCOUNT,
+    messages.SignupForm.ALREADY_HAVE_ACCOUNT,
   );
 
   const alreadyHaveAccountSignupButton = within(
     alreadyHaveAccountDiv,
-  ).getByText(en.LandingPage.SignupForm.LOG_IN);
+  ).getByText(messages.SignupForm.LOG_IN);
 
   await userEvent.click(alreadyHaveAccountSignupButton);
 
   modal = screen.getByTestId("overlay-modal");
 
   expect(
-    within(modal).queryByText(en.LandingPage.SignupForm.FIND_NEW_IDEAS),
+    within(modal).queryByText(messages.SignupForm.FIND_NEW_IDEAS),
   ).toBeNull();
 
-  within(modal).getByText(en.LandingPage.LoginForm.WELCOME_TO_PINIT);
+  within(modal).getByText(messages.LoginForm.WELCOME_TO_PINIT);
 });
 
 it("should open signup modal when clicking on 'Explore' buttons", async () => {
-  render(<LandingPageClient labels={labels} />);
+  render(<LandingPage />);
 
   const secondFold = screen.getByTestId("landing-page-second-fold");
 

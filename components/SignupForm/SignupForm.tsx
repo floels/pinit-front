@@ -16,13 +16,10 @@ import {
   isValidPassword,
 } from "../../lib/utils/validation";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export type SignupFormProps = {
   onClickAlreadyHaveAccount: () => void;
-  labels: {
-    component: { [key: string]: string };
-    commons: { [key: string]: string };
-  };
 };
 
 const computeFormErrors = (values: {
@@ -49,7 +46,9 @@ const computeFormErrors = (values: {
   return {};
 };
 
-const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
+const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
+  const t = useTranslations();
+
   const router = useRouter();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -166,20 +165,24 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
         height={40}
         className={styles.logo}
       />
-      <h1 className={styles.title}>{labels.component.WELCOME_TO_PINIT}</h1>
-      <div className={styles.subtitle}>{labels.component.FIND_NEW_IDEAS}</div>
+      <h1 className={styles.title}>
+        {t("LandingPageContent.SignupForm.WELCOME_TO_PINIT")}
+      </h1>
+      <div className={styles.subtitle}>
+        {t("LandingPageContent.SignupForm.FIND_NEW_IDEAS")}
+      </div>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            label={labels.component.EMAIL}
-            placeholder={labels.component.EMAIL}
+            label={t("LandingPageContent.SignupForm.EMAIL")}
+            placeholder={t("LandingPageContent.SignupForm.EMAIL")}
             type="email"
             value={formData.email}
             autoComplete="email"
             errorMessage={
               showFormErrors && formErrors.email
-                ? labels.component[formErrors.email]
+                ? t(`LandingPageContent.SignupForm.${formErrors.email}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -189,14 +192,14 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            label={labels.component.PASSWORD}
-            placeholder={labels.component.CREATE_PASSWORD}
+            label={t("LandingPageContent.SignupForm.PASSWORD")}
+            placeholder={t("LandingPageContent.SignupForm.CREATE_PASSWORD")}
             type="password"
             value={formData.password}
             autoComplete="new-password"
             errorMessage={
               showFormErrors && formErrors.password
-                ? labels.component[formErrors.password]
+                ? t(`LandingPageContent.SignupForm.${formErrors.password}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -206,13 +209,13 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
         <div className={styles.birthdateInputContainer}>
           <LabelledTextInput
             name="birthdate"
-            label={labels.component.BIRTHDATE}
+            label={t("LandingPageContent.SignupForm.BIRTHDATE")}
             type="date"
             value={formData.birthdate}
             autoComplete="bday"
             errorMessage={
               showFormErrors && formErrors.birthdate
-                ? labels.component[formErrors.birthdate]
+                ? t(`LandingPageContent.SignupForm.${formErrors.birthdate}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -221,21 +224,21 @@ const SignupForm = ({ onClickAlreadyHaveAccount, labels }: SignupFormProps) => {
         {showFormErrors && formErrors.other && (
           <div className={styles.otherErrorMessage}>
             <div className={styles.otherErrorText}>
-              {labels.commons[formErrors.other]}
+              {t(`LandingPageContent.SignupForm.${formErrors.other}`)}
             </div>
           </div>
         )}
         <button type="submit" className={styles.submitButton}>
-          {labels.component.CONTINUE}
+          {t("LandingPageContent.SignupForm.CONTINUE")}
         </button>
       </form>
       <div className={styles.alreadyHaveAccount}>
-        {labels.component.ALREADY_HAVE_ACCOUNT}
+        {t("LandingPageContent.SignupForm.ALREADY_HAVE_ACCOUNT")}
         <button
           className={styles.alreadyHaveAccountButton}
           onClick={onClickAlreadyHaveAccount}
         >
-          {labels.component.LOG_IN}
+          {t("LandingPageContent.SignupForm.LOG_IN")}
         </button>
       </div>
       {isLoading && (
