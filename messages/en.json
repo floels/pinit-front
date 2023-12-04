@@ -86,21 +86,17 @@
       }
     }
   },
+  "HeaderAuthenticated": {
+    "NAV_ITEM_HOME": "Home",
+    "CREATE": "Create",
+    "CREATE_PIN": "Create Pin",
+    "YOUR_PROFILE": "Your profile",
+    "ACCOUNT_OPTIONS": "Account and more options",
+    "PLACEHOLDER_SEARCH": "Search",
+    "MORE_OPTIONS": "More options",
+    "LOG_OUT": "Log out"
+  },
   "HomePage": {
-    "Header": {
-      "NAV_ITEM_HOME": "Home",
-      "CREATE": "Create",
-      "CREATE_PIN": "Create Pin",
-      "YOUR_PROFILE": "Your profile",
-      "ACCOUNT_OPTIONS": "Account and more options",
-      "SearchBar": {
-        "PLACEHOLDER_SEARCH": "Search"
-      },
-      "AccountOptionsFlyout": {
-        "MORE_OPTIONS": "More options",
-        "LOG_OUT": "Log out"
-      }
-    },
     "Content": {
       "PinsBoard": {
         "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",

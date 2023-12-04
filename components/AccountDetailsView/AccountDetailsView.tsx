@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { getTranslationsObject } from "@/lib/utils/i18n";
 import styles from "./AccountDetailsView.module.css";
 
 type AccountDetailsViewProps = {
@@ -38,8 +37,7 @@ const AccountDetailsView = ({
   backgroundPictureURL,
   description,
 }: AccountDetailsViewProps) => {
-  const translator = useTranslations("AccountDetails");
-  const translations = getTranslationsObject("AccountDetails", translator);
+  const t = useTranslations("AccountDetails");
 
   let picturesBlock;
 
@@ -50,14 +48,14 @@ const AccountDetailsView = ({
           src={backgroundPictureURL}
           width={BACKGROUND_PICTURE_WIDTH_PX}
           height={BACKGROUND_PICTURE_HEIGHT_PX}
-          alt={`${translations.ALT_BACKGROUND_PICTURE_OF} ${displayName}`}
+          alt={`${t("ALT_BACKGROUND_PICTURE_OF")} ${displayName}`}
           className={styles.backgroundPicture}
         />
         <Image
           src={profilePictureURL}
           width={PROFILE_PICTURE_WIDTH_PX}
           height={PROFILE_PICTURE_HEIGHT_PX}
-          alt={`${translations.ALT_PROFILE_PICTURE_OF} ${displayName}`}
+          alt={`${t("ALT_PROFILE_PICTURE_OF")} ${displayName}`}
           className={`${styles.profilePicture} ${styles.profilePictureOverBackgroundPicture}`}
         />
       </div>
@@ -68,7 +66,7 @@ const AccountDetailsView = ({
         src={profilePictureURL}
         width={PROFILE_PICTURE_WIDTH_PX}
         height={PROFILE_PICTURE_HEIGHT_PX}
-        alt={`${translations.ALT_PROFILE_PICTURE_OF} ${displayName}`}
+        alt={`${t("ALT_PROFILE_PICTURE_OF")} ${displayName}`}
         className={styles.profilePicture}
       />
     );

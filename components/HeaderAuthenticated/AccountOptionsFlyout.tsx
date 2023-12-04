@@ -1,21 +1,23 @@
 import React from "react";
 import styles from "./AccountOptionsFlyout.module.css";
+import { useTranslations } from "next-intl";
 
 type AccountOptionsFlyoutProps = {
   handleClickLogOut: () => void;
-  labels: { [key: string]: string };
 };
 
 const AccountOptionsFlyout = React.forwardRef<
   HTMLDivElement,
   AccountOptionsFlyoutProps
->(({ handleClickLogOut, labels }, ref) => {
+>(({ handleClickLogOut }, ref) => {
+  const t = useTranslations("HeaderAuthenticated");
+
   return (
     <div ref={ref} className={styles.container}>
       <div>
-        <div className={styles.sectionHeader}>{labels.MORE_OPTIONS}</div>
+        <div className={styles.sectionHeader}>{t("MORE_OPTIONS")}</div>
         <div onClick={handleClickLogOut} className={styles.sectionItem}>
-          {labels.LOG_OUT}
+          {t("LOG_OUT")}
         </div>
       </div>
     </div>
