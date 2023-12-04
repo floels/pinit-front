@@ -3,8 +3,6 @@ import "@testing-library/jest-dom/extend-expect"; // required to use `expect(ele
 import en from "@/messages/en.json";
 import PinThumbnail from "./PinThumbnail";
 
-const labels = en.HomePage.Content.PinsBoard;
-
 it("should render image, title and author details when author details are provided", async () => {
   const pin = {
     id: "999999999999999999",
@@ -16,7 +14,7 @@ it("should render image, title and author details when author details are provid
     description: "Pin description",
   };
 
-  render(<PinThumbnail pin={pin} labels={labels} />);
+  render(<PinThumbnail pin={pin} />);
 
   const pinImage = screen.getByAltText("Pin title");
   expect(pinImage).toHaveAttribute("src", "https://pin.url");
@@ -45,7 +43,7 @@ it("should not render author details when author's profile picture URL is not pr
     description: "Pin description",
   };
 
-  render(<PinThumbnail pin={pin} labels={labels} />);
+  render(<PinThumbnail pin={pin} />);
 
   expect(screen.queryByTestId("pin-author-details")).toBeNull();
 });
@@ -60,7 +58,7 @@ it("should not render author details when author's display name is not provided"
     description: "Pin description",
   };
 
-  render(<PinThumbnail pin={pin} labels={labels} />);
+  render(<PinThumbnail pin={pin} />);
 
   expect(screen.queryByTestId("pin-author-details")).toBeNull();
 });

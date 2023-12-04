@@ -93,14 +93,10 @@
     "MORE_OPTIONS": "More options",
     "LOG_OUT": "Log out"
   },
-  "HomePage": {
-    "Content": {
-      "PinsBoard": {
-        "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",
-        "ALT_PIN_BY": "Pin by",
-        "ALT_PROFILE_PICTURE_OF": "Profile picture of"
-      }
-    }
+  "PinsBoard": {
+    "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",
+    "ALT_PIN_BY": "Pin by",
+    "ALT_PROFILE_PICTURE_OF": "Profile picture of"
   },
   "PinDetails": {
     "ALT_PIN_BY": "Pin by",

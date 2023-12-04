@@ -8,13 +8,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useViewportWidth } from "@/lib/utils/custom-hooks";
 import { PinType } from "@/lib/types";
+import { useTranslations } from "next-intl";
 
 type PinsBoardDisplayProps = {
   pins: PinType[];
-  labels: {
-    commons: { [key: string]: any };
-    component: { [key: string]: any };
-  };
   isFetching: boolean;
   isFetchError: boolean;
   handleFetchMorePins: () => void;
@@ -39,11 +36,12 @@ const getNumberOfColumns = (viewportWidth: number) => {
 
 const PinsBoardDisplay = ({
   pins,
-  labels,
   handleFetchMorePins,
   isFetching,
   isFetchError,
 }: PinsBoardDisplayProps) => {
+  const t = useTranslations("PinsBoard");
+
   const scrolledToBottomSentinel = useRef(null);
 
   const [numberOfColumns, setNumberOfColumns] = useState<number | undefined>();
@@ -101,7 +99,7 @@ const PinsBoardDisplay = ({
                   className={styles.pinThumbnail}
                   key={`pin-thumbnail-${pinIndex + 1}`}
                 >
-                  <PinThumbnail pin={pin} labels={labels.component} />
+                  <PinThumbnail pin={pin} />
                 </div>
               );
             }
@@ -135,7 +133,7 @@ const PinsBoardDisplay = ({
             size="xs"
             className={styles.errorMessageIcon}
           />
-          {labels.component.ERROR_DISPLAY_PINS}
+          {t("ERROR_DISPLAY_PINS")}
         </div>
       )}
     </main>

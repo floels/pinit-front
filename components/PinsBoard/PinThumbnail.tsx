@@ -4,15 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./PinThumbnail.module.css";
 import { PinType } from "@/lib/types";
+import { useTranslations } from "next-intl";
 
 type PinThumbnailProps = {
   pin: PinType;
-  labels: { [key: string]: any };
 };
 
 const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
 
-const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
+const PinThumbnail = ({ pin }: PinThumbnailProps) => {
+  const t = useTranslations("PinsBoard");
+
   const shouldDisplayAuthorDetails =
     !!pin.authorProfilePictureURL &&
     !!pin.authorDisplayName &&
@@ -26,7 +28,7 @@ const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
           alt={
             pin.title
               ? pin.title
-              : `${labels.ALT_PIN_BY} ${pin.authorDisplayName}`
+              : `${t("ALT_PIN_BY")} ${pin.authorDisplayName}`
           }
           src={pin.imageURL}
           className={styles.image}
@@ -48,7 +50,7 @@ const PinThumbnail = ({ pin, labels }: PinThumbnailProps) => {
             width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
             height={AUTHOR_PROFILE_PICTURE_SIZE_PX}
             src={pin.authorProfilePictureURL as string}
-            alt={`${labels.ALT_PROFILE_PICTURE_OF} ${pin.authorDisplayName}`}
+            alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.authorDisplayName}`}
           />
           <span className={styles.authorName}>{pin.authorDisplayName}</span>
         </Link>
