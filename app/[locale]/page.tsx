@@ -1,5 +1,5 @@
 import LandingPage from "@/components/LandingPage/LandingPage";
-import PinsBoardServer from "@/components/PinsBoard/PinsBoardServer";
+import PinsBoard from "@/components/PinsBoard/PinsBoard";
 import { cookies } from "next/headers";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
@@ -28,7 +28,7 @@ export const getPinsFetcherAndRenderer = ({
       });
     } catch (error) {
       return (
-        <PinsBoardServer
+        <PinsBoard
           initialPins={[]}
           fetchPinsAPIRoute={fetchPinsAPIRoute}
           errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
@@ -43,7 +43,7 @@ export const getPinsFetcherAndRenderer = ({
 
     if (!fetchResponse.ok) {
       return (
-        <PinsBoardServer
+        <PinsBoard
           initialPins={[]}
           fetchPinsAPIRoute={fetchPinsAPIRoute}
           errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
@@ -59,7 +59,7 @@ export const getPinsFetcherAndRenderer = ({
       const initialPins = getPinsWithCamelizedKeys(fetchedPins);
 
       return (
-        <PinsBoardServer
+        <PinsBoard
           initialPins={initialPins}
           fetchPinsAPIRoute={fetchPinsAPIRoute}
         />
@@ -67,7 +67,7 @@ export const getPinsFetcherAndRenderer = ({
     } catch (error) {
       // Malformed response
       return (
-        <PinsBoardServer
+        <PinsBoard
           initialPins={[]}
           fetchPinsAPIRoute={fetchPinsAPIRoute}
           errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}

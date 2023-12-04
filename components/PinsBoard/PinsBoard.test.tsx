@@ -1,6 +1,6 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
 import en from "@/messages/en.json";
-import PinsBoardClient from "./PinsBoardClient";
+import PinsBoard from "./PinsBoard";
 import { toast } from "react-toastify";
 import { PinType } from "@/lib/types";
 
@@ -32,11 +32,6 @@ const initialPins = Array.from(
   }),
 ) as PinType[];
 
-const labels = {
-  commons: en.Common,
-  component: en.HomePage.Content.PinsBoard,
-};
-
 const simulateScrollToBottomOfPage = () => {
   const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
   act(() => {
@@ -58,10 +53,9 @@ beforeEach(() => {
 
 it("should render the thumbnails with the right number of columns", async () => {
   render(
-    <PinsBoardClient
+    <PinsBoard
       initialPins={initialPins}
       fetchPinsAPIRoute="/api/pin-suggestions"
-      labels={labels}
     />,
   );
 
@@ -97,10 +91,9 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   );
 
   render(
-    <PinsBoardClient
+    <PinsBoard
       initialPins={initialPins}
       fetchPinsAPIRoute="/api/pin-suggestions"
-      labels={labels}
     />,
   );
 
@@ -119,10 +112,9 @@ it("should display loading spinner while fetching new thumbnails", async () => {
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
   render(
-    <PinsBoardClient
+    <PinsBoard
       initialPins={initialPins}
       fetchPinsAPIRoute="/api/pin-suggestions"
-      labels={labels}
     />,
   );
 
@@ -145,17 +137,16 @@ it("should display error message in case of KO response upon new thumbnails fetc
   );
 
   render(
-    <PinsBoardClient
+    <PinsBoard
       initialPins={initialPins}
       fetchPinsAPIRoute="/api/pin-suggestions"
-      labels={labels}
     />,
   );
 
   simulateScrollToBottomOfPage();
 
   await waitFor(() => {
-    screen.getByText(en.HomePage.Content.PinsBoard.ERROR_DISPLAY_PINS);
+    screen.getByText(en.PinsBoard.ERROR_DISPLAY_PINS);
   });
 });
 
@@ -163,10 +154,9 @@ it("should display toast in case of fetch failure upon new thumbnails fetch", as
   fetchMock.mockRejectOnce(new Error("Network failure"));
 
   render(
-    <PinsBoardClient
+    <PinsBoard
       initialPins={initialPins}
       fetchPinsAPIRoute="/api/pin-suggestions"
-      labels={labels}
     />,
   );
 

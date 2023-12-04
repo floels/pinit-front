@@ -5,23 +5,21 @@ import { toast } from "react-toastify";
 import { appendQueryParam, getPinsWithCamelizedKeys } from "@/lib/utils/misc";
 import PinsBoardDisplay from "./PinsBoardDisplay";
 import { PinType } from "@/lib/types";
+import { useTranslations } from "next-intl";
 
-type PinsBoardClientProps = {
+type PinsBoardProps = {
   initialPins: PinType[];
   fetchPinsAPIRoute: string;
-  labels: {
-    commons: { [key: string]: any };
-    component: { [key: string]: any };
-  };
   errorCode?: string;
 };
 
-const PinsBoardClient = ({
+const PinsBoard = ({
   initialPins,
   fetchPinsAPIRoute,
-  labels,
   errorCode,
-}: PinsBoardClientProps) => {
+}: PinsBoardProps) => {
+  const t = useTranslations("Common");
+
   const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
   const [pins, setPins] = useState<PinType[]>([]);
   const [isFetching, setIsFetching] = useState(false);
@@ -35,7 +33,7 @@ const PinsBoardClient = ({
     try {
       await fetchNextPins();
     } catch (error) {
-      toast.warn(labels.commons.CONNECTION_ERROR);
+      toast.warn(t("CONNECTION_ERROR"));
       setIsFetching(false);
     }
   };
@@ -82,7 +80,6 @@ const PinsBoardClient = ({
   return (
     <PinsBoardDisplay
       pins={pins}
-      labels={labels}
       isFetching={isFetching}
       isFetchError={isFetchError}
       handleFetchMorePins={fetchNextPinsAndFallBack}
@@ -90,4 +87,4 @@ const PinsBoardClient = ({
   );
 };
 
-export default PinsBoardClient;
+export default PinsBoard;
