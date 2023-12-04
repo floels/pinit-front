@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useTranslations } from "next-intl";
 import styles from "./SecondFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
-import { useTranslations } from "next-intl";
 
 type SecondFoldProps = {
   handleClickExploreButton: () => void;

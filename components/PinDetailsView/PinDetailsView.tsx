@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
-import { PinType } from "@/lib/types";
 import { useTranslations } from "next-intl";
+import { PinType } from "@/lib/types";
 import styles from "./PinDetailsView.module.css";
 
 type PinDetailsViewProps = {

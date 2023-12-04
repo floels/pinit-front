@@ -1,6 +1,6 @@
 import Image from "next/image";
-import styles from "./FifthFoldPicturesBackground.module.css";
 import { useTranslations } from "next-intl";
+import styles from "./FifthFoldPicturesBackground.module.css";
 
 const PICTURE_URLS = [
   "https://i.pinimg.com/236x/e3/41/4b/e3414b2fcf00375a199ba6964be551af.jpg",

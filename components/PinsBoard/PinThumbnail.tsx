@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import styles from "./PinThumbnail.module.css";
 import { PinType } from "@/lib/types";
-import { useTranslations } from "next-intl";
 
 type PinThumbnailProps = {
   pin: PinType;

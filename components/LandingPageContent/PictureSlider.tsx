@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-
+import { useTranslations } from "next-intl";
 import styles from "./PictureSlider.module.css";
 import PictureSliderPicture from "./PictureSliderPicture";
-import { useTranslations } from "next-intl";
 
 type TopicsType = "FOOD" | "HOME" | "OUTFIT" | "GARDENING";
 

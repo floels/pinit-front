@@ -2,18 +2,18 @@
 
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import PictureSlider from "./PictureSlider";
-import styles from "./LandingPage.module.css";
+import styles from "./LandingPageContent.module.css";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
-import HeaderUnauthenticatedClient from "./HeaderUnauthenticatedClient";
+import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginForm from "../LoginForm/LoginForm";
 import SignupForm from "../SignupForm/SignupForm";
-import { useTranslations } from "next-intl";
 
 export type LandingPageProps = {
   errorCode?: string;
@@ -140,7 +140,7 @@ const LandingPage = ({ errorCode }: LandingPageProps) => {
         data-testid="homepage-unauthenticated-content"
       >
         <div className={styles.hero} ref={heroRef}>
-          <HeaderUnauthenticatedClient
+          <HeaderUnauthenticated
             handleClickLogInButton={openLogInModal}
             handleClickSignUpButton={openSignUpModal}
           />

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
-import LandingPage from "../LandingPage/LandingPage";
+import LandingPage from "../LandingPageContent/LandingPageContent";
 
 const AccessTokenRefresher = () => {
   const [fetchFailed, setFetchFailed] = useState(false);

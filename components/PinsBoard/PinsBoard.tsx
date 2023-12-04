@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import { appendQueryParam, getPinsWithCamelizedKeys } from "@/lib/utils/misc";
 import PinsBoardDisplay from "./PinsBoardDisplay";
 import { PinType } from "@/lib/types";
-import { useTranslations } from "next-intl";
 
 type PinsBoardProps = {
   initialPins: PinType[];

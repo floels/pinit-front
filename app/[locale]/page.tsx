@@ -1,4 +1,4 @@
-import LandingPage from "@/components/LandingPage/LandingPage";
+import LandingPage from "@/components/LandingPageContent/LandingPageContent";
 import PinsBoard from "@/components/PinsBoard/PinsBoard";
 import { cookies } from "next/headers";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
