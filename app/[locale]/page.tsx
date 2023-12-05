@@ -8,7 +8,7 @@ import {
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
-import { getPinsWithCamelizedKeys } from "@/lib/utils/misc";
+import { getPinsWithCamelizedKeys } from "@/lib/utils/adapters";
 import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
 
 export const getPinsFetcherAndRenderer = ({
@@ -91,6 +91,7 @@ const Page = async () => {
     fetchPinsAPIEndpoint: API_ENDPOINT_GET_PIN_SUGGESTIONS,
   });
 
+  // TODO: refactor (unclear)
   const renderedComponent = await pinSuggestionsFetcherAndRenderer(accessToken);
 
   return renderedComponent;

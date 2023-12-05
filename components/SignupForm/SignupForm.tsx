@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
+  API_ROUTE_SIGN_UP,
   ERROR_CODE_EMAIL_ALREADY_SIGNED_UP,
   ERROR_CODE_INVALID_BIRTHDATE,
   ERROR_CODE_INVALID_EMAIL,
@@ -106,7 +107,7 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
     let response;
 
     try {
-      response = await fetch("/api/user/sign-up", {
+      response = await fetch(API_ROUTE_SIGN_UP, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

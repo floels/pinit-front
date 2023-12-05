@@ -8,6 +8,7 @@ import {
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
   ERROR_CODE_CLIENT_FETCH_FAILED,
+  API_ROUTE_OBTAIN_TOKEN,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
@@ -91,7 +92,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
     let response;
 
     try {
-      response = await fetch("/api/user/obtain-token", {
+      response = await fetch(API_ROUTE_OBTAIN_TOKEN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

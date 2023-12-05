@@ -11,21 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBar from "./HeaderSearchBar";
 import styles from "./HeaderAuthenticated.module.css";
+import { API_ROUTE_LOG_OUT } from "@/lib/constants";
 
-export enum TypesOfAccount {
-  PERSONAL = "personal",
-  BUSINESS = "business",
-}
-
-export type AccountType = {
-  type: TypesOfAccount;
-  username: string;
-  displayName: string;
-  initial: string;
-  ownerEmail: string;
-};
-
-const HeaderAuthenticatedClient = () => {
+const HeaderAuthenticated = () => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -114,7 +102,7 @@ const HeaderAuthenticatedClient = () => {
 
   const handleClickLogOut = async () => {
     try {
-      await fetch("/api/user/log-out", {
+      await fetch(API_ROUTE_LOG_OUT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -224,4 +212,4 @@ const HeaderAuthenticatedClient = () => {
   );
 };
 
-export default HeaderAuthenticatedClient;
+export default HeaderAuthenticated;
