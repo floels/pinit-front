@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import styles from "./HeaderSearchBar.module.css";
+import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
 
 const DEBOUNCE_DURATION_MS = 300;
 
@@ -109,7 +110,7 @@ const HeaderSearchBar = () => {
 
     try {
       response = await fetch(
-        `/api/pins/search/autocomplete?search=${inputValue}`,
+        `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${inputValue}`,
         { method: "GET" },
       );
     } catch (error) {

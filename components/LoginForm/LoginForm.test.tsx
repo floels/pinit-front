@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LoginForm from "./LoginForm";
 import en from "@/messages/en.json";
+import { API_ROUTE_OBTAIN_TOKEN } from "@/lib/constants";
 
 const messages = en.LandingPageContent;
 
@@ -25,7 +26,7 @@ it("should display relevant input errors, send request only when inputs are vali
   });
 
   fetchMock.doMockOnceIf(
-    "/api/user/obtain-token",
+    API_ROUTE_OBTAIN_TOKEN,
     JSON.stringify({
       access_token: "accessToken",
       refresh_token: "refreshToken",
@@ -76,7 +77,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
   await userEvent.type(passwordInput, "Pa$$w0rd");
 
   fetchMock.doMockOnceIf(
-    "/api/user/obtain-token",
+    API_ROUTE_OBTAIN_TOKEN,
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 401 },
   );
@@ -85,7 +86,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
   screen.getByText(messages.LoginForm.INVALID_EMAIL_LOGIN);
 
   fetchMock.doMockOnceIf(
-    "/api/user/obtain-token",
+    API_ROUTE_OBTAIN_TOKEN,
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 401 },
   );

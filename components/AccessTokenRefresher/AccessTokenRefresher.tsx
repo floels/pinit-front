@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
+import {
+  API_ROUTE_LOG_OUT,
+  API_ROUTE_REFRESH_TOKEN,
+  ERROR_CODE_CLIENT_FETCH_FAILED,
+} from "@/lib/constants";
 import LandingPage from "../LandingPageContent/LandingPageContent";
 
 const AccessTokenRefresher = () => {
@@ -15,7 +19,7 @@ const AccessTokenRefresher = () => {
     let response;
 
     try {
-      response = await fetch("/api/user/refresh-token", {
+      response = await fetch(API_ROUTE_REFRESH_TOKEN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +32,7 @@ const AccessTokenRefresher = () => {
 
     if (!response.ok) {
       // Refresh token is expired: logout and go back to base route:
-      await fetch("/api/user/log-out", {
+      await fetch(API_ROUTE_LOG_OUT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

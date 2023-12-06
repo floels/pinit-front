@@ -1,6 +1,13 @@
-// API route
+// API routes
+export const API_ROUTE_SIGN_UP = "/api/user/sign-up";
+export const API_ROUTE_OBTAIN_TOKEN = "/api/user/obtain-token";
+export const API_ROUTE_REFRESH_TOKEN = "/api/user/refresh-token";
+export const API_ROUTE_OWNED_ACCOUNTS = "/api/user/owned-accounts";
 export const API_ROUTE_PINS_SUGGESTIONS = "/api/pin-suggestions";
 export const API_ROUTE_PINS_SEARCH = "/api/pins/search";
+export const API_ROUTE_PINS_SEARCH_AUTOCOMPLETE =
+  "/api/pins/search/autocomplete";
+export const API_ROUTE_LOG_OUT = "/api/user/log-out";
 
 // API base URL and endpoints
 export const API_BASE_URL = "http://127.0.0.1:8000/api";
@@ -12,6 +19,7 @@ export const API_ENDPOINT_SEARCH_AUTOCOMPLETE = "search/autocomplete";
 export const API_ENDPOINT_SEARCH_PINS = "search";
 export const API_ENDPOINT_PIN_DETAILS = "pins";
 export const API_ENDPOINT_ACCOUNT_DETAILS = "accounts";
+export const API_ENDPOINT_OWNED_ACCOUNTS = "owned-accounts";
 
 // API error codes
 export const ERROR_CODE_UNAUTHORIZED = "unauthorized";

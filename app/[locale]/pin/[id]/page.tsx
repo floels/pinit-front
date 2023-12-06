@@ -1,6 +1,6 @@
 import PinDetailsView from "@/components/PinDetailsView/PinDetailsView";
 import { API_BASE_URL, API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
-import { getPinWithCamelizedKeys } from "@/lib/utils/misc";
+import { getPinWithCamelizedKeys } from "@/lib/utils/adapters";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

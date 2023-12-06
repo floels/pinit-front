@@ -2,6 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HeaderSearchBar from "./HeaderSearchBar";
+import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
 
 const mockRouterPush = jest.fn();
 
@@ -90,7 +91,7 @@ it("should display autocomplete suggestions and navigate to search route when us
   ); // so dummySuggestions === ["foo suggestion 1", "foo suggestion 2", ..., "foo suggestion 12"]
 
   fetchMock.mockOnceIf(
-    `/api/pins/search/autocomplete?search=${searchTerm}`,
+    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${searchTerm}`,
     JSON.stringify({ results: dummySuggestions }),
   );
 

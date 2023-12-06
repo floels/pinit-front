@@ -3,6 +3,7 @@ import en from "@/messages/en.json";
 import PinsBoard from "./PinsBoard";
 import { toast } from "react-toastify";
 import { PinType } from "@/lib/types";
+import { API_ROUTE_PINS_SUGGESTIONS } from "@/lib/constants";
 
 const SUGGESTIONS_ENDPOINT_PAGE_SIZE = 50;
 
@@ -51,13 +52,15 @@ beforeEach(() => {
   }));
 });
 
+const pinsBoardComponent = (
+  <PinsBoard
+    initialPins={initialPins}
+    fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
+  />
+);
+
 it("should render the thumbnails with the right number of columns", async () => {
-  render(
-    <PinsBoard
-      initialPins={initialPins}
-      fetchPinsAPIRoute="/api/pin-suggestions"
-    />,
-  );
+  render(pinsBoardComponent);
 
   const initialRenderedPinSuggestions = screen.getAllByTestId("pin-thumbnail");
 
@@ -86,16 +89,11 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   );
 
   fetchMock.doMockOnceIf(
-    "/api/pin-suggestions?page=2",
+    `${API_ROUTE_PINS_SUGGESTIONS}?page=2`,
     JSON.stringify({ results: newPins }),
   );
 
-  render(
-    <PinsBoard
-      initialPins={initialPins}
-      fetchPinsAPIRoute="/api/pin-suggestions"
-    />,
-  );
+  render(pinsBoardComponent);
 
   simulateScrollToBottomOfPage();
 
@@ -111,12 +109,7 @@ it("should display loading spinner while fetching new thumbnails", async () => {
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
-  render(
-    <PinsBoard
-      initialPins={initialPins}
-      fetchPinsAPIRoute="/api/pin-suggestions"
-    />,
-  );
+  render(pinsBoardComponent);
 
   expect(screen.queryByTestId("loading-spinner")).toBeNull();
 
@@ -126,7 +119,7 @@ it("should display loading spinner while fetching new thumbnails", async () => {
 });
 
 it("should display error message in case of KO response upon new thumbnails fetch", async () => {
-  fetchMock.doMockOnceIf("/api/pin-suggestions?page=2", () =>
+  fetchMock.doMockOnceIf(`${API_ROUTE_PINS_SUGGESTIONS}?page=2`, () =>
     Promise.resolve({
       body: JSON.stringify({ message: "Bad Request" }),
       status: 400,
@@ -136,12 +129,7 @@ it("should display error message in case of KO response upon new thumbnails fetc
     }),
   );
 
-  render(
-    <PinsBoard
-      initialPins={initialPins}
-      fetchPinsAPIRoute="/api/pin-suggestions"
-    />,
-  );
+  render(pinsBoardComponent);
 
   simulateScrollToBottomOfPage();
 
@@ -153,12 +141,7 @@ it("should display error message in case of KO response upon new thumbnails fetc
 it("should display toast in case of fetch failure upon new thumbnails fetch", async () => {
   fetchMock.mockRejectOnce(new Error("Network failure"));
 
-  render(
-    <PinsBoard
-      initialPins={initialPins}
-      fetchPinsAPIRoute="/api/pin-suggestions"
-    />,
-  );
+  render(pinsBoardComponent);
 
   simulateScrollToBottomOfPage();
 

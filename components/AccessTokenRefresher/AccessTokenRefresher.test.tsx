@@ -1,6 +1,7 @@
 import { render, waitFor, screen, act } from "@testing-library/react";
 import AccessTokenRefresher from "./AccessTokenRefresher";
 import en from "@/messages/en.json";
+import { API_ROUTE_LOG_OUT, API_ROUTE_REFRESH_TOKEN } from "@/lib/constants";
 
 const mockRouterRefresh = jest.fn();
 
@@ -18,7 +19,7 @@ afterEach(() => {
 
 it("should refresh the current route when receiving OK response from token refresh endpoint", async () => {
   fetchMock.doMockOnceIf(
-    "/api/user/refresh-token",
+    API_ROUTE_REFRESH_TOKEN,
     JSON.stringify({ access_token: "refreshedAccessToken" }),
   );
 
@@ -35,7 +36,7 @@ it("should call logout endpoint and refresh page when receiving KO response from
   });
 
   fetchMock.doMockOnceIf(
-    "/api/user/refresh-token",
+    API_ROUTE_REFRESH_TOKEN,
     JSON.stringify({ errors: [{ code: "invalid_refresh_token" }] }),
     { status: 401 },
   );
@@ -43,7 +44,7 @@ it("should call logout endpoint and refresh page when receiving KO response from
   render(<AccessTokenRefresher />);
 
   await waitFor(() => {
-    expect(fetch).toHaveBeenCalledWith("/api/user/log-out", {
+    expect(fetch).toHaveBeenCalledWith(API_ROUTE_LOG_OUT, {
       headers: { "Content-Type": "application/json" },
       method: "POST",
     });

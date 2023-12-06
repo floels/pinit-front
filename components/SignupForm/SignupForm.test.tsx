@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
 import en from "@/messages/en.json";
+import { API_ROUTE_SIGN_UP } from "@/lib/constants";
 
 const messages = en.LandingPageContent;
 
@@ -21,7 +22,7 @@ const signupForm = (
 
 it("should display relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
   fetchMock.doMockOnceIf(
-    "/api/user/sign-up",
+    API_ROUTE_SIGN_UP,
     JSON.stringify({ access: "access", refresh: "refresh" }),
   );
 
@@ -81,7 +82,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   await userEvent.type(birthdateInput, "1970-01-01");
 
   fetchMock.doMockOnceIf(
-    "/api/user/sign-up",
+    API_ROUTE_SIGN_UP,
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 400 },
   );
@@ -90,7 +91,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   screen.getByText(messages.SignupForm.INVALID_EMAIL_SIGNUP);
 
   fetchMock.doMockOnceIf(
-    "/api/user/sign-up",
+    API_ROUTE_SIGN_UP,
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 400 },
   );
@@ -100,7 +101,7 @@ it("should display relevant error when receiving a 400 response", async () => {
   screen.getByText(messages.SignupForm.INVALID_PASSWORD_SIGNUP);
 
   fetchMock.doMockOnceIf(
-    "/api/user/sign-up",
+    API_ROUTE_SIGN_UP,
     JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
     { status: 400 },
   );
