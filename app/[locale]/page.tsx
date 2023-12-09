@@ -1,6 +1,6 @@
-import LandingPage from "@/components/LandingPageContent/LandingPageContent";
-import PinsBoard from "@/components/PinsBoard/PinsBoard";
 import { cookies } from "next/headers";
+import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
+import PinsBoard from "@/components/PinsBoard/PinsBoard";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
   API_ROUTE_PINS_SUGGESTIONS,
@@ -10,91 +10,91 @@ import {
 } from "@/lib/constants";
 import { getPinsWithCamelizedKeys } from "@/lib/utils/adapters";
 import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
+import {
+  NetworkError,
+  Response401Error,
+  ResponseKOError,
+} from "@/lib/customErrors";
 
-export const getPinsFetcherAndRenderer = ({
-  fetchPinsAPIRoute,
-  fetchPinsAPIEndpoint,
+const fetchInitialPinSuggestions = async ({
+  accessToken,
 }: {
-  fetchPinsAPIRoute: string;
-  fetchPinsAPIEndpoint: string;
+  accessToken: string;
 }) => {
-  return async (accessToken: string) => {
-    let fetchResponse;
+  let fetchResponse;
 
-    try {
-      fetchResponse = await fetchWithAuthentication({
-        endpoint: `${fetchPinsAPIEndpoint}/`,
-        accessToken,
-      });
-    } catch (error) {
-      return (
-        <PinsBoard
-          initialPins={[]}
-          fetchPinsAPIRoute={fetchPinsAPIRoute}
-          errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
-        />
-      );
-    }
+  try {
+    fetchResponse = await fetchWithAuthentication({
+      endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/`,
+      accessToken,
+    });
+  } catch (error) {
+    throw new NetworkError();
+  }
 
-    if (fetchResponse.status === 401) {
-      // Access token is likely expired:
-      return <AccessTokenRefresher />;
-    }
+  if (fetchResponse.status === 401) {
+    throw new Response401Error();
+  }
 
-    if (!fetchResponse.ok) {
-      return (
-        <PinsBoard
-          initialPins={[]}
-          fetchPinsAPIRoute={fetchPinsAPIRoute}
-          errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
-        />
-      );
-    }
+  if (!fetchResponse.ok) {
+    throw new ResponseKOError();
+  }
 
-    try {
-      const fetchResponseData = await fetchResponse.json();
+  const fetchResponseData = await fetchResponse.json();
 
-      const fetchedPins = fetchResponseData.results;
+  const fetchedPins = fetchResponseData.results;
 
-      const initialPins = getPinsWithCamelizedKeys(fetchedPins);
+  const initialPinSuggestions = getPinsWithCamelizedKeys(fetchedPins);
 
-      return (
-        <PinsBoard
-          initialPins={initialPins}
-          fetchPinsAPIRoute={fetchPinsAPIRoute}
-        />
-      );
-    } catch (error) {
-      // Malformed response
-      return (
-        <PinsBoard
-          initialPins={[]}
-          fetchPinsAPIRoute={fetchPinsAPIRoute}
-          errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
-        />
-      );
-    }
-  };
+  return initialPinSuggestions;
 };
 
 const Page = async () => {
   const accessTokenCookie = cookies().get("accessToken");
 
   if (!accessTokenCookie) {
-    return <LandingPage />;
+    return <LandingPageContent />;
   }
 
   const accessToken = accessTokenCookie.value;
 
-  const pinSuggestionsFetcherAndRenderer = getPinsFetcherAndRenderer({
-    fetchPinsAPIRoute: API_ROUTE_PINS_SUGGESTIONS,
-    fetchPinsAPIEndpoint: API_ENDPOINT_GET_PIN_SUGGESTIONS,
-  });
+  let initialPinSuggestions;
 
-  // TODO: refactor (unclear)
-  const renderedComponent = await pinSuggestionsFetcherAndRenderer(accessToken);
+  try {
+    initialPinSuggestions = await fetchInitialPinSuggestions({
+      accessToken,
+    });
+  } catch (error) {
+    if (error instanceof Response401Error) {
+      // Access token is likely expired:
+      return <AccessTokenRefresher />;
+    }
 
-  return renderedComponent;
+    if (error instanceof NetworkError) {
+      return (
+        <PinsBoard
+          initialPins={[]}
+          fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
+          errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
+        />
+      );
+    }
+
+    return (
+      <PinsBoard
+        initialPins={[]}
+        fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
+        errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
+      />
+    );
+  }
+
+  return (
+    <PinsBoard
+      initialPins={initialPinSuggestions}
+      fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
+    />
+  );
 };
 
 export default Page;
