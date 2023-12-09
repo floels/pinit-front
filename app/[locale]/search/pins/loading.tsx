@@ -1,7 +1,7 @@
-import PinsBoardLoadingState from "@/components/PinsBoard/PinsBoardLoadingState";
+import SpinnerBelowHeader from "@/components/Spinners/SpinnerBelowHeader";
 
 const Loading = () => {
-  return <PinsBoardLoadingState />;
+  return <SpinnerBelowHeader />;
 };
 
 export default Loading;
