@@ -1,32 +1,81 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getPinsFetcherAndRenderer } from "../../page";
 import {
   API_ROUTE_PINS_SEARCH,
   API_ENDPOINT_SEARCH_PINS,
+  API_BASE_URL,
+  ERROR_CODE_FETCH_BACKEND_FAILED,
+  ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
+import { NetworkError, ResponseKOError } from "@/lib/customErrors";
+import PinsBoard from "@/components/PinsBoard/PinsBoard";
 
 type PageProps = {
   searchParams: { q: string };
 };
 
-const Page = async ({ searchParams }: PageProps) => {
-  const accessTokenCookie = cookies().get("accessToken");
+const fetchInitialSearchResults = async ({
+  searchTerm,
+}: {
+  searchTerm: string;
+}) => {
+  let fetchResponse;
 
-  if (!accessTokenCookie || !searchParams.q) {
+  try {
+    fetchResponse = await fetch(
+      `${API_BASE_URL}/${API_ENDPOINT_SEARCH_PINS}/?q=${searchTerm}`,
+    );
+  } catch (error) {
+    throw new NetworkError();
+  }
+
+  if (!fetchResponse.ok) {
+    throw new ResponseKOError();
+  }
+
+  const fetchResponseData = await fetchResponse.json();
+
+  const initialSearchResults = fetchResponseData.results;
+
+  return initialSearchResults;
+};
+
+const Page = async ({ searchParams }: PageProps) => {
+  if (!searchParams.q) {
     redirect("/");
   }
 
-  const accessToken = accessTokenCookie.value;
+  let initialSearchResults;
 
-  const pinSuggestionsFetcherAndRenderer = getPinsFetcherAndRenderer({
-    fetchPinsAPIRoute: `${API_ROUTE_PINS_SEARCH}?q=${searchParams.q}`,
-    fetchPinsAPIEndpoint: `${API_ENDPOINT_SEARCH_PINS}/?q=${searchParams.q}`,
-  });
+  try {
+    initialSearchResults = await fetchInitialSearchResults({
+      searchTerm: searchParams.q,
+    });
+  } catch (error) {
+    if (error instanceof NetworkError) {
+      return (
+        <PinsBoard
+          initialPins={[]}
+          fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
+          errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
+        />
+      );
+    }
 
-  const renderedComponent = await pinSuggestionsFetcherAndRenderer(accessToken);
+    return (
+      <PinsBoard
+        initialPins={[]}
+        fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
+        errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
+      />
+    );
+  }
 
-  return renderedComponent;
+  return (
+    <PinsBoard
+      initialPins={initialSearchResults}
+      fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
+    />
+  );
 };
 
 export default Page;
