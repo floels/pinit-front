@@ -40,7 +40,9 @@ const fetchInitialSearchResults = async ({
 };
 
 const Page = async ({ searchParams }: PageProps) => {
-  if (!searchParams.q) {
+  const searchTerm = searchParams.q;
+
+  if (!searchTerm) {
     redirect("/");
   }
 
@@ -48,7 +50,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   try {
     initialSearchResults = await fetchInitialSearchResults({
-      searchTerm: searchParams.q,
+      searchTerm,
     });
   } catch (error) {
     if (error instanceof NetworkError) {

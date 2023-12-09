@@ -28,22 +28,10 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   });
 };
 
-test("should display search results if user is logged in", async ({
+test("should display search results if search param is not empty", async ({
   page,
-  context,
 }) => {
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
-
-  context.addCookies([
-    {
-      name: "accessToken",
-      value: "dummy_access_token",
-      path: "/",
-      domain: "127.0.0.1",
-      httpOnly: true,
-      secure: true,
-    },
-  ]);
 
   await page.goto("/search/pins?q=mysearch");
 
@@ -54,34 +42,14 @@ test("should display search results if user is logged in", async ({
   mockAPIServer.close();
 });
 
-test("should redirect to homepage if search is empty and user is logged in", async ({
+test("should redirect to homepage if search param is empty", async ({
   page,
-  context,
 }) => {
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
-
-  context.addCookies([
-    {
-      name: "accessToken",
-      value: "dummy_access_token",
-      path: "/",
-      domain: "127.0.0.1",
-      httpOnly: true,
-      secure: true,
-    },
-  ]);
 
   await page.goto("/search/pins?q=");
 
   await page.waitForSelector('[data-testid="search-bar-input"]');
 
   mockAPIServer.close();
-});
-
-test("should redirect to landing page if user is not logged in", async ({
-  page,
-}) => {
-  await page.goto("/search/pins?q=mysearch");
-
-  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 });
