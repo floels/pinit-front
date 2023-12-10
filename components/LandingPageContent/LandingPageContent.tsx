@@ -10,10 +10,6 @@ import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
-import HeaderUnauthenticated from "../Header/HeaderUnauthenticated";
-import OverlayModal from "../OverlayModal/OverlayModal";
-import LoginForm from "../LoginForm/LoginForm";
-import SignupForm from "../SignupForm/SignupForm";
 
 export type LandingPageProps = {
   errorCode?: string;
@@ -21,6 +17,7 @@ export type LandingPageProps = {
 
 const NUMBER_FOLDS = 5;
 const SCROLLING_DEBOUNCING_TIME_MS = 80;
+const HEADER_HEIGHT = "80px";
 
 const LandingPage = ({ errorCode }: LandingPageProps) => {
   const t = useTranslations("Common");
@@ -39,35 +36,6 @@ const LandingPage = ({ errorCode }: LandingPageProps) => {
     down: null,
     up: null,
   });
-
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-
-  const openLogInModal = () => {
-    setIsLoginModalOpen(true);
-  };
-
-  const openSignUpModal = () => {
-    setIsSignupModalOpen(true);
-  };
-
-  const handleClickNoAccountYet = () => {
-    setIsLoginModalOpen(false);
-    setIsSignupModalOpen(true);
-  };
-
-  const handleCloseLoginModal = () => {
-    setIsLoginModalOpen(false);
-  };
-
-  const handleClickAlreadyHaveAccount = () => {
-    setIsSignupModalOpen(false);
-    setIsLoginModalOpen(true);
-  };
-
-  const handleCloseSignupModal = () => {
-    setIsSignupModalOpen(false);
-  };
 
   const handleClickHeroSeeBelow = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
@@ -136,35 +104,20 @@ const LandingPage = ({ errorCode }: LandingPageProps) => {
     <main className={styles.container}>
       <div
         className={styles.content}
-        style={{ transform: `translateY(-${(currentFold - 1) * 100}vh)` }}
-        data-testid="homepage-unauthenticated-content"
+        style={{
+          transform: `translateY(calc(-${
+            currentFold - 1
+          } * (100vh - ${HEADER_HEIGHT})))`,
+        }}
       >
         <div className={styles.hero} ref={heroRef}>
-          <HeaderUnauthenticated
-            handleClickLogInButton={openLogInModal}
-            handleClickSignUpButton={openSignUpModal}
-          />
-          <div className={styles.pictureSlider}>
-            <PictureSlider onClickSeeBelow={handleClickHeroSeeBelow} />
-          </div>
+          <PictureSlider onClickSeeBelow={handleClickHeroSeeBelow} />
         </div>
-        <SecondFold handleClickExploreButton={openSignUpModal} />
-        <ThirdFold handleClickExploreButton={openSignUpModal} />
-        <FourthFold handleClickExploreButton={openSignUpModal} />
+        <SecondFold />
+        <ThirdFold />
+        <FourthFold />
         <FifthFold heroRef={heroRef} onClickBackToTop={handleClickBackToTop} />
       </div>
-      {isLoginModalOpen && (
-        <OverlayModal onClose={handleCloseLoginModal}>
-          <LoginForm onClickNoAccountYet={handleClickNoAccountYet} />
-        </OverlayModal>
-      )}
-      {isSignupModalOpen && (
-        <OverlayModal onClose={handleCloseSignupModal}>
-          <SignupForm
-            onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
-          />
-        </OverlayModal>
-      )}
     </main>
   );
 };

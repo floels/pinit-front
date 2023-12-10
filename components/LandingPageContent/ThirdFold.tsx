@@ -3,11 +3,7 @@ import { useTranslations } from "next-intl";
 import TextAndExploreButton from "./TextAndExploreButton";
 import styles from "./ThirdFold.module.css";
 
-type ThirdFoldProps = {
-  handleClickExploreButton: () => void;
-};
-
-const ThirdFold = ({ handleClickExploreButton }: ThirdFoldProps) => {
+const ThirdFold = () => {
   const textAndLinkColors = {
     primary: "--color-teal",
     secondary: "--color-green-minty",
@@ -27,7 +23,6 @@ const ThirdFold = ({ handleClickExploreButton }: ThirdFoldProps) => {
         <TextAndExploreButton
           labels={textAndLinkLabels}
           colors={textAndLinkColors}
-          handleClickExploreButton={handleClickExploreButton}
         />
       </div>
       <div className={styles.picturesArea}>

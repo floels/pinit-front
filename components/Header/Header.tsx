@@ -17,39 +17,43 @@ const Header = ({ withAccessTokenCookie }: HeaderProps) => {
   const [ownedAccounts, setOwnedAccounts] = useState<AccountType[]>([]);
 
   const fetchOwnedAccounts = useCallback(async () => {
-    if (withAccessTokenCookie) {
-      let response;
+    let response;
 
-      try {
-        response = await fetch(API_ROUTE_OWNED_ACCOUNTS, {
-          method: "GET",
-        });
-      } catch (error) {
-        setFetchFailed(true);
-        return;
-      } finally {
-        setIsFetching(false);
-      }
-
-      if (!response.ok) {
-        setFetchFailed(true);
-        return;
-      }
-
-      const { results } = await response.json();
-
-      if (!results || !results?.length) {
-        setFetchFailed(true);
-        return;
-      }
-
-      setOwnedAccounts(getAccountsWithCamelizedKeys(results));
+    try {
+      response = await fetch(API_ROUTE_OWNED_ACCOUNTS, {
+        method: "GET",
+      });
+    } catch (error) {
+      setFetchFailed(true);
+      return;
+    } finally {
+      setIsFetching(false);
     }
-  }, [withAccessTokenCookie]);
+
+    if (!response.ok) {
+      setFetchFailed(true);
+      return;
+    }
+
+    const { results } = await response.json();
+
+    if (!results || !results?.length) {
+      setFetchFailed(true);
+      return;
+    }
+
+    setOwnedAccounts(getAccountsWithCamelizedKeys(results));
+  }, []);
 
   useEffect(() => {
-    fetchOwnedAccounts();
-  }, [fetchOwnedAccounts]);
+    if (withAccessTokenCookie) {
+      fetchOwnedAccounts();
+    }
+  }, [withAccessTokenCookie, fetchOwnedAccounts]);
+
+  if (!withAccessTokenCookie) {
+    return <HeaderUnauthenticated />;
+  }
 
   if (isFetching) {
     // TODO: add loading state to <HeaderAuthenticated />
@@ -57,13 +61,8 @@ const Header = ({ withAccessTokenCookie }: HeaderProps) => {
   }
 
   if (fetchFailed) {
-    // TODO: have behavior controlled directly by <HeaderUnauthenticated />
-    return (
-      <HeaderUnauthenticated
-        handleClickLogInButton={() => {}}
-        handleClickSignUpButton={() => {}}
-      />
-    );
+    // TODO: add error message to <HeaderAuthenticated />
+    return <HeaderAuthenticated />;
   }
 
   // TODO: display fetched information in <HeaderAuthenticated />

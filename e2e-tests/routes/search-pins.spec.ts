@@ -20,12 +20,6 @@ const configureAPIResponses = (mockAPIApp: Express) => {
       })),
     });
   });
-
-  mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
-    response.json({
-      results: [],
-    });
-  });
 };
 
 test("should display search results if search param is not empty", async ({
@@ -42,14 +36,14 @@ test("should display search results if search param is not empty", async ({
   mockAPIServer.close();
 });
 
-test("should redirect to homepage if search param is empty", async ({
+test("should redirect to landing page if search param is empty", async ({
   page,
 }) => {
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 
   await page.goto("/search/pins?q=");
 
-  await page.waitForSelector('[data-testid="search-bar-input"]');
+  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 
   mockAPIServer.close();
 });

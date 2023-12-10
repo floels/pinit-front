@@ -6,13 +6,11 @@ type TextAndExploreButtonProps = {
     primary: string;
     secondary: string;
   };
-  handleClickExploreButton: () => void;
 };
 
 const TextAndExploreButton = ({
   labels,
   colors,
-  handleClickExploreButton,
 }: TextAndExploreButtonProps) => {
   return (
     <div
@@ -22,7 +20,6 @@ const TextAndExploreButton = ({
       <div className={styles.header}>{labels.header}</div>
       <div className={styles.paragraph}>{labels.paragraph}</div>
       <button
-        onClick={handleClickExploreButton}
         className={styles.link}
         style={{
           backgroundColor: `var(${colors.primary})`,
