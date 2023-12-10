@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  height: calc(100vh - var(--header-height));
   background-color: rgb(255, 253, 146);
   display: flex;
   justify-content: flex-end;

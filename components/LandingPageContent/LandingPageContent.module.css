@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  height: calc(100vh - var(--header-height));
   overflow-y: hidden;
 }
 
@@ -8,9 +8,5 @@
 }
 
 .hero {
-  height: 100vh;
-}
-
-.pictureSlider {
   height: calc(100vh - var(--header-height));
 }

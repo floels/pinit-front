@@ -8,6 +8,7 @@ import {
   ERROR_CODE_CLIENT_FETCH_FAILED,
 } from "@/lib/constants";
 import LandingPage from "../LandingPageContent/LandingPageContent";
+import SpinnerBelowHeader from "../Spinners/SpinnerBelowHeader";
 
 const AccessTokenRefresher = () => {
   const [fetchFailed, setFetchFailed] = useState(false);
@@ -31,7 +32,7 @@ const AccessTokenRefresher = () => {
     }
 
     if (!response.ok) {
-      // Refresh token is expired: logout and go back to base route:
+      // Refresh token itself is expired: log out and go back to base route:
       await fetch(API_ROUTE_LOG_OUT, {
         method: "POST",
         headers: {
@@ -57,7 +58,7 @@ const AccessTokenRefresher = () => {
     return <LandingPage errorCode={ERROR_CODE_CLIENT_FETCH_FAILED} />;
   }
 
-  return null;
+  return <SpinnerBelowHeader />;
 };
 
 export default AccessTokenRefresher;

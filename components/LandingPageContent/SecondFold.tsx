@@ -5,11 +5,7 @@ import { useTranslations } from "next-intl";
 import styles from "./SecondFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
 
-type SecondFoldProps = {
-  handleClickExploreButton: () => void;
-};
-
-const SecondFold = ({ handleClickExploreButton }: SecondFoldProps) => {
+const SecondFold = () => {
   const textAndLinkColors = {
     primary: "--color-purple-dark",
     secondary: "--color-yellow",
@@ -76,7 +72,6 @@ const SecondFold = ({ handleClickExploreButton }: SecondFoldProps) => {
         <TextAndExploreButton
           labels={textAndLinkLabels}
           colors={textAndLinkColors}
-          handleClickExploreButton={handleClickExploreButton}
         />
       </div>
     </div>

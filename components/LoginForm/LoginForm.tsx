@@ -191,7 +191,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
           <div className={styles.otherErrorMessage}>
             <FontAwesomeIcon icon={faCircleXmark} />
             <div className={styles.otherErrorText}>
-              {t(`LandingPageContent.LoginForm.${formErrors.other}`)}
+              {t(`Common.UNFORESEEN_ERROR`)}
             </div>
           </div>
         )}

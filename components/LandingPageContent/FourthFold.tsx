@@ -3,11 +3,7 @@ import { useTranslations } from "next-intl";
 import styles from "./FourthFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
 
-type FourthFoldProps = {
-  handleClickExploreButton: () => void;
-};
-
-const FourthFold = ({ handleClickExploreButton }: FourthFoldProps) => {
+const FourthFold = () => {
   const textAndLinkColors = {
     primary: "--color-red-fiery",
     secondary: "--color-pink",
@@ -60,7 +56,6 @@ const FourthFold = ({ handleClickExploreButton }: FourthFoldProps) => {
         <TextAndExploreButton
           labels={textAndLinkLabels}
           colors={textAndLinkColors}
-          handleClickExploreButton={handleClickExploreButton}
         />
       </div>
     </div>

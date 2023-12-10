@@ -1,21 +1,21 @@
+import { redirect } from "next/navigation";
 import PinDetailsView from "@/components/PinDetailsView/PinDetailsView";
 import { API_BASE_URL, API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
 import { getPinWithCamelizedKeys } from "@/lib/utils/adapters";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 type PageProps = {
   params: { id: string };
 };
 
 const Page = async ({ params }: PageProps) => {
-  const accessTokenCookie = cookies().get("accessToken");
+  const pinID = params.id;
 
-  if (!accessTokenCookie) {
+  // A pin ID should be a sequence of 18 digits
+  const pinIDPattern = /^\d{18}$/;
+
+  if (!pinIDPattern.test(pinID)) {
     redirect("/");
   }
-
-  const pinID = params.id;
 
   const response = await fetch(
     `${API_BASE_URL}/${API_ENDPOINT_PIN_DETAILS}/${pinID}/`,

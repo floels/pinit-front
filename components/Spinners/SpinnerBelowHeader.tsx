@@ -1,19 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import styles from "./PinsBoardLoadingState.module.css";
+import styles from "./SpinnerBelowHeader.module.css";
 
-const PinsBoardLoadingState = () => {
+const SpinnerBelowHeader = () => {
   return (
     <div className={styles.container}>
       <FontAwesomeIcon
         icon={faSpinner}
         size="2x"
         spin
-        className={styles.loadingSpinner}
-        data-testid="loading-spinner"
+        className={styles.spinner}
       />
     </div>
   );
 };
 
-export default PinsBoardLoadingState;
+export default SpinnerBelowHeader;

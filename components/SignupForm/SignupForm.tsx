@@ -225,7 +225,7 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
         {showFormErrors && formErrors.other && (
           <div className={styles.otherErrorMessage}>
             <div className={styles.otherErrorText}>
-              {t(`LandingPageContent.SignupForm.${formErrors.other}`)}
+              {t(`Common.UNFORESEEN_ERROR`)}
             </div>
           </div>
         )}
