@@ -5,14 +5,14 @@ import AccountOptionsFlyout from "./AccountOptionsFlyout";
 
 const messages = en.HeaderAuthenticated;
 
-const handleClickLogOut = jest.fn();
+const mockHandleClickLogOut = jest.fn();
 
 it("should call handleClickLogOut when user clicks on 'Log out'", async () => {
-  render(<AccountOptionsFlyout handleClickLogOut={handleClickLogOut} />);
+  render(<AccountOptionsFlyout handleClickLogOut={mockHandleClickLogOut} />);
 
   const logOutElement = screen.getByText(messages.LOG_OUT);
 
   await userEvent.click(logOutElement);
 
-  expect(handleClickLogOut).toHaveBeenCalledTimes(1);
+  expect(mockHandleClickLogOut).toHaveBeenCalledTimes(1);
 });

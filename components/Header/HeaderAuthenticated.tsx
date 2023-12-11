@@ -12,8 +12,17 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBar from "./HeaderSearchBar";
 import styles from "./HeaderAuthenticated.module.css";
 import { API_ROUTE_LOG_OUT } from "@/lib/constants";
+import { AccountType } from "@/lib/types";
 
-const HeaderAuthenticated = () => {
+type HeaderAuthenticatedProps = {
+  ownedAccounts: AccountType[];
+  isLoading?: boolean;
+};
+
+const HeaderAuthenticated = ({
+  ownedAccounts,
+  isLoading,
+}: HeaderAuthenticatedProps) => {
   const router = useRouter();
   const pathname = usePathname();
 

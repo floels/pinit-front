@@ -29,12 +29,6 @@ it("should refresh the current route when receiving OK response from token refre
 });
 
 it("should call logout endpoint and refresh page when receiving KO response from token refresh endpoint", async () => {
-  // Inspired by https://stackoverflow.com/a/55771671
-  Object.defineProperty(window, "location", {
-    configurable: true,
-    value: { ...window.location, reload: jest.fn() },
-  });
-
   fetchMock.doMockOnceIf(
     API_ROUTE_REFRESH_TOKEN,
     JSON.stringify({ errors: [{ code: "invalid_refresh_token" }] }),
@@ -53,7 +47,7 @@ it("should call logout endpoint and refresh page when receiving KO response from
   });
 });
 
-it("should render unauthenticated homepage when fetch fails", async () => {
+it("should render landing homepage when fetch fails", async () => {
   fetchMock.mockReject(new Error("Network failure"));
 
   // Since there is asynchronous behavior in the `useEffect` hook of <AccessTokenRefresher />, we need to wrap the `render()` in an `act()`.
