@@ -11,6 +11,7 @@ import {
 import { getPinsWithCamelizedKeys } from "@/lib/utils/adapters";
 import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
 import {
+  MalformedResponseError,
   NetworkError,
   Response401Error,
   ResponseKOError,
@@ -21,10 +22,10 @@ const fetchInitialPinSuggestions = async ({
 }: {
   accessToken: string;
 }) => {
-  let fetchResponse;
+  let response;
 
   try {
-    fetchResponse = await fetchWithAuthentication({
+    response = await fetchWithAuthentication({
       endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/`,
       accessToken,
     });
@@ -32,19 +33,29 @@ const fetchInitialPinSuggestions = async ({
     throw new NetworkError();
   }
 
-  if (fetchResponse.status === 401) {
+  if (response.status === 401) {
     throw new Response401Error();
   }
 
-  if (!fetchResponse.ok) {
+  if (!response.ok) {
     throw new ResponseKOError();
   }
 
-  const fetchResponseData = await fetchResponse.json();
+  let responseData;
 
-  const fetchedPins = fetchResponseData.results;
+  try {
+    responseData = await response.json();
+  } catch (error) {
+    throw new MalformedResponseError();
+  }
 
-  const initialPinSuggestions = getPinsWithCamelizedKeys(fetchedPins);
+  const { results } = responseData;
+
+  if (!results || !results?.length) {
+    throw new MalformedResponseError();
+  }
+
+  const initialPinSuggestions = getPinsWithCamelizedKeys(results);
 
   return initialPinSuggestions;
 };

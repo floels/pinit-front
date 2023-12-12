@@ -6,7 +6,11 @@ import {
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
-import { NetworkError, ResponseKOError } from "@/lib/customErrors";
+import {
+  MalformedResponseError,
+  NetworkError,
+  ResponseKOError,
+} from "@/lib/customErrors";
 import PinsBoard from "@/components/PinsBoard/PinsBoard";
 
 type PageProps = {
@@ -18,25 +22,35 @@ const fetchInitialSearchResults = async ({
 }: {
   searchTerm: string;
 }) => {
-  let fetchResponse;
+  let response;
 
   try {
-    fetchResponse = await fetch(
+    response = await fetch(
       `${API_BASE_URL}/${API_ENDPOINT_SEARCH_PINS}/?q=${searchTerm}`,
     );
   } catch (error) {
     throw new NetworkError();
   }
 
-  if (!fetchResponse.ok) {
+  if (!response.ok) {
     throw new ResponseKOError();
   }
 
-  const fetchResponseData = await fetchResponse.json();
+  let responseData;
 
-  const initialSearchResults = fetchResponseData.results;
+  try {
+    responseData = await response.json();
+  } catch (error) {
+    throw new MalformedResponseError();
+  }
 
-  return initialSearchResults;
+  const { results } = responseData;
+
+  if (!results || !results?.length) {
+    throw new MalformedResponseError();
+  }
+
+  return results;
 };
 
 const Page = async ({ searchParams }: PageProps) => {

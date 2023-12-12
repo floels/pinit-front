@@ -106,13 +106,15 @@ const HeaderSearchBar = () => {
   }, [handleKeyDown]);
 
   const fetchAutocompleteSuggestions = useCallback(async () => {
-    let response;
+    let response, responseData;
 
     try {
       response = await fetch(
         `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${inputValue}`,
         { method: "GET" },
       );
+
+      responseData = await response.json();
     } catch (error) {
       // Fail silently
       setAutocompleteSuggestions([]);
@@ -124,8 +126,6 @@ const HeaderSearchBar = () => {
       setAutocompleteSuggestions([]);
       return;
     }
-
-    const responseData = await response.json();
 
     const refinedSuggestions = getRefinedSuggestions(
       inputValue,

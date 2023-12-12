@@ -1,7 +1,7 @@
 import userEvent from "@testing-library/user-event";
 import { render, screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
-import HeaderAuthenticated from "./HeaderAuthenticated";
+import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 
 const messages = en.HeaderAuthenticated;
 
@@ -15,7 +15,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 it("should have the proper interactivity", async () => {
-  render(<HeaderAuthenticated />);
+  render(<HeaderAuthenticatedContainer />);
 
   const createButton = screen.getByText(messages.CREATE);
   const profileLink = screen.getByTestId("profile-link");
