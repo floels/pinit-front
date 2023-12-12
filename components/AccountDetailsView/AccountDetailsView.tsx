@@ -41,6 +41,8 @@ const AccountDetailsView = ({
 
   let picturesBlock;
 
+  // Structure of pictures block depends on whether we have a background picture URL:
+
   if (backgroundPictureURL) {
     picturesBlock = (
       <div className={styles.picturesContainer}>

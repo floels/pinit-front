@@ -57,16 +57,16 @@ const Header = ({ withAccessTokenCookie }: HeaderProps) => {
 
   if (isFetching) {
     // TODO: add loading state to <HeaderAuthenticated />
-    return <HeaderAuthenticated />;
+    return <HeaderAuthenticated ownedAccounts={[]} isLoading />;
   }
 
   if (fetchFailed) {
     // TODO: add error message to <HeaderAuthenticated />
-    return <HeaderAuthenticated />;
+    return <HeaderAuthenticated ownedAccounts={[]} />;
   }
 
   // TODO: display fetched information in <HeaderAuthenticated />
-  return <HeaderAuthenticated />;
+  return <HeaderAuthenticated ownedAccounts={ownedAccounts} />;
 };
 
 export default Header;
