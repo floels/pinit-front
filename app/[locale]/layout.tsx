@@ -14,9 +14,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 import { cookies } from "next/headers";
-import Header from "@/components/Header/Header";
 
 import "@/styles/globals.css";
+
+import HeaderAuthenticatedContainer from "@/components/Header/HeaderAuthenticatedContainer";
+import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
 
 type Props = {
   children: React.ReactNode;
@@ -44,14 +46,16 @@ const Layout = ({ children, params: { locale } }: Props) => {
 
   const accessTokenCookie = cookies().get("accessToken");
 
-  const hasAccessTokenCookie = !!accessTokenCookie;
-
   return (
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ToastContainer position="bottom-left" autoClose={5000} />
-          <Header withAccessTokenCookie={hasAccessTokenCookie} />
+          {accessTokenCookie ? (
+            <HeaderAuthenticatedContainer />
+          ) : (
+            <HeaderUnauthenticated />
+          )}
           {children}
         </NextIntlClientProvider>
       </body>
