@@ -91,6 +91,8 @@
     "ACCOUNT_OPTIONS": "Account and more options",
     "PLACEHOLDER_SEARCH": "Search",
     "MORE_OPTIONS": "More options",
+    "CURRENTLY_IN": "Currently in",
+    "YOUR_OTHER_ACCOUNTS": "Your other accounts",
     "LOG_OUT": "Log out"
   },
   "PinsBoard": {

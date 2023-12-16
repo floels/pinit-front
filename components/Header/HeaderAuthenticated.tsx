@@ -137,6 +137,9 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
         </div>
         {isAccountOptionsFlyoutOpen && (
           <AccountOptionsFlyout
+            isFetching={isFetching}
+            fetchFailed={fetchFailed}
+            ownedAccounts={ownedAccounts}
             ref={accountOptionsFlyoutRef}
             handleClickLogOut={handleClickLogOut}
           />
