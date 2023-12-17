@@ -1,10 +1,8 @@
 .container {
+  min-width: 180px;
   position: absolute;
   top: 60px;
-  width: 200px;
-  left: calc(
-    100vw - 218px
-  ); /* 218px = 200px width + 16px padding + 2px margin */
+  right: 2px;
   border-radius: 16px;
   box-shadow: var(--elevation-floating);
   padding: 8px;
@@ -18,7 +16,7 @@
   font-weight: var(--font-weight-normal);
 }
 
-.sectionItem {
+.logoutButton {
   padding: 8px;
   font-size: var(--font-size-300);
   font-weight: var(--font-weight-semibold);
@@ -26,6 +24,74 @@
   cursor: pointer;
 }
 
-.sectionItem:hover {
+.logoutButton:hover {
   background-color: var(--color-background-secondary);
+}
+
+.otherAccountsContainer {
+  margin-top: 16px;
+}
+
+.accountDisplayContainer {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.accountDisplayContainer:hover {
+  background-color: var(--color-background-secondary);
+}
+
+.profilePicture {
+  border-radius: 50%;
+}
+
+.accountInitial {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: var(--color-background-secondary);
+  text-align: center;
+  line-height: 60px; /* equal to height, to center text vertically */
+  font-size: var(--font-size-400);
+  font-weight: var(--font-weight-semibold);
+}
+
+.accountInfo {
+  margin-left: 8px;
+  margin-right: 16px;
+}
+
+.accountDisplayName {
+  max-width: 116px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.accountType {
+  margin-top: 2px;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-200);
+}
+
+.moreOptionsContainer {
+  margin-top: 16px;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  color: var(--color-text-subtle);
+}
+
+.errorContainer {
+  padding: 8px;
+  font-size: var(--font-size-200);
+}
+
+.errorIcon {
+  margin-right: 8px;
+  color: var(--color-text-warning);
 }

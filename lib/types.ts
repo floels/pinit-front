@@ -8,7 +8,7 @@ export type PinType = {
   description?: string;
 };
 
-enum TypesOfAccount {
+export enum TypesOfAccount {
   PERSONAL = "personal",
   BUSINESS = "business",
 }
@@ -18,6 +18,6 @@ export type AccountType = {
   username: string;
   displayName: string;
   initial: string;
-  profilePictureURL: string;
+  profilePictureURL?: string;
   ownerEmail: string;
 };

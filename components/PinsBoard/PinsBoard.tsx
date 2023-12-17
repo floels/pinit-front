@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
-import { appendQueryParam } from "@/lib/utils/misc";
+import { appendQueryParam } from "@/lib/utils/strings";
 import PinsBoardDisplay from "./PinsBoardDisplay";
 import { PinType } from "@/lib/types";
 import { getPinsWithCamelizedKeys } from "@/lib/utils/adapters";
