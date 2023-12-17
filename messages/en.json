@@ -1,7 +1,9 @@
 {
   "Common": {
     "CONNECTION_ERROR": "We couldn't reach the server. Please check your Internet connection and try again.",
-    "UNFORESEEN_ERROR": "An unforeseen error happened. Please try again later."
+    "UNFORESEEN_ERROR": "An unforeseen error happened. Please try again later.",
+    "ACCOUNT_TYPE_PERSONAL": "Personal",
+    "ACCOUNT_TYPE_BUSINESS": "Business"
   },
   "HeaderUnauthenticated": {
     "SIGN_UP": "Sign up",
@@ -93,6 +95,8 @@
     "MORE_OPTIONS": "More options",
     "CURRENTLY_IN": "Currently in",
     "YOUR_OTHER_ACCOUNTS": "Your other accounts",
+    "ERROR_RETRIEVING_ACCOUNTS": "We couldn't retrieve your list of accounts.",
+    "ALT_PROFILE_PICTURE_OF": "Profile picture of",
     "LOG_OUT": "Log out"
   },
   "PinsBoard": {

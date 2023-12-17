@@ -19,16 +19,16 @@ type PinsBoardDisplayProps = {
 
 const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set width of 236px and side margins of 8px
 const SIDE_PADDING_PX = 16; // should be consistent with the side padding of .thumbnailsGrid in CSS file
+const MAX_NUMBER_COLUMNS = 8;
 
 const getNumberOfColumns = (viewportWidth: number) => {
   const theoreticalNumberOfColumns = Math.floor(
     (viewportWidth - 2 * SIDE_PADDING_PX) / GRID_COLUMN_WIDTH_WITH_MARGINS_PX,
   );
 
-  // We force the number of columns to be between 1 and 6:
   const boundedNumberOfColumns = Math.min(
     Math.max(theoreticalNumberOfColumns, 1),
-    6,
+    MAX_NUMBER_COLUMNS,
   );
 
   return boundedNumberOfColumns;

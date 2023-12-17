@@ -96,7 +96,7 @@
   border-radius: 50%;
   color: var(--color-text-default);
   text-align: center;
-  line-height: 24px;
+  line-height: 24px; /* equal to height, to center text vertically */
   font-size: 10px;
   font-weight: var(--font-weight-semibold);
   background-color: var(--color-background-secondary);

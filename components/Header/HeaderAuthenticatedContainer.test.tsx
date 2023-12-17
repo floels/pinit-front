@@ -50,7 +50,19 @@ it("should have the proper interactivity", async () => {
   expect(screen.queryByText(messages.LOG_OUT)).toBeNull();
 });
 
-it("should display owned accounts upon successful fetch", async () => {
+it("should display spinner while fetching", async () => {
+  const eternalPromise = new Promise<Response>(() => {});
+  fetchMock.mockImplementationOnce(() => eternalPromise);
+
+  render(<HeaderAuthenticatedContainer />);
+
+  const accountOptionsButton = screen.getByTestId("account-options-button");
+  await userEvent.click(accountOptionsButton);
+
+  screen.getByTestId("spinner");
+});
+
+it("should not display 'Your other accounts' section if fetch response has one single account", async () => {
   fetchMock.doMockOnceIf(
     API_ROUTE_OWNED_ACCOUNTS,
     JSON.stringify({
@@ -58,18 +70,9 @@ it("should display owned accounts upon successful fetch", async () => {
         {
           username: "johndoe",
           type: "personal",
-          displayName: "John Doe",
+          display_name: "John Doe",
           initial: "J",
-          profilePictureURL: "https://some.url",
-          backgroundPictureURL: null,
-        },
-        {
-          username: "jdoesbusiness",
-          type: "business",
-          displayName: "John Doe's Business",
-          initial: "J",
-          profilePictureURL: "https://some.url",
-          backgroundPictureURL: null,
+          profile_picture_url: "https://profile.picture.url",
         },
       ],
     }),
@@ -78,9 +81,66 @@ it("should display owned accounts upon successful fetch", async () => {
   render(<HeaderAuthenticatedContainer />);
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
-
   await userEvent.click(accountOptionsButton);
 
-  screen.getByText("johndoe");
-  screen.getByText("jdoesbusiness");
+  screen.getByText(messages.CURRENTLY_IN);
+  screen.getByText("John Doe");
+  screen.getByText("Personal");
+
+  const profilePicture = screen.getByAltText(
+    `${messages.ALT_PROFILE_PICTURE_OF} John Doe`,
+  ) as HTMLImageElement;
+  expect(profilePicture.src).toMatch(
+    /_next\/image\?url=https%3A%2F%2Fprofile\.picture\.url/,
+  ); // Since the `src` attribute is transformed by the use of <Image /> from 'next/image'
+
+  expect(screen.queryByText(messages.YOUR_OTHER_ACCOUNTS)).toBeNull();
+});
+
+it("should display 'Your other accounts' section if fetch response has two accounts", async () => {
+  fetchMock.doMockOnceIf(
+    API_ROUTE_OWNED_ACCOUNTS,
+    JSON.stringify({
+      results: [
+        {
+          username: "johndoe",
+          type: "personal",
+          display_name: "John Doe",
+          initial: "J",
+          profile_picture_url: "https://profile.picture.url",
+        },
+        {
+          username: "jdoesbusiness",
+          type: "business",
+          display_name: "John Doe's Business",
+          initial: "J",
+          profile_picture_url: null,
+        },
+      ],
+    }),
+  );
+
+  render(<HeaderAuthenticatedContainer />);
+
+  const accountOptionsButton = screen.getByTestId("account-options-button");
+  await userEvent.click(accountOptionsButton);
+
+  screen.getByText(messages.YOUR_OTHER_ACCOUNTS);
+  screen.getByText("John Doe's Business");
+  screen.getByText("Business");
+});
+
+it("should display error response in case of KO response", async () => {
+  fetchMock.doMockOnceIf(
+    API_ROUTE_OWNED_ACCOUNTS,
+    JSON.stringify({ errors: [{ code: "unauthorized" }] }),
+    { status: 401 },
+  );
+
+  render(<HeaderAuthenticatedContainer />);
+
+  const accountOptionsButton = screen.getByTestId("account-options-button");
+  await userEvent.click(accountOptionsButton);
+
+  screen.getByText(messages.ERROR_RETRIEVING_ACCOUNTS);
 });
