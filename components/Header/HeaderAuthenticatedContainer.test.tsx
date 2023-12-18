@@ -59,7 +59,7 @@ it("should display spinner while fetching", async () => {
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
 
-  screen.getByTestId("spinner");
+  screen.getByTestId("owned-accounts-spinner");
 });
 
 it("should not display 'Your other accounts' section if fetch response has one single account", async () => {

@@ -35,11 +35,9 @@ const AccountOptionsFlyout = React.forwardRef<
   const AccountDisplay = ({
     account,
     isActive,
-    key,
   }: {
     account: AccountType;
     isActive?: boolean;
-    key?: string;
   }) => {
     const commonTranslations = useTranslations("Common");
 
@@ -49,7 +47,7 @@ const AccountOptionsFlyout = React.forwardRef<
         : commonTranslations("ACCOUNT_TYPE_BUSINESS");
 
     return (
-      <div key={key} className={styles.accountDisplayContainer}>
+      <div className={styles.accountDisplayContainer}>
         <div>
           {account.profilePictureURL ? (
             <Image
@@ -106,7 +104,10 @@ const AccountOptionsFlyout = React.forwardRef<
   }
 
   const spinnerDisplay = (
-    <div className={styles.spinnerContainer} data-testid="spinner">
+    <div
+      className={styles.spinnerContainer}
+      data-testid="owned-accounts-spinner"
+    >
       <FontAwesomeIcon icon={faSpinner} size="xl" spin />
     </div>
   );
@@ -119,7 +120,11 @@ const AccountOptionsFlyout = React.forwardRef<
   );
 
   return (
-    <div ref={ref} className={styles.container}>
+    <div
+      ref={ref}
+      className={styles.container}
+      data-testid="account-options-flyout"
+    >
       {accountsDisplay}
       {isFetching && spinnerDisplay}
       {shouldDisplayError && errorDisplay}
