@@ -29,13 +29,27 @@ test("should display landing page if user is not logged in", async ({
   await page.waitForSelector('[data-testid="header-log-in-button"]');
 });
 
-test("should display pin suggestions if user is logged in", async ({
+test("should display owned accounts and pin suggestions if user is logged in", async ({
   page,
   context,
 }) => {
   const NUMBER_PIN_SUGGESTIONS = 50;
 
   const configureAPIResponses = (mockAPIApp: Express) => {
+    mockAPIApp.get("/api/owned-accounts/", (_, response: Response) => {
+      response.json({
+        results: [
+          {
+            username: "johndoe",
+            display_name: "John Doe",
+            type: "personal",
+            initial: "J",
+            profile_picture_url: null,
+          },
+        ],
+      });
+    });
+
     mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
       response.json({
         results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
@@ -57,6 +71,21 @@ test("should display pin suggestions if user is logged in", async ({
   addAccessTokenTookie(context);
 
   await page.goto("/");
+
+  await page.click('[data-testid="account-options-button"]');
+
+  // Wait for fetch to be complete:
+  await page.waitForSelector('[data-testid="owned-accounts-spinner"]', {
+    state: "detached",
+  });
+
+  const accountOptionsFlyout = page.locator(
+    '[data-testid="account-options-flyout"]',
+  );
+  expect(accountOptionsFlyout).toContainText("John Doe");
+  expect(accountOptionsFlyout).toContainText("Personal");
+
+  await page.click('[data-testid="account-options-button"]'); // close account options flyout
 
   await page.waitForSelector('[data-testid="pin-thumbnail"]');
   const pinSuggestions = await page.$$('[data-testid="pin-thumbnail"]');

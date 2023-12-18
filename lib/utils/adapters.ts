@@ -21,7 +21,6 @@ const getAccountWithCamelizedKeys = (account: any) => {
     displayName: account.display_name,
     initial: account.initial,
     profilePictureURL: account.profile_picture_url,
-    ownerEmail: account.owner_email,
   };
 };
 

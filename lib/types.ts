@@ -19,5 +19,4 @@ export type AccountType = {
   displayName: string;
   initial: string;
   profilePictureURL?: string;
-  ownerEmail: string;
 };
