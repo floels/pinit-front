@@ -10,8 +10,8 @@ type PageProps = {
 const Page = async ({ params }: PageProps) => {
   const pinID = params.id;
 
-  // A pin ID should be a sequence of 18 digits
-  const pinIDPattern = /^\d{18}$/;
+  // A pin ID should be a sequence of 15 digits
+  const pinIDPattern = /^\d{15}$/;
 
   if (!pinIDPattern.test(pinID)) {
     redirect("/");
