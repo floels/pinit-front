@@ -26,7 +26,10 @@ test("should display landing page if user is not logged in", async ({
 }) => {
   await page.goto("/");
 
-  await page.waitForSelector('[data-testid="header-log-in-button"]');
+  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
+  await page.waitForSelector(
+    `text=${en.LandingPageContent.PictureSlider.GET_YOUR_NEXT}`,
+  );
 });
 
 test("should display owned accounts and pin suggestions if user is logged in", async ({
@@ -82,8 +85,8 @@ test("should display owned accounts and pin suggestions if user is logged in", a
   const accountOptionsFlyout = page.locator(
     '[data-testid="account-options-flyout"]',
   );
-  expect(accountOptionsFlyout).toContainText("John Doe");
-  expect(accountOptionsFlyout).toContainText("Personal");
+  await accountOptionsFlyout.locator('text="John Doe"').waitFor();
+  await accountOptionsFlyout.locator('text="Personal"').waitFor();
 
   await page.click('[data-testid="account-options-button"]'); // close account options flyout
 

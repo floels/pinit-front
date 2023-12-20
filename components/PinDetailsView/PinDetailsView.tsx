@@ -27,7 +27,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
           <FontAwesomeIcon icon={faArrowLeft} size="lg" />
         </button>
       </Link>
-      <div className={styles.pinViewContainer}>
+      <div className={styles.pinViewContainer} data-testid="pin-view-container">
         <img
           src={pin.imageURL}
           alt={
