@@ -1,25 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { BrowserContext } from "@playwright/test";
 import { Response, Express } from "express";
 import en from "@/messages/en.json";
-import { launchMockAPIServer } from "../utils";
+import { addAccessTokenTookie, launchMockAPIServer } from "../utils";
 import {
   ERROR_CODE_INVALID_REFRESH_TOKEN,
   ERROR_CODE_UNAUTHORIZED,
 } from "@/lib/constants";
-
-const addAccessTokenTookie = (context: BrowserContext) => {
-  context.addCookies([
-    {
-      name: "accessToken",
-      value: "dummy_access_token",
-      path: "/",
-      domain: "127.0.0.1",
-      httpOnly: true,
-      secure: true,
-    },
-  ]);
-};
 
 test("should display landing page if user is not logged in", async ({
   page,
@@ -88,7 +74,8 @@ test("should display owned accounts and pin suggestions if user is logged in", a
   await accountOptionsFlyout.locator('text="John Doe"').waitFor();
   await accountOptionsFlyout.locator('text="Personal"').waitFor();
 
-  await page.click('[data-testid="account-options-button"]'); // close account options flyout
+  // Close account options flyout:
+  await page.click('[data-testid="account-options-button"]');
 
   await page.waitForSelector('[data-testid="pin-thumbnail"]');
   const pinSuggestions = await page.$$('[data-testid="pin-thumbnail"]');

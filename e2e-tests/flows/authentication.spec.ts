@@ -43,7 +43,10 @@ test("user should be able to log in and then log out", async ({ page }) => {
   );
 
   // We should land on authenticated homepage
-  await page.waitForSelector('[data-testid="search-bar-input"]');
+  const header = page.locator("nav");
+  await header
+    .locator(`text=${en.HeaderAuthenticated.NAV_ITEM_HOME}`)
+    .waitFor();
 
   // Log out
   await page.click('[data-testid="account-options-button"]');

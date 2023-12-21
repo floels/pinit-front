@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import { Server } from "http";
 import cors from "cors";
+import { BrowserContext } from "@playwright/test";
 
 export const PORT_MOCK_API_SERVER = 8000;
 
@@ -28,4 +29,17 @@ export const launchMockAPIServer = (
       resolve(mockAPIServer);
     });
   });
+};
+
+export const addAccessTokenTookie = (context: BrowserContext) => {
+  context.addCookies([
+    {
+      name: "accessToken",
+      value: "dummy_access_token",
+      path: "/",
+      domain: "127.0.0.1",
+      httpOnly: true,
+      secure: true,
+    },
+  ]);
 };
