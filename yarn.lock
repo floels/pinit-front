@@ -1173,6 +1173,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.14.2":
+  version: 5.14.2
+  resolution: "@tanstack/query-core@npm:5.14.2"
+  checksum: 978427a0bde5ed7ba9eacb7b15f2c384b049b7b90b10d9fe28d7bd4130fbf92980fa9907ccfeb90ebca8f385ad7760c359095af9b65b1ae6431aac01b4f42939
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.14.6":
+  version: 5.14.6
+  resolution: "@tanstack/react-query@npm:5.14.6"
+  dependencies:
+    "@tanstack/query-core": 5.14.2
+  peerDependencies:
+    react: ^18.0.0
+  checksum: 905312a8875e3f47cc8961c99e29f0d36ec51d14db23f443206bd08976bad0ad04c76218b5551daf8a6d3ce476404b14a034f0ad0d6a91ca03cb0d70fcb9ca46
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^9.0.0, @testing-library/dom@npm:^9.2.0":
   version: 9.2.0
   resolution: "@testing-library/dom@npm:9.2.0"
@@ -6328,6 +6346,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.3.0
     "@fortawesome/react-fontawesome": ^0.2.0
     "@playwright/test": ^1.35.1
+    "@tanstack/react-query": ^5.14.6
     "@testing-library/dom": ^9.2.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0

@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import { API_ROUTE_OWNED_ACCOUNTS } from "@/lib/constants";
+import { renderWithQueryClient } from "@/lib/utils/testing";
 
 const messages = en.HeaderAuthenticated;
 
@@ -16,7 +17,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 it("should have the proper interactivity", async () => {
-  render(<HeaderAuthenticatedContainer />);
+  renderWithQueryClient(<HeaderAuthenticatedContainer />);
 
   const createButton = screen.getByText(messages.CREATE);
   const profileLink = screen.getByTestId("profile-link");
@@ -54,7 +55,7 @@ it("should display spinner while fetching", async () => {
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
-  render(<HeaderAuthenticatedContainer />);
+  renderWithQueryClient(<HeaderAuthenticatedContainer />);
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
@@ -78,7 +79,7 @@ it("should not display 'Your other accounts' section if fetch response has one s
     }),
   );
 
-  render(<HeaderAuthenticatedContainer />);
+  renderWithQueryClient(<HeaderAuthenticatedContainer />);
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
@@ -120,7 +121,7 @@ it("should display 'Your other accounts' section if fetch response has two accou
     }),
   );
 
-  render(<HeaderAuthenticatedContainer />);
+  renderWithQueryClient(<HeaderAuthenticatedContainer />);
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
@@ -137,7 +138,7 @@ it("should display error response in case of KO response", async () => {
     { status: 401 },
   );
 
-  render(<HeaderAuthenticatedContainer />);
+  renderWithQueryClient(<HeaderAuthenticatedContainer />);
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);

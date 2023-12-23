@@ -17,6 +17,9 @@ import { cookies } from "next/headers";
 
 import "@/styles/globals.css";
 
+// https://tanstack.com/query/latest/docs/react/guides/advanced-ssr#initial-setup
+import ReactQueryClientProvider from "@/lib/providers/ReactQueryClientProvider";
+
 import HeaderAuthenticatedContainer from "@/components/Header/HeaderAuthenticatedContainer";
 import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
 
@@ -50,13 +53,15 @@ const Layout = ({ children, params: { locale } }: Props) => {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ToastContainer position="bottom-left" autoClose={5000} />
-          {accessTokenCookie ? (
-            <HeaderAuthenticatedContainer />
-          ) : (
-            <HeaderUnauthenticated />
-          )}
-          {children}
+          <ReactQueryClientProvider>
+            <ToastContainer position="bottom-left" autoClose={5000} />
+            {accessTokenCookie ? (
+              <HeaderAuthenticatedContainer />
+            ) : (
+              <HeaderUnauthenticated />
+            )}
+            {children}
+          </ReactQueryClientProvider>
         </NextIntlClientProvider>
       </body>
     </html>
