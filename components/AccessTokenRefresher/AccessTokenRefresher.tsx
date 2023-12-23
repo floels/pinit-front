@@ -1,38 +1,38 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  API_ROUTE_LOG_OUT,
-  API_ROUTE_REFRESH_TOKEN,
-  ERROR_CODE_CLIENT_FETCH_FAILED,
-} from "@/lib/constants";
-import LandingPage from "../LandingPageContent/LandingPageContent";
+import { API_ROUTE_LOG_OUT, API_ROUTE_REFRESH_TOKEN } from "@/lib/constants";
 import SpinnerBelowHeader from "../Spinners/SpinnerBelowHeader";
+import { ResponseKOError } from "@/lib/customErrors";
 
 const AccessTokenRefresher = () => {
-  const [fetchFailed, setFetchFailed] = useState(false);
-
   const router = useRouter();
   const pathname = usePathname();
 
-  const refreshTokenAndRefreshRoute = useCallback(async () => {
-    let response;
-
-    try {
-      response = await fetch(API_ROUTE_REFRESH_TOKEN, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {
-      setFetchFailed(true);
-      return;
-    }
+  const fetchRefreshedToken = async () => {
+    const response = await fetch(API_ROUTE_REFRESH_TOKEN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
-      // Refresh token itself is expired: log out and go back to base route:
+      throw new ResponseKOError();
+    }
+
+    return {};
+  };
+
+  const refreshTokenQuery = useQuery({
+    queryKey: ["refreshToken"],
+    queryFn: fetchRefreshedToken,
+  });
+
+  useEffect(() => {
+    const logout = async () => {
       await fetch(API_ROUTE_LOG_OUT, {
         method: "POST",
         headers: {
@@ -45,18 +45,14 @@ const AccessTokenRefresher = () => {
       } else {
         router.push("/");
       }
+    };
+
+    if (refreshTokenQuery.isError) {
+      logout();
+    } else if (refreshTokenQuery.isSuccess) {
+      router.refresh();
     }
-
-    router.refresh();
-  }, [router, pathname]);
-
-  useEffect(() => {
-    refreshTokenAndRefreshRoute();
-  }, [refreshTokenAndRefreshRoute]);
-
-  if (fetchFailed) {
-    return <LandingPage errorCode={ERROR_CODE_CLIENT_FETCH_FAILED} />;
-  }
+  }, [refreshTokenQuery, router]);
 
   return <SpinnerBelowHeader />;
 };
