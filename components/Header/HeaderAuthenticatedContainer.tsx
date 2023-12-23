@@ -2,13 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { API_ROUTE_OWNED_ACCOUNTS } from "@/lib/constants";
 import { API_ROUTE_LOG_OUT } from "@/lib/constants";
-import { AccountType } from "@/lib/types";
 import { getAccountsWithCamelizedKeys } from "@/lib/utils/adapters";
 import HeaderAuthenticated from "./HeaderAuthenticated";
+import { ResponseKOError } from "@/lib/customErrors";
 
 const HeaderAuthenticatedContainer = () => {
   const router = useRouter();
@@ -33,9 +34,6 @@ const HeaderAuthenticatedContainer = () => {
     useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
-  const [isFetching, setIsFetching] = useState(false);
-  const [fetchFailed, setFetchFailed] = useState(false);
-  const [ownedAccounts, setOwnedAccounts] = useState<AccountType[]>([]);
 
   const handleClickCreateButton = () => {
     setIsCreateFlyoutOpen(!isCreateFlyoutOpen);
@@ -130,42 +128,24 @@ const HeaderAuthenticatedContainer = () => {
     };
   }, [handleClickDocument, handleKeyDown]);
 
-  const fetchOwnedAccounts = useCallback(async () => {
-    let response, responseData;
-
-    setIsFetching(true);
-
-    try {
-      response = await fetch(API_ROUTE_OWNED_ACCOUNTS, {
-        method: "GET",
-      });
-
-      responseData = await response.json();
-    } catch (error) {
-      setFetchFailed(true);
-      return;
-    } finally {
-      setIsFetching(false);
-    }
+  const fetchOwnedAccounts = async () => {
+    const response = await fetch(API_ROUTE_OWNED_ACCOUNTS, {
+      method: "GET",
+    });
 
     if (!response.ok) {
-      setFetchFailed(true);
-      return;
+      throw new ResponseKOError();
     }
 
-    const { results } = responseData;
+    const responseData = await response.json();
 
-    if (!results || !results?.length) {
-      setFetchFailed(true);
-      return;
-    }
+    return getAccountsWithCamelizedKeys(responseData.results);
+  };
 
-    setOwnedAccounts(getAccountsWithCamelizedKeys(results));
-  }, []);
-
-  useEffect(() => {
-    fetchOwnedAccounts();
-  }, [fetchOwnedAccounts]);
+  const fetchOwnedAccountsQuery = useQuery({
+    queryKey: ["getOwnedAccounts"],
+    queryFn: fetchOwnedAccounts,
+  });
 
   return (
     <HeaderAuthenticated
@@ -184,9 +164,9 @@ const HeaderAuthenticatedContainer = () => {
       isAccountOptionsButtonHovered={isAccountOptionsButtonHovered}
       isAccountOptionsFlyoutOpen={isAccountOptionsFlyoutOpen}
       handleClickLogOut={handleClickLogOut}
-      isFetching={isFetching}
-      fetchFailed={fetchFailed}
-      ownedAccounts={ownedAccounts}
+      isFetching={fetchOwnedAccountsQuery.isPending}
+      fetchFailed={fetchOwnedAccountsQuery.isError}
+      ownedAccounts={fetchOwnedAccountsQuery.data || []}
       ref={refs as any}
     />
   );
