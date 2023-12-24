@@ -17,7 +17,7 @@ export const getExpressApp = () => {
 export const launchMockAPIServer = (
   configureAPIResponses: (arg0: Express) => void,
 ) => {
-  return new Promise<Server>(async (resolve, reject) => {
+  return new Promise<Server>(async (resolve) => {
     const mockAPIApp = getExpressApp();
 
     configureAPIResponses(mockAPIApp);
