@@ -7,12 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBar from "./HeaderSearchBar";
 import styles from "./HeaderAuthenticated.module.css";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { AccountType } from "@/lib/types";
 
 type HeaderAuthenticatedProps = {
-  handleClickCreateButton: () => void;
-  isCreateFlyoutOpen: boolean;
   handleMouseEnterProfileLink: () => void;
   handleMouseLeaveProfileLink: () => void;
   isProfileLinkHovered: boolean;
@@ -30,8 +28,6 @@ type HeaderAuthenticatedProps = {
 const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
   (
     {
-      handleClickCreateButton,
-      isCreateFlyoutOpen,
       handleMouseEnterProfileLink,
       handleMouseLeaveProfileLink,
       isProfileLinkHovered,
@@ -49,14 +45,11 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
   ) => {
     const pathname = usePathname();
 
+    const locale = useLocale();
+
     const t = useTranslations("HeaderAuthenticated");
 
-    const {
-      createFlyoutRef,
-      createButtonRef,
-      accountOptionsFlyoutRef,
-      accountOptionsButtonRef,
-    } = ref as any;
+    const { accountOptionsFlyoutRef, accountOptionsButtonRef } = ref as any;
 
     return (
       <nav className={styles.container}>
@@ -70,35 +63,21 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
             />
           </Link>
           <Link
-            href="/"
+            href={`/${locale}`}
             className={`${styles.navigationItem} ${
-              pathname === "/" ? styles.active : ""
+              pathname === `/${locale}` ? styles.active : ""
             }`}
           >
             {t("NAV_ITEM_HOME")}
           </Link>
-          <div
-            className={`
-            ${styles.navigationItem}
-            ${styles.navigationItemCreate}
-            ${pathname === "/pin-builder" ? styles.active : ""}
-          `}
-            ref={createButtonRef}
-            onClick={handleClickCreateButton}
+          <Link
+            href={`/${locale}/pin-creation-tool`}
+            className={`${styles.navigationItem} ${
+              pathname === `/${locale}/pin-creation-tool` ? styles.active : ""
+            }`}
           >
             {t("CREATE")}
-            <FontAwesomeIcon
-              icon={faAngleDown}
-              className={styles.createButtonIcon}
-            />
-          </div>
-          {isCreateFlyoutOpen && (
-            <div className={styles.createFlyout} ref={createFlyoutRef}>
-              <Link href="/pin-builder" className={styles.createFlyoutItem}>
-                {t("CREATE_PIN")}
-              </Link>
-            </div>
-          )}
+          </Link>
           {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
             This way, the component will be re-rendered on each route transition, and its value
             will be cleared. */}

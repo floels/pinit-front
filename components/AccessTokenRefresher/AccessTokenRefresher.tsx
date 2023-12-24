@@ -44,7 +44,6 @@ const AccessTokenRefresher = () => {
     };
 
     if (refreshTokenQuery.isError) {
-      console.log("About to call logout()");
       logout();
     } else if (refreshTokenQuery.isSuccess) {
       router.refresh();

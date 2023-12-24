@@ -1,5 +1,5 @@
 import userEvent from "@testing-library/user-event";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import { API_ROUTE_OWNED_ACCOUNTS } from "@/lib/constants";
@@ -19,16 +19,8 @@ jest.mock("next/navigation", () => ({
 it("should have the proper interactivity", async () => {
   renderWithQueryClient(<HeaderAuthenticatedContainer />);
 
-  const createButton = screen.getByText(messages.CREATE);
   const profileLink = screen.getByTestId("profile-link");
   const accountOptionsButton = screen.getByTestId("account-options-button");
-
-  // Create button:
-  expect(screen.queryByText(messages.CREATE_PIN)).toBeNull();
-  await userEvent.click(createButton);
-  screen.getByText(messages.CREATE_PIN);
-  await userEvent.click(createButton);
-  expect(screen.queryByText(messages.CREATE_PIN)).toBeNull();
 
   // Profile link:
   expect(screen.queryByText(messages.YOUR_PROFILE)).toBeNull();
