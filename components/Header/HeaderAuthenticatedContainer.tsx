@@ -145,6 +145,7 @@ const HeaderAuthenticatedContainer = () => {
   const fetchOwnedAccountsQuery = useQuery({
     queryKey: ["getOwnedAccounts"],
     queryFn: fetchOwnedAccounts,
+    retry: false,
   });
 
   return (

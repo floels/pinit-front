@@ -99,6 +99,9 @@
     "ALT_PROFILE_PICTURE_OF": "Profile picture of",
     "LOG_OUT": "Log out"
   },
+  "HomePageContent": {
+    "ERROR_FETCH_PIN_SUGGESTIONS": "An error occurred while attempting to retrieve your pin suggestions."
+  },
   "PinsBoard": {
     "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",
     "ALT_PIN_BY": "Pin by",

@@ -2,14 +2,13 @@
 
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { API_ROUTE_LOG_OUT, API_ROUTE_REFRESH_TOKEN } from "@/lib/constants";
 import SpinnerBelowHeader from "../Spinners/SpinnerBelowHeader";
 import { ResponseKOError } from "@/lib/customErrors";
 
 const AccessTokenRefresher = () => {
   const router = useRouter();
-  const pathname = usePathname();
 
   const fetchRefreshedToken = async () => {
     const response = await fetch(API_ROUTE_REFRESH_TOKEN, {
@@ -29,6 +28,7 @@ const AccessTokenRefresher = () => {
   const refreshTokenQuery = useQuery({
     queryKey: ["refreshToken"],
     queryFn: fetchRefreshedToken,
+    retry: false,
   });
 
   useEffect(() => {
@@ -40,14 +40,11 @@ const AccessTokenRefresher = () => {
         },
       });
 
-      if (pathname === "/") {
-        router.refresh();
-      } else {
-        router.push("/");
-      }
+      router.refresh();
     };
 
     if (refreshTokenQuery.isError) {
+      console.log("About to call logout()");
       logout();
     } else if (refreshTokenQuery.isSuccess) {
       router.refresh();

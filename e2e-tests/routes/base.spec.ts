@@ -124,5 +124,7 @@ test("should display error message when server is unreachable", async ({
 
   await page.goto("/");
 
-  await page.waitForSelector(`text=${en.PinsBoard.ERROR_DISPLAY_PINS}`);
+  await page.waitForSelector(
+    `text=${en.HomePageContent.ERROR_FETCH_PIN_SUGGESTIONS}`,
+  );
 });

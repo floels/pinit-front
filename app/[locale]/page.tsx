@@ -5,33 +5,25 @@ import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
   API_ROUTE_PINS_SUGGESTIONS,
   API_ENDPOINT_GET_PIN_SUGGESTIONS,
-  ERROR_CODE_FETCH_BACKEND_FAILED,
-  ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 import { getPinsWithCamelizedKeys } from "@/lib/utils/adapters";
 import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
 import {
   MalformedResponseError,
-  NetworkError,
   Response401Error,
   ResponseKOError,
 } from "@/lib/customErrors";
+import ErrorView from "@/components/ErrorView/ErrorView";
 
 const fetchInitialPinSuggestions = async ({
   accessToken,
 }: {
   accessToken: string;
 }) => {
-  let response;
-
-  try {
-    response = await fetchWithAuthentication({
-      endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/`,
-      accessToken,
-    });
-  } catch (error) {
-    throw new NetworkError();
-  }
+  const response = await fetchWithAuthentication({
+    endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/`,
+    accessToken,
+  });
 
   if (response.status === 401) {
     throw new Response401Error();
@@ -41,15 +33,7 @@ const fetchInitialPinSuggestions = async ({
     throw new ResponseKOError();
   }
 
-  let responseData;
-
-  try {
-    responseData = await response.json();
-  } catch (error) {
-    throw new MalformedResponseError();
-  }
-
-  const { results } = responseData;
+  const { results } = await response.json();
 
   if (!results || !results?.length) {
     throw new MalformedResponseError();
@@ -81,22 +65,8 @@ const Page = async () => {
       return <AccessTokenRefresher />;
     }
 
-    if (error instanceof NetworkError) {
-      return (
-        <PinsBoard
-          initialPins={[]}
-          fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
-          errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
-        />
-      );
-    }
-
     return (
-      <PinsBoard
-        initialPins={[]}
-        fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
-        errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
-      />
+      <ErrorView errorMessageKey="HomePageContent.ERROR_FETCH_PIN_SUGGESTIONS" />
     );
   }
 
