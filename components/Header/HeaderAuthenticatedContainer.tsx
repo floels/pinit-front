@@ -16,28 +16,19 @@ const HeaderAuthenticatedContainer = () => {
 
   const t = useTranslations("Common");
 
-  const createFlyoutRef = useRef<HTMLDivElement>(null);
-  const createButtonRef = useRef<HTMLDivElement>(null);
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLButtonElement>(null);
 
   const refs = {
-    createFlyoutRef,
-    createButtonRef,
     accountOptionsFlyoutRef,
     accountOptionsButtonRef,
   };
 
-  const [isCreateFlyoutOpen, setIsCreateFlyoutOpen] = useState(false);
   const [isProfileLinkHovered, setIsProfileLinkHovered] = useState(false);
   const [isAccountOptionsButtonHovered, setIsAccountOptionsButtonHovered] =
     useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
-
-  const handleClickCreateButton = () => {
-    setIsCreateFlyoutOpen(!isCreateFlyoutOpen);
-  };
 
   const handleMouseEnterProfileLink = () => {
     setIsProfileLinkHovered(true);
@@ -62,19 +53,6 @@ const HeaderAuthenticatedContainer = () => {
   const handleClickDocument = useCallback(
     (event: MouseEvent) => {
       const target = event.target as Node;
-
-      if (
-        isCreateFlyoutOpen &&
-        createFlyoutRef.current &&
-        !createFlyoutRef.current.contains(target) &&
-        createButtonRef.current &&
-        !createButtonRef.current.contains(target)
-        // NB: we don't do anything if the user clicks on the account options button
-        // as this click is managed by the `handleClickCreateButton` function above
-      ) {
-        setIsCreateFlyoutOpen(false);
-      }
-
       if (
         isAccountOptionsFlyoutOpen &&
         accountOptionsFlyoutRef.current &&
@@ -85,21 +63,18 @@ const HeaderAuthenticatedContainer = () => {
         setIsAccountOptionsFlyoutOpen(false);
       }
     },
-    [isAccountOptionsFlyoutOpen, isCreateFlyoutOpen],
+    [isAccountOptionsFlyoutOpen],
   );
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        if (isCreateFlyoutOpen) {
-          setIsCreateFlyoutOpen(false);
-        }
         if (isAccountOptionsFlyoutOpen) {
           setIsAccountOptionsFlyoutOpen(false);
         }
       }
     },
-    [isAccountOptionsFlyoutOpen, isCreateFlyoutOpen],
+    [isAccountOptionsFlyoutOpen],
   );
 
   const handleClickLogOut = async () => {
@@ -150,8 +125,6 @@ const HeaderAuthenticatedContainer = () => {
 
   return (
     <HeaderAuthenticated
-      handleClickCreateButton={handleClickCreateButton}
-      isCreateFlyoutOpen={isCreateFlyoutOpen}
       handleMouseEnterProfileLink={handleMouseEnterProfileLink}
       handleMouseLeaveProfileLink={handleMouseLeaveProfileLink}
       isProfileLinkHovered={isProfileLinkHovered}

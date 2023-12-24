@@ -22,4 +22,5 @@ const mockUseTranslations = (namespace) => (key) => {
 jest.mock("next-intl", () => ({
   ...jest.requireActual("next-intl"),
   useTranslations: mockUseTranslations,
+  useLocale: () => "en",
 }));
