@@ -3,7 +3,7 @@ import { Response, Express } from "express";
 import en from "@/messages/en.json";
 import { addAccessTokenTookie, launchMockAPIServer } from "../utils";
 
-test("should display pin details if pin ID matches pattern", async ({
+test("should display pin details in case of successful response from the API", async ({
   page,
 }) => {
   const pinID = "123456789012345";
@@ -59,13 +59,34 @@ test("should display authenticated header if access token cookie is present", as
     .waitFor();
 });
 
-test("should redirect to landing page if pin ID doesn't match pattern", async ({
+test("should display 'pin not found' error in case of 404 response from the API", async ({
   page,
 }) => {
-  await page.goto("/pin/123456");
+  const pinID = "123456789012346";
 
-  await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
-  await page.waitForSelector(
-    `text=${en.LandingPageContent.PictureSlider.GET_YOUR_NEXT}`,
-  );
+  const configureAPIResponses = (mockAPIApp: Express) => {
+    mockAPIApp.get(`/api/pins/${pinID}/`, (_, response: Response) => {
+      response.status(404).json({
+        detail: "Not found",
+      });
+    });
+  };
+
+  const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
+
+  await page.goto(`/pin/${pinID}`);
+
+  await page.waitForSelector(`text=${en.PinDetails.ERROR_PIN_NOT_FOUND}`);
+
+  mockAPIServer.close();
+});
+
+test("should display generic error in case API is unreachable", async ({
+  page,
+}) => {
+  const pinID = "123456789012347";
+
+  await page.goto(`/pin/${pinID}`);
+
+  await page.waitForSelector(`text=${en.PinDetails.ERROR_FETCH_PIN_DETAILS}`);
 });

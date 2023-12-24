@@ -7,10 +7,8 @@ const mockRouterRefresh = jest.fn();
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: jest.fn(),
     refresh: mockRouterRefresh,
   }),
-  usePathname: () => "/",
 }));
 
 afterEach(() => {
