@@ -88,7 +88,6 @@
   "HeaderAuthenticated": {
     "NAV_ITEM_HOME": "Home",
     "CREATE": "Create",
-    "CREATE_PIN": "Create Pin",
     "YOUR_PROFILE": "Your profile",
     "ACCOUNT_OPTIONS": "Account and more options",
     "PLACEHOLDER_SEARCH": "Search",
@@ -116,5 +115,16 @@
   "AccountDetails": {
     "ALT_BACKGROUND_PICTURE_OF": "Background picture of",
     "ALT_PROFILE_PICTURE_OF": "Profile picture of"
+  },
+  "PinCreation": {
+    "CREATE_PIN": "Create Pin",
+    "DROPZONE_INSTRUCTION": "Choose a file or drag and drop it here",
+    "DROPZONE_ACCEPTED_FILES": "Accepted file types: .jpg, .png",
+    "ALT_IMAGE_PREVIEW": "Pin image preview",
+    "LABEL_TITLE": "Title",
+    "PLACEHOLDER_TITLE": "Add a title",
+    "PLACEHOLDER_DESCRIPTION": "Add a detailed description",
+    "LABEL_DESCRIPTION": "Description",
+    "PUBLISH": "Publish"
   }
 }

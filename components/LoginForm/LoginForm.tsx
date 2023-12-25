@@ -14,7 +14,7 @@ import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
 
-export type LoginFormProps = {
+type LoginFormProps = {
   onClickNoAccountYet: () => void;
 };
 
@@ -60,9 +60,9 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    const newValues = { ...credentials, [name]: value };
-    setCredentials(newValues);
-    setFormErrors(computeFormErrors(newValues));
+    const newCredentials = { ...credentials, [name]: value };
+    setCredentials(newCredentials);
+    setFormErrors(computeFormErrors(newCredentials));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

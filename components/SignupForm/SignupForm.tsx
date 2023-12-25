@@ -19,7 +19,7 @@ import {
   isValidPassword,
 } from "../../lib/utils/validation";
 
-export type SignupFormProps = {
+type SignupFormProps = {
   onClickAlreadyHaveAccount: () => void;
 };
 
