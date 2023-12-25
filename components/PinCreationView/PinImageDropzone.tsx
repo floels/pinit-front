@@ -20,12 +20,16 @@ const PinImageDropzone = ({ onFileAdded }: PinImageDropzoneProps) => {
 
   const handleDroppedFile = useCallback(
     (file: File) => {
+      console.log("Called handleDroppedFile");
+
       onFileAdded(file);
 
       const fileReader = new FileReader();
+
       fileReader.onload = () => {
         setImagePreviewURL(fileReader.result as string);
       };
+
       fileReader.readAsDataURL(file);
     },
     [onFileAdded],
@@ -41,10 +45,13 @@ const PinImageDropzone = ({ onFileAdded }: PinImageDropzoneProps) => {
     [handleDroppedFile],
   );
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const dropzone = useDropzone({
     onDrop,
     multiple: false,
+    accept: { "image/jpeg": [], "image/png": [] },
   });
+
+  const { getRootProps, getInputProps } = dropzone;
 
   if (imagePreviewURL) {
     return (
@@ -57,11 +64,15 @@ const PinImageDropzone = ({ onFileAdded }: PinImageDropzoneProps) => {
   }
 
   return (
-    <div {...getRootProps()} className={styles.dropZone}>
+    <div
+      {...getRootProps()}
+      className={styles.dropzone}
+      data-testid="pin-image-dropzone"
+    >
       <input {...getInputProps()} />
-      <div className={styles.dropZoneIconAndInstruction}>
+      <div className={styles.dropzoneIconAndInstruction}>
         <FontAwesomeIcon icon={faCircleArrowUp} size="2x" />
-        <p className={styles.dropZoneInstruction}>
+        <p className={styles.dropzoneInstruction}>
           {t("DROPZONE_INSTRUCTION")}
         </p>
       </div>
