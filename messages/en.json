@@ -119,7 +119,7 @@
   "PinCreation": {
     "CREATE_PIN": "Create Pin",
     "DROPZONE_INSTRUCTION": "Choose a file or drag and drop it here",
-    "DROPZONE_ACCEPTED_FILES": "Accepted file types: .jpg, .png",
+    "DROPZONE_ACCEPTED_FILES": "Accepted file types: .jpeg, .png",
     "ALT_IMAGE_PREVIEW": "Pin image preview",
     "LABEL_TITLE": "Title",
     "PLACEHOLDER_TITLE": "Add a title",
