@@ -49,6 +49,7 @@ const PinCreationView = () => {
             type="submit"
             disabled={!hasDroppedFile}
             className={styles.submitButton}
+            data-testid="pin-creation-submit-button"
           >
             {t("PUBLISH")}
           </button>
@@ -71,6 +72,7 @@ const PinCreationView = () => {
               onChange={handleInputChange}
               disabled={!hasDroppedFile}
               className={styles.titleInput}
+              data-testid="pin-creation-title-input"
             />
           </div>
           <div>
@@ -84,6 +86,7 @@ const PinCreationView = () => {
               onChange={handleInputChange}
               disabled={!hasDroppedFile}
               className={styles.descriptionTextArea}
+              data-testid="pin-creation-description-textarea"
             />
           </div>
         </section>
