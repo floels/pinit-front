@@ -7,7 +7,7 @@ import {
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
@@ -38,4 +38,4 @@ export async function GET(request: NextRequest) {
   }
 
   return backendResponse;
-}
+};

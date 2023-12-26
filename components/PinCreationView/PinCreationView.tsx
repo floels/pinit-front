@@ -4,12 +4,14 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import PinImageDropzone from "./PinImageDropzone";
 import styles from "./PinCreationView.module.css";
+import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 
 const PinCreationView = () => {
   const t = useTranslations("PinCreation");
 
   const [pinImageFile, setPinImageFile] = useState<File | null>(null);
   const [pinDetails, setPinDetails] = useState({ title: "", description: "" });
+  const [isPosting, setIsPosting] = useState(false);
 
   const handleFileAdded = (newFile: File) => {
     setPinImageFile(newFile);
@@ -32,11 +34,25 @@ const PinCreationView = () => {
     const formData = new FormData();
 
     if (hasDroppedFile) {
+      setIsPosting(true);
+
       formData.append("imageFile", pinImageFile);
       formData.append("title", pinDetails.title);
       formData.append("description", pinDetails.description);
 
-      // TODO: post to API route
+      let response;
+
+      try {
+        response = await fetch(API_ROUTE_CREATE_PIN, {
+          method: "POST",
+          body: formData,
+        });
+      } catch (error) {
+        // TODO: toast.warn()
+        return;
+      } finally {
+        setIsPosting(false);
+      }
     }
   };
 
