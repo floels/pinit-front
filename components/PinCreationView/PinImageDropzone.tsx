@@ -20,8 +20,6 @@ const PinImageDropzone = ({ onFileAdded }: PinImageDropzoneProps) => {
 
   const handleDroppedFile = useCallback(
     (file: File) => {
-      console.log("Called handleDroppedFile");
-
       onFileAdded(file);
 
       const fileReader = new FileReader();

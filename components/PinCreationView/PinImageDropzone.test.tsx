@@ -35,6 +35,8 @@ test("it should call 'onFiledAdded' and render image preview once user dropped i
   await waitFor(() => {
     expect(screen.queryByText(messages.DROPZONE_INSTRUCTION)).toBeNull();
 
-    screen.getByRole("img");
+    const pinImage = screen.getByRole("img") as HTMLImageElement;
+
+    expect(pinImage.src).toMatch(/^data:image\/png;base64,/);
   });
 });
