@@ -26,7 +26,7 @@ export const POST = async (request: NextRequest) => {
     backendResponse = await fetchWithAuthentication({
       endpoint: `${API_ENDPOINT_CREATE_PIN}/`,
       accessToken,
-      fetchOptions: { body: JSON.stringify(request.body) },
+      fetchOptions: { method: "POST", body: JSON.stringify(request.body) },
     });
   } catch (error) {
     return new NextResponse(

@@ -3,44 +3,31 @@
 // Component inspired by https://react-dropzone.js.org/ (see 'Usage' section)
 
 import { useTranslations } from "next-intl";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
 import styles from "./PinImageDropzone.module.css";
 
 type PinImageDropzoneProps = {
-  onFileAdded: (file: File) => void;
+  imagePreviewURL: string | null;
+  onFileDropped: (file: File) => void;
 };
 
-const PinImageDropzone = ({ onFileAdded }: PinImageDropzoneProps) => {
+const PinImageDropzone = ({
+  imagePreviewURL,
+  onFileDropped,
+}: PinImageDropzoneProps) => {
   const t = useTranslations("PinCreation");
-
-  const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null);
-
-  const handleDroppedFile = useCallback(
-    (file: File) => {
-      onFileAdded(file);
-
-      const fileReader = new FileReader();
-
-      fileReader.onload = () => {
-        setImagePreviewURL(fileReader.result as string);
-      };
-
-      fileReader.readAsDataURL(file);
-    },
-    [onFileAdded],
-  );
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       // Consider only first file from `acceptedFiles` array
       if (acceptedFiles[0]) {
-        handleDroppedFile(acceptedFiles[0]);
+        onFileDropped(acceptedFiles[0]);
       }
     },
-    [handleDroppedFile],
+    [onFileDropped],
   );
 
   const dropzone = useDropzone({

@@ -1,25 +1,19 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import PictureSlider from "./PictureSlider";
 import styles from "./LandingPageContent.module.css";
-import { ERROR_CODE_CLIENT_FETCH_FAILED } from "@/lib/constants";
 import SecondFold from "./SecondFold";
 import ThirdFold from "./ThirdFold";
 import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
 
-export type LandingPageProps = {
-  errorCode?: string;
-};
-
 const NUMBER_FOLDS = 5;
 const SCROLLING_DEBOUNCING_TIME_MS = 80;
 const HEADER_HEIGHT = "80px";
 
-const LandingPage = ({ errorCode }: LandingPageProps) => {
+const LandingPage = () => {
   const t = useTranslations("Common");
 
   // This will be needed to scroll back to the top of the page in the `useEffect` hook of the <FithFold /> child component,
@@ -87,18 +81,6 @@ const LandingPage = ({ errorCode }: LandingPageProps) => {
       document.removeEventListener("wheel", handleMouseWheel);
     };
   }, [currentFold, dateLastScroll, setDateLastScroll]);
-
-  useEffect(() => {
-    if (errorCode === ERROR_CODE_CLIENT_FETCH_FAILED) {
-      toast.warn(t("CONNECTION_ERROR"), {
-        toastId: "toast-id-connection-error",
-      });
-    } else if (errorCode) {
-      toast.warn(t("UNFORESEEN_ERROR"), {
-        toastId: "toast-id-unforeseen-error",
-      });
-    }
-  }, [errorCode, t]);
 
   return (
     <main className={styles.container}>
