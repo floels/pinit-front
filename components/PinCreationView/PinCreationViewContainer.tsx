@@ -106,7 +106,7 @@ const PinCreationViewContainer = () => {
     if (hasDroppedFile) {
       setIsPosting(true);
 
-      formData.append("imageFile", pinImageFile);
+      formData.append("image_file", pinImageFile);
       formData.append("title", pinDetails.title);
       formData.append("description", pinDetails.description);
 

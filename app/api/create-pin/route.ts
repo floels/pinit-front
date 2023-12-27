@@ -19,6 +19,8 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
+  const formData = await request.formData();
+
   let backendResponse;
 
   try {
@@ -26,9 +28,13 @@ export const POST = async (request: NextRequest) => {
     backendResponse = await fetchWithAuthentication({
       endpoint: `${API_ENDPOINT_CREATE_PIN}/`,
       accessToken,
-      fetchOptions: { method: "POST", body: JSON.stringify(request.body) },
+      fetchOptions: {
+        method: "POST",
+        body: formData,
+      },
     });
   } catch (error) {
+    console.log("Fetch to backend failed.");
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
