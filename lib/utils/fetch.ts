@@ -7,13 +7,13 @@ export const fetchWithAuthentication = async ({
 }: {
   endpoint: string;
   accessToken: string;
-  fetchOptions?: {};
+  fetchOptions?: RequestInit;
 }) => {
   return fetch(`${API_BASE_URL}/${endpoint}`, {
+    ...fetchOptions,
     headers: {
-      "Content-Type": "application/json",
+      ...fetchOptions?.headers,
       Authorization: `Bearer ${accessToken}`,
     },
-    ...fetchOptions,
   });
 };

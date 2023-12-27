@@ -96,7 +96,7 @@ it("should post to API route when user clicks submit", async () => {
     const mockedFetch = fetch as FetchMock; // necessary to avoid type errors
 
     expect(mockedFetch).toHaveBeenLastCalledWith(
-      API_ROUTE_CREATE_PIN, // Replace with your actual API endpoint
+      API_ROUTE_CREATE_PIN,
       expect.objectContaining({
         method: "POST",
       }),
@@ -109,7 +109,7 @@ it("should post to API route when user clicks submit", async () => {
     expect(formDataObject).toMatchObject({
       title: "Pin title",
       description: "Pin description",
-      imageFile: { path: "MockImage.png" },
+      image_file: { path: "MockImage.png" },
     });
   });
 });
