@@ -1,11 +1,11 @@
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 import {
-  API_ENDPOINT_OWNED_ACCOUNTS,
+  API_ENDPOINT_GET_PIN_SUGGESTIONS,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_MISSING_ACCESS_TOKEN,
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
@@ -19,11 +19,15 @@ export const GET = async (request: NextRequest) => {
     );
   }
 
+  // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#url-query-parameters
+  const queryParams = request.nextUrl.searchParams;
+  const page = queryParams.get("page");
+
   let backendResponse;
 
   try {
     backendResponse = await fetchWithAuthentication({
-      endpoint: `${API_ENDPOINT_OWNED_ACCOUNTS}/`,
+      endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/?page=${page}`,
       accessToken,
     });
   } catch (error) {

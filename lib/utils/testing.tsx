@@ -22,3 +22,20 @@ export const renderWithQueryClient = (children: React.ReactElement) => {
     </QueryClientProvider>,
   );
 };
+
+export const getObjectFromFormData = (formData: FormData) => {
+  const object = {} as any;
+
+  formData.forEach((value, key) => {
+    if (object[key]) {
+      if (!Array.isArray(object[key])) {
+        object[key] = [object[key]];
+      }
+      object[key].push(value);
+    } else {
+      object[key] = value;
+    }
+  });
+
+  return object;
+};

@@ -34,7 +34,9 @@ const PinsBoard = ({
     try {
       await fetchNextPins();
     } catch (error) {
-      toast.warn(t("CONNECTION_ERROR"));
+      toast.warn(t("CONNECTION_ERROR"), {
+        toastId: "toast-pins-board-connection-error",
+      });
       setIsFetching(false);
     }
   };

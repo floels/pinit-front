@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export async function POST() {
+export const POST = async () => {
   const clearedAccessTokenCookie = {
     name: "accessToken",
     value: "",
@@ -26,4 +26,4 @@ export async function POST() {
   response.cookies.set(clearedRefreshTokenCookie);
 
   return response;
-}
+};

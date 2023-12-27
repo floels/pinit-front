@@ -1,13 +1,13 @@
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
 import {
-  API_ENDPOINT_GET_PIN_SUGGESTIONS,
+  API_ENDPOINT_CREATE_PIN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_MISSING_ACCESS_TOKEN,
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
@@ -19,16 +19,14 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#url-query-parameters
-  const queryParams = request.nextUrl.searchParams;
-  const page = queryParams.get("page");
-
   let backendResponse;
 
   try {
+    // Simply forward the payload received:
     backendResponse = await fetchWithAuthentication({
-      endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/?page=${page}`,
+      endpoint: `${API_ENDPOINT_CREATE_PIN}/`,
       accessToken,
+      fetchOptions: { method: "POST", body: JSON.stringify(request.body) },
     });
   } catch (error) {
     return new NextResponse(
@@ -38,4 +36,4 @@ export async function GET(request: NextRequest) {
   }
 
   return backendResponse;
-}
+};

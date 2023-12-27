@@ -89,7 +89,9 @@ const HeaderAuthenticatedContainer = () => {
       router.push("/");
       router.refresh();
     } catch (error) {
-      toast.warn(t("CONNECTION_ERROR"));
+      toast.warn(t("CONNECTION_ERROR"), {
+        toastId: "toast-log-out-connection-error",
+      });
     }
   };
 

@@ -119,14 +119,10 @@ it("should display loading spinner while fetching new thumbnails", async () => {
 });
 
 it("should display error message in case of KO response upon new thumbnails fetch", async () => {
-  fetchMock.doMockOnceIf(`${API_ROUTE_PINS_SUGGESTIONS}?page=2`, () =>
-    Promise.resolve({
-      body: JSON.stringify({ message: "Bad Request" }),
-      status: 400,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }),
+  fetchMock.doMockOnceIf(
+    `${API_ROUTE_PINS_SUGGESTIONS}?page=2`,
+    JSON.stringify({ message: "Bad Request" }),
+    { status: 400 },
   );
 
   render(pinsBoardComponent);
@@ -146,6 +142,9 @@ it("should display toast in case of fetch failure upon new thumbnails fetch", as
   simulateScrollToBottomOfPage();
 
   await waitFor(() => {
-    expect(toast.warn).toHaveBeenCalledWith(en.Common.CONNECTION_ERROR);
+    expect(toast.warn).toHaveBeenLastCalledWith(
+      en.Common.CONNECTION_ERROR,
+      expect.anything(), // we don't really care about the options argument in this context
+    );
   });
 });

@@ -8,7 +8,7 @@ import {
 
 const ERROR_CODE_MISSING_REFRESH_TOKEN = "missing_refresh_token";
 
-export async function POST() {
+export const POST = async () => {
   // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
   const cookieStore = cookies();
   const refreshToken = cookieStore.get("refreshToken")?.value;
@@ -67,4 +67,4 @@ export async function POST() {
   response.cookies.set(accessTokenCookie);
 
   return response;
-}
+};

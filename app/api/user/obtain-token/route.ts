@@ -5,7 +5,7 @@ import {
   ERROR_CODE_FETCH_BACKEND_FAILED,
 } from "@/lib/constants";
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
   const { email, password } = await request.json();
 
   let backendResponse;
@@ -66,4 +66,4 @@ export async function POST(request: Request) {
   response.cookies.set(refreshTokenCookie);
 
   return response;
-}
+};

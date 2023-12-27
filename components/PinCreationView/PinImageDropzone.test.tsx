@@ -5,24 +5,47 @@ import { act } from "react-dom/test-utils";
 
 const messages = en.PinCreation;
 
-const mockOnFileAdded = jest.fn();
+const mockOnFileDropped = jest.fn();
 
-const renderComponent = () => {
-  render(<PinImageDropzone onFileAdded={mockOnFileAdded} />);
-};
-
-test("it should render file upload zone initially", async () => {
-  renderComponent();
+test("it should render file upload zone if 'imagePreviewURL' props is null", async () => {
+  render(
+    <PinImageDropzone
+      imagePreviewURL={null}
+      onFileDropped={mockOnFileDropped}
+    />,
+  );
 
   screen.getByText(messages.DROPZONE_INSTRUCTION);
 });
 
-test("it should call 'onFiledAdded' and render image preview once user dropped image file", async () => {
+test("it should render image preview if 'imagePreviewURL' props is not null", async () => {
+  const imagePreviewURL = "data:image/png;base64,acbdefg";
+
+  render(
+    <PinImageDropzone
+      imagePreviewURL={imagePreviewURL}
+      onFileDropped={mockOnFileDropped}
+    />,
+  );
+
+  expect(screen.queryByText(messages.DROPZONE_INSTRUCTION)).toBeNull();
+
+  const pinImage = screen.getByRole("img") as HTMLImageElement;
+
+  expect(pinImage.src).toEqual(imagePreviewURL);
+});
+
+test("it should call 'onFileDropped' when user drops image file", async () => {
   const mockImageFile = new File(["mockImage"], "MockImage.png", {
     type: "image/png",
   });
 
-  renderComponent();
+  render(
+    <PinImageDropzone
+      imagePreviewURL={null}
+      onFileDropped={mockOnFileDropped}
+    />,
+  );
 
   const dropzone = screen.getByTestId("pin-image-dropzone");
 
@@ -30,13 +53,5 @@ test("it should call 'onFiledAdded' and render image preview once user dropped i
     fireEvent.drop(dropzone, { target: { files: [mockImageFile] } });
   });
 
-  expect(mockOnFileAdded).toHaveBeenCalled();
-
-  await waitFor(() => {
-    expect(screen.queryByText(messages.DROPZONE_INSTRUCTION)).toBeNull();
-
-    const pinImage = screen.getByRole("img") as HTMLImageElement;
-
-    expect(pinImage.src).toMatch(/^data:image\/png;base64,/);
-  });
+  expect(mockOnFileDropped).toHaveBeenCalled();
 });

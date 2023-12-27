@@ -36,7 +36,7 @@ it("should call logout endpoint and refresh page when receiving KO response from
   renderWithQueryClient(<AccessTokenRefresher />);
 
   await waitFor(() => {
-    expect(fetch).toHaveBeenCalledWith(API_ROUTE_LOG_OUT, {
+    expect(fetch).toHaveBeenLastCalledWith(API_ROUTE_LOG_OUT, {
       headers: { "Content-Type": "application/json" },
       method: "POST",
     });

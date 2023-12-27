@@ -1,7 +1,7 @@
-import PinCreationView from "@/components/PinCreationView/PinCreationView";
+import PinCreationViewContainer from "@/components/PinCreationView/PinCreationViewContainer";
 
 const Page = () => {
-  return <PinCreationView />;
+  return <PinCreationViewContainer />;
 };
 
 export default Page;

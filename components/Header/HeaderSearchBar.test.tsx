@@ -127,7 +127,7 @@ it("should display autocomplete suggestions and navigate to search route when us
 
   await userEvent.click(autoCompleteSuggestionsListItems[1]);
 
-  expect(mockRouterPush).toHaveBeenCalledWith(
+  expect(mockRouterPush).toHaveBeenLastCalledWith(
     `/search/pins?q=foo suggestion 1`,
   );
 });
@@ -141,5 +141,5 @@ it("should navigate to /search/pins route when user types and presses Enter", as
   await userEvent.type(searchInput, "foo");
   await userEvent.keyboard("[Enter]");
 
-  expect(mockRouterPush).toHaveBeenCalledWith(`/search/pins?q=foo`);
+  expect(mockRouterPush).toHaveBeenLastCalledWith(`/search/pins?q=foo`);
 });
