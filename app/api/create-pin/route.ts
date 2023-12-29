@@ -34,7 +34,6 @@ export const POST = async (request: NextRequest) => {
       },
     });
   } catch (error) {
-    console.log("Fetch to backend failed.");
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },

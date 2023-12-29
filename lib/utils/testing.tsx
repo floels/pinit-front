@@ -2,7 +2,6 @@
 // referenced in https://tkdodo.eu/blog/testing-react-query#putting-it-all-together
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render } from "@testing-library/react";
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -13,13 +12,13 @@ const createTestQueryClient = () =>
     },
   });
 
-export const renderWithQueryClient = (children: React.ReactElement) => {
+export const withQueryClient = (children: React.ReactElement) => {
   const testQueryClient = createTestQueryClient();
 
-  return render(
+  return (
     <QueryClientProvider client={testQueryClient}>
       {children}
-    </QueryClientProvider>,
+    </QueryClientProvider>
   );
 };
 
