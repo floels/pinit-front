@@ -1,0 +1,46 @@
+.container {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.container:hover {
+  background-color: var(--color-background-secondary);
+}
+
+.profilePicture {
+  border-radius: 50%;
+}
+
+.accountInitial {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: var(--color-background-secondary);
+  text-align: center;
+  line-height: 60px; /* equal to height, to center text vertically */
+  font-size: var(--font-size-400);
+  font-weight: var(--font-weight-semibold);
+}
+
+.accountInfo {
+  margin-left: 8px;
+  margin-right: 16px;
+}
+
+.accountDisplayName {
+  max-width: 116px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.accountType {
+  margin-top: 2px;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-200);
+}
+
+.isActiveIcon {
+  margin-left: auto;
+}

@@ -6,7 +6,7 @@ config.autoAddCss = false;
 // https://next-intl-docs.vercel.app/docs/next-13/server-components#applocalelayouttsx
 import { notFound } from "next/navigation";
 
-// https://next-intl-docs.vercel.app/docs/environments/server-client-components#option-4-providing-all-messages
+// See https://next-intl-docs.vercel.app/docs/environments/server-client-components#option-4-providing-all-messages
 import { NextIntlClientProvider, useMessages } from "next-intl";
 
 // https://fkhadra.github.io/react-toastify/installation#the-gist
@@ -17,11 +17,10 @@ import { cookies } from "next/headers";
 
 import "@/styles/globals.css";
 
-// https://tanstack.com/query/latest/docs/react/guides/advanced-ssr#initial-setup
-import ReactQueryClientProvider from "@/lib/providers/ReactQueryClientProvider";
-
 import HeaderAuthenticatedContainer from "@/components/Header/HeaderAuthenticatedContainer";
 import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
+import ActiveAccountInitializer from "@/components/AccountContextInitializer/ActiveAccountInitializer";
+import ClientsAndContextsProvider from "@/components/ClientsAndContextsProvider/ClientsAndContextsProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -53,7 +52,8 @@ const Layout = ({ children, params: { locale } }: Props) => {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ReactQueryClientProvider>
+          <ClientsAndContextsProvider>
+            <ActiveAccountInitializer />
             <ToastContainer position="bottom-left" autoClose={5000} />
             {accessTokenCookie ? (
               <HeaderAuthenticatedContainer />
@@ -61,7 +61,7 @@ const Layout = ({ children, params: { locale } }: Props) => {
               <HeaderUnauthenticated />
             )}
             {children}
-          </ReactQueryClientProvider>
+          </ClientsAndContextsProvider>
         </NextIntlClientProvider>
       </body>
     </html>

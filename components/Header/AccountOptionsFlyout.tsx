@@ -1,14 +1,11 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSpinner,
-  faCheck,
-  faWarning,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faWarning } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AccountOptionsFlyout.module.css";
-import { AccountType, TypesOfAccount } from "@/lib/types";
-import Image from "next/image";
+import { AccountType } from "@/lib/types";
+import { useActiveAccountContext } from "@/contexts/ActiveAccountContext";
+import AccountDisplay from "./AccountDisplay";
 
 type AccountOptionsFlyoutProps = {
   isFetching: boolean;
@@ -23,69 +20,69 @@ const AccountOptionsFlyout = React.forwardRef<
 >(({ isFetching, fetchFailed, ownedAccounts, handleClickLogOut }, ref) => {
   const t = useTranslations("HeaderAuthenticated");
 
-  const hasAtLeastOneOwnedAccount = ownedAccounts?.length > 0;
+  const { activeAccountUsername, setActiveAccountUsername } =
+    useActiveAccountContext();
 
-  const shouldDisplayError =
-    !isFetching && (fetchFailed || !hasAtLeastOneOwnedAccount);
+  const getAccountsWithActiveAccountInFirstPosition = (
+    accounts: AccountType[],
+  ) => {
+    if (!accounts.length) {
+      // 'accounts' array is empty => nothing to do
+      return accounts;
+    }
+
+    const activeAccount = accounts.find(
+      (account) => account.username === activeAccountUsername,
+    );
+
+    if (!activeAccount) {
+      // Active account not found: by default, consider first account to be active
+      setActiveAccountUsername(accounts[0].username);
+
+      return accounts;
+    }
+
+    const inactiveAccounts = accounts.filter(
+      (account) => account.username !== activeAccountUsername,
+    );
+
+    return [activeAccount, ...inactiveAccounts];
+  };
+
+  const accountsWithActiveAccountInFirstPosition =
+    getAccountsWithActiveAccountInFirstPosition(ownedAccounts);
+
+  const hasAtLeastOneOwnedAccount = ownedAccounts?.length > 0;
 
   const hasMoreThanOneAccount = ownedAccounts?.length > 1;
 
   let accountsDisplay;
-
-  const AccountDisplay = ({
-    account,
-    isActive,
-  }: {
-    account: AccountType;
-    isActive?: boolean;
-  }) => {
-    const commonTranslations = useTranslations("Common");
-
-    const accountTypeDisplay =
-      account.type === TypesOfAccount.PERSONAL
-        ? commonTranslations("ACCOUNT_TYPE_PERSONAL")
-        : commonTranslations("ACCOUNT_TYPE_BUSINESS");
-
-    return (
-      <div className={styles.accountDisplayContainer}>
-        <div>
-          {account.profilePictureURL ? (
-            <Image
-              src={account.profilePictureURL}
-              width={60}
-              height={60}
-              alt={`${t("ALT_PROFILE_PICTURE_OF")} ${account.displayName}`}
-              className={styles.profilePicture}
-            />
-          ) : (
-            <div className={styles.accountInitial}>{account.initial}</div>
-          )}
-        </div>
-        <div className={styles.accountInfo}>
-          <div className={styles.accountDisplayName}>{account.displayName}</div>
-          <div className={styles.accountType}>{accountTypeDisplay}</div>
-        </div>
-        {isActive && <FontAwesomeIcon icon={faCheck} />}
-      </div>
-    );
-  };
 
   if (hasMoreThanOneAccount) {
     accountsDisplay = (
       <div>
         <div>
           <div className={styles.sectionHeader}>{t("CURRENTLY_IN")}</div>
-          <AccountDisplay account={ownedAccounts[0]} isActive />
+          <AccountDisplay
+            account={accountsWithActiveAccountInFirstPosition[0]}
+            isActive
+            onClick={() => {
+              setActiveAccountUsername(
+                accountsWithActiveAccountInFirstPosition[0].username,
+              );
+            }}
+          />
         </div>
         <div className={styles.otherAccountsContainer}>
           <div className={styles.sectionHeader}>{t("YOUR_OTHER_ACCOUNTS")}</div>
           <div>
-            {ownedAccounts.map((account, index) => {
+            {accountsWithActiveAccountInFirstPosition.map((account, index) => {
               if (index > 0) {
                 return (
                   <AccountDisplay
                     account={account}
                     key={`account-${account.username}`}
+                    onClick={() => setActiveAccountUsername(account.username)}
                   />
                 );
               }
@@ -95,10 +92,15 @@ const AccountOptionsFlyout = React.forwardRef<
       </div>
     );
   } else if (hasAtLeastOneOwnedAccount) {
+    // If the user has only one account, no need to display a tick to show the active account
+    // That's why we render <AccountDisplay /> without 'isActive':
     accountsDisplay = (
       <div>
         <div className={styles.sectionHeader}>{t("CURRENTLY_IN")}</div>
-        <AccountDisplay account={ownedAccounts[0]} />
+        <AccountDisplay
+          account={ownedAccounts[0]}
+          onClick={() => setActiveAccountUsername(ownedAccounts[0].username)}
+        />
       </div>
     );
   }
@@ -111,6 +113,9 @@ const AccountOptionsFlyout = React.forwardRef<
       <FontAwesomeIcon icon={faSpinner} size="xl" spin />
     </div>
   );
+
+  const shouldDisplayError =
+    !isFetching && (fetchFailed || !hasAtLeastOneOwnedAccount);
 
   const errorDisplay = (
     <div className={styles.errorContainer}>

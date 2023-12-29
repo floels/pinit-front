@@ -1,9 +1,10 @@
 import userEvent from "@testing-library/user-event";
-import { screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent, render } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import { API_ROUTE_OWNED_ACCOUNTS } from "@/lib/constants";
-import { renderWithQueryClient } from "@/lib/utils/testing";
+import { withQueryClient } from "@/lib/utils/testing";
+import { ActiveAccountContext } from "@/contexts/ActiveAccountContext";
 
 const messages = en.HeaderAuthenticated;
 
@@ -16,8 +17,21 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
+const mockActiveAccountContext = {
+  activeAccountUsername: "testAccount",
+  setActiveAccountUsername: jest.fn(),
+};
+
+const renderComponent = () => {
+  render(
+    <ActiveAccountContext.Provider value={mockActiveAccountContext}>
+      {withQueryClient(<HeaderAuthenticatedContainer />)}
+    </ActiveAccountContext.Provider>,
+  );
+};
+
 it("should have the proper interactivity", async () => {
-  renderWithQueryClient(<HeaderAuthenticatedContainer />);
+  renderComponent();
 
   const profileLink = screen.getByTestId("profile-link");
   const accountOptionsButton = screen.getByTestId("account-options-button");
@@ -47,7 +61,7 @@ it("should display spinner while fetching", async () => {
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
-  renderWithQueryClient(<HeaderAuthenticatedContainer />);
+  renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
@@ -71,7 +85,7 @@ it("should not display 'Your other accounts' section if fetch response has one s
     }),
   );
 
-  renderWithQueryClient(<HeaderAuthenticatedContainer />);
+  renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
@@ -113,7 +127,7 @@ it("should display 'Your other accounts' section if fetch response has two accou
     }),
   );
 
-  renderWithQueryClient(<HeaderAuthenticatedContainer />);
+  renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
@@ -130,7 +144,7 @@ it("should display error response in case of KO response", async () => {
     { status: 401 },
   );
 
-  renderWithQueryClient(<HeaderAuthenticatedContainer />);
+  renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
