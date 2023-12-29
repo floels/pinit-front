@@ -7,13 +7,14 @@ import {
   API_ENDPOINT_GET_PIN_SUGGESTIONS,
 } from "@/lib/constants";
 import { getPinsWithCamelizedKeys } from "@/lib/utils/adapters";
-import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
 import {
   MalformedResponseError,
   Response401Error,
   ResponseKOError,
 } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
+import LogoutTrigger from "@/components/LogoutTrigger/LogoutTrigger";
+import SpinnerBelowHeader from "@/components/Spinners/SpinnerBelowHeader";
 
 const fetchInitialPinSuggestions = async ({
   accessToken,
@@ -61,8 +62,11 @@ const Page = async () => {
     });
   } catch (error) {
     if (error instanceof Response401Error) {
-      // Access token is likely expired:
-      return <AccessTokenRefresher />;
+      return (
+        <LogoutTrigger>
+          <SpinnerBelowHeader />
+        </LogoutTrigger>
+      );
     }
 
     return (

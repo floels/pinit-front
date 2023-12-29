@@ -15,7 +15,7 @@ export const getExpressApp = () => {
 };
 
 export const launchMockAPIServer = (
-  configureAPIResponses: (arg0: Express) => void,
+  configureAPIResponses: (mockAPIApp: Express) => void,
 ) => {
   return new Promise<Server>(async (resolve) => {
     const mockAPIApp = getExpressApp();
@@ -31,11 +31,32 @@ export const launchMockAPIServer = (
   });
 };
 
-export const addAccessTokenTookie = (context: BrowserContext) => {
+export const addAccessTokenTookie = ({
+  context,
+}: {
+  context: BrowserContext;
+}) => {
   context.addCookies([
     {
       name: "accessToken",
       value: "dummy_access_token",
+      path: "/",
+      domain: "127.0.0.1",
+      httpOnly: true,
+      secure: true,
+    },
+  ]);
+};
+
+export const addRefreshTokenTookie = ({
+  context,
+}: {
+  context: BrowserContext;
+}) => {
+  context.addCookies([
+    {
+      name: "refreshToken",
+      value: "dummy_refresh_token",
       path: "/",
       domain: "127.0.0.1",
       httpOnly: true,

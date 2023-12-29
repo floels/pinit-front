@@ -49,7 +49,7 @@ test("should display authenticated header if access token cookie is present", as
   page,
   context,
 }) => {
-  addAccessTokenTookie(context);
+  addAccessTokenTookie({ context });
 
   await page.goto("/pin/123456789012345");
 

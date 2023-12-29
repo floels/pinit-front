@@ -1,7 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { Response, Express } from "express";
 import en from "@/messages/en.json";
-import { addAccessTokenTookie, launchMockAPIServer } from "../utils";
+import {
+  addAccessTokenTookie,
+  addRefreshTokenTookie,
+  launchMockAPIServer,
+} from "../utils";
 import {
   ERROR_CODE_INVALID_REFRESH_TOKEN,
   ERROR_CODE_UNAUTHORIZED,
@@ -57,7 +61,7 @@ test("should display owned accounts and pin suggestions if user is logged in", a
 
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 
-  addAccessTokenTookie(context);
+  addAccessTokenTookie({ context });
 
   await page.goto("/");
 
@@ -84,17 +88,11 @@ test("should display owned accounts and pin suggestions if user is logged in", a
   mockAPIServer.close();
 });
 
-test("should redirect to landing page when access token and refresh token are expired", async ({
+test("should log user out when refresh token is expired", async ({
   page,
   context,
 }) => {
   const configureAPIResponses = (mockAPIApp: Express) => {
-    mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
-      response.status(401).json({
-        errors: [{ code: ERROR_CODE_UNAUTHORIZED }],
-      });
-    });
-
     mockAPIApp.post("/api/token/refresh/", (_, response: Response) => {
       response.status(401).json({
         errors: [{ code: ERROR_CODE_INVALID_REFRESH_TOKEN }],
@@ -104,7 +102,8 @@ test("should redirect to landing page when access token and refresh token are ex
 
   const mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 
-  addAccessTokenTookie(context);
+  addAccessTokenTookie({ context });
+  addRefreshTokenTookie({ context });
 
   await page.goto("/");
 
@@ -118,7 +117,7 @@ test("should display error message when server is unreachable", async ({
   context,
 }) => {
   // We set an 'accessToken' cookie so that the page tries to reach the server.
-  addAccessTokenTookie(context);
+  addAccessTokenTookie({ context });
 
   // We don't launch a mock API server for this test, which simulates an unreachable server.
 

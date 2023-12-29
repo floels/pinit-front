@@ -2,9 +2,8 @@ import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
-import { API_ROUTE_OWNED_ACCOUNTS } from "@/lib/constants";
-import { withQueryClient } from "@/lib/utils/testing";
-import { ActiveAccountContext } from "@/contexts/ActiveAccountContext";
+import { AccountsContext } from "@/contexts/AccountsContext";
+import { TypesOfAccount } from "@/lib/types";
 
 const messages = en.HeaderAuthenticated;
 
@@ -17,16 +16,32 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-const mockActiveAccountContext = {
-  activeAccountUsername: "testAccount",
+const defaultMockAccountsContext = {
+  accounts: [
+    {
+      username: "johndoe",
+      type: TypesOfAccount.PERSONAL,
+      displayName: "John Doe",
+      initial: "J",
+      profilePictureURL: "https://profile.picture.url",
+    },
+  ],
+  setAccounts: jest.fn(),
+  isFetchingAccounts: false,
+  setIsFetchingAccounts: jest.fn(),
+  isErrorFetchingAccounts: false,
+  setIsErrorFetchingAccounts: jest.fn(),
+  activeAccountUsername: "johndoe",
   setActiveAccountUsername: jest.fn(),
 };
 
-const renderComponent = () => {
+const renderComponent = (
+  { mockAccountsContext } = { mockAccountsContext: defaultMockAccountsContext },
+) => {
   render(
-    <ActiveAccountContext.Provider value={mockActiveAccountContext}>
-      {withQueryClient(<HeaderAuthenticatedContainer />)}
-    </ActiveAccountContext.Provider>,
+    <AccountsContext.Provider value={mockAccountsContext}>
+      <HeaderAuthenticatedContainer />
+    </AccountsContext.Provider>,
   );
 };
 
@@ -58,10 +73,12 @@ it("should have the proper interactivity", async () => {
 });
 
 it("should display spinner while fetching", async () => {
-  const eternalPromise = new Promise<Response>(() => {});
-  fetchMock.mockImplementationOnce(() => eternalPromise);
+  const mockAccountsContext = {
+    ...defaultMockAccountsContext,
+    isFetchingAccounts: true,
+  };
 
-  renderComponent();
+  renderComponent({ mockAccountsContext });
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
@@ -69,22 +86,7 @@ it("should display spinner while fetching", async () => {
   screen.getByTestId("owned-accounts-spinner");
 });
 
-it("should not display 'Your other accounts' section if fetch response has one single account", async () => {
-  fetchMock.doMockOnceIf(
-    API_ROUTE_OWNED_ACCOUNTS,
-    JSON.stringify({
-      results: [
-        {
-          username: "johndoe",
-          type: "personal",
-          display_name: "John Doe",
-          initial: "J",
-          profile_picture_url: "https://profile.picture.url",
-        },
-      ],
-    }),
-  );
-
+it("should not display 'Your other accounts' section in case of a single account", async () => {
   renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
@@ -104,47 +106,40 @@ it("should not display 'Your other accounts' section if fetch response has one s
   expect(screen.queryByText(messages.YOUR_OTHER_ACCOUNTS)).toBeNull();
 });
 
-it("should display 'Your other accounts' section if fetch response has two accounts", async () => {
-  fetchMock.doMockOnceIf(
-    API_ROUTE_OWNED_ACCOUNTS,
-    JSON.stringify({
-      results: [
-        {
-          username: "johndoe",
-          type: "personal",
-          display_name: "John Doe",
-          initial: "J",
-          profile_picture_url: "https://profile.picture.url",
-        },
-        {
-          username: "jdoesbusiness",
-          type: "business",
-          display_name: "John Doe's Business",
-          initial: "J",
-          profile_picture_url: null,
-        },
-      ],
-    }),
-  );
+it("should display active account and 'Your other accounts' section if fetch response has two accounts", async () => {
+  const mockAccountsContext = {
+    ...defaultMockAccountsContext,
+    accounts: [
+      ...defaultMockAccountsContext.accounts,
+      {
+        username: "johndoebiz",
+        type: TypesOfAccount.BUSINESS,
+        displayName: "John Doe's Business",
+        initial: "J",
+        profilePictureURL: "https://profile.picture.url",
+      },
+    ],
+  };
 
-  renderComponent();
+  renderComponent({ mockAccountsContext });
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);
+
+  // TODO: check that first account is rendered and marked as active
 
   screen.getByText(messages.YOUR_OTHER_ACCOUNTS);
   screen.getByText("John Doe's Business");
   screen.getByText("Business");
 });
 
-it("should display error response in case of KO response", async () => {
-  fetchMock.doMockOnceIf(
-    API_ROUTE_OWNED_ACCOUNTS,
-    JSON.stringify({ errors: [{ code: "unauthorized" }] }),
-    { status: 401 },
-  );
+it("should display error response in case of fetch error", async () => {
+  const mockAccountsContext = {
+    ...defaultMockAccountsContext,
+    isErrorFetchingAccounts: true,
+  };
 
-  renderComponent();
+  renderComponent({ mockAccountsContext });
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
   await userEvent.click(accountOptionsButton);

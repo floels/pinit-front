@@ -3,6 +3,7 @@ import {
   API_BASE_URL,
   API_ENDPOINT_OBTAIN_TOKEN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
+  ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 
 export const POST = async (request: Request) => {
@@ -31,7 +32,16 @@ export const POST = async (request: Request) => {
     );
   }
 
-  const backendResponseData = await backendResponse.json();
+  let backendResponseData;
+
+  try {
+    backendResponseData = await backendResponse.json();
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({ errors: [ERROR_CODE_UNEXPECTED_SERVER_RESPONSE] }),
+      { status: 500 },
+    );
+  }
 
   if (!backendResponse.ok) {
     return new NextResponse(
