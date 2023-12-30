@@ -21,7 +21,7 @@ jest.mock("next/link", () => {
     <div {...props}>{children}</div>
   );
 
-  MockedLink.displayName = "MockedLink";
+  MockedLink.displayName = "Link";
 
   return MockedLink;
 });
