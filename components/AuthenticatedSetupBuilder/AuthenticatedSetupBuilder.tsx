@@ -34,9 +34,6 @@ const AuthenticatedSetupBuilder = () => {
   const fetchRefreshedAccessToken = async () => {
     const response = await fetch(API_ROUTE_REFRESH_TOKEN, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
 
     if (response.status === 401) {
