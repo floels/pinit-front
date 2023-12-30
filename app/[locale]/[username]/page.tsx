@@ -1,26 +1,49 @@
 import { API_BASE_URL, API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 import AccountDetailsView from "@/components/AccountDetailsView/AccountDetailsView";
+import { Response404Error, ResponseKOError } from "@/lib/customErrors";
+import { withCamelCaseKeys } from "@/lib/utils/misc";
+import ErrorView from "@/components/ErrorView/ErrorView";
 
 type PageProps = {
   params: { username: string };
 };
 
-const Page = async ({ params }: PageProps) => {
-  const username = params.username;
-
+const fetchAccountDetails = async ({ username }: { username: string }) => {
   const response = await fetch(
     `${API_BASE_URL}/${API_ENDPOINT_ACCOUNT_DETAILS}/${username}/`,
   );
 
+  if (response.status === 404) {
+    throw new Response404Error();
+  }
+
+  if (!response.ok) {
+    throw new ResponseKOError();
+  }
+
   const responseData = await response.json();
 
-  const accountDetails = {
-    username: responseData.username,
-    displayName: responseData.display_name,
-    profilePictureURL: responseData.profile_picture_url,
-    backgroundPictureURL: responseData.background_picture_url,
-    description: responseData.description,
-  };
+  return withCamelCaseKeys(responseData);
+};
+
+const Page = async ({ params }: PageProps) => {
+  const username = params.username;
+
+  let accountDetails;
+
+  try {
+    accountDetails = await fetchAccountDetails({ username });
+  } catch (error) {
+    if (error instanceof Response404Error) {
+      return (
+        <ErrorView errorMessageKey="AccountDetails.ERROR_ACCOUNT_NOT_FOUND" />
+      );
+    }
+
+    return (
+      <ErrorView errorMessageKey="AccountDetails.ERROR_FETCH_ACCOUNT_DETAILS" />
+    );
+  }
 
   return <AccountDetailsView {...accountDetails} />;
 };

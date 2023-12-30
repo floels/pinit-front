@@ -114,7 +114,9 @@
   },
   "AccountDetails": {
     "ALT_BACKGROUND_PICTURE_OF": "Background picture of",
-    "ALT_PROFILE_PICTURE_OF": "Profile picture of"
+    "ALT_PROFILE_PICTURE_OF": "Profile picture of",
+    "ERROR_ACCOUNT_NOT_FOUND": "We couldn't find the account you are looking for.",
+    "ERROR_FETCH_ACCOUNT_DETAILS": "We couldn't retrieve the details of this account."
   },
   "PinCreation": {
     "CREATE_PIN": "Create Pin",
