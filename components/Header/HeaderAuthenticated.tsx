@@ -19,7 +19,6 @@ type HeaderAuthenticatedProps = {
   handleMouseLeaveAccountOptionsButton: () => void;
   isAccountOptionsButtonHovered: boolean;
   isAccountOptionsFlyoutOpen: boolean;
-  handleClickLogOut: () => void;
 };
 
 const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
@@ -33,7 +32,6 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
       handleMouseLeaveAccountOptionsButton,
       isAccountOptionsButtonHovered,
       isAccountOptionsFlyoutOpen,
-      handleClickLogOut,
     },
     ref,
   ) => {
@@ -109,10 +107,7 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
           )}
         </div>
         {isAccountOptionsFlyoutOpen && (
-          <AccountOptionsFlyout
-            ref={accountOptionsFlyoutRef}
-            handleClickLogOut={handleClickLogOut}
-          />
+          <AccountOptionsFlyout ref={accountOptionsFlyoutRef} />
         )}
       </nav>
     );

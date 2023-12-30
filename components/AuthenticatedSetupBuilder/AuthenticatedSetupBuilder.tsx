@@ -13,7 +13,6 @@ import { AccountType } from "@/lib/types";
 import { getAccountsWithCamelizedKeys } from "@/lib/utils/adapters";
 import { useQuery } from "@tanstack/react-query";
 import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
-import SpinnerBelowHeader from "../Spinners/SpinnerBelowHeader";
 
 const AuthenticatedSetupBuilder = () => {
   const {
@@ -157,11 +156,7 @@ const AuthenticatedSetupBuilder = () => {
     isErrorFetchRefreshedAccessToken &&
     errorFetchRefreshedAccessToken instanceof Response401Error
   ) {
-    return (
-      <LogoutTrigger>
-        <SpinnerBelowHeader />
-      </LogoutTrigger>
-    );
+    return <LogoutTrigger />;
   }
 
   return null; // this component doesn't render anything

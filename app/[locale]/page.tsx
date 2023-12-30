@@ -14,7 +14,6 @@ import {
 } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
 import LogoutTrigger from "@/components/LogoutTrigger/LogoutTrigger";
-import SpinnerBelowHeader from "@/components/Spinners/SpinnerBelowHeader";
 
 const fetchInitialPinSuggestions = async ({
   accessToken,
@@ -62,11 +61,7 @@ const Page = async () => {
     });
   } catch (error) {
     if (error instanceof Response401Error) {
-      return (
-        <LogoutTrigger>
-          <SpinnerBelowHeader />
-        </LogoutTrigger>
-      );
+      return <LogoutTrigger />;
     }
 
     return (
