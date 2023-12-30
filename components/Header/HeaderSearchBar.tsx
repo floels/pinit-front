@@ -111,7 +111,6 @@ const HeaderSearchBar = () => {
     try {
       response = await fetch(
         `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${inputValue}`,
-        { method: "GET" },
       );
 
       responseData = await response.json();

@@ -2,14 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { API_ROUTE_OWNED_ACCOUNTS } from "@/lib/constants";
 import { API_ROUTE_LOG_OUT } from "@/lib/constants";
-import { getAccountsWithCamelizedKeys } from "@/lib/utils/adapters";
 import HeaderAuthenticated from "./HeaderAuthenticated";
-import { ResponseKOError } from "@/lib/customErrors";
 
 const HeaderAuthenticatedContainer = () => {
   const router = useRouter();
@@ -87,6 +83,8 @@ const HeaderAuthenticatedContainer = () => {
       });
 
       router.push("/");
+
+      // For some reason this is necessary for the refresh to actually take place:
       router.refresh();
     } catch (error) {
       toast.warn(t("CONNECTION_ERROR"), {
@@ -105,26 +103,6 @@ const HeaderAuthenticatedContainer = () => {
     };
   }, [handleClickDocument, handleKeyDown]);
 
-  const fetchOwnedAccounts = async () => {
-    const response = await fetch(API_ROUTE_OWNED_ACCOUNTS, {
-      method: "GET",
-    });
-
-    if (!response.ok) {
-      throw new ResponseKOError();
-    }
-
-    const responseData = await response.json();
-
-    return getAccountsWithCamelizedKeys(responseData.results);
-  };
-
-  const fetchOwnedAccountsQuery = useQuery({
-    queryKey: ["getOwnedAccounts"],
-    queryFn: fetchOwnedAccounts,
-    retry: false,
-  });
-
   return (
     <HeaderAuthenticated
       handleMouseEnterProfileLink={handleMouseEnterProfileLink}
@@ -140,9 +118,6 @@ const HeaderAuthenticatedContainer = () => {
       isAccountOptionsButtonHovered={isAccountOptionsButtonHovered}
       isAccountOptionsFlyoutOpen={isAccountOptionsFlyoutOpen}
       handleClickLogOut={handleClickLogOut}
-      isFetching={fetchOwnedAccountsQuery.isPending}
-      fetchFailed={fetchOwnedAccountsQuery.isError}
-      ownedAccounts={fetchOwnedAccountsQuery.data || []}
       ref={refs as any}
     />
   );

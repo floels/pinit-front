@@ -20,9 +20,6 @@ type HeaderAuthenticatedProps = {
   isAccountOptionsButtonHovered: boolean;
   isAccountOptionsFlyoutOpen: boolean;
   handleClickLogOut: () => void;
-  isFetching: boolean;
-  fetchFailed: boolean;
-  ownedAccounts: AccountType[];
 };
 
 const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
@@ -37,9 +34,6 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
       isAccountOptionsButtonHovered,
       isAccountOptionsFlyoutOpen,
       handleClickLogOut,
-      isFetching,
-      fetchFailed,
-      ownedAccounts,
     },
     ref,
   ) => {
@@ -116,9 +110,6 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
         </div>
         {isAccountOptionsFlyoutOpen && (
           <AccountOptionsFlyout
-            isFetching={isFetching}
-            fetchFailed={fetchFailed}
-            ownedAccounts={ownedAccounts}
             ref={accountOptionsFlyoutRef}
             handleClickLogOut={handleClickLogOut}
           />

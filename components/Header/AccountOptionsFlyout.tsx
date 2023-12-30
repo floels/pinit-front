@@ -4,24 +4,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faWarning } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AccountOptionsFlyout.module.css";
 import { AccountType } from "@/lib/types";
-import { useActiveAccountContext } from "@/contexts/ActiveAccountContext";
+import { useAccountsContext } from "@/contexts/AccountsContext";
 import AccountDisplay from "./AccountDisplay";
+import Cookies from "js-cookie";
+import { ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY } from "@/lib/constants";
 
 type AccountOptionsFlyoutProps = {
-  isFetching: boolean;
-  fetchFailed: boolean;
-  ownedAccounts: AccountType[];
   handleClickLogOut: () => void;
 };
 
 const AccountOptionsFlyout = React.forwardRef<
   HTMLDivElement,
   AccountOptionsFlyoutProps
->(({ isFetching, fetchFailed, ownedAccounts, handleClickLogOut }, ref) => {
+>(({ handleClickLogOut }, ref) => {
   const t = useTranslations("HeaderAuthenticated");
 
-  const { activeAccountUsername, setActiveAccountUsername } =
-    useActiveAccountContext();
+  const accountsContext = useAccountsContext();
+
+  const {
+    isFetchingAccounts,
+    isErrorFetchingAccounts,
+    activeAccountUsername,
+    setActiveAccountUsername,
+  } = accountsContext;
+
+  const accounts = accountsContext.accounts || [];
+
+  const handleChangeActiveAccount = (newActiveAccountUsername: string) => {
+    setActiveAccountUsername(newActiveAccountUsername);
+
+    Cookies.set(ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY, newActiveAccountUsername);
+  };
 
   const getAccountsWithActiveAccountInFirstPosition = (
     accounts: AccountType[],
@@ -36,9 +49,7 @@ const AccountOptionsFlyout = React.forwardRef<
     );
 
     if (!activeAccount) {
-      // Active account not found: by default, consider first account to be active
-      setActiveAccountUsername(accounts[0].username);
-
+      // Active account not found => nothing to do
       return accounts;
     }
 
@@ -50,11 +61,11 @@ const AccountOptionsFlyout = React.forwardRef<
   };
 
   const accountsWithActiveAccountInFirstPosition =
-    getAccountsWithActiveAccountInFirstPosition(ownedAccounts);
+    getAccountsWithActiveAccountInFirstPosition(accounts);
 
-  const hasAtLeastOneOwnedAccount = ownedAccounts?.length > 0;
+  const hasAtLeastOneOwnedAccount = accounts?.length > 0;
 
-  const hasMoreThanOneAccount = ownedAccounts?.length > 1;
+  const hasMoreThanOneAccount = accounts?.length > 1;
 
   let accountsDisplay;
 
@@ -67,7 +78,7 @@ const AccountOptionsFlyout = React.forwardRef<
             account={accountsWithActiveAccountInFirstPosition[0]}
             isActive
             onClick={() => {
-              setActiveAccountUsername(
+              handleChangeActiveAccount(
                 accountsWithActiveAccountInFirstPosition[0].username,
               );
             }}
@@ -82,7 +93,7 @@ const AccountOptionsFlyout = React.forwardRef<
                   <AccountDisplay
                     account={account}
                     key={`account-${account.username}`}
-                    onClick={() => setActiveAccountUsername(account.username)}
+                    onClick={() => handleChangeActiveAccount(account.username)}
                   />
                 );
               }
@@ -98,8 +109,8 @@ const AccountOptionsFlyout = React.forwardRef<
       <div>
         <div className={styles.sectionHeader}>{t("CURRENTLY_IN")}</div>
         <AccountDisplay
-          account={ownedAccounts[0]}
-          onClick={() => setActiveAccountUsername(ownedAccounts[0].username)}
+          account={accounts[0]}
+          onClick={() => handleChangeActiveAccount(accounts[0].username)}
         />
       </div>
     );
@@ -115,7 +126,8 @@ const AccountOptionsFlyout = React.forwardRef<
   );
 
   const shouldDisplayError =
-    !isFetching && (fetchFailed || !hasAtLeastOneOwnedAccount);
+    !isFetchingAccounts &&
+    (isErrorFetchingAccounts || !hasAtLeastOneOwnedAccount);
 
   const errorDisplay = (
     <div className={styles.errorContainer}>
@@ -131,7 +143,7 @@ const AccountOptionsFlyout = React.forwardRef<
       data-testid="account-options-flyout"
     >
       {accountsDisplay}
-      {isFetching && spinnerDisplay}
+      {isFetchingAccounts && spinnerDisplay}
       {shouldDisplayError && errorDisplay}
       <div className={styles.moreOptionsContainer}>
         <div className={styles.sectionHeader}>{t("MORE_OPTIONS")}</div>

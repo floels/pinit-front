@@ -19,7 +19,7 @@ import "@/styles/globals.css";
 
 import HeaderAuthenticatedContainer from "@/components/Header/HeaderAuthenticatedContainer";
 import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
-import ActiveAccountInitializer from "@/components/AccountContextInitializer/ActiveAccountInitializer";
+import AuthenticatedSetupBuilder from "@/components/AuthenticatedSetupBuilder/AuthenticatedSetupBuilder";
 import ClientsAndContextsProvider from "@/components/ClientsAndContextsProvider/ClientsAndContextsProvider";
 
 type Props = {
@@ -48,14 +48,16 @@ const Layout = ({ children, params: { locale } }: Props) => {
 
   const accessTokenCookie = cookies().get("accessToken");
 
+  const isAuthenticated = !!accessTokenCookie;
+
   return (
     <html lang={locale}>
       <body>
+        <ToastContainer position="bottom-left" autoClose={5000} />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ClientsAndContextsProvider>
-            <ActiveAccountInitializer />
-            <ToastContainer position="bottom-left" autoClose={5000} />
-            {accessTokenCookie ? (
+            {isAuthenticated && <AuthenticatedSetupBuilder />}
+            {isAuthenticated ? (
               <HeaderAuthenticatedContainer />
             ) : (
               <HeaderUnauthenticated />

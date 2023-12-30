@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClientProvider } from "@tanstack/react-query";
-import { ActiveAccountContextProvider } from "@/contexts/ActiveAccountContext";
+import { AccountsContextProvider } from "@/contexts/AccountsContext";
 import { QueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ const ClientsAndContextsProvider = ({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ActiveAccountContextProvider>{children}</ActiveAccountContextProvider>
+      <AccountsContextProvider>{children}</AccountsContextProvider>
     </QueryClientProvider>
   );
 };

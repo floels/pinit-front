@@ -4,6 +4,7 @@ import {
   API_BASE_URL,
   API_ENDPOINT_REFRESH_TOKEN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
+  ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 
 const ERROR_CODE_MISSING_REFRESH_TOKEN = "missing_refresh_token";
@@ -42,7 +43,16 @@ export const POST = async () => {
     );
   }
 
-  const backendResponseData = await backendResponse.json();
+  let backendResponseData;
+
+  try {
+    backendResponseData = await backendResponse.json();
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({ errors: [ERROR_CODE_UNEXPECTED_SERVER_RESPONSE] }),
+      { status: 500 },
+    );
+  }
 
   if (!backendResponse.ok) {
     return new NextResponse(
