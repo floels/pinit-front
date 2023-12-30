@@ -1,15 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { API_ROUTE_LOG_OUT } from "@/lib/constants";
 import HeaderAuthenticated from "./HeaderAuthenticated";
 
 const HeaderAuthenticatedContainer = () => {
-  const router = useRouter();
-
   const t = useTranslations("Common");
 
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
@@ -73,26 +68,6 @@ const HeaderAuthenticatedContainer = () => {
     [isAccountOptionsFlyoutOpen],
   );
 
-  const handleClickLogOut = async () => {
-    try {
-      await fetch(API_ROUTE_LOG_OUT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      router.push("/");
-
-      // For some reason this is necessary for the refresh to actually take place:
-      router.refresh();
-    } catch (error) {
-      toast.warn(t("CONNECTION_ERROR"), {
-        toastId: "toast-log-out-connection-error",
-      });
-    }
-  };
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickDocument);
     document.addEventListener("keydown", handleKeyDown);
@@ -117,7 +92,6 @@ const HeaderAuthenticatedContainer = () => {
       }
       isAccountOptionsButtonHovered={isAccountOptionsButtonHovered}
       isAccountOptionsFlyoutOpen={isAccountOptionsFlyoutOpen}
-      handleClickLogOut={handleClickLogOut}
       ref={refs as any}
     />
   );

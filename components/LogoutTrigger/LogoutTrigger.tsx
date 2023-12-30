@@ -5,12 +5,9 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
+import styles from "./LogoutTrigger.module.css";
 
-type LogoutTriggerProps = {
-  children?: React.ReactNode;
-};
-
-const LogoutTrigger = ({ children }: LogoutTriggerProps) => {
+const LogoutTrigger = () => {
   const t = useTranslations("Common");
 
   const router = useRouter();
@@ -33,7 +30,7 @@ const LogoutTrigger = ({ children }: LogoutTriggerProps) => {
     logOut();
   }, [logOut]);
 
-  return children;
+  return <div className={styles.overlay} />;
 };
 
 export default LogoutTrigger;

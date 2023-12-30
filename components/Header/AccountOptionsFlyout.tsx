@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faWarning } from "@fortawesome/free-solid-svg-icons";
@@ -8,16 +8,16 @@ import { useAccountsContext } from "@/contexts/AccountsContext";
 import AccountDisplay from "./AccountDisplay";
 import Cookies from "js-cookie";
 import { ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY } from "@/lib/constants";
+import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
 
-type AccountOptionsFlyoutProps = {
-  handleClickLogOut: () => void;
-};
-
-const AccountOptionsFlyout = React.forwardRef<
-  HTMLDivElement,
-  AccountOptionsFlyoutProps
->(({ handleClickLogOut }, ref) => {
+const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
   const t = useTranslations("HeaderAuthenticated");
+
+  const [clickedLogOut, setClickedLogOut] = useState(false);
+
+  const handleClickLogOut = () => {
+    setClickedLogOut(true);
+  };
 
   const accountsContext = useAccountsContext();
 
@@ -29,6 +29,10 @@ const AccountOptionsFlyout = React.forwardRef<
   } = accountsContext;
 
   const accounts = accountsContext.accounts || [];
+
+  if (clickedLogOut) {
+    return <LogoutTrigger />;
+  }
 
   const handleChangeActiveAccount = (newActiveAccountUsername: string) => {
     setActiveAccountUsername(newActiveAccountUsername);
@@ -72,7 +76,7 @@ const AccountOptionsFlyout = React.forwardRef<
   if (hasMoreThanOneAccount) {
     accountsDisplay = (
       <div>
-        <div>
+        <div data-testid="currently-in-section">
           <div className={styles.sectionHeader}>{t("CURRENTLY_IN")}</div>
           <AccountDisplay
             account={accountsWithActiveAccountInFirstPosition[0]}
@@ -84,7 +88,10 @@ const AccountOptionsFlyout = React.forwardRef<
             }}
           />
         </div>
-        <div className={styles.otherAccountsContainer}>
+        <div
+          className={styles.otherAccountsContainer}
+          data-testid="other-accounts-section"
+        >
           <div className={styles.sectionHeader}>{t("YOUR_OTHER_ACCOUNTS")}</div>
           <div>
             {accountsWithActiveAccountInFirstPosition.map((account, index) => {

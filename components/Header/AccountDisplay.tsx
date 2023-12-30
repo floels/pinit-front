@@ -44,7 +44,11 @@ const AccountDisplay = ({
         <div className={styles.accountType}>{accountTypeDisplay}</div>
       </div>
       {isActive && (
-        <FontAwesomeIcon icon={faCheck} className={styles.isActiveIcon} />
+        <FontAwesomeIcon
+          icon={faCheck}
+          className={styles.isActiveIcon}
+          data-testid="icon-active-account"
+        />
       )}
     </div>
   );
