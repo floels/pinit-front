@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import {
+  ACCESS_TOKEN_COOKIE_KEY,
   API_ENDPOINT_GET_PIN_SUGGESTIONS,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_MISSING_ACCESS_TOKEN,
@@ -10,7 +11,7 @@ import { fetchWithAuthentication } from "@/lib/utils/fetch";
 export const GET = async (request: NextRequest) => {
   // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
   const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
+  const accessToken = cookieStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value;
 
   if (!accessToken) {
     return new NextResponse(

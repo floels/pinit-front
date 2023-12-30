@@ -2,6 +2,10 @@ import express, { Express } from "express";
 import { Server } from "http";
 import cors from "cors";
 import { BrowserContext } from "@playwright/test";
+import {
+  ACCESS_TOKEN_COOKIE_KEY,
+  REFRESH_TOKEN_COOKIE_KEY,
+} from "@/lib/constants";
 
 export const PORT_MOCK_API_SERVER = 8000;
 
@@ -38,7 +42,7 @@ export const addAccessTokenTookie = ({
 }) => {
   context.addCookies([
     {
-      name: "accessToken",
+      name: ACCESS_TOKEN_COOKIE_KEY,
       value: "dummy_access_token",
       path: "/",
       domain: "127.0.0.1",
@@ -55,7 +59,7 @@ export const addRefreshTokenTookie = ({
 }) => {
   context.addCookies([
     {
-      name: "refreshToken",
+      name: REFRESH_TOKEN_COOKIE_KEY,
       value: "dummy_refresh_token",
       path: "/",
       domain: "127.0.0.1",

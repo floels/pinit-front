@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import {
+  ACCESS_TOKEN_COOKIE_KEY,
   API_BASE_URL,
   API_ENDPOINT_REFRESH_TOKEN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
@@ -64,7 +65,7 @@ export const POST = async () => {
   const { access_token: accessToken } = backendResponseData;
 
   const accessTokenCookie = {
-    name: "accessToken",
+    name: ACCESS_TOKEN_COOKIE_KEY,
     value: accessToken,
     path: "/",
     secure: true,

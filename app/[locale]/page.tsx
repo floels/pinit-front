@@ -5,6 +5,7 @@ import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
   API_ROUTE_PINS_SUGGESTIONS,
   API_ENDPOINT_GET_PIN_SUGGESTIONS,
+  ACCESS_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
 import { getPinsWithCamelizedKeys } from "@/lib/utils/misc";
 import {
@@ -45,7 +46,7 @@ const fetchInitialPinSuggestions = async ({
 };
 
 const Page = async () => {
-  const accessTokenCookie = cookies().get("accessToken");
+  const accessTokenCookie = cookies().get(ACCESS_TOKEN_COOKIE_KEY);
 
   if (!accessTokenCookie) {
     return <LandingPageContent />;

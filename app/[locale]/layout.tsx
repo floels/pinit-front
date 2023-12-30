@@ -21,6 +21,7 @@ import HeaderAuthenticatedContainer from "@/components/Header/HeaderAuthenticate
 import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
 import AuthenticatedSetupBuilder from "@/components/AuthenticatedSetupBuilder/AuthenticatedSetupBuilder";
 import ClientsAndContextsProvider from "@/components/ClientsAndContextsProvider/ClientsAndContextsProvider";
+import { ACCESS_TOKEN_COOKIE_KEY } from "@/lib/constants";
 
 type Props = {
   children: React.ReactNode;
@@ -46,15 +47,15 @@ const Layout = ({ children, params: { locale } }: Props) => {
   // Receive messages provided in `i18n.ts`
   const messages = useMessages();
 
-  const accessTokenCookie = cookies().get("accessToken");
+  const accessTokenCookie = cookies().get(ACCESS_TOKEN_COOKIE_KEY);
 
   const isAuthenticated = !!accessTokenCookie;
 
   return (
     <html lang={locale}>
       <body>
-        <ToastContainer position="bottom-left" autoClose={5000} />
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <ToastContainer position="bottom-left" autoClose={5000} />
           <ClientsAndContextsProvider>
             {isAuthenticated && <AuthenticatedSetupBuilder />}
             {isAuthenticated ? (
