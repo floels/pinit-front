@@ -8,8 +8,8 @@ import AuthenticatedSetupBuilder from "./AuthenticatedSetupBuilder";
 import { AccountsContext } from "@/contexts/AccountsContext";
 import { withQueryClient } from "@/lib/utils/testing";
 import { TypesOfAccount } from "@/lib/types";
-import { getAccountsWithCamelizedKeys } from "@/lib/utils/adapters";
 import Cookies from "js-cookie";
+import { withCamelCaseKeys } from "@/lib/utils/misc";
 
 jest.mock("js-cookie", () => ({
   get: jest.fn(),
@@ -84,8 +84,7 @@ it("in the absence of a cookie, should fetch owned accounts and set active accou
 
   renderComponent();
 
-  const mockAccountsWithCamelizedKeys =
-    getAccountsWithCamelizedKeys(mockAccounts);
+  const mockAccountsWithCamelizedKeys = withCamelCaseKeys(mockAccounts);
 
   await waitFor(() => {
     expect(mockSetAccounts).toHaveBeenLastCalledWith(

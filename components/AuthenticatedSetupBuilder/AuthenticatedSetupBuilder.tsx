@@ -10,9 +10,9 @@ import {
 } from "@/lib/constants";
 import { Response401Error, ResponseKOError } from "@/lib/customErrors";
 import { AccountType } from "@/lib/types";
-import { getAccountsWithCamelizedKeys } from "@/lib/utils/adapters";
 import { useQuery } from "@tanstack/react-query";
 import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
+import { withCamelCaseKeys } from "@/lib/utils/misc";
 
 const AuthenticatedSetupBuilder = () => {
   const {
@@ -70,7 +70,7 @@ const AuthenticatedSetupBuilder = () => {
 
     const responseData = await response.json();
 
-    return getAccountsWithCamelizedKeys(responseData.results);
+    return withCamelCaseKeys(responseData.results);
   };
 
   const {

@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import PinDetailsView from "@/components/PinDetailsView/PinDetailsView";
 import { API_BASE_URL, API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
-import { getPinWithCamelizedKeys } from "@/lib/utils/adapters";
-import { Response404Error } from "@/lib/customErrors";
+import { getPinWithCamelizedKeys } from "@/lib/utils/misc";
+import { Response404Error, ResponseKOError } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
 
 type PageProps = {
@@ -18,11 +18,13 @@ const fetchPinDetails = async ({ pinId }: { pinId: string }) => {
     throw new Response404Error();
   }
 
+  if (!response.ok) {
+    throw new ResponseKOError();
+  }
+
   const responseData = await response.json();
 
-  const pinDetails = getPinWithCamelizedKeys(responseData);
-
-  return pinDetails;
+  return getPinWithCamelizedKeys(responseData);
 };
 
 const Page = async ({ params }: PageProps) => {

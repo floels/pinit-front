@@ -6,7 +6,7 @@ import {
   API_ROUTE_PINS_SUGGESTIONS,
   API_ENDPOINT_GET_PIN_SUGGESTIONS,
 } from "@/lib/constants";
-import { getPinsWithCamelizedKeys } from "@/lib/utils/adapters";
+import { getPinsWithCamelizedKeys } from "@/lib/utils/misc";
 import {
   MalformedResponseError,
   Response401Error,
