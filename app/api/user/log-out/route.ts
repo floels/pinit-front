@@ -1,8 +1,12 @@
+import {
+  ACCESS_TOKEN_COOKIE_KEY,
+  REFRESH_TOKEN_COOKIE_KEY,
+} from "@/lib/constants";
 import { NextResponse } from "next/server";
 
 export const POST = async () => {
   const clearedAccessTokenCookie = {
-    name: "accessToken",
+    name: ACCESS_TOKEN_COOKIE_KEY,
     value: "",
     path: "/",
     secure: true,
@@ -11,7 +15,7 @@ export const POST = async () => {
   };
 
   const clearedRefreshTokenCookie = {
-    name: "refreshToken",
+    name: REFRESH_TOKEN_COOKIE_KEY,
     value: "",
     path: "/",
     secure: true,

@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import {
+  ACCESS_TOKEN_COOKIE_KEY,
   API_BASE_URL,
   API_ENDPOINT_OBTAIN_TOKEN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
+  REFRESH_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
 
 export const POST = async (request: Request) => {
@@ -54,7 +56,7 @@ export const POST = async (request: Request) => {
     backendResponseData;
 
   const accessTokenCookie = {
-    name: "accessToken",
+    name: ACCESS_TOKEN_COOKIE_KEY,
     value: accessToken,
     path: "/",
     secure: true,
@@ -62,7 +64,7 @@ export const POST = async (request: Request) => {
   };
 
   const refreshTokenCookie = {
-    name: "refreshToken",
+    name: REFRESH_TOKEN_COOKIE_KEY,
     value: refreshToken,
     path: "/",
     secure: true,

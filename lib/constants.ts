@@ -37,6 +37,10 @@ export const ERROR_CODE_FETCH_BACKEND_FAILED = "fetch_backend_failed";
 export const ERROR_CODE_UNEXPECTED_SERVER_RESPONSE =
   "unexpected_server_response";
 export const ERROR_CODE_MISSING_ACCESS_TOKEN = "missing_access_token";
+export const ERROR_CODE_MISSING_ACCOUNT_USERNAME_COOKIE =
+  "missing_account_username_cookie";
 
 // Cookie keys
 export const ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY = "activeAccountUsername";
+export const ACCESS_TOKEN_COOKIE_KEY = "accessToken";
+export const REFRESH_TOKEN_COOKIE_KEY = "refreshToken";
