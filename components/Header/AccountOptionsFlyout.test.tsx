@@ -4,6 +4,7 @@ import { TypesOfAccount } from "@/lib/types";
 import en from "@/messages/en.json";
 import { render, screen, within } from "@testing-library/react";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
+import { AccountDisplayProps } from "./AccountDisplay";
 
 const messages = en.HeaderAuthenticated;
 
@@ -13,6 +14,18 @@ jest.mock("@/components/LogoutTrigger/LogoutTrigger", () => {
   MockedLogoutTrigger.displayName = "LogoutTrigger";
 
   return MockedLogoutTrigger;
+});
+
+jest.mock("@/components/Header/AccountDisplay", () => {
+  const MockedAccountDisplay = ({ account, isActive }: AccountDisplayProps) => (
+    <div data-testid={isActive ? "account-display-active" : ""}>
+      {account.displayName}
+    </div>
+  );
+
+  MockedAccountDisplay.displayName = "AccountDisplay";
+
+  return MockedAccountDisplay;
 });
 
 jest.mock("next/navigation", () => ({
@@ -64,19 +77,8 @@ it("should display spinner while fetching", async () => {
   screen.getByTestId("owned-accounts-spinner");
 });
 
-it("should not display 'Your other accounts' section in case of a single account", async () => {
+it("should display not display 'Your other accounts' section in case of a single account", async () => {
   renderComponent();
-
-  screen.getByText(messages.CURRENTLY_IN);
-  screen.getByText("John Doe");
-  screen.getByText("Personal");
-
-  const profilePicture = screen.getByAltText(
-    `${messages.ALT_PROFILE_PICTURE_OF} John Doe`,
-  ) as HTMLImageElement;
-  expect(profilePicture.src).toMatch(
-    /_next\/image\?url=https%3A%2F%2Fprofile\.picture\.url/,
-  ); // Since the `src` attribute is transformed by the use of <Image /> from 'next/image'
 
   expect(screen.queryByText(messages.YOUR_OTHER_ACCOUNTS)).toBeNull();
 });
@@ -89,7 +91,7 @@ it("should display active account and 'Your other accounts' section if fetch res
       {
         username: "johndoebiz",
         type: TypesOfAccount.BUSINESS,
-        displayName: "John Doe's Business",
+        displayName: "John's Business",
         initial: "J",
         profilePictureURL: "https://profile.picture.url",
       },
@@ -99,12 +101,13 @@ it("should display active account and 'Your other accounts' section if fetch res
   renderComponent({ mockAccountsContext });
 
   const currentlyInSection = screen.getByTestId("currently-in-section");
-  within(currentlyInSection).getByTestId("icon-active-account");
+  expect(currentlyInSection).toHaveTextContent("John Doe");
+  within(currentlyInSection).getByTestId("account-display-active");
 
   const otherAccountsSection = screen.getByTestId("other-accounts-section");
-  expect(otherAccountsSection).toHaveTextContent("John Doe's Business");
+  expect(otherAccountsSection).toHaveTextContent("John's Business");
   expect(
-    within(otherAccountsSection).queryByTestId("icon-active-account"),
+    within(otherAccountsSection).queryByTestId("account-display-active"),
   ).toBeNull();
 });
 

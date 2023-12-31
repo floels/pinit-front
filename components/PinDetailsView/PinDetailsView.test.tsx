@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).toHaveAttribute(...)`
 import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
+import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 
 it("should render image, title, description and author details when all are provided", async () => {
   const pin = {
@@ -28,9 +29,12 @@ it("should render image, title, description and author details when all are prov
   const authorProfilePicture = screen.getByAltText(
     "Profile picture of John Doe",
   ) as HTMLImageElement;
+  const expectedPatternAuthorProfilePictureSrc = getNextImageSrcRegexFromURL(
+    "https://profile.picture.url",
+  );
   expect(authorProfilePicture.src).toMatch(
-    /_next\/image\?url=https%3A%2F%2Fprofile\.picture\.url/,
-  ); // Since the `src` attribute is transformed by the use of <Image /> from 'next/image'
+    expectedPatternAuthorProfilePictureSrc,
+  );
 
   screen.getByText(pin.authorDisplayName);
 });
