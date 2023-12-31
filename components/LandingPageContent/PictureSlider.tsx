@@ -38,10 +38,10 @@ const TOPIC_COLORS: TopicColorsType = {
   GARDENING: "rgb(64, 122, 87)",
 };
 
-const TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS = 5000;
+export const TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS = 5000;
 const DURATION_TRANSITION_OUT_HEADERS_MS = 1500;
 const MAX_TRANSLATION_HEADERS_PX = 40;
-const TIMER_TIME_STEP_MS = 100;
+export const TIMER_TIME_STEP_MS = 50;
 
 const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
   const t = useTranslations("LandingPageContent");
@@ -53,11 +53,11 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
   });
 
   useEffect(() => {
-    // Start the timer when the component mounts
     const timerId = setInterval(() => {
       setState((prevState) => {
         const newTimeSinceLastStepChange =
           prevState.timeSinceLastStepChange + TIMER_TIME_STEP_MS;
+
         if (
           newTimeSinceLastStepChange >= TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS
         ) {
@@ -68,6 +68,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
             timeSinceLastStepChange: 0,
           };
         }
+
         return {
           ...prevState,
           timeSinceLastStepChange: newTimeSinceLastStepChange,
@@ -75,7 +76,6 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
       });
     }, TIMER_TIME_STEP_MS);
 
-    // Stop the timer when the component unmounts
     return () => {
       clearInterval(timerId);
     };
@@ -158,7 +158,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
         </div>
         <div className={styles.picturesContainer}>
           {PICTURE_SLIDER_TOPICS.map((topic, index) => {
-            const partialPictureProps = { ...state, topicIndex: index };
+            const commonPictureProps = { ...state, topicIndex: index };
 
             return (
               <div
@@ -167,11 +167,11 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
               >
                 <div className={styles.picturesColumn}>
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={0}
                   />
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={1}
                   />
                 </div>
@@ -180,11 +180,11 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
                   style={{ paddingTop: 120 }}
                 >
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={2}
                   />
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={3}
                   />
                 </div>
@@ -193,11 +193,11 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
                   style={{ paddingTop: 200 }}
                 >
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={4}
                   />
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={5}
                   />
                 </div>
@@ -206,7 +206,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
                   style={{ paddingTop: 360 }}
                 >
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={6}
                   />
                 </div>
@@ -215,11 +215,11 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
                   style={{ paddingTop: 200 }}
                 >
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={7}
                   />
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={8}
                   />
                 </div>
@@ -228,21 +228,21 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
                   style={{ paddingTop: 120 }}
                 >
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={9}
                   />
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={10}
                   />
                 </div>
                 <div className={styles.picturesColumn}>
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={11}
                   />
                   <PictureSliderPicture
-                    {...partialPictureProps}
+                    {...commonPictureProps}
                     imageIndex={12}
                   />
                 </div>

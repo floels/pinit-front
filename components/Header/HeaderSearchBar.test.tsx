@@ -14,8 +14,6 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-// We need to mock Next.js's <Link /> component, otherwise we'll get a console error
-// when clicking one in the tests: "Error: Not implemented: navigation (except hash changes)".
 jest.mock("next/link", () => {
   const MockedLink = ({ children, ...props }: any) => (
     <div {...props}>{children}</div>
