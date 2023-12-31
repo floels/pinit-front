@@ -45,17 +45,39 @@ because then the header text is displayed on two lines instead of one. */
 
 .topicHeader {
   text-align: center;
-  opacity: 0;
   transition:
     opacity 0.7s ease-in-out,
     transform 0.7s ease-in-out;
-  position: absolute;
+  position: absolute; /* all headers are stacked, and then we play on opacity */
   width: 100%;
   margin: 0;
+  /* By default, header is invisible and in bottom position: */
+  opacity: 0;
+  transform: translateY(40px);
 }
 
-.topicHeader.topicHeaderActive {
+.topicHeader.topicHeaderVisible {
   opacity: 1;
+}
+
+.topicHeader.topicHeaderCenterPosition {
+  transform: none;
+}
+
+.topicHeader.topicHeaderFood {
+  color: rgb(194, 139, 0);
+}
+
+.topicHeader.topicHeaderHome {
+  color: rgb(97, 140, 123);
+}
+
+.topicHeader.topicHeaderOutfit {
+  color: rgb(0, 118, 211);
+}
+
+.topicHeader.topicHeaderGardening {
+  color: rgb(64, 122, 87);
 }
 
 .stepper {
@@ -80,6 +102,22 @@ because then the header text is displayed on two lines instead of one. */
   padding: 0;
   margin: 6px;
   background: rgb(225, 225, 225);
+}
+
+.stepperButton.stepperButtonActive.stepperButtonFood {
+  background-color: rgb(194, 139, 0);
+}
+
+.stepperButton.stepperButtonActive.stepperButtonHome {
+  background-color: rgb(97, 140, 123);
+}
+
+.stepperButton.stepperButtonActive.stepperButtonOutfit {
+  background-color: rgb(0, 118, 211);
+}
+
+.stepperButton.stepperButtonActive.stepperButtonGardening {
+  background-color: rgb(64, 122, 87);
 }
 
 .picturesContainer {
@@ -147,6 +185,22 @@ because then the header text is displayed on two lines instead of one. */
   100% {
     transform: translateY(0);
   }
+}
+
+.carret.carretFood {
+  background-color: rgb(194, 139, 0);
+}
+
+.carret.carretHome {
+  background-color: rgb(97, 140, 123);
+}
+
+.carret.carretOutfit {
+  background-color: rgb(0, 118, 211);
+}
+
+.carret.carretGardening {
+  background-color: rgb(64, 122, 87);
 }
 
 .carretIcon {

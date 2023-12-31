@@ -56,7 +56,7 @@ const renderComponent = (
   );
 };
 
-it("should display tooltip for profile link upon hover", async () => {
+it("should display tooltip for profile link upon hover", () => {
   renderComponent();
 
   const profileLink = screen.getByTestId("profile-link");
@@ -70,7 +70,7 @@ it("should display tooltip for profile link upon hover", async () => {
   expect(screen.queryByText(messages.YOUR_PROFILE)).toBeNull();
 });
 
-it("should display tooltip for account options button", async () => {
+it("should display tooltip for account options button upon hover", () => {
   renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");

@@ -4,7 +4,7 @@ import en from "@/messages/en.json";
 import PinThumbnail from "./PinThumbnail";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 
-it("should render image, title and author details when author details are provided", async () => {
+it("should render image, title and author details when author details are provided", () => {
   const pin = {
     id: "999999999999999999",
     title: "Pin title",
@@ -37,7 +37,7 @@ it("should render image, title and author details when author details are provid
   screen.getByText(pin.authorDisplayName);
 });
 
-it("should not render author details when author's profile picture URL is not provided", async () => {
+it("should not render author details when author's profile picture URL is not provided", () => {
   const pin = {
     id: "999999999999999999",
     title: "Pin title",
@@ -52,7 +52,7 @@ it("should not render author details when author's profile picture URL is not pr
   expect(screen.queryByTestId("pin-author-details")).toBeNull();
 });
 
-it("should not render author details when author's display name is not provided", async () => {
+it("should not render author details when author's display name is not provided", () => {
   const pin = {
     id: "999999999999999999",
     title: "Pin title",

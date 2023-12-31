@@ -59,7 +59,7 @@ const pinsBoardComponent = (
   />
 );
 
-it("should render the thumbnails with the right number of columns", async () => {
+it("should render the thumbnails with the right number of columns", () => {
   render(pinsBoardComponent);
 
   const initialRenderedPinSuggestions = screen.getAllByTestId("pin-thumbnail");
@@ -105,7 +105,7 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   });
 });
 
-it("should display loading spinner while fetching new thumbnails", async () => {
+it("should display loading spinner while fetching new thumbnails", () => {
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 

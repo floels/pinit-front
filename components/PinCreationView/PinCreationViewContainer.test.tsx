@@ -40,7 +40,7 @@ const expectInputFieldsToBeDisabled = () => {
   expect(descriptionTextArea).toBeDisabled();
 };
 
-it("should render header, have input fields disabled, and not render submit button initially", async () => {
+it("should render header, have input fields disabled, and not render submit button initially", () => {
   render(<PinCreationViewContainer />);
 
   screen.getByText(messages.CREATE_PIN);

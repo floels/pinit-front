@@ -51,7 +51,7 @@ const renderComponent = () => {
   );
 };
 
-it("should refresh access token", async () => {
+it("should refresh access token", () => {
   renderComponent();
 
   expect(fetch).toHaveBeenLastCalledWith(

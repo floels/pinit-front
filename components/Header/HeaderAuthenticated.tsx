@@ -8,7 +8,6 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBar from "./HeaderSearchBar";
 import styles from "./HeaderAuthenticated.module.css";
 import { useLocale, useTranslations } from "next-intl";
-import { AccountType } from "@/lib/types";
 
 type HeaderAuthenticatedProps = {
   handleMouseEnterProfileLink: () => void;
@@ -43,6 +42,18 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
 
     const { accountOptionsFlyoutRef, accountOptionsButtonRef } = ref as any;
 
+    let classHomeLink = styles.navigationItem;
+
+    if (pathname === `/${locale}`) {
+      classHomeLink = `${classHomeLink} ${styles.navigationItemActive}`;
+    }
+
+    let classCreateLink = styles.navigationItem;
+
+    if (pathname === `/${locale}/pin-creation-tool`) {
+      classCreateLink = `${classCreateLink} ${styles.navigationItemActive}`;
+    }
+
     return (
       <nav className={styles.container}>
         <div className={styles.headerItemsContainer}>
@@ -54,21 +65,14 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
               height={24}
             />
           </Link>
-          <Link
-            href={`/${locale}`}
-            className={`${styles.navigationItem} ${
-              pathname === `/${locale}` ? styles.active : ""
-            }`}
-          >
+          <Link href={`/${locale}`} className={classHomeLink}>
             {t("NAV_ITEM_HOME")}
           </Link>
           <Link
             href={`/${locale}/pin-creation-tool`}
-            className={`${styles.navigationItem} ${
-              pathname === `/${locale}/pin-creation-tool` ? styles.active : ""
-            }`}
+            className={classCreateLink}
           >
-            {t("CREATE")}
+            {t("NAV_ITEM_CREATE")}
           </Link>
           {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
             This way, the component will be re-rendered on each route transition, and its value
