@@ -4,7 +4,6 @@ import styles from "./PictureSliderPicture.module.css";
 
 const DURATION_TRANSITION_OUT_IMAGES_MS = 1500;
 export const IMAGE_FADE_LAG_MS = 100;
-export const TRANSLATION_IMAGES_PX = 40;
 
 export const IMAGE_URLS = {
   FOOD: [
@@ -77,7 +76,7 @@ type PictureSliderPictureProps = {
   previousStep: number | null;
 };
 
-const computeOpacityAndTranslation = ({
+const computeImageClasses = ({
   topicIndex,
   currentStep,
   previousStep,
@@ -88,31 +87,27 @@ const computeOpacityAndTranslation = ({
   previousStep: number | null;
   laggedTimeSinceLastStepChange: number;
 }) => {
-  // Default case (most frequent): hide image and put it at its bottom position
-  let opacity = 0;
-  let translationInPixels = TRANSLATION_IMAGES_PX;
-
   const topicIsActive = topicIndex === currentStep - 1; // '-1' because
   // 'topicIndex' is zero-based, while 'currentStep' is one-based
   const topicWasJustActive = previousStep && topicIndex === previousStep - 1;
 
   if (topicIsActive && laggedTimeSinceLastStepChange > 0) {
-    // Topic is active and lag is elapsed => display picture at the middle
-    opacity = 1;
-    translationInPixels = 0;
-  } else if (topicWasJustActive && laggedTimeSinceLastStepChange < 0) {
-    // Topic was just active and lag is not elapsed => same
-    opacity = 1;
-    translationInPixels = 0;
-  } else if (
+    return `${styles.image} ${styles.imageVisible} ${styles.imageCenterPosition}`;
+  }
+
+  if (topicWasJustActive && laggedTimeSinceLastStepChange < 0) {
+    return `${styles.image} ${styles.imageVisible} ${styles.imageCenterPosition}`;
+  }
+
+  if (
     topicWasJustActive &&
     laggedTimeSinceLastStepChange < DURATION_TRANSITION_OUT_IMAGES_MS
   ) {
     // Topic was just active, lag is elapsed but not the transition => send to top
-    translationInPixels = -TRANSLATION_IMAGES_PX;
+    return `${styles.image} ${styles.imageTopPosition}`;
   }
 
-  return { opacity, translationInPixels };
+  return styles.image; // default case (where image is invisible and translated to its bottom position, see CSS file)
 };
 
 const PictureSliderPicture = ({
@@ -128,7 +123,7 @@ const PictureSliderPicture = ({
   const laggedTimeSinceLastStepChange =
     timeSinceLastStepChange - imageIndex * IMAGE_FADE_LAG_MS;
 
-  const { opacity, translationInPixels } = computeOpacityAndTranslation({
+  const imageClasses = computeImageClasses({
     topicIndex,
     currentStep,
     previousStep,
@@ -145,8 +140,7 @@ const PictureSliderPicture = ({
         alt={topicLabel.toLowerCase()}
         fill
         sizes="236px"
-        className={styles.image}
-        style={{ opacity, transform: `translateY(${translationInPixels}px)` }}
+        className={imageClasses}
         priority={
           topicIndex ===
           0 /* Pre-load images of first topic to improve performance */

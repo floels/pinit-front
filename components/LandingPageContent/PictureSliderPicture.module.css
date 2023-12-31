@@ -11,4 +11,18 @@
   transition:
     opacity 0.7s ease-in-out,
     transform 0.7s ease-in-out;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.image.imageVisible {
+  opacity: 1;
+}
+
+.image.imageCenterPosition {
+  transform: none;
+}
+
+.image.imageTopPosition {
+  transform: translateY(-40px);
 }
