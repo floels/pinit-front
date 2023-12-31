@@ -3,10 +3,10 @@ import { PICTURE_SLIDER_TOPICS } from "./PictureSlider";
 import styles from "./PictureSliderPicture.module.css";
 
 const DURATION_TRANSITION_OUT_IMAGES_MS = 1500;
-const IMAGE_FADE_LAG_UNIT_MS = 100;
-const MAX_TRANSLATION_IMAGES_PX = 40;
+export const IMAGE_FADE_LAG_MS = 100;
+export const TRANSLATION_IMAGES_PX = 40;
 
-const IMAGE_URLS = {
+export const IMAGE_URLS = {
   FOOD: [
     "236x/e3/41/4b/e3414b2fcf00375a199ba6964be551af.jpg",
     "236x/78/6e/00/786e00eab219eca59803d118fbe0feb3.jpg",
@@ -77,6 +77,44 @@ type PictureSliderPictureProps = {
   previousStep: number | null;
 };
 
+const computeOpacityAndTranslation = ({
+  topicIndex,
+  currentStep,
+  previousStep,
+  laggedTimeSinceLastStepChange,
+}: {
+  topicIndex: number;
+  currentStep: number;
+  previousStep: number | null;
+  laggedTimeSinceLastStepChange: number;
+}) => {
+  // Default case (most frequent): hide image and put it at its bottom position
+  let opacity = 0;
+  let translationInPixels = TRANSLATION_IMAGES_PX;
+
+  const topicIsActive = topicIndex === currentStep - 1; // '-1' because
+  // 'topicIndex' is zero-based, while 'currentStep' is one-based
+  const topicWasJustActive = previousStep && topicIndex === previousStep - 1;
+
+  if (topicIsActive && laggedTimeSinceLastStepChange > 0) {
+    // Topic is active and lag is elapsed => display picture at the middle
+    opacity = 1;
+    translationInPixels = 0;
+  } else if (topicWasJustActive && laggedTimeSinceLastStepChange < 0) {
+    // Topic was just active and lag is not elapsed => same
+    opacity = 1;
+    translationInPixels = 0;
+  } else if (
+    topicWasJustActive &&
+    laggedTimeSinceLastStepChange < DURATION_TRANSITION_OUT_IMAGES_MS
+  ) {
+    // Topic was just active, lag is elapsed but not the transition => send to top
+    translationInPixels = -TRANSLATION_IMAGES_PX;
+  }
+
+  return { opacity, translationInPixels };
+};
+
 const PictureSliderPicture = ({
   topicIndex,
   imageIndex,
@@ -84,32 +122,18 @@ const PictureSliderPicture = ({
   currentStep,
   previousStep,
 }: PictureSliderPictureProps) => {
+  // We introduce a lag on the 'timeSinceLastStepChange', which
+  // depends on the 'imageIndex'. This is to create the visual effect
+  // whereby pictures fade out in a cascading fashion.
   const laggedTimeSinceLastStepChange =
-    timeSinceLastStepChange - imageIndex * IMAGE_FADE_LAG_UNIT_MS;
+    timeSinceLastStepChange - imageIndex * IMAGE_FADE_LAG_MS;
 
-  let opacity = 0;
-  let yTranslationPx = MAX_TRANSLATION_IMAGES_PX;
-
-  if (topicIndex === currentStep - 1 && laggedTimeSinceLastStepChange > 0) {
-    // Topic is active and lag is elapsed => display picture at the middle
-    opacity = 1;
-    yTranslationPx = 0;
-  } else if (
-    previousStep &&
-    topicIndex === previousStep - 1 &&
-    laggedTimeSinceLastStepChange < 0
-  ) {
-    // Topic was just active and lag is not elapsed => same
-    opacity = 1;
-    yTranslationPx = 0;
-  } else if (
-    previousStep &&
-    topicIndex === previousStep - 1 &&
-    laggedTimeSinceLastStepChange < DURATION_TRANSITION_OUT_IMAGES_MS
-  ) {
-    // Topic was just active, lag is elapsed but not the transition => send to top
-    yTranslationPx = -MAX_TRANSLATION_IMAGES_PX;
-  }
+  const { opacity, translationInPixels } = computeOpacityAndTranslation({
+    topicIndex,
+    currentStep,
+    previousStep,
+    laggedTimeSinceLastStepChange,
+  });
 
   const topicLabel = PICTURE_SLIDER_TOPICS[topicIndex];
   const imageURL = `https://i.pinimg.com/${IMAGE_URLS[topicLabel][imageIndex]}`;
@@ -122,11 +146,12 @@ const PictureSliderPicture = ({
         fill
         sizes="236px"
         className={styles.image}
-        style={{ opacity, transform: `translateY(${yTranslationPx}px)` }}
+        style={{ opacity, transform: `translateY(${translationInPixels}px)` }}
         priority={
           topicIndex ===
           0 /* Pre-load images of first topic to improve performance */
         }
+        data-testid={`picture-slider-picture-${topicLabel.toLowerCase()}-${imageIndex}`}
       />
     </div>
   );
