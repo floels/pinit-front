@@ -1,3 +1,4 @@
+// React Query client provider
 // Inspired by https://github.com/TkDodo/testing-react-query/blob/main/src/tests/utils.tsx
 // referenced in https://tkdodo.eu/blog/testing-react-query#putting-it-all-together
 
@@ -22,6 +23,7 @@ export const withQueryClient = (children: React.ReactElement) => {
   );
 };
 
+// Get an object from form data
 export const getObjectFromFormData = (formData: FormData) => {
   const object = {} as any;
 
@@ -37,4 +39,11 @@ export const getObjectFromFormData = (formData: FormData) => {
   });
 
   return object;
+};
+
+// Get the regexp against which to match `src` attributes of next/image's <Image /> elements
+export const getNextImageSrcRegexFromURL = (url: string) => {
+  const encodedUrl = encodeURIComponent(url);
+
+  return new RegExp(`/_next\\/image\\?url=${encodedUrl}`);
 };

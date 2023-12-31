@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import AccountDetailsView from "./AccountDetailsView";
 import en from "@/messages/en.json";
+import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 
 const accountDetailsWithoutBackgroundPictureURL = {
   displayName: "Brian Brown",
@@ -24,19 +25,21 @@ it("should render relevant details when provided", async () => {
   const profilePicture = screen.getByAltText(
     `${en.AccountDetails.ALT_PROFILE_PICTURE_OF} Brian Brown`,
   ) as HTMLImageElement;
-  expect(profilePicture.src).toMatch(
-    /_next\/image\?url=https%3A%2F%2Fprofile\.picture\.url/,
-  ); // Since the `src` attribute is transformed by the use of <Image /> from 'next/image'
+  const expectedPatternProfilePictureSrc = getNextImageSrcRegexFromURL(
+    "https://profile.picture.url",
+  );
+  expect(profilePicture.src).toMatch(expectedPatternProfilePictureSrc);
 
   const backgroundPicture = screen.getByAltText(
     `${en.AccountDetails.ALT_BACKGROUND_PICTURE_OF} Brian Brown`,
   ) as HTMLImageElement;
-  expect(backgroundPicture.src).toMatch(
-    /_next\/image\?url=https%3A%2F%2Fbackground\.picture\.url/,
-  ); // Since the `src` attribute is transformed by the use of <Image /> from 'next/image'
+  const expectedPatternBackgroundPictureSrc = getNextImageSrcRegexFromURL(
+    "https://background.picture.url",
+  );
+  expect(backgroundPicture.src).toMatch(expectedPatternBackgroundPictureSrc);
 });
 
-it("should not display background picture when URL is not provided", async () => {
+it("should not display background picture when corresponding URL is not provided", async () => {
   render(
     <AccountDetailsView
       {...accountDetailsWithoutBackgroundPictureURL}

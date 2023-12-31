@@ -1,8 +1,8 @@
 import { API_BASE_URL, API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 import AccountDetailsView from "@/components/AccountDetailsView/AccountDetailsView";
 import { Response404Error, ResponseKOError } from "@/lib/customErrors";
-import { withCamelCaseKeys } from "@/lib/utils/misc";
 import ErrorView from "@/components/ErrorView/ErrorView";
+import { getAccountWithCamelCaseKeys } from "@/lib/utils/adapters";
 
 type PageProps = {
   params: { username: string };
@@ -23,7 +23,7 @@ const fetchAccountDetails = async ({ username }: { username: string }) => {
 
   const responseData = await response.json();
 
-  return withCamelCaseKeys(responseData);
+  return getAccountWithCamelCaseKeys(responseData);
 };
 
 const Page = async ({ params }: PageProps) => {

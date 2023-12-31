@@ -12,7 +12,7 @@ import { Response401Error, ResponseKOError } from "@/lib/customErrors";
 import { AccountType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
-import { withCamelCaseKeys } from "@/lib/utils/misc";
+import { getAccountsWithCamelCaseKeys } from "@/lib/utils/adapters";
 
 const AuthenticatedSetupBuilder = () => {
   const {
@@ -70,7 +70,7 @@ const AuthenticatedSetupBuilder = () => {
 
     const responseData = await response.json();
 
-    return withCamelCaseKeys(responseData.results);
+    return getAccountsWithCamelCaseKeys(responseData.results);
   };
 
   const {

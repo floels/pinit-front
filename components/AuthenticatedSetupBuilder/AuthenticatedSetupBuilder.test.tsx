@@ -9,7 +9,7 @@ import { AccountsContext } from "@/contexts/AccountsContext";
 import { withQueryClient } from "@/lib/utils/testing";
 import { TypesOfAccount } from "@/lib/types";
 import Cookies from "js-cookie";
-import { withCamelCaseKeys } from "@/lib/utils/misc";
+import { getAccountsWithCamelCaseKeys } from "@/lib/utils/adapters";
 
 jest.mock("js-cookie", () => ({
   get: jest.fn(),
@@ -84,7 +84,8 @@ it("in the absence of a cookie, should fetch owned accounts and set active accou
 
   renderComponent();
 
-  const mockAccountsWithCamelizedKeys = withCamelCaseKeys(mockAccounts);
+  const mockAccountsWithCamelizedKeys =
+    getAccountsWithCamelCaseKeys(mockAccounts);
 
   await waitFor(() => {
     expect(mockSetAccounts).toHaveBeenLastCalledWith(

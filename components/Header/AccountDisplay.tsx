@@ -5,7 +5,7 @@ import { AccountType, TypesOfAccount } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import styles from "./AccountDisplay.module.css";
 
-type AccountDisplayProps = {
+export type AccountDisplayProps = {
   account: AccountType;
   isActive?: boolean;
   onClick: () => void;
@@ -25,7 +25,11 @@ const AccountDisplay = ({
       : commonTranslations("ACCOUNT_TYPE_BUSINESS");
 
   return (
-    <div className={styles.container} onClick={onClick}>
+    <div
+      className={styles.container}
+      onClick={onClick}
+      data-testid="account-display-container"
+    >
       <div>
         {account.profilePictureURL ? (
           <Image

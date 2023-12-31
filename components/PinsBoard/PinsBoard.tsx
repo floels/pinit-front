@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { appendQueryParam } from "@/lib/utils/strings";
 import PinsBoardDisplay from "./PinsBoardDisplay";
 import { PinType } from "@/lib/types";
-import { getPinsWithCamelizedKeys } from "@/lib/utils/misc";
+import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
 
 type PinsBoardProps = {
   initialPins: PinType[];
@@ -71,7 +71,7 @@ const PinsBoard = ({
 
     const newPinsFetched = newPinsResponseData.results;
 
-    const newPins = getPinsWithCamelizedKeys(newPinsFetched);
+    const newPins = getPinsWithCamelCaseKeys(newPinsFetched);
 
     setPins((existingPins) => [...existingPins, ...newPins]);
 

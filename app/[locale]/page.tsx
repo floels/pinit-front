@@ -7,7 +7,7 @@ import {
   API_ENDPOINT_GET_PIN_SUGGESTIONS,
   ACCESS_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
-import { getPinsWithCamelizedKeys } from "@/lib/utils/misc";
+import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
 import {
   MalformedResponseError,
   Response401Error,
@@ -40,7 +40,7 @@ const fetchInitialPinSuggestions = async ({
     throw new MalformedResponseError();
   }
 
-  const initialPinSuggestions = getPinsWithCamelizedKeys(results);
+  const initialPinSuggestions = getPinsWithCamelCaseKeys(results);
 
   return initialPinSuggestions;
 };
