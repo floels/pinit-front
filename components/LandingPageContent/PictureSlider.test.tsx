@@ -10,11 +10,7 @@ import PictureSlider, {
   TIMER_TIME_STEP_MS,
   TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS,
 } from "./PictureSlider";
-import {
-  IMAGE_FADE_LAG_MS,
-  IMAGE_URLS,
-  TRANSLATION_IMAGES_PX,
-} from "./PictureSliderPicture";
+import { IMAGE_FADE_LAG_MS, IMAGE_URLS } from "./PictureSliderPicture";
 
 const NUMBER_IMAGES_PER_TOPIC = IMAGE_URLS.FOOD.length;
 
@@ -34,14 +30,15 @@ it("after the first timer step, should show only first image of first topic in c
   renderComponent();
 
   act(() => {
-    jest.advanceTimersByTime(TIMER_TIME_STEP_MS + 1);
+    jest.advanceTimersByTime(TIMER_TIME_STEP_MS);
   });
 
   const firstPictureFirstTopic = screen.getByTestId(
     "picture-slider-picture-food-0",
   );
-  expect(firstPictureFirstTopic.style.opacity).toBe("1");
-  expect(firstPictureFirstTopic.style.transform).toEqual("translateY(0px)");
+  expect(firstPictureFirstTopic.className).toEqual(
+    "image imageVisible imageCenterPosition",
+  );
 
   PICTURE_SLIDER_TOPICS.forEach((topic) => {
     for (let i = 0; i < NUMBER_IMAGES_PER_TOPIC; i++) {
@@ -50,7 +47,7 @@ it("after the first timer step, should show only first image of first topic in c
       const pictureTestId = `picture-slider-picture-${topic.toLowerCase()}-${i}`;
       const picture = screen.getByTestId(pictureTestId);
 
-      expect(picture.style.opacity).toBe("0");
+      expect(picture.className).toEqual("image"); // i.e. no 'imageVisible' or other class
     }
   });
 });
@@ -58,20 +55,25 @@ it("after the first timer step, should show only first image of first topic in c
 it("after the first image lag interval, should show only first two images of first topic", async () => {
   renderComponent();
 
+  const timeRightAfterImageFadeLag = IMAGE_FADE_LAG_MS + TIMER_TIME_STEP_MS;
+
   act(() => {
-    jest.advanceTimersByTime(IMAGE_FADE_LAG_MS + TIMER_TIME_STEP_MS);
+    jest.advanceTimersByTime(timeRightAfterImageFadeLag);
   });
 
   const firstPictureFirstTopic = screen.getByTestId(
     "picture-slider-picture-food-0",
   );
-  expect(firstPictureFirstTopic.style.opacity).toBe("1");
+  expect(firstPictureFirstTopic.className).toEqual(
+    "image imageVisible imageCenterPosition",
+  );
 
   const secondPictureFirstTopic = screen.getByTestId(
     "picture-slider-picture-food-1",
   );
-  expect(secondPictureFirstTopic.style.opacity).toBe("1");
-  expect(secondPictureFirstTopic.style.transform).toEqual("translateY(0px)");
+  expect(secondPictureFirstTopic.className).toEqual(
+    "image imageVisible imageCenterPosition",
+  );
 
   PICTURE_SLIDER_TOPICS.forEach((topic) => {
     for (let i = 0; i < NUMBER_IMAGES_PER_TOPIC; i++) {
@@ -79,7 +81,8 @@ it("after the first image lag interval, should show only first two images of fir
 
       const pictureTestId = `picture-slider-picture-${topic.toLowerCase()}-${i}`;
       const picture = screen.getByTestId(pictureTestId);
-      expect(picture.style.opacity).toBe("0");
+
+      expect(picture.className).toEqual("image"); // i.e. no 'imageVisible' or other class
     }
   });
 });
@@ -89,29 +92,29 @@ of first topic, should still show second image of first topic,
 and should show first image of second topic`, async () => {
   renderComponent();
 
+  const timeRightAfterFirstAutomaticTopicTransition =
+    TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS + TIMER_TIME_STEP_MS;
+
   act(() => {
-    jest.advanceTimersByTime(
-      TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS + TIMER_TIME_STEP_MS,
-    );
+    jest.advanceTimersByTime(timeRightAfterFirstAutomaticTopicTransition);
   });
 
   const firstPictureFirstTopic = screen.getByTestId(
     "picture-slider-picture-food-0",
   );
-  expect(firstPictureFirstTopic.style.opacity).toBe("0");
-  expect(firstPictureFirstTopic.style.transform).toEqual(
-    `translateY(${-TRANSLATION_IMAGES_PX}px)`,
-  );
+  expect(firstPictureFirstTopic.className).toEqual("image imageTopPosition");
 
   const secondPictureFirstTopic = screen.getByTestId(
     "picture-slider-picture-food-1",
   );
-  expect(secondPictureFirstTopic.style.opacity).toBe("1");
-  expect(secondPictureFirstTopic.style.transform).toEqual("translateY(0px)");
+  expect(secondPictureFirstTopic.className).toEqual(
+    "image imageVisible imageCenterPosition",
+  );
 
   const secondPictureSecondTopic = screen.getByTestId(
     "picture-slider-picture-home-0",
   );
-  expect(secondPictureSecondTopic.style.opacity).toBe("1");
-  expect(secondPictureSecondTopic.style.transform).toEqual("translateY(0px)");
+  expect(secondPictureSecondTopic.className).toEqual(
+    "image imageVisible imageCenterPosition",
+  );
 });
