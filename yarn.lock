@@ -5539,7 +5539,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.15":
+"lodash@npm:^4.17.15, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -6401,6 +6401,7 @@ __metadata:
     jest-environment-jsdom: ^29.7.0
     jest-fetch-mock: ^3.0.3
     js-cookie: ^3.0.5
+    lodash: ^4.17.21
     next: ^14.0.4
     next-intl: ^3.4.0
     prettier: ^3.1.1

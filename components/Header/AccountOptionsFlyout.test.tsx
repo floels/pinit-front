@@ -66,7 +66,7 @@ const renderComponent = (
   );
 };
 
-it("should display spinner while fetching", async () => {
+it("should display spinner while fetching", () => {
   const mockAccountsContext = {
     ...defaultMockAccountsContext,
     isFetchingAccounts: true,
@@ -77,13 +77,13 @@ it("should display spinner while fetching", async () => {
   screen.getByTestId("owned-accounts-spinner");
 });
 
-it("should display not display 'Your other accounts' section in case of a single account", async () => {
+it("should display not display 'Your other accounts' section in case of a single account", () => {
   renderComponent();
 
   expect(screen.queryByText(messages.YOUR_OTHER_ACCOUNTS)).toBeNull();
 });
 
-it("should display active account and 'Your other accounts' section if fetch response has two accounts", async () => {
+it("should display active account and 'Your other accounts' section if fetch response has two accounts", () => {
   const mockAccountsContext = {
     ...defaultMockAccountsContext,
     accounts: [
@@ -111,7 +111,7 @@ it("should display active account and 'Your other accounts' section if fetch res
   ).toBeNull();
 });
 
-it("should display error response in case of fetch error", async () => {
+it("should display error response in case of fetch error", () => {
   const mockAccountsContext = {
     ...defaultMockAccountsContext,
     isErrorFetchingAccounts: true,

@@ -8,7 +8,9 @@ const messages = en.LandingPageContent;
 
 const onClickNoAccountYet = () => {}; // this behavior will be tested in <HeaderUnauthenticatedClient />
 
-const loginForm = <LoginForm onClickNoAccountYet={onClickNoAccountYet} />;
+const renderComponent = () => {
+  render(<LoginForm onClickNoAccountYet={onClickNoAccountYet} />);
+};
 
 const mockRouterRefresh = jest.fn();
 
@@ -33,7 +35,7 @@ it("should display relevant input errors, send request only when inputs are vali
     }),
   );
 
-  render(loginForm);
+  renderComponent();
 
   screen.getByText(messages.LoginForm.WELCOME_TO_PINIT);
 
@@ -67,7 +69,7 @@ it("should display relevant input errors, send request only when inputs are vali
 });
 
 it("should display relevant errors when receiving 401 responses", async () => {
-  render(loginForm);
+  renderComponent();
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
   const passwordInput = screen.getByLabelText(messages.LoginForm.PASSWORD);
@@ -97,7 +99,7 @@ it("should display relevant errors when receiving 401 responses", async () => {
 });
 
 it("should display loading state while expecting network response", async () => {
-  render(loginForm);
+  renderComponent();
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
   const passwordInput = screen.getByLabelText(messages.LoginForm.PASSWORD);

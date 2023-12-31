@@ -87,7 +87,7 @@
   },
   "HeaderAuthenticated": {
     "NAV_ITEM_HOME": "Home",
-    "CREATE": "Create",
+    "NAV_ITEM_CREATE": "Create",
     "YOUR_PROFILE": "Your profile",
     "ACCOUNT_OPTIONS": "Account and more options",
     "PLACEHOLDER_SEARCH": "Search",

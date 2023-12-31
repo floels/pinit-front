@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -5,21 +6,19 @@ import { useTranslations } from "next-intl";
 import styles from "./PictureSlider.module.css";
 import PictureSliderPicture from "./PictureSliderPicture";
 
-type TopicsType = "FOOD" | "HOME" | "OUTFIT" | "GARDENING";
+export enum TopicsType {
+  FOOD = "FOOD",
+  HOME = "HOME",
+  OUTFIT = "OUTFIT",
+  GARDENING = "GARDENING",
+}
 
 export const PICTURE_SLIDER_TOPICS: TopicsType[] = [
-  "FOOD",
-  "HOME",
-  "OUTFIT",
-  "GARDENING",
+  TopicsType.FOOD,
+  TopicsType.HOME,
+  TopicsType.OUTFIT,
+  TopicsType.GARDENING,
 ];
-
-type TopicColorsType = {
-  FOOD: string;
-  HOME: string;
-  OUTFIT: string;
-  GARDENING: string;
-};
 
 type PictureSliderProps = {
   onClickSeeBelow: () => void;
@@ -31,17 +30,75 @@ type PictureSliderState = {
   timeSinceLastStepChange: number;
 };
 
-const TOPIC_COLORS: TopicColorsType = {
-  FOOD: "rgb(194, 139, 0)",
-  HOME: "rgb(97, 140, 123)",
-  OUTFIT: "rgb(0, 118, 211)",
-  GARDENING: "rgb(64, 122, 87)",
-};
-
 export const TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS = 5000;
 const DURATION_TRANSITION_OUT_HEADERS_MS = 1500;
-const MAX_TRANSLATION_HEADERS_PX = 40;
 export const TIMER_TIME_STEP_MS = 50;
+
+const computeHeaderClasses = ({
+  topic,
+  topicIndex,
+  currentStep,
+  previousStep,
+  timeSinceLastStepChange,
+}: {
+  topic: TopicsType;
+  topicIndex: number;
+  currentStep: number;
+  previousStep: number | null;
+  timeSinceLastStepChange: number;
+}) => {
+  const isHeaderOfCurrentStep = topicIndex === currentStep - 1; // '-1' because
+  // 'topicIndex' is zero-based, while 'currentStep' is one-based
+
+  const isHeaderOfPreviousStep =
+    previousStep && topicIndex === previousStep - 1;
+
+  const defaultClasses = `${styles.topicHeader} ${
+    styles[`topicHeader${_.capitalize(topic)}`]
+  }`; // e.g. "topicHeader topicHeaderFood"
+
+  if (isHeaderOfCurrentStep) {
+    return `${defaultClasses} ${styles.topicHeaderVisible} ${styles.topicHeaderCenterPosition}`;
+  }
+
+  if (
+    isHeaderOfPreviousStep &&
+    timeSinceLastStepChange < DURATION_TRANSITION_OUT_HEADERS_MS
+  ) {
+    return `${defaultClasses} ${styles.topicHeaderTopPosition}`;
+  }
+
+  return defaultClasses;
+};
+
+const computeStepperButtonClasses = ({
+  stepperButtonIndex,
+  currentStep,
+}: {
+  stepperButtonIndex: number;
+  currentStep: number;
+}) => {
+  const isStepperButtonOfCurrentStep = stepperButtonIndex === currentStep - 1; // '-1' because
+  // 'stepperButtonIndex' is zero-based, while 'currentStep' is one-based
+
+  const correspondingTopic = PICTURE_SLIDER_TOPICS[stepperButtonIndex];
+
+  const defaultClasses = `${styles.stepperButton} ${
+    styles[`stepperButton${_.capitalize(correspondingTopic)}`]
+  }`; // e.g. "stepperButton stepperButtonFood"
+
+  if (isStepperButtonOfCurrentStep) {
+    return `${defaultClasses} ${styles.stepperButtonActive}`;
+  }
+
+  return defaultClasses;
+};
+
+const computeCarretClasses = ({ currentStep }: { currentStep: number }) => {
+  const activeTopic = PICTURE_SLIDER_TOPICS[currentStep - 1];
+
+  return `${styles.carret} ${styles[`carret${_.capitalize(activeTopic)}`]}`;
+};
 
 const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
   const t = useTranslations("LandingPageContent");
@@ -89,22 +146,45 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
     });
   };
 
-  const computeHeaderTranslatePx = (index: number) => {
-    if (index === state.currentStep - 1) {
-      // Header of active step: put at the middle
-      return 0;
-    }
+  const topicHeaders = PICTURE_SLIDER_TOPICS.map((topic, topicIndex) => {
+    const classes = computeHeaderClasses({
+      topic,
+      topicIndex,
+      ...state,
+    });
 
-    if (state.previousStep && index === state.previousStep - 1) {
-      // Header of previously active step: put at the the top until DURATION_TRANSITION_HEADERS_MS has elapsed
-      if (state.timeSinceLastStepChange < DURATION_TRANSITION_OUT_HEADERS_MS) {
-        return -MAX_TRANSLATION_HEADERS_PX;
-      }
-    }
+    return (
+      <p key={`header-${topic.toLowerCase()}`} className={classes}>
+        {t(`PictureSlider.HEADER_${topic}`)}
+      </p>
+    );
+  });
 
-    // None of the above: put down
-    return MAX_TRANSLATION_HEADERS_PX;
-  };
+  const stepperButtons = PICTURE_SLIDER_TOPICS.map((_, stepperButtonIndex) => {
+    const classes = computeStepperButtonClasses({
+      stepperButtonIndex,
+      currentStep: state.currentStep,
+    });
+
+    return (
+      <li
+        key={`stepper-button-${stepperButtonIndex}`}
+        className={styles.stepperListItem}
+      >
+        <button
+          onClick={() => {
+            moveToStep(stepperButtonIndex + 1);
+          }}
+          className={classes}
+          data-testid={`stepper-button-${stepperButtonIndex}`}
+        />
+      </li>
+    );
+  });
+
+  const carretClasses = computeCarretClasses({
+    currentStep: state.currentStep,
+  });
 
   return (
     <div className={styles.container}>
@@ -114,47 +194,9 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
             <p className={styles.headerFixedSentence}>
               {t("PictureSlider.GET_YOUR_NEXT")}
             </p>
-            <div className={styles.topicHeadersContainer}>
-              {PICTURE_SLIDER_TOPICS.map((topic, index) => (
-                <p
-                  key={`header-${topic.toLowerCase()}`}
-                  className={`${styles.topicHeader} ${
-                    index === state.currentStep - 1
-                      ? styles.topicHeaderActive
-                      : ""
-                  }`}
-                  style={{
-                    color: TOPIC_COLORS[topic],
-                    transform: `translateY(${computeHeaderTranslatePx(
-                      index,
-                    )}px)`,
-                  }}
-                >
-                  {t(`PictureSlider.HEADER_${topic}`)}
-                </p>
-              ))}
-            </div>
+            <div className={styles.topicHeadersContainer}>{topicHeaders}</div>
           </div>
-          <ul className={styles.stepper}>
-            {PICTURE_SLIDER_TOPICS.map((topic, index) => (
-              <li
-                key={`stepper-button-${index + 1}`}
-                className={styles.stepperListItem}
-              >
-                <button
-                  onClick={() => {
-                    moveToStep(index + 1);
-                  }}
-                  className={styles.stepperButton}
-                  style={
-                    index === state.currentStep - 1
-                      ? { backgroundColor: TOPIC_COLORS[topic] }
-                      : {}
-                  }
-                />
-              </li>
-            ))}
-          </ul>
+          <ul className={styles.stepper}>{stepperButtons}</ul>
         </div>
         <div className={styles.picturesContainer}>
           {PICTURE_SLIDER_TOPICS.map((topic, index) => {
@@ -253,11 +295,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
       </div>
       <div className={styles.footerCarretAndBlur}>
         <div
-          className={styles.carret}
-          style={{
-            backgroundColor:
-              TOPIC_COLORS[PICTURE_SLIDER_TOPICS[state.currentStep - 1]],
-          }}
+          className={carretClasses}
           onClick={onClickSeeBelow}
           data-testid="picture-slider-carret"
         >
@@ -265,6 +303,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
             icon={faAngleDown}
             className={styles.carretIcon}
             size="2x"
+            data-testid="picture-slider-carret-icon"
           />
         </div>
         <div className={styles.footer} onClick={onClickSeeBelow}>

@@ -4,13 +4,20 @@
 // they don't really make sense as separate components.
 // This allows us to express assertions which are closer to what the user actually sees.
 
+import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).not.toHaveClass(...)`
 import { act, render, screen } from "@testing-library/react";
 import PictureSlider, {
+  TopicsType,
   PICTURE_SLIDER_TOPICS,
   TIMER_TIME_STEP_MS,
   TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS,
 } from "./PictureSlider";
 import { IMAGE_FADE_LAG_MS, IMAGE_URLS } from "./PictureSliderPicture";
+import en from "@/messages/en.json";
+import _ from "lodash";
+import userEvent from "@testing-library/user-event";
+
+const messages = en.LandingPageContent.PictureSlider;
 
 const NUMBER_IMAGES_PER_TOPIC = IMAGE_URLS.FOOD.length;
 
@@ -26,7 +33,97 @@ afterEach(() => {
   jest.clearAllTimers();
 });
 
-it("after the first timer step, should show only first image of first topic in central position", async () => {
+it(`upon initial render, should show only header for first topic,
+should show proper step in stepper, and
+should style elements with proper color`, () => {
+  renderComponent();
+
+  // Check that only first header is visible
+  const headerFood = screen.getByText(messages.HEADER_FOOD);
+  expect(headerFood.className).toEqual(
+    "topicHeader topicHeaderFood topicHeaderVisible topicHeaderCenterPosition",
+  );
+
+  PICTURE_SLIDER_TOPICS.map((topic) => {
+    if (topic !== TopicsType.FOOD) {
+      const headerText = messages[`HEADER_${topic}`];
+      const header = screen.getByText(headerText);
+      expect(header.className).toEqual(
+        `topicHeader topicHeader${_.capitalize(topic)}`,
+      );
+    }
+  });
+
+  // Check that only first step of stepper is active and has proper styling
+  const firstStepperButton = screen.getByTestId("stepper-button-0");
+  expect(firstStepperButton.className).toEqual(
+    "stepperButton stepperButtonFood stepperButtonActive",
+  );
+
+  PICTURE_SLIDER_TOPICS.map((_, index) => {
+    if (index > 0) {
+      const stepperButton = screen.getByTestId(`stepper-button-${index}`);
+      expect(stepperButton).not.toHaveClass("stepperButtonActive");
+    }
+  });
+
+  // Check that carret has proper styling
+  const carret = screen.getByTestId("picture-slider-carret");
+  expect(carret.className).toEqual("carret carretFood");
+});
+
+it(`after the first automatic topic transition, should show only header for second topic,
+should show proper step in stepper, and
+should style elements with proper color`, () => {
+  renderComponent();
+
+  const timeRightAfterFirstAutomaticTopicTransition =
+    TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS + TIMER_TIME_STEP_MS;
+
+  act(() => {
+    jest.advanceTimersByTime(timeRightAfterFirstAutomaticTopicTransition);
+  });
+
+  // Check that only second header is visible
+  const headerHome = screen.getByText(messages.HEADER_HOME);
+  expect(headerHome.className).toEqual(
+    "topicHeader topicHeaderHome topicHeaderVisible topicHeaderCenterPosition",
+  );
+
+  PICTURE_SLIDER_TOPICS.map((topic) => {
+    if (topic === TopicsType.FOOD) {
+      const headerFood = screen.getByText(messages.HEADER_FOOD);
+      expect(headerFood.className).toEqual(
+        "topicHeader topicHeaderFood topicHeaderTopPosition",
+      );
+    } else if (topic !== TopicsType.HOME) {
+      const headerText = messages[`HEADER_${topic}`];
+      const header = screen.getByText(headerText);
+      expect(header.className).toEqual(
+        `topicHeader topicHeader${_.capitalize(topic)}`,
+      );
+    }
+  });
+
+  // Check that only second step of stepper is active and has proper styling
+  const secondStepperButton = screen.getByTestId("stepper-button-1");
+  expect(secondStepperButton.className).toEqual(
+    "stepperButton stepperButtonHome stepperButtonActive",
+  );
+
+  PICTURE_SLIDER_TOPICS.map((_, index) => {
+    if (index !== 1) {
+      const stepperButton = screen.getByTestId(`stepper-button-${index}`);
+      expect(stepperButton).not.toHaveClass("stepperButtonActive");
+    }
+  });
+
+  // Check that carret has proper styling
+  const carret = screen.getByTestId("picture-slider-carret");
+  expect(carret.className).toEqual("carret carretHome");
+});
+
+it("after the first timer step, should show only first image of first topic in central position", () => {
   renderComponent();
 
   act(() => {
@@ -52,7 +149,7 @@ it("after the first timer step, should show only first image of first topic in c
   });
 });
 
-it("after the first image lag interval, should show only first two images of first topic", async () => {
+it("after the first image lag interval, should show only first two images of first topic", () => {
   renderComponent();
 
   const timeRightAfterImageFadeLag = IMAGE_FADE_LAG_MS + TIMER_TIME_STEP_MS;
@@ -89,7 +186,7 @@ it("after the first image lag interval, should show only first two images of fir
 
 it(`after the first automatic topic transition, should no longer show first image
 of first topic, should still show second image of first topic, 
-and should show first image of second topic`, async () => {
+and should show first image of second topic`, () => {
   renderComponent();
 
   const timeRightAfterFirstAutomaticTopicTransition =
@@ -117,4 +214,34 @@ and should show first image of second topic`, async () => {
   expect(secondPictureSecondTopic.className).toEqual(
     "image imageVisible imageCenterPosition",
   );
+});
+
+it("should move to corresponding step when user clicks stepper button", async () => {
+  jest.useRealTimers(); // otherwise `await userEvent.click(...);` times out for some reason
+
+  renderComponent();
+
+  const headerOutfit = screen.getByText(messages.HEADER_OUTFIT);
+
+  expect(headerOutfit.className).toEqual("topicHeader topicHeaderOutfit"); // ie not visible
+
+  const stepperButtonOutfit = screen.getByTestId("stepper-button-2");
+
+  await userEvent.click(stepperButtonOutfit);
+
+  expect(headerOutfit.className).toEqual(
+    "topicHeader topicHeaderOutfit topicHeaderVisible topicHeaderCenterPosition",
+  );
+});
+
+it("should call 'onClickSeeBelow' when user click on corresponding button", async () => {
+  jest.useRealTimers(); // otherwise `await userEvent.click(...);` times out for some reason
+
+  renderComponent();
+
+  const carret = screen.getByTestId("picture-slider-carret");
+
+  await userEvent.click(carret);
+
+  expect(mockOnClickSeeBelow).toHaveBeenCalledTimes(1);
 });

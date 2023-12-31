@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 
-it("should render image, title, description and author details when all are provided", async () => {
+it("should render image, title, description and author details when all are provided", () => {
   const pin = {
     id: "999999999999999999",
     title: "Pin title",
@@ -39,7 +39,7 @@ it("should render image, title, description and author details when all are prov
   screen.getByText(pin.authorDisplayName);
 });
 
-it("should not render author details when author's profile picture URL is not provided", async () => {
+it("should not render author details when author's profile picture URL is not provided", () => {
   const pin = {
     id: "999999999999999999",
     title: "Pin title",
@@ -54,7 +54,7 @@ it("should not render author details when author's profile picture URL is not pr
   expect(screen.queryByTestId("pin-author-details")).toBeNull();
 });
 
-it("should not render author details when author's display name is not provided", async () => {
+it("should not render author details when author's display name is not provided", () => {
   const pin = {
     id: "999999999999999999",
     title: "Pin title",

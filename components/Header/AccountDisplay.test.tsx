@@ -23,13 +23,13 @@ const renderComponent = ({ isActive } = { isActive: false }) => {
   );
 };
 
-it("should not render active icon if account is not active", async () => {
+it("should not render active icon if account is not active", () => {
   renderComponent();
 
   expect(screen.queryByTestId("icon-active-account")).toBeNull();
 });
 
-it("should render active icon if account is active", async () => {
+it("should render active icon if account is active", () => {
   renderComponent({ isActive: true });
 
   screen.getByTestId("icon-active-account");

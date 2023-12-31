@@ -3,7 +3,7 @@ import ClientsAndContextsProvider from "./ClientsAndContextsProvider";
 import { render, screen } from "@testing-library/react";
 import { useAccountsContext } from "@/contexts/AccountsContext";
 
-it("should give its child access to 'useQuery'", async () => {
+it("should give its child access to 'useQuery'", () => {
   const ChildElement = () => {
     useQuery({ queryKey: ["dummyQuery"], queryFn: () => ({}) });
 
@@ -20,7 +20,7 @@ it("should give its child access to 'useQuery'", async () => {
   screen.getByTestId("child-element");
 });
 
-it("should give its child access to context AccountsContext", async () => {
+it("should give its child access to context AccountsContext", () => {
   const ChildElement = () => {
     useAccountsContext();
 

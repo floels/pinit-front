@@ -7,7 +7,7 @@ const messages = en.PinCreation;
 
 const mockOnFileDropped = jest.fn();
 
-test("it should render file upload zone if 'imagePreviewURL' props is null", async () => {
+test("it should render file upload zone if 'imagePreviewURL' props is null", () => {
   render(
     <PinImageDropzone
       imagePreviewURL={null}
@@ -18,7 +18,7 @@ test("it should render file upload zone if 'imagePreviewURL' props is null", asy
   screen.getByText(messages.DROPZONE_INSTRUCTION);
 });
 
-test("it should render image preview if 'imagePreviewURL' props is not null", async () => {
+test("it should render image preview if 'imagePreviewURL' props is not null", () => {
   const imagePreviewURL = "data:image/png;base64,acbdefg";
 
   render(
