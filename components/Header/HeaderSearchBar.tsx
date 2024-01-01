@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
+import debounce from "lodash/debounce";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import { useTranslations } from "next-intl";
 import styles from "./HeaderSearchBar.module.css";
 import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
 
-const DEBOUNCE_DURATION_MS = 300;
+export const AUTOCOMPLETE_DEBOUNCE_TIME_MS = 300;
 
 const getRefinedSuggestions = (
   searchTerm: string,
@@ -105,46 +106,53 @@ const HeaderSearchBar = () => {
     };
   }, [handleKeyDown]);
 
-  const fetchAutocompleteSuggestions = useCallback(async () => {
-    let response, responseData;
+  const fetchAutocompleteSuggestions = useCallback(
+    async ({ searchTerm }: { searchTerm: string }) => {
+      let response, responseData;
 
-    try {
-      response = await fetch(
-        `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${inputValue}`,
+      try {
+        response = await fetch(
+          `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${searchTerm}`,
+        );
+
+        responseData = await response.json();
+      } catch (error) {
+        // Fail silently
+        setAutocompleteSuggestions([]);
+        return;
+      }
+
+      if (!response.ok) {
+        // Fail silently
+        setAutocompleteSuggestions([]);
+        return;
+      }
+
+      const refinedSuggestions = getRefinedSuggestions(
+        searchTerm,
+        responseData.results,
       );
 
-      responseData = await response.json();
-    } catch (error) {
-      // Fail silently
-      setAutocompleteSuggestions([]);
-      return;
-    }
-
-    if (!response.ok) {
-      // Fail silently
-      setAutocompleteSuggestions([]);
-      return;
-    }
-
-    const refinedSuggestions = getRefinedSuggestions(
-      inputValue,
-      responseData.results,
-    );
-
-    setAutocompleteSuggestions(refinedSuggestions);
-  }, [inputValue]);
+      setAutocompleteSuggestions(refinedSuggestions);
+    },
+    [setAutocompleteSuggestions],
+  );
 
   useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      if (inputValue) {
-        fetchAutocompleteSuggestions();
-      } else {
-        setAutocompleteSuggestions([]);
-      }
-    }, DEBOUNCE_DURATION_MS);
+    if (!inputValue) {
+      setAutocompleteSuggestions([]);
+      return;
+    }
+
+    const debouncedFetchAutoCompleteSuggestions = debounce(
+      fetchAutocompleteSuggestions,
+      AUTOCOMPLETE_DEBOUNCE_TIME_MS,
+    );
+
+    debouncedFetchAutoCompleteSuggestions({ searchTerm: inputValue });
 
     return () => {
-      clearTimeout(debounceTimeout);
+      debouncedFetchAutoCompleteSuggestions.cancel();
     };
   }, [inputValue, fetchAutocompleteSuggestions]);
 

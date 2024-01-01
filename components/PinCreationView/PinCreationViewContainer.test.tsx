@@ -161,11 +161,9 @@ it("should display error toast in case of KO response upon posting", async () =>
 
   await dropImageFile();
 
-  fetchMock.doMockOnceIf(
-    `${API_ROUTE_CREATE_PIN}`,
-    JSON.stringify({ message: "Bad Request" }),
-    { status: 400 },
-  );
+  fetchMock.doMockOnceIf(`${API_ROUTE_CREATE_PIN}`, JSON.stringify({}), {
+    status: 400,
+  });
 
   const submitButton = screen.getByTestId("pin-creation-submit-button");
   await userEvent.click(submitButton);

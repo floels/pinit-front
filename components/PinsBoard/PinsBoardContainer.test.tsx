@@ -94,7 +94,7 @@ it("should display loading spinner while fetching new thumbnails", () => {
 it("should display error message in case of KO response upon new thumbnails fetch", async () => {
   fetchMock.doMockOnceIf(
     `${API_ROUTE_PINS_SUGGESTIONS}?page=2`,
-    JSON.stringify({ message: "Bad Request" }),
+    JSON.stringify({}),
     { status: 400 },
   );
 
