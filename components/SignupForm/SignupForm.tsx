@@ -81,6 +81,8 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
     setFormData(newFormData);
 
     setFormErrors(computeFormErrors(newFormData));
+
+    setShowFormErrors(false);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

@@ -61,8 +61,12 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
     const { name, value } = event.target;
 
     const newCredentials = { ...credentials, [name]: value };
+
     setCredentials(newCredentials);
+
     setFormErrors(computeFormErrors(newCredentials));
+
+    setShowFormErrors(false);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
