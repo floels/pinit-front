@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, MouseEvent } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import {
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
-  ERROR_CODE_CLIENT_FETCH_FAILED,
+  ERROR_CODE_FETCH_FAILED,
   API_ROUTE_OBTAIN_TOKEN,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
@@ -103,7 +103,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
         }),
       });
     } catch (error) {
-      throw new Error(ERROR_CODE_CLIENT_FETCH_FAILED);
+      throw new Error(ERROR_CODE_FETCH_FAILED);
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +123,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {
     switch (errorCode) {
-      case ERROR_CODE_CLIENT_FETCH_FAILED:
+      case ERROR_CODE_FETCH_FAILED:
         setFormErrors({ other: "CONNECTION_ERROR" });
         break;
       case ERROR_CODE_INVALID_EMAIL:
@@ -137,9 +137,21 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
     }
   };
 
-  const handleClickLoadingOverlay = (event: MouseEvent) => {
-    event.preventDefault(); // so that a click on the form has no effect when it's loading
-  };
+  let displayFormErrorsOther;
+
+  if (formErrors.other) {
+    const text =
+      formErrors.other === "CONNECTION_ERROR"
+        ? t("Common.CONNECTION_ERROR")
+        : t("UNFORESEEN_ERROR");
+
+    displayFormErrorsOther = (
+      <div className={styles.otherErrorMessage}>
+        <FontAwesomeIcon icon={faCircleXmark} />
+        <div className={styles.otherErrorText}>{text}</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -187,14 +199,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
             withPasswordShowIcon={true}
           />
         </div>
-        {showFormErrors && formErrors.other && (
-          <div className={styles.otherErrorMessage}>
-            <FontAwesomeIcon icon={faCircleXmark} />
-            <div className={styles.otherErrorText}>
-              {t(`Common.UNFORESEEN_ERROR`)}
-            </div>
-          </div>
-        )}
+        {showFormErrors && displayFormErrorsOther}
         <button type="submit" className={styles.submitButton}>
           {t("LandingPageContent.LoginForm.LOG_IN")}
         </button>
@@ -211,8 +216,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
       {isLoading && (
         <div
           className={styles.loadingOverlay}
-          onClick={handleClickLoadingOverlay}
-          data-testid="loading-overlay"
+          data-testid="login-form-loading-overlay"
         >
           <FontAwesomeIcon
             icon={faSpinner}

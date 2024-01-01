@@ -6,7 +6,7 @@ import { API_ROUTE_OBTAIN_TOKEN } from "@/lib/constants";
 
 const messages = en.LandingPageContent;
 
-const onClickNoAccountYet = () => {}; // this behavior will be tested in <HeaderUnauthenticatedClient />
+const onClickNoAccountYet = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
 
 const renderComponent = () => {
   render(<LoginForm onClickNoAccountYet={onClickNoAccountYet} />);
@@ -43,7 +43,12 @@ it("should display relevant input errors, send request only when inputs are vali
   const passwordInput = screen.getByLabelText(messages.LoginForm.PASSWORD);
   const submitButton = screen.getByText(messages.LoginForm.LOG_IN);
 
-  // Fill form with invalid email and pasword and submit:
+  // Submit without any input:
+  await userEvent.click(submitButton);
+
+  screen.getByText(messages.LoginForm.MISSING_EMAIL);
+
+  // Fill form with invalid email and password and submit:
   await userEvent.type(emailInput, "test@example");
   await userEvent.type(passwordInput, "Pa$$");
   await userEvent.click(submitButton);
@@ -98,6 +103,23 @@ it("should display relevant errors when receiving 401 responses", async () => {
   screen.getByText(messages.LoginForm.INVALID_PASSWORD_LOGIN);
 });
 
+it("should display relevant error upon fetch error", async () => {
+  renderComponent();
+
+  const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
+  const passwordInput = screen.getByLabelText(messages.LoginForm.PASSWORD);
+  const submitButton = screen.getByText(messages.LoginForm.LOG_IN);
+
+  await userEvent.type(emailInput, "test@example.com");
+  await userEvent.type(passwordInput, "Pa$$w0rd");
+
+  fetchMock.mockRejectOnce(new Error("Network failure"));
+
+  await userEvent.click(submitButton);
+
+  screen.getByText(en.Common.CONNECTION_ERROR);
+});
+
 it("should display loading state while expecting network response", async () => {
   renderComponent();
 
@@ -112,5 +134,5 @@ it("should display loading state while expecting network response", async () => 
   await userEvent.type(passwordInput, "Pa$$w0rd");
   await userEvent.click(submitButton);
 
-  screen.getByTestId("loading-overlay");
+  screen.getByTestId("login-form-loading-overlay");
 });

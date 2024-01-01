@@ -30,6 +30,7 @@
       "PASSWORD": "Password",
       "BIRTHDATE": "Birthdate",
       "CREATE_PASSWORD": "Create a password",
+      "MISSING_EMAIL": "You missed a spot! Don't forget to add your email.",
       "INVALID_EMAIL_INPUT": "Hmm... that doesn't look like an email address.",
       "INVALID_PASSWORD_INPUT": "The password you entered is incorrect.",
       "INVALID_BIRTHDATE_INPUT": "You missed a spot. Don’t forget to add your birthdate.",

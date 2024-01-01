@@ -86,7 +86,6 @@ because then the header text is displayed on two lines instead of one. */
   padding: 0;
   margin-top: 40px;
   margin-bottom: 0;
-  z-index: 1;
 }
 
 .stepperListItem {
