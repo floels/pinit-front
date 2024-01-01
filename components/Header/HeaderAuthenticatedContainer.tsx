@@ -44,12 +44,14 @@ const HeaderAuthenticatedContainer = () => {
   const handleClickDocument = useCallback(
     (event: MouseEvent) => {
       const target = event.target as Node;
+
+      const userClickedOutOfAccountOptionsFlyoutOrButton =
+        !accountOptionsFlyoutRef.current?.contains(target) &&
+        !accountOptionsButtonRef.current?.contains(target);
+
       if (
-        isAccountOptionsFlyoutOpen &&
-        accountOptionsFlyoutRef.current &&
-        !accountOptionsFlyoutRef.current.contains(target) &&
-        accountOptionsButtonRef.current &&
-        !accountOptionsButtonRef.current.contains(target)
+        userClickedOutOfAccountOptionsFlyoutOrButton &&
+        isAccountOptionsFlyoutOpen
       ) {
         setIsAccountOptionsFlyoutOpen(false);
       }
