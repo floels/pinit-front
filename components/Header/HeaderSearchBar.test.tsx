@@ -42,7 +42,7 @@ it("should reset input value and blur input upon pressing Escape", async () => {
   });
 });
 
-it("should reset input value, blur input and hide Clear icon upon pressing the Clear icon", async () => {
+it("should reset input value, blur input and hide 'Clear' icon upon pressing 'Clear' icon", async () => {
   render(<HeaderSearchBar />);
 
   const searchInput = screen.getByTestId("search-bar-input");
@@ -65,7 +65,7 @@ it("should reset input value, blur input and hide Clear icon upon pressing the C
   });
 });
 
-it("should hide icon when focusing the input", async () => {
+it("should hide icon when input gets focus", async () => {
   render(<HeaderSearchBar />);
 
   screen.getByTestId("search-icon");
