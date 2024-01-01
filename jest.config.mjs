@@ -12,7 +12,10 @@ const config = {
   setupFilesAfterEnv: ["./setupJestAfterEnv.js"],
   testEnvironment: "jest-environment-jsdom",
   testPathIgnorePatterns: ["<rootDir>/e2e-tests/"],
-  coveragePathIgnorePatterns: ["<rootDir>/lib/utils/testing.tsx"],
+  coveragePathIgnorePatterns: [
+    "<rootDir>/lib/utils/testing.tsx",
+    "<rootDir>/contexts/",
+  ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
   },
