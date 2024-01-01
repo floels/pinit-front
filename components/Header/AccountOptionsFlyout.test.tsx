@@ -18,25 +18,6 @@ jest.mock("@/components/LogoutTrigger/LogoutTrigger", () => {
   return MockedLogoutTrigger;
 });
 
-jest.mock("@/components/Header/AccountDisplay", () => {
-  const MockedAccountDisplay = ({
-    account,
-    isActive,
-    onClick,
-  }: AccountDisplayProps) => (
-    <div
-      onClick={onClick}
-      data-testid={isActive ? "account-display-active" : ""}
-    >
-      {account.displayName}
-    </div>
-  );
-
-  MockedAccountDisplay.displayName = "AccountDisplay";
-
-  return MockedAccountDisplay;
-});
-
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: jest.fn(),
@@ -115,12 +96,12 @@ it("should display active account and 'Your other accounts' section if fetch res
 
   const currentlyInSection = screen.getByTestId("currently-in-section");
   expect(currentlyInSection).toHaveTextContent("John's Business");
-  within(currentlyInSection).getByTestId("account-display-active");
+  within(currentlyInSection).getByTestId("icon-active-account");
 
   const otherAccountsSection = screen.getByTestId("other-accounts-section");
   expect(otherAccountsSection).toHaveTextContent("John Doe");
   expect(
-    within(otherAccountsSection).queryByTestId("account-display-active"),
+    within(otherAccountsSection).queryByTestId("icon-active-account"),
   ).toBeNull();
 });
 
