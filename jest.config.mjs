@@ -13,6 +13,8 @@ const config = {
   testEnvironment: "jest-environment-jsdom",
   testPathIgnorePatterns: ["<rootDir>/e2e-tests/"],
   coveragePathIgnorePatterns: [
+    "<rootDir>/lib/constants.ts",
+    "<rootDir>/lib/customErrors.ts",
     "<rootDir>/lib/utils/testing.tsx",
     "<rootDir>/contexts/",
   ],

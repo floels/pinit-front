@@ -19,6 +19,11 @@ export enum FOLDS_ENUM {
   FIFTH = 5,
 }
 
+export enum SCROLL_DIRECTIONS {
+  DOWN = "DOWN",
+  UP = "UP",
+}
+
 export const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
 const computeContentClass = ({ currentFold }: { currentFold: number }) => {
@@ -42,8 +47,6 @@ const computeContentClass = ({ currentFold }: { currentFold: number }) => {
 };
 
 const LandingPageContent = () => {
-  const t = useTranslations("Common");
-
   // This will be needed to scroll back to the top of the page in the `useEffect` hook of the <FithFold /> child component,
   // Otherwise, for some reason, browsers scroll down to the <FifthFold /> component and focus on the first input of the
   // <SignupForm /> it renders on page load.
@@ -51,12 +54,11 @@ const LandingPageContent = () => {
 
   const [currentFold, setCurrentFold] = useState(1);
 
-  const [dateLastScroll, setDateLastScroll] = useState<{
-    down: Date | null;
-    up: Date | null;
-  }>({
-    down: null,
-    up: null,
+  const [dateLastScroll, setDateLastScroll] = useState<
+    Record<SCROLL_DIRECTIONS, Date | null>
+  >({
+    [SCROLL_DIRECTIONS.DOWN]: null,
+    [SCROLL_DIRECTIONS.UP]: null,
   });
 
   const handleClickHeroSeeBelow = () => {
@@ -73,7 +75,8 @@ const LandingPageContent = () => {
         return;
       }
 
-      const scrollDirection = event.deltaY > 0 ? "down" : "up";
+      const scrollDirection =
+        event.deltaY > 0 ? SCROLL_DIRECTIONS.DOWN : SCROLL_DIRECTIONS.UP;
 
       const dateLastScrollSameDirection = dateLastScroll[scrollDirection];
 
@@ -96,9 +99,12 @@ const LandingPageContent = () => {
         return;
       }
 
-      if (scrollDirection === "down" && currentFold !== NUMBER_FOLDS) {
+      if (
+        scrollDirection === SCROLL_DIRECTIONS.DOWN &&
+        currentFold !== NUMBER_FOLDS
+      ) {
         setCurrentFold(currentFold + 1);
-      } else if (scrollDirection === "up" && currentFold > 1) {
+      } else if (scrollDirection === SCROLL_DIRECTIONS.UP && currentFold > 1) {
         setCurrentFold(currentFold - 1);
       }
     },

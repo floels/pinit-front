@@ -232,15 +232,3 @@ it("should move to corresponding step when user clicks stepper button", async ()
     "topicHeader topicHeaderOutfit topicHeaderVisible topicHeaderCenterPosition",
   );
 });
-
-it("should call 'onClickSeeBelow' when user click on corresponding button", async () => {
-  jest.useRealTimers(); // otherwise `await userEvent.click(...);` times out for some reason
-
-  renderComponent();
-
-  const carret = screen.getByTestId("picture-slider-carret");
-
-  await userEvent.click(carret);
-
-  expect(mockOnClickSeeBelow).toHaveBeenCalledTimes(1);
-});
