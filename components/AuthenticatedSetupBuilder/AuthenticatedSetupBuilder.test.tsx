@@ -11,10 +11,7 @@ import { TypesOfAccount } from "@/lib/types";
 import Cookies from "js-cookie";
 import { getAccountsWithCamelCaseKeys } from "@/lib/utils/adapters";
 
-jest.mock("js-cookie", () => ({
-  get: jest.fn(),
-  set: jest.fn(),
-}));
+jest.mock("js-cookie");
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
@@ -31,6 +28,7 @@ jest.mock("@/components/LogoutTrigger/LogoutTrigger", () => {
 });
 
 const mockSetAccounts = jest.fn();
+const mockSetActiveAccountUsername = jest.fn();
 
 const initialAccountsContext = {
   accounts: null,
@@ -40,7 +38,7 @@ const initialAccountsContext = {
   isErrorFetchingAccounts: false,
   setIsErrorFetchingAccounts: jest.fn(),
   activeAccountUsername: null,
-  setActiveAccountUsername: jest.fn(),
+  setActiveAccountUsername: mockSetActiveAccountUsername,
 };
 
 const renderComponent = () => {
@@ -62,7 +60,8 @@ it("should refresh access token", () => {
   );
 });
 
-it("in the absence of a cookie, should fetch owned accounts and set active account cookie", async () => {
+it(`in the absence of a cookie and when receiving only one owned account, should define it as active
+ and set the corresponding cookie`, async () => {
   fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}));
 
   const mockAccounts = [
@@ -92,10 +91,54 @@ it("in the absence of a cookie, should fetch owned accounts and set active accou
       mockAccountsWithCamelizedKeys,
     );
 
+    expect(mockSetActiveAccountUsername).toHaveBeenLastCalledWith("johndoe");
+
     expect(Cookies.set).toHaveBeenLastCalledWith(
       ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
       "johndoe",
     );
+  });
+});
+
+it(`in the presence of a cookie and when receiving two accounts including one matching the cookie,
+should define it as active account`, async () => {
+  (Cookies.get as jest.Mock).mockImplementationOnce((key) => {
+    if (key === ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY) {
+      return "johnbiz";
+    }
+    return null;
+  });
+
+  fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}));
+
+  const mockAccounts = [
+    {
+      username: "johndoe",
+      type: TypesOfAccount.PERSONAL,
+      display_name: "John Doe",
+      initial: "J",
+      profile_picture_url: "https://profile.picture.url",
+    },
+    {
+      username: "johnbiz",
+      type: TypesOfAccount.BUSINESS,
+      display_name: "John's Business",
+      initial: "J",
+      profile_picture_url: "https://profile.picture.url",
+    },
+  ];
+
+  fetchMock.mockOnceIf(
+    API_ROUTE_OWNED_ACCOUNTS,
+    JSON.stringify({
+      results: mockAccounts,
+    }),
+  );
+
+  renderComponent();
+
+  await waitFor(() => {
+    expect(mockSetActiveAccountUsername).toHaveBeenLastCalledWith("johnbiz");
   });
 });
 

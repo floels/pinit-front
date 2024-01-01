@@ -60,14 +60,6 @@ const AuthenticatedSetupBuilder = () => {
   const fetchOwnedAccounts = async () => {
     const response = await fetch(API_ROUTE_OWNED_ACCOUNTS);
 
-    if (response.status === 401) {
-      throw new Response401Error();
-    }
-
-    if (!response.ok) {
-      throw new ResponseKOError();
-    }
-
     const responseData = await response.json();
 
     return getAccountsWithCamelCaseKeys(responseData.results);
@@ -88,10 +80,6 @@ const AuthenticatedSetupBuilder = () => {
 
   const setAndPersistActiveAccount = useCallback(
     ({ ownedAccounts }: { ownedAccounts: AccountType[] }) => {
-      if (!ownedAccounts?.length) {
-        return;
-      }
-
       const lastActiveAccountUsernameCookie = Cookies.get(
         ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
       );
@@ -110,13 +98,13 @@ const AuthenticatedSetupBuilder = () => {
 
       // Either we don't have a cookie, or it doesn't match any account
       // By default, set the first account as the active account.
-      const firstAccountUsername = ownedAccounts[0].username;
+      if (ownedAccounts?.length) {
+        const firstAccountUsername = ownedAccounts[0].username;
 
-      setActiveAccountUsername(firstAccountUsername);
+        setActiveAccountUsername(firstAccountUsername);
 
-      Cookies.set(ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY, firstAccountUsername);
-
-      return;
+        Cookies.set(ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY, firstAccountUsername);
+      }
     },
     [setActiveAccountUsername],
   );
