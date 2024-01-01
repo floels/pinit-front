@@ -48,6 +48,13 @@ it("should display relevant input errors, send request only when inputs are vali
 
   screen.getByText(messages.LoginForm.MISSING_EMAIL);
 
+  // Type in email input, clear it and submit:
+  await userEvent.type(emailInput, "test@example");
+  await userEvent.clear(emailInput);
+  await userEvent.click(submitButton);
+
+  screen.getByText(messages.LoginForm.MISSING_EMAIL);
+
   // Fill form with invalid email and password and submit:
   await userEvent.type(emailInput, "test@example");
   await userEvent.type(passwordInput, "Pa$$");
@@ -73,7 +80,7 @@ it("should display relevant input errors, send request only when inputs are vali
   expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 
-it("should display relevant errors when receiving 401 responses", async () => {
+it("should display relevant errors when receiving KO responses", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
@@ -97,10 +104,20 @@ it("should display relevant errors when receiving 401 responses", async () => {
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 401 },
   );
+  await userEvent.clear(passwordInput);
   await userEvent.type(passwordInput, "IsWr0ng");
   await userEvent.click(submitButton);
 
   screen.getByText(messages.LoginForm.INVALID_PASSWORD_LOGIN);
+
+  fetchMock.doMockOnceIf(API_ROUTE_OBTAIN_TOKEN, JSON.stringify({}), {
+    status: 400,
+  });
+  await userEvent.clear(passwordInput);
+  await userEvent.type(passwordInput, "IsRight");
+  await userEvent.click(submitButton);
+
+  screen.getByText(en.Common.UNFORESEEN_ERROR);
 });
 
 it("should display relevant error upon fetch error", async () => {

@@ -40,6 +40,13 @@ it("should display relevant input errors, send request only when inputs are vali
 
   screen.getByText(messages.SignupForm.MISSING_EMAIL);
 
+  // Type in email input, clear it and submit:
+  await userEvent.type(emailInput, "test@example");
+  await userEvent.clear(emailInput);
+  await userEvent.click(submitButton);
+
+  screen.getByText(messages.SignupForm.MISSING_EMAIL);
+
   // Fill form with invalid email, invalid pasword and missing birthdate and submit:
   await userEvent.type(emailInput, "test@example");
   await userEvent.type(passwordInput, "Pa$$");
@@ -74,7 +81,7 @@ it("should display relevant input errors, send request only when inputs are vali
   expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 
-it("should display relevant error when receiving a 400 response", async () => {
+it("should display relevant error when receiving KO responses", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
@@ -110,10 +117,31 @@ it("should display relevant error when receiving a 400 response", async () => {
     JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
     { status: 400 },
   );
-  await userEvent.type(passwordInput, "IsNowRight");
+  await userEvent.clear(passwordInput);
+  await userEvent.type(passwordInput, "IsRight");
   await userEvent.click(submitButton);
 
   screen.getByText(messages.SignupForm.INVALID_BIRTHDATE_SIGNUP);
+
+  fetchMock.doMockOnceIf(
+    API_ROUTE_SIGN_UP,
+    JSON.stringify({ errors: [{ code: "email_already_signed_up" }] }),
+    { status: 400 },
+  );
+  await userEvent.clear(passwordInput);
+  await userEvent.type(passwordInput, "IsRight");
+  await userEvent.click(submitButton);
+
+  screen.getByText(messages.SignupForm.EMAIL_ALREADY_SIGNED_UP);
+
+  fetchMock.doMockOnceIf(API_ROUTE_SIGN_UP, JSON.stringify({}), {
+    status: 400,
+  });
+  await userEvent.clear(passwordInput);
+  await userEvent.type(passwordInput, "IsRight");
+  await userEvent.click(submitButton);
+
+  screen.getByText(en.Common.UNFORESEEN_ERROR);
 });
 
 it("should display relevant error upon fetch error", async () => {
