@@ -77,7 +77,9 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
     const { name, value } = event.target;
 
     const newFormData = { ...formData, [name]: value };
+
     setFormData(newFormData);
+
     setFormErrors(computeFormErrors(newFormData));
   };
 
