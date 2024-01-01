@@ -143,7 +143,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
     const text =
       formErrors.other === "CONNECTION_ERROR"
         ? t("Common.CONNECTION_ERROR")
-        : t("UNFORESEEN_ERROR");
+        : t("Common.UNFORESEEN_ERROR");
 
     displayFormErrorsOther = (
       <div className={styles.otherErrorMessage}>

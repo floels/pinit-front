@@ -117,7 +117,6 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
       });
     } catch (error) {
       throw new Error(ERROR_CODE_FETCH_FAILED);
-      return;
     } finally {
       setIsLoading(false);
     }
@@ -160,10 +159,18 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
   let displayFormErrorsOther;
 
   if (formErrors.other) {
-    const text =
-      formErrors.other === "CONNECTION_ERROR"
-        ? t("Common.CONNECTION_ERROR")
-        : t("UNFORESEEN_ERROR");
+    let text;
+
+    switch (formErrors.other) {
+      case "CONNECTION_ERROR":
+        text = t("Common.CONNECTION_ERROR");
+        break;
+      case "EMAIL_ALREADY_SIGNED_UP":
+        text = t("LandingPageContent.SignupForm.EMAIL_ALREADY_SIGNED_UP");
+        break;
+      default:
+        text = t("Common.UNFORESEEN_ERROR");
+    }
 
     displayFormErrorsOther = (
       <div className={styles.otherErrorMessage}>
