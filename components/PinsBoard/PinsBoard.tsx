@@ -1,92 +1,142 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { useRef, useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTriangleExclamation,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { appendQueryParam } from "@/lib/utils/strings";
-import PinsBoardDisplay from "./PinsBoardDisplay";
+import styles from "./PinsBoard.module.css";
+import PinThumbnail from "./PinThumbnail";
+import { useViewportWidth } from "@/lib/utils/custom-hooks";
 import { PinType } from "@/lib/types";
-import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
 
 type PinsBoardProps = {
-  initialPins: PinType[];
-  fetchPinsAPIRoute: string;
-  errorCode?: string;
+  pins: PinType[];
+  isFetching: boolean;
+  isFetchError: boolean;
+  handleFetchMorePins: () => void;
+};
+
+const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set width of 236px and side margins of 8px
+const SIDE_PADDING_PX = 16; // should be consistent with the side padding of .thumbnailsGrid in CSS file
+const MAX_NUMBER_COLUMNS = 8;
+
+const getNumberOfColumns = (viewportWidth: number) => {
+  const theoreticalNumberOfColumns = Math.floor(
+    (viewportWidth - 2 * SIDE_PADDING_PX) / GRID_COLUMN_WIDTH_WITH_MARGINS_PX,
+  );
+
+  const boundedNumberOfColumns = Math.min(
+    Math.max(theoreticalNumberOfColumns, 1),
+    MAX_NUMBER_COLUMNS,
+  );
+
+  return boundedNumberOfColumns;
 };
 
 const PinsBoard = ({
-  initialPins,
-  fetchPinsAPIRoute,
-  errorCode,
+  pins,
+  handleFetchMorePins,
+  isFetching,
+  isFetchError,
 }: PinsBoardProps) => {
-  const t = useTranslations("Common");
+  const t = useTranslations("PinsBoard");
 
-  const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
-  const [pins, setPins] = useState<PinType[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
-  const [fetchFailed, setFetchFailed] = useState(false);
+  const scrolledToBottomSentinel = useRef(null);
+
+  const [numberOfColumns, setNumberOfColumns] = useState<number | undefined>();
+  const viewportWidth = useViewportWidth();
+
+  const shouldRenderPinThumbnailsAndSentinelDiv =
+    !!numberOfColumns && pins.length > 0;
 
   useEffect(() => {
-    setPins([...initialPins]);
-  }, [initialPins]);
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        handleFetchMorePins();
+      }
+    });
 
-  const fetchNextPinsAndFallBack = async () => {
-    try {
-      await fetchNextPins();
-    } catch (error) {
-      toast.warn(t("CONNECTION_ERROR"), {
-        toastId: "toast-pins-board-connection-error",
-      });
-      setIsFetching(false);
-    }
-  };
-
-  const fetchNextPins = async () => {
-    const nextEndpointPage = currentEndpointPage + 1;
-
-    setIsFetching(true);
-
-    const url = appendQueryParam(
-      fetchPinsAPIRoute,
-      "page",
-      nextEndpointPage.toString(),
-    );
-
-    const newPinsResponse = await fetch(url, { method: "GET" });
-
-    setIsFetching(false);
-
-    if (!newPinsResponse.ok) {
-      setFetchFailed(true);
-      return;
+    if (scrolledToBottomSentinel.current) {
+      observer.observe(scrolledToBottomSentinel.current);
     }
 
-    setFetchFailed(false);
+    return () => {
+      observer.disconnect();
+    };
+  }, [handleFetchMorePins, shouldRenderPinThumbnailsAndSentinelDiv]);
 
-    await updateStateWithNewPinsResponse(newPinsResponse);
-  };
+  useEffect(() => {
+    if (viewportWidth) {
+      const calculatedColumns = getNumberOfColumns(viewportWidth);
+      setNumberOfColumns(calculatedColumns);
+    }
+  }, [viewportWidth]);
 
-  const updateStateWithNewPinsResponse = async (newPinsResponse: Response) => {
-    const newPinsResponseData = await newPinsResponse.json();
+  const castedNumberOfColumns = numberOfColumns as number;
 
-    const newPinsFetched = newPinsResponseData.results;
-
-    const newPins = getPinsWithCamelCaseKeys(newPinsFetched);
-
-    setPins((existingPins) => [...existingPins, ...newPins]);
-
-    setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
-  };
-
-  const isFetchError = errorCode !== undefined || fetchFailed;
+  // Here the logic is to:
+  // - render as many columns as `numberOfColumns` (casted to number to avoid TypeScript errors),
+  // - then, render the thumbnails in rows, e.g. if we have 3 columns:
+  //   - thumbnail #1 goes to column #1,
+  //   - thumbnail #2 goes to column #2,
+  //   - thumbnail #3 goes to column #3,
+  //   - thumbnail #4 goes to column #1, etc.
+  // We do this by conditioning the rendering of thumbnail #pinThumbnailIndex (zero-based) to:
+  // `if (pinThumbnailIndex % castedNumberOfColumns === columnIndex)`
+  // which translates the logic above.
+  const thumbnailsGrid = (
+    <div className={styles.thumbnailsGrid}>
+      {Array.from({ length: castedNumberOfColumns }).map((_, columnIndex) => (
+        <div
+          key={`thumbnails-column-${columnIndex + 1}`}
+          data-testid="thumbnails-column"
+        >
+          {pins.map((pin, pinIndex) => {
+            if (pinIndex % castedNumberOfColumns === columnIndex) {
+              return (
+                <div
+                  className={styles.pinThumbnail}
+                  key={`pin-thumbnail-${pinIndex + 1}`}
+                >
+                  <PinThumbnail pin={pin} />
+                </div>
+              );
+            }
+          })}
+        </div>
+      ))}
+    </div>
+  );
 
   return (
-    <PinsBoardDisplay
-      pins={pins}
-      isFetching={isFetching}
-      isFetchError={isFetchError}
-      handleFetchMorePins={fetchNextPinsAndFallBack}
-    />
+    <main className={styles.container}>
+      {shouldRenderPinThumbnailsAndSentinelDiv && thumbnailsGrid}
+      {shouldRenderPinThumbnailsAndSentinelDiv && (
+        <div ref={scrolledToBottomSentinel} style={{ height: "1px" }}></div>
+      )}
+      {isFetching && (
+        <div className={styles.loadingIconContainer}>
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            spin
+            className={styles.loadingSpinner}
+            data-testid="loading-spinner"
+          />
+        </div>
+      )}
+      {isFetchError && (
+        <div className={styles.errorMessage}>
+          <FontAwesomeIcon
+            icon={faTriangleExclamation}
+            size="xs"
+            className={styles.errorMessageIcon}
+          />
+          {t("ERROR_DISPLAY_PINS")}
+        </div>
+      )}
+    </main>
   );
 };
 

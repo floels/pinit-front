@@ -7,7 +7,7 @@ import {
   ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
 import { NetworkError, ResponseKOError } from "@/lib/customErrors";
-import PinsBoard from "@/components/PinsBoard/PinsBoard";
+import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 
 type PageProps = {
   searchParams: { q: string };
@@ -53,7 +53,7 @@ const Page = async ({ searchParams }: PageProps) => {
   } catch (error) {
     if (error instanceof NetworkError) {
       return (
-        <PinsBoard
+        <PinsBoardContainer
           initialPins={[]}
           fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
           errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
@@ -62,7 +62,7 @@ const Page = async ({ searchParams }: PageProps) => {
     }
 
     return (
-      <PinsBoard
+      <PinsBoardContainer
         initialPins={[]}
         fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
         errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
@@ -71,7 +71,7 @@ const Page = async ({ searchParams }: PageProps) => {
   }
 
   return (
-    <PinsBoard
+    <PinsBoardContainer
       initialPins={initialSearchResults}
       fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
     />

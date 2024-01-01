@@ -47,3 +47,16 @@ export const getNextImageSrcRegexFromURL = (url: string) => {
 
   return new RegExp(`/_next\\/image\\?url=${encodedUrl}`);
 };
+
+// Mock the IntersectionObserver, used notably in 'components/PinsBoard' tests
+export const mockIntersectionObserver = () => {
+  global.IntersectionObserver = jest.fn(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+    root: null,
+    rootMargin: "",
+    thresholds: [],
+    takeRecords: () => [],
+  }));
+};

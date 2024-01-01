@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
-import PinsBoard from "@/components/PinsBoard/PinsBoard";
+import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
   API_ROUTE_PINS_SUGGESTIONS,
@@ -71,7 +71,7 @@ const Page = async () => {
   }
 
   return (
-    <PinsBoard
+    <PinsBoardContainer
       initialPins={initialPinSuggestions}
       fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
     />
