@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import PictureSlider from "./PictureSlider";
 import styles from "./LandingPageContent.module.css";
@@ -10,10 +10,29 @@ import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
 
 const NUMBER_FOLDS = 5;
-const SCROLLING_DEBOUNCING_TIME_MS = 80;
-const HEADER_HEIGHT = "80px";
+export const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
-const LandingPage = () => {
+const computeContentClass = ({ currentFold }: { currentFold: number }) => {
+  if (currentFold === 1) {
+    return styles.content;
+  }
+
+  if (currentFold === 2) {
+    return `${styles.content} ${styles.contentSecondFoldActive}`;
+  }
+
+  if (currentFold === 3) {
+    return `${styles.content} ${styles.contentThirdFoldActive}`;
+  }
+
+  if (currentFold === 4) {
+    return `${styles.content} ${styles.contentFourthFoldActive}`;
+  }
+
+  return `${styles.content} ${styles.contentFifthFoldActive}`;
+};
+
+const LandingPageContent = () => {
   const t = useTranslations("Common");
 
   // This will be needed to scroll back to the top of the page in the `useEffect` hook of the <FithFold /> child component,
@@ -39,8 +58,8 @@ const LandingPage = () => {
     setCurrentFold(1);
   };
 
-  useEffect(() => {
-    const handleMouseWheel = (event: WheelEvent) => {
+  const handleMouseWheel = useCallback(
+    (event: WheelEvent) => {
       if (!event.deltaY) {
         return;
       }
@@ -51,6 +70,8 @@ const LandingPage = () => {
 
       const now = new Date();
 
+      setDateLastScroll({ ...dateLastScroll, [scrollDirection]: now });
+
       let timeElapsedSinceLastScrollSameDirection;
 
       if (dateLastScrollSameDirection) {
@@ -58,13 +79,11 @@ const LandingPage = () => {
           now.getTime() - dateLastScrollSameDirection.getTime();
       }
 
-      setDateLastScroll({ ...dateLastScroll, [scrollDirection]: now });
-
-      if (
+      const shouldBeDebounced =
         timeElapsedSinceLastScrollSameDirection &&
-        timeElapsedSinceLastScrollSameDirection < SCROLLING_DEBOUNCING_TIME_MS
-      ) {
-        // this is not a new scrolling action
+        timeElapsedSinceLastScrollSameDirection < SCROLLING_DEBOUNCING_TIME_MS;
+
+      if (shouldBeDebounced) {
         return;
       }
 
@@ -73,25 +92,23 @@ const LandingPage = () => {
       } else if (scrollDirection === "up" && currentFold > 1) {
         setCurrentFold(currentFold - 1);
       }
-    };
+    },
+    [currentFold, dateLastScroll, setDateLastScroll, setCurrentFold],
+  );
 
+  useEffect(() => {
     document.addEventListener("wheel", handleMouseWheel);
 
     return () => {
       document.removeEventListener("wheel", handleMouseWheel);
     };
-  }, [currentFold, dateLastScroll, setDateLastScroll]);
+  }, [handleMouseWheel]);
+
+  const contentClass = computeContentClass({ currentFold });
 
   return (
     <main className={styles.container}>
-      <div
-        className={styles.content}
-        style={{
-          transform: `translateY(calc(-${
-            currentFold - 1
-          } * (100vh - ${HEADER_HEIGHT})))`,
-        }}
-      >
+      <div className={contentClass} data-testid="landing-page-content">
         <div className={styles.hero} ref={heroRef}>
           <PictureSlider onClickSeeBelow={handleClickHeroSeeBelow} />
         </div>
@@ -104,4 +121,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default LandingPageContent;
