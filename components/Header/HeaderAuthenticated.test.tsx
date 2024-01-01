@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).toHaveClass(...)`
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { usePathname } from "next/navigation";

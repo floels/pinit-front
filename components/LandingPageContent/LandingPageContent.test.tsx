@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).toBeInTheDocument(...)`
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import LandingPageContent, {
   SCROLLING_DEBOUNCING_TIME_MS,

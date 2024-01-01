@@ -30,7 +30,9 @@ const LogoutTrigger = () => {
     logOut();
   }, [logOut]);
 
-  return <div className={styles.overlay} />;
+  return (
+    <div className={styles.overlay} data-testid="logout-trigger-overlay" />
+  );
 };
 
 export default LogoutTrigger;

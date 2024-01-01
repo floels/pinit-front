@@ -9,6 +9,7 @@ const createJestConfig = nextJest({
 const config = {
   // https://github.com/jefflau/jest-fetch-mock#to-setup-for-all-tests
   setupFiles: ["./setupJest.js"],
+  setupFilesAfterEnv: ["./setupJestAfterEnv.js"],
   testEnvironment: "jest-environment-jsdom",
   testPathIgnorePatterns: ["<rootDir>/e2e-tests/"],
   moduleNameMapper: {
