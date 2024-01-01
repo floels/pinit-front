@@ -4,13 +4,9 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import styles from "./SecondFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
+import { FOLDS_ENUM } from "./LandingPageContent";
 
 const SecondFold = () => {
-  const textAndLinkColors = {
-    primary: "--color-purple-dark",
-    secondary: "--color-yellow",
-  };
-
   const t = useTranslations("LandingPageContent");
 
   const textAndLinkLabels = {
@@ -70,8 +66,8 @@ const SecondFold = () => {
       </div>
       <div className={styles.textArea}>
         <TextAndExploreButton
+          foldNumber={FOLDS_ENUM.SECOND}
           labels={textAndLinkLabels}
-          colors={textAndLinkColors}
         />
       </div>
     </div>

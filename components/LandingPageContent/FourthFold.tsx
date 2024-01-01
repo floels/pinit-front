@@ -2,13 +2,9 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import styles from "./FourthFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
+import { FOLDS_ENUM } from "./LandingPageContent";
 
 const FourthFold = () => {
-  const textAndLinkColors = {
-    primary: "--color-red-fiery",
-    secondary: "--color-pink",
-  };
-
   const t = useTranslations("LandingPageContent");
 
   const textAndLinkLabels = {
@@ -54,8 +50,8 @@ const FourthFold = () => {
       </div>
       <div className={styles.textArea}>
         <TextAndExploreButton
+          foldNumber={FOLDS_ENUM.FOURTH}
           labels={textAndLinkLabels}
-          colors={textAndLinkColors}
         />
       </div>
     </div>

@@ -7,6 +7,18 @@
   max-width: 420px;
 }
 
+.container.containerSecondFold {
+  color: var(--color-purple-dark);
+}
+
+.container.containerThirdFold {
+  color: var(--color-teal);
+}
+
+.container.containerFourthFold {
+  color: var(--color-red-fiery);
+}
+
 .header {
   font-size: 60px;
   font-weight: bold;
@@ -17,7 +29,7 @@
   margin-top: 16px;
 }
 
-.link {
+.button {
   display: inline-block;
   margin-top: 24px;
   font-size: 16px;
@@ -28,4 +40,28 @@
   color: transparent;
   font-weight: bold;
   text-decoration: none;
+}
+
+.button.buttonSecondFold {
+  color: var(--color-yellow);
+}
+
+.button.buttonThirdFold {
+  color: var(--color-green-minty);
+}
+
+.button.buttonFourthFold {
+  color: var(--color-pink);
+}
+
+.button.buttonSecondFold {
+  background-color: var(--color-purple-dark);
+}
+
+.button.buttonThirdFold {
+  background-color: var(--color-teal);
+}
+
+.button.buttonFourthFold {
+  background-color: var(--color-red-fiery);
 }
