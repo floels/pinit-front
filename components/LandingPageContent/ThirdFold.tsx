@@ -2,13 +2,9 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import TextAndExploreButton from "./TextAndExploreButton";
 import styles from "./ThirdFold.module.css";
+import { FOLDS_ENUM } from "./LandingPageContent";
 
 const ThirdFold = () => {
-  const textAndLinkColors = {
-    primary: "--color-teal",
-    secondary: "--color-green-minty",
-  };
-
   const t = useTranslations("LandingPageContent");
 
   const textAndLinkLabels = {
@@ -21,8 +17,8 @@ const ThirdFold = () => {
     <div className={styles.container} data-testid="landing-page-third-fold">
       <div className={styles.textArea}>
         <TextAndExploreButton
+          foldNumber={FOLDS_ENUM.THIRD}
           labels={textAndLinkLabels}
-          colors={textAndLinkColors}
         />
       </div>
       <div className={styles.picturesArea}>

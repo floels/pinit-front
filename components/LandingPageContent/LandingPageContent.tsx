@@ -10,6 +10,15 @@ import FourthFold from "./FourthFold";
 import FifthFold from "./FifthFold";
 
 const NUMBER_FOLDS = 5;
+
+export enum FOLDS_ENUM {
+  FIRST = 1,
+  SECOND = 2,
+  THIRD = 3,
+  FOURTH = 4,
+  FIFTH = 5,
+}
+
 export const SCROLLING_DEBOUNCING_TIME_MS = 80;
 
 const computeContentClass = ({ currentFold }: { currentFold: number }) => {
