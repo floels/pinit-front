@@ -7,23 +7,21 @@ export const isValidPassword = (input: string) => {
 };
 
 export const isValidBirthdate = (input: string) => {
-  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  const date = new Date(input);
 
-  if (!regex.test(input)) {
+  const isInvalidDate = isNaN(date.getTime());
+
+  if (isInvalidDate) {
     return false;
   }
 
-  const dateObject = new Date(input);
-  const dateNow = new Date();
-
-  // Check if the date string is not the same date as parsed date (to catch cases like 2020-02-31)
-  if (dateObject.toISOString().substring(0, 10) !== input) {
+  // Check if the date string is not the same date as parsed date
+  // (to catch cases like '2000-02-30', which result in a valid date)
+  if (date.toISOString().substring(0, 10) !== input) {
     return false;
   }
 
-  if (dateObject > dateNow) {
-    return false;
-  }
+  const now = new Date();
 
-  return true;
+  return date < now;
 };
