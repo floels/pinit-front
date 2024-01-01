@@ -1,9 +1,12 @@
 import { AccountsContext } from "@/contexts/AccountsContext";
 import { TypesOfAccount } from "@/lib/types";
 import en from "@/messages/en.json";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { AccountDisplayProps } from "./AccountDisplay";
+import userEvent from "@testing-library/user-event";
+import Cookies from "js-cookie";
+import { ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY } from "@/lib/constants";
 
 const messages = en.HeaderAuthenticated;
 
@@ -16,8 +19,15 @@ jest.mock("@/components/LogoutTrigger/LogoutTrigger", () => {
 });
 
 jest.mock("@/components/Header/AccountDisplay", () => {
-  const MockedAccountDisplay = ({ account, isActive }: AccountDisplayProps) => (
-    <div data-testid={isActive ? "account-display-active" : ""}>
+  const MockedAccountDisplay = ({
+    account,
+    isActive,
+    onClick,
+  }: AccountDisplayProps) => (
+    <div
+      onClick={onClick}
+      data-testid={isActive ? "account-display-active" : ""}
+    >
       {account.displayName}
     </div>
   );
@@ -36,12 +46,25 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
+jest.mock("js-cookie", () => ({
+  set: jest.fn(),
+}));
+
+const mockSetActiveAccountUsername = jest.fn();
+
 const defaultMockAccountsContext = {
   accounts: [
     {
       username: "johndoe",
       type: TypesOfAccount.PERSONAL,
       displayName: "John Doe",
+      initial: "J",
+      profilePictureURL: "https://profile.picture.url",
+    },
+    {
+      username: "johnbiz",
+      type: TypesOfAccount.BUSINESS,
+      displayName: "John's Business",
       initial: "J",
       profilePictureURL: "https://profile.picture.url",
     },
@@ -52,7 +75,7 @@ const defaultMockAccountsContext = {
   isErrorFetchingAccounts: false,
   setIsErrorFetchingAccounts: jest.fn(),
   activeAccountUsername: "johndoe",
-  setActiveAccountUsername: jest.fn(),
+  setActiveAccountUsername: mockSetActiveAccountUsername,
 };
 
 const renderComponent = (
@@ -76,28 +99,19 @@ it("should display spinner while fetching", () => {
   screen.getByTestId("owned-accounts-spinner");
 });
 
-it("should display not display 'Your other accounts' section in case of a single account", () => {
-  renderComponent();
+it("should not display 'Your other accounts' section in case of a single account", () => {
+  const mockAccountsContext = {
+    ...defaultMockAccountsContext,
+    accounts: [defaultMockAccountsContext.accounts[0]],
+  };
+
+  renderComponent({ mockAccountsContext });
 
   expect(screen.queryByText(messages.YOUR_OTHER_ACCOUNTS)).toBeNull();
 });
 
 it("should display active account and 'Your other accounts' section if fetch response has two accounts", () => {
-  const mockAccountsContext = {
-    ...defaultMockAccountsContext,
-    accounts: [
-      ...defaultMockAccountsContext.accounts,
-      {
-        username: "johndoebiz",
-        type: TypesOfAccount.BUSINESS,
-        displayName: "John's Business",
-        initial: "J",
-        profilePictureURL: "https://profile.picture.url",
-      },
-    ],
-  };
-
-  renderComponent({ mockAccountsContext });
+  renderComponent();
 
   const currentlyInSection = screen.getByTestId("currently-in-section");
   expect(currentlyInSection).toHaveTextContent("John Doe");
@@ -121,4 +135,33 @@ it("should display error response in case of fetch error", () => {
   renderComponent({ mockAccountsContext });
 
   screen.getByText(messages.ERROR_RETRIEVING_ACCOUNTS);
+});
+
+it("should switch accounts in context and set corresponding cookie when clicking on an inactive account", async () => {
+  renderComponent();
+
+  const inactiveAccount = screen.getByText("John's Business"); // the initially inactive account
+
+  await userEvent.click(inactiveAccount);
+
+  expect(mockSetActiveAccountUsername).toHaveBeenLastCalledWith("johnbiz");
+
+  expect(Cookies.set).toHaveBeenLastCalledWith(
+    ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
+    "johnbiz",
+  );
+});
+
+it("should render <LogoutTrigger /> upon clicking 'Log out'", async () => {
+  renderComponent();
+
+  expect(screen.queryByTestId("mock-logout-trigger")).toBeNull();
+
+  const logoutButton = screen.getByTestId(
+    "account-options-flyout-log-out-button",
+  );
+
+  await userEvent.click(logoutButton);
+
+  screen.getByTestId("mock-logout-trigger");
 });

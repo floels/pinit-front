@@ -154,7 +154,11 @@ const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
       {shouldDisplayError && errorDisplay}
       <div className={styles.moreOptionsContainer}>
         <div className={styles.sectionHeader}>{t("MORE_OPTIONS")}</div>
-        <div onClick={handleClickLogOut} className={styles.logoutButton}>
+        <div
+          onClick={handleClickLogOut}
+          className={styles.logoutButton}
+          data-testid="account-options-flyout-log-out-button"
+        >
           {t("LOG_OUT")}
         </div>
       </div>
