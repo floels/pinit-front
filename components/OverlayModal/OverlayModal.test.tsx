@@ -2,20 +2,33 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import OverlayModal from "./OverlayModal";
 
-const onCloseSpy = jest.fn();
+const mockOnClose = jest.fn();
 
-const overlayModal = (
-  <OverlayModal onClose={onCloseSpy}>
-    <div />
-  </OverlayModal>
-);
+const renderComponent = () => {
+  render(
+    <OverlayModal onClose={mockOnClose}>
+      <div />
+    </OverlayModal>,
+  );
+};
 
-describe("OverlayModal", () => {
-  it("should call onClase when user clicks on close button", async () => {
-    render(overlayModal);
+beforeEach(() => {
+  mockOnClose.mockReset();
+});
 
-    const closeButton = screen.getByTestId("overlay-modal-close-button");
-    await userEvent.click(closeButton);
-    expect(onCloseSpy).toHaveBeenCalledTimes(1);
-  });
+it("should call onClose when user clicks on close button", async () => {
+  renderComponent();
+
+  const closeButton = screen.getByTestId("overlay-modal-close-button");
+  await userEvent.click(closeButton);
+
+  expect(mockOnClose).toHaveBeenCalledTimes(1);
+});
+
+it("should call onClose when user presses Escape", async () => {
+  renderComponent();
+
+  await userEvent.keyboard("[Escape]");
+
+  expect(mockOnClose).toHaveBeenCalledTimes(1);
 });

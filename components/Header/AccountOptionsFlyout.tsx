@@ -81,11 +81,6 @@ const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
           <AccountDisplay
             account={accountsWithActiveAccountInFirstPosition[0]}
             isActive
-            onClick={() => {
-              handleChangeActiveAccount(
-                accountsWithActiveAccountInFirstPosition[0].username,
-              );
-            }}
           />
         </div>
         <div
@@ -115,10 +110,7 @@ const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
     accountsDisplay = (
       <div>
         <div className={styles.sectionHeader}>{t("CURRENTLY_IN")}</div>
-        <AccountDisplay
-          account={accounts[0]}
-          onClick={() => handleChangeActiveAccount(accounts[0].username)}
-        />
+        <AccountDisplay account={accounts[0]} />
       </div>
     );
   }

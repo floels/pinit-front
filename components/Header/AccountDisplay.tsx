@@ -8,7 +8,7 @@ import styles from "./AccountDisplay.module.css";
 export type AccountDisplayProps = {
   account: AccountType;
   isActive?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const AccountDisplay = ({
@@ -24,10 +24,16 @@ const AccountDisplay = ({
       ? commonTranslations("ACCOUNT_TYPE_PERSONAL")
       : commonTranslations("ACCOUNT_TYPE_BUSINESS");
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
     <div
       className={styles.container}
-      onClick={onClick}
+      onClick={handleClick}
       data-testid="account-display-container"
     >
       <div>

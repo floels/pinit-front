@@ -71,7 +71,19 @@ it("should display relevant input errors, send request only when inputs are vali
   await userEvent.click(submitButton);
   screen.getByText(messages.SignupForm.INVALID_BIRTHDATE_INPUT);
 
+  // Enter inexistent birthdate:
+  await userEvent.type(birthdateInput, "1970-02-31");
+  await userEvent.click(submitButton);
+  screen.getByText(messages.SignupForm.INVALID_BIRTHDATE_INPUT);
+
+  // Enter birthdate in the future:
+  await userEvent.clear(birthdateInput);
+  await userEvent.type(birthdateInput, "2050-01-01");
+  await userEvent.click(submitButton);
+  screen.getByText(messages.SignupForm.INVALID_BIRTHDATE_INPUT);
+
   // Fix birthdate input:
+  await userEvent.clear(birthdateInput);
   await userEvent.type(birthdateInput, "1970-01-01");
   expect(
     screen.queryByText(messages.SignupForm.INVALID_BIRTHDATE_INPUT),

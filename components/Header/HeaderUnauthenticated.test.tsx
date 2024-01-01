@@ -21,9 +21,9 @@ it("should render without any modal open", () => {
 it("should open login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {
   render(<HeaderUnauthenticated />);
 
-  const loginButton = screen.getByTestId("header-log-in-button");
+  const logInButton = screen.getByTestId("header-log-in-button");
 
-  await userEvent.click(loginButton);
+  await userEvent.click(logInButton);
 
   let modal = screen.getByTestId("overlay-modal");
 
@@ -47,9 +47,9 @@ it("should open login modal when user clicks on Login button, and switch to sign
 it("should open signup modal when user clicks on Signup button, and switch to login modal when user clicks on 'Log in'", async () => {
   render(<HeaderUnauthenticated />);
 
-  const signupButton = screen.getByTestId("header-sign-up-button");
+  const signUpButton = screen.getByTestId("header-sign-up-button");
 
-  await userEvent.click(signupButton);
+  await userEvent.click(signUpButton);
 
   let modal = screen.getByTestId("overlay-modal");
 
@@ -72,4 +72,36 @@ it("should open signup modal when user clicks on Signup button, and switch to lo
   ).toBeNull();
 
   within(modal).getByText(messages.LoginForm.WELCOME_TO_PINIT);
+});
+
+it("should close login modal when user clicks close button", async () => {
+  render(<HeaderUnauthenticated />);
+
+  const logInButton = screen.getByTestId("header-log-in-button");
+
+  await userEvent.click(logInButton);
+
+  screen.getByTestId("overlay-modal");
+
+  const closeButton = screen.getByTestId("overlay-modal-close-button");
+
+  await userEvent.click(closeButton);
+
+  expect(screen.queryByTestId("overlay-modal")).toBeNull();
+});
+
+it("should close signup modal when user clicks close button", async () => {
+  render(<HeaderUnauthenticated />);
+
+  const signUpButton = screen.getByTestId("header-sign-up-button");
+
+  await userEvent.click(signUpButton);
+
+  screen.getByTestId("overlay-modal");
+
+  const closeButton = screen.getByTestId("overlay-modal-close-button");
+
+  await userEvent.click(closeButton);
+
+  expect(screen.queryByTestId("overlay-modal")).toBeNull();
 });

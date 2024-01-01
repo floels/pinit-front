@@ -1,4 +1,3 @@
-import { FetchMock } from "jest-fetch-mock";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HeaderSearchBar, {
@@ -57,7 +56,7 @@ it("should reset input value and blur input upon pressing Escape", async () => {
   expect(document.activeElement).toEqual(searchInput);
   expect(searchInput).toHaveValue("abc");
 
-  userEvent.keyboard("[Escape]");
+  await userEvent.keyboard("[Escape]");
 
   await waitFor(() => {
     expect(searchInput).toHaveValue("");
@@ -203,27 +202,57 @@ it("should set the input value based on the search param", async () => {
 });
 
 it("should not display any suggestion in case of KO response from the API", async () => {
-  fetchMock.doMockOnceIf(
+  render(<HeaderSearchBar />);
+
+  // We need to start with a first successful request in order to trigger an
+  // initial state change:
+  fetchMock.mockOnceIf(
     `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foo`,
+    JSON.stringify({ results: MOCK_SUGGESTIONS }),
+  );
+
+  await typeSearchTerm("foo");
+
+  await waitFor(() => {
+    screen.getByTestId("autocomplete-suggestions-list");
+  });
+
+  fetchMock.doMockOnceIf(
+    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foobar`,
     JSON.stringify({}),
     { status: 400 },
   );
 
-  render(<HeaderSearchBar />);
+  await typeSearchTerm("bar");
 
-  await typeSearchTerm("foo");
-
-  expect(screen.queryByTestId("autocomplete-suggestions-list")).toBeNull();
+  await waitFor(() => {
+    expect(screen.queryByTestId("autocomplete-suggestions-list")).toBeNull();
+  });
 });
 
 it("should not display any suggestion in case of fetch error", async () => {
-  fetchMock.mockRejectOnce(new Error("Network failure"));
-
   render(<HeaderSearchBar />);
+
+  // We need to start with a first successful request in order to trigger an
+  // initial state change:
+  fetchMock.mockOnceIf(
+    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foo`,
+    JSON.stringify({ results: MOCK_SUGGESTIONS }),
+  );
 
   await typeSearchTerm("foo");
 
-  expect(screen.queryByTestId("autocomplete-suggestions-list")).toBeNull();
+  await waitFor(() => {
+    screen.getByTestId("autocomplete-suggestions-list");
+  });
+
+  fetchMock.mockRejectOnce(new Error("Network failure"));
+
+  await typeSearchTerm("bar");
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("autocomplete-suggestions-list")).toBeNull();
+  });
 });
 
 it("should fetch only once if two characters are typed within debounce time", async () => {
