@@ -74,7 +74,7 @@ const defaultMockAccountsContext = {
   setIsFetchingAccounts: jest.fn(),
   isErrorFetchingAccounts: false,
   setIsErrorFetchingAccounts: jest.fn(),
-  activeAccountUsername: "johndoe",
+  activeAccountUsername: "johnbiz",
   setActiveAccountUsername: mockSetActiveAccountUsername,
 };
 
@@ -114,14 +114,29 @@ it("should display active account and 'Your other accounts' section if fetch res
   renderComponent();
 
   const currentlyInSection = screen.getByTestId("currently-in-section");
-  expect(currentlyInSection).toHaveTextContent("John Doe");
+  expect(currentlyInSection).toHaveTextContent("John's Business");
   within(currentlyInSection).getByTestId("account-display-active");
 
   const otherAccountsSection = screen.getByTestId("other-accounts-section");
-  expect(otherAccountsSection).toHaveTextContent("John's Business");
+  expect(otherAccountsSection).toHaveTextContent("John Doe");
   expect(
     within(otherAccountsSection).queryByTestId("account-display-active"),
   ).toBeNull();
+});
+
+it("should display first account as active account if active account username matches no account", () => {
+  renderComponent({
+    mockAccountsContext: {
+      ...defaultMockAccountsContext,
+      activeAccountUsername: "someoneelse",
+    },
+  });
+
+  const currentlyInSection = screen.getByTestId("currently-in-section");
+  expect(currentlyInSection).toHaveTextContent("John Doe");
+
+  const otherAccountsSection = screen.getByTestId("other-accounts-section");
+  expect(otherAccountsSection).toHaveTextContent("John's Business");
 });
 
 it("should display error response in case of fetch error", () => {
@@ -140,15 +155,15 @@ it("should display error response in case of fetch error", () => {
 it("should switch accounts in context and set corresponding cookie when clicking on an inactive account", async () => {
   renderComponent();
 
-  const inactiveAccount = screen.getByText("John's Business"); // the initially inactive account
+  const inactiveAccount = screen.getByText("John Doe"); // the initially inactive account
 
   await userEvent.click(inactiveAccount);
 
-  expect(mockSetActiveAccountUsername).toHaveBeenLastCalledWith("johnbiz");
+  expect(mockSetActiveAccountUsername).toHaveBeenLastCalledWith("johndoe");
 
   expect(Cookies.set).toHaveBeenLastCalledWith(
     ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
-    "johnbiz",
+    "johndoe",
   );
 });
 
@@ -164,4 +179,14 @@ it("should render <LogoutTrigger /> upon clicking 'Log out'", async () => {
   await userEvent.click(logoutButton);
 
   screen.getByTestId("mock-logout-trigger");
+});
+
+it("should only display log out button when no account in context", async () => {
+  renderComponent({
+    mockAccountsContext: { ...defaultMockAccountsContext, accounts: [] },
+  });
+
+  screen.getByText(messages.LOG_OUT);
+
+  expect(screen.queryByText(messages.CURRENTLY_IN)).toBeNull();
 });
