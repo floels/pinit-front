@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).toHaveAttribute(...)`
 import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";

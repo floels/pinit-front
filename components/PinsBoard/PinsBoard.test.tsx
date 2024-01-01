@@ -144,7 +144,7 @@ it("should display toast in case of fetch failure upon new thumbnails fetch", as
   await waitFor(() => {
     expect(toast.warn).toHaveBeenLastCalledWith(
       en.Common.CONNECTION_ERROR,
-      expect.anything(), // we don't really care about the options argument in this context
+      expect.anything(), // we don't really care about the options argument here
     );
   });
 });

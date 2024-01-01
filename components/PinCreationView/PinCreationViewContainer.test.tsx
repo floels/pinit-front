@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).toBeDisabled()` and `expect(element).toBeEnabled()`
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import PinCreationViewContainer from "./PinCreationViewContainer";
 import en from "@/messages/en.json";
@@ -148,7 +147,7 @@ it("should display error toast and disable loading state in case of fetch error 
 
   expect(toast.warn).toHaveBeenLastCalledWith(
     en.Common.CONNECTION_ERROR,
-    expect.anything(), // we don't really care about the options argument in this context
+    expect.anything(), // we don't really care about the options argument here
   );
 
   // Assert loading state was deactivated:
@@ -173,7 +172,7 @@ it("should display error toast in case of KO response upon posting", async () =>
 
   expect(toast.warn).toHaveBeenLastCalledWith(
     messages.ERROR_POSTING_PIN,
-    expect.anything(), // we don't really care about the options argument in this context
+    expect.anything(), // we don't really care about the options argument here
   );
 });
 

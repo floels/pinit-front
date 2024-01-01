@@ -43,10 +43,18 @@ const TextAndExploreButton = ({
   const buttonClasses = computeButtonClasses({ foldNumber });
 
   return (
-    <div className={containerClasses}>
+    <div
+      className={containerClasses}
+      data-testid="text-and-explore-button-container"
+    >
       <div className={styles.header}>{labels.header}</div>
       <div className={styles.paragraph}>{labels.paragraph}</div>
-      <button className={buttonClasses}>{labels.link}</button>
+      <button
+        className={buttonClasses}
+        data-testid="text-and-explore-button-button"
+      >
+        {labels.link}
+      </button>
     </div>
   );
 };

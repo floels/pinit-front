@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).toHaveTextContent()`
 import { AccountsContext } from "@/contexts/AccountsContext";
 import { TypesOfAccount } from "@/lib/types";
 import en from "@/messages/en.json";
@@ -112,6 +111,8 @@ it("should display active account and 'Your other accounts' section if fetch res
 });
 
 it("should display error response in case of fetch error", () => {
+  fetchMock.mockRejectOnce(new Error("Network failure"));
+
   const mockAccountsContext = {
     ...defaultMockAccountsContext,
     isErrorFetchingAccounts: true,

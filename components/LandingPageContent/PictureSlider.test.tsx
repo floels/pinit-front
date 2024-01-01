@@ -4,7 +4,6 @@
 // they don't really make sense as separate components.
 // This allows us to express assertions which are closer to what the user actually sees.
 
-import "@testing-library/jest-dom/extend-expect"; // required to use `expect(element).not.toHaveClass(...)`
 import { act, render, screen } from "@testing-library/react";
 import PictureSlider, {
   TopicsType,
