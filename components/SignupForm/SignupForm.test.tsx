@@ -6,7 +6,7 @@ import { API_ROUTE_SIGN_UP } from "@/lib/constants";
 
 const messages = en.LandingPageContent;
 
-const onClickAlreadyHaveAccount = () => {}; // this behavior will be tested in <HeaderUnauthenticatedClient />
+const onClickAlreadyHaveAccount = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
 
 const mockRouterRefresh = jest.fn();
 
@@ -16,9 +16,9 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-const signupForm = (
-  <SignupForm onClickAlreadyHaveAccount={onClickAlreadyHaveAccount} />
-);
+const renderComponent = () => {
+  render(<SignupForm onClickAlreadyHaveAccount={onClickAlreadyHaveAccount} />);
+};
 
 it("should display relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
   fetchMock.doMockOnceIf(
@@ -26,7 +26,7 @@ it("should display relevant input errors, send request only when inputs are vali
     JSON.stringify({ access: "access", refresh: "refresh" }),
   );
 
-  render(signupForm);
+  renderComponent();
 
   screen.getByText(messages.SignupForm.FIND_NEW_IDEAS);
 
@@ -34,6 +34,11 @@ it("should display relevant input errors, send request only when inputs are vali
   const passwordInput = screen.getByLabelText(messages.SignupForm.PASSWORD);
   const birthdateInput = screen.getByLabelText(messages.SignupForm.BIRTHDATE);
   const submitButton = screen.getByText(messages.SignupForm.CONTINUE);
+
+  // Submit without any input:
+  await userEvent.click(submitButton);
+
+  screen.getByText(messages.SignupForm.MISSING_EMAIL);
 
   // Fill form with invalid email, invalid pasword and missing birthdate and submit:
   await userEvent.type(emailInput, "test@example");
@@ -70,7 +75,7 @@ it("should display relevant input errors, send request only when inputs are vali
 });
 
 it("should display relevant error when receiving a 400 response", async () => {
-  render(signupForm);
+  renderComponent();
 
   const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
   const passwordInput = screen.getByLabelText(messages.SignupForm.PASSWORD);
@@ -111,8 +116,27 @@ it("should display relevant error when receiving a 400 response", async () => {
   screen.getByText(messages.SignupForm.INVALID_BIRTHDATE_SIGNUP);
 });
 
+it("should display relevant error upon fetch error", async () => {
+  renderComponent();
+
+  const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
+  const passwordInput = screen.getByLabelText(messages.SignupForm.PASSWORD);
+  const birthdateInput = screen.getByLabelText(messages.SignupForm.BIRTHDATE);
+  const submitButton = screen.getByText(messages.SignupForm.CONTINUE);
+
+  await userEvent.type(emailInput, "test@example.com");
+  await userEvent.type(passwordInput, "Pa$$w0rd");
+  await userEvent.type(birthdateInput, "1970-01-01");
+
+  fetchMock.mockRejectOnce(new Error("Network failure"));
+
+  await userEvent.click(submitButton);
+
+  screen.getByText(en.Common.CONNECTION_ERROR);
+});
+
 it("should display loading state while expecting network response", async () => {
-  render(signupForm);
+  renderComponent();
 
   const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
   const passwordInput = screen.getByLabelText(messages.SignupForm.PASSWORD);
@@ -127,5 +151,5 @@ it("should display loading state while expecting network response", async () => 
   await userEvent.type(birthdateInput, "1970-01-01");
   await userEvent.click(submitButton);
 
-  screen.getByTestId("loading-overlay");
+  screen.getByTestId("signup-form-loading-overlay");
 });
