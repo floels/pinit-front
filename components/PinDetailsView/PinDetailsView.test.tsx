@@ -1,6 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
+import en from "@/messages/en.json";
+
+const messages = en.PinDetails;
 
 it("should render image, title, description and author details when all are provided", () => {
   const pin = {
@@ -36,6 +39,22 @@ it("should render image, title, description and author details when all are prov
   );
 
   screen.getByText(pin.authorDisplayName);
+});
+
+it("should render fallback image 'alt' when title is empty", () => {
+  const pin = {
+    id: "999999999999999999",
+    title: "",
+    imageURL: "https://pin.url",
+    authorUsername: "john.doe",
+    authorDisplayName: "John Doe",
+    authorProfilePictureURL: "https://profile.picture.url",
+    description: "Pin description",
+  };
+
+  render(<PinDetailsView pin={pin} />);
+
+  screen.getByAltText(`${messages.ALT_PIN_BY} John Doe`);
 });
 
 it("should not render author details when author's profile picture URL is not provided", () => {
