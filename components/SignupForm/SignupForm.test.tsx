@@ -68,6 +68,7 @@ it("should display relevant input errors, send request only when inputs are vali
   expect(
     screen.queryByText(messages.SignupForm.INVALID_PASSWORD_INPUT),
   ).toBeNull();
+  await userEvent.click(submitButton);
   screen.getByText(messages.SignupForm.INVALID_BIRTHDATE_INPUT);
 
   // Fix birthdate input:
