@@ -1,22 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 
-// Component inspired by https://react-dropzone.js.org/ (see 'Usage' section)
+// Component structure is inspired by https://react-dropzone.js.org/ (see 'Usage' section)
 
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faCircleArrowUp, faTrash } from "@fortawesome/free-solid-svg-icons";
 import styles from "./PinImageDropzone.module.css";
 
 type PinImageDropzoneProps = {
   imagePreviewURL: string | null;
   onFileDropped: (file: File) => void;
+  onClickDeleteImage: () => void;
 };
 
 const PinImageDropzone = ({
   imagePreviewURL,
   onFileDropped,
+  onClickDeleteImage,
 }: PinImageDropzoneProps) => {
   const t = useTranslations("PinCreation");
 
@@ -40,11 +42,20 @@ const PinImageDropzone = ({
 
   if (imagePreviewURL) {
     return (
-      <img
-        src={imagePreviewURL}
-        alt={t("ALT_IMAGE_PREVIEW")}
-        className={styles.imagePreview}
-      />
+      <div className={styles.imagePreviewContainer}>
+        <img
+          src={imagePreviewURL}
+          alt={t("ALT_IMAGE_PREVIEW")}
+          className={styles.imagePreview}
+        />
+        <div
+          className={styles.deleteIconContainer}
+          onClick={onClickDeleteImage}
+          data-testid="pin-image-dropzone-delete-image-button"
+        >
+          <FontAwesomeIcon icon={faTrash} size="lg" />
+        </div>
+      </div>
     );
   }
 

@@ -8,7 +8,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative; /* to use position: absolute; on the .acceptedFilesInstruction child element */
+  position: relative;
   cursor: pointer;
 }
 
@@ -28,7 +28,25 @@
   bottom: 0;
 }
 
+.imagePreviewContainer {
+  position: relative;
+}
+
 .imagePreview {
   width: 380px;
   border-radius: 32px;
+}
+
+.deleteIconContainer {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: var(--color-background-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

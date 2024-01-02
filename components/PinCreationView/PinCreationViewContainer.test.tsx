@@ -83,6 +83,24 @@ it("should render image preview, have input fields enabled and render submit but
   });
 });
 
+it("should render dropzone again and hide submit button upon click on 'delete image'", async () => {
+  renderComponent();
+
+  await dropImageFile();
+
+  await waitFor(async () => {
+    const deleteButton = screen.getByTestId(
+      "pin-image-dropzone-delete-image-button",
+    ) as HTMLDivElement;
+
+    await userEvent.click(deleteButton);
+
+    screen.getByText(messages.DROPZONE_INSTRUCTION);
+
+    expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
+  });
+});
+
 it("should post to API route when user clicks submit", async () => {
   renderComponent();
 
@@ -139,7 +157,7 @@ it("should display success toast with proper link and reset form in case of OK r
   const pinLink = within(successMessage).getByRole("link") as HTMLAnchorElement;
   expect(pinLink.href).toMatch(/\/pin\/0123456789012345$/);
 
-  // Check for was reset:
+  // Check form was reset:
   screen.getByText(messages.DROPZONE_INSTRUCTION);
   expectInputFieldsToBeDisabled();
   expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();

@@ -33,6 +33,12 @@ const PinCreationViewContainer = () => {
     fileReader.readAsDataURL(file);
   };
 
+  const handleClickDeleteImage = () => {
+    setPinImageFile(null);
+
+    setImagePreviewURL(null);
+  };
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -121,6 +127,7 @@ const PinCreationViewContainer = () => {
       pinDetails={pinDetails}
       isPosting={isPosting}
       handleFileDropped={handleFileDropped}
+      handleClickDeleteImage={handleClickDeleteImage}
       handleInputChange={handleInputChange}
       handleSubmit={handleSubmit}
     />

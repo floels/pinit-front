@@ -7,7 +7,7 @@
   height: 48px;
   display: flex;
   align-items: center;
-  position: relative; /* because child .autcompleteSuggestionsList has position: absolute */
+  position: relative;
 }
 
 .container.containerInputFocused {

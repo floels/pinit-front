@@ -8,6 +8,7 @@ type PinCreationViewProps = {
   pinDetails: { title: string; description: string };
   isPosting: boolean;
   handleFileDropped: (file: File) => void;
+  handleClickDeleteImage: () => void;
   handleInputChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
@@ -20,6 +21,7 @@ const PinCreationView = ({
   pinDetails,
   isPosting,
   handleFileDropped,
+  handleClickDeleteImage,
   handleInputChange,
   handleSubmit,
 }: PinCreationViewProps) => {
@@ -52,6 +54,7 @@ const PinCreationView = ({
             <PinImageDropzone
               imagePreviewURL={imagePreviewURL}
               onFileDropped={handleFileDropped}
+              onClickDeleteImage={handleClickDeleteImage}
             />
           </section>
           <section className={styles.pinDetailsInputsContainer}>
