@@ -7,8 +7,9 @@ import {
   launchMockAPIServer,
 } from "../utils";
 import { ERROR_CODE_INVALID_REFRESH_TOKEN } from "@/lib/constants";
+import { PIN_IMAGE_URL } from "../fixtures/constants";
 
-test("should display landing page if user is not logged in", async ({
+test("should display unauthenticated header and landing page content if user is not logged in", async ({
   page,
 }) => {
   await page.goto("/");
@@ -50,7 +51,7 @@ test("should display owned accounts and pin suggestions if user is logged in", a
       response.json({
         results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
           unique_id: index + 1,
-          image_url: "https://some.url",
+          image_url: PIN_IMAGE_URL,
           title: "",
           description: "",
           author: {

@@ -7,6 +7,7 @@ import {
 import { ResponseKOError } from "@/lib/customErrors";
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import ErrorView from "@/components/ErrorView/ErrorView";
+import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
 
 type PageProps = {
   searchParams: { q: string };
@@ -27,7 +28,9 @@ const fetchInitialSearchResults = async ({
 
   const responseData = await response.json();
 
-  return responseData.results;
+  const initialSearchResults = getPinsWithCamelCaseKeys(responseData.results);
+
+  return initialSearchResults;
 };
 
 const Page = async ({ searchParams }: PageProps) => {

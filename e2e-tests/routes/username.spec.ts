@@ -16,10 +16,6 @@ const configureAPIResponses = (mockAPIApp: Express) => {
     });
   });
 
-  mockAPIApp.get("/api/accounts/doesnotexist/", (_, response: Response) => {
-    response.status(404).json({});
-  });
-
   mockAPIApp.get("/api/accounts/badrequest/", (_, response: Response) => {
     response.status(400).json({});
   });
@@ -29,6 +25,10 @@ let mockAPIServer: any;
 
 test.beforeAll(async () => {
   mockAPIServer = await launchMockAPIServer(configureAPIResponses);
+});
+
+test.afterAll(() => {
+  mockAPIServer.close();
 });
 
 test("should display account details", async ({ page }) => {
@@ -61,8 +61,4 @@ test("should display generic error in case of 400 response from the API", async 
   await page.waitForSelector(
     `text=${en.AccountDetails.ERROR_FETCH_ACCOUNT_DETAILS}`,
   );
-});
-
-test.afterAll(() => {
-  mockAPIServer.close();
 });

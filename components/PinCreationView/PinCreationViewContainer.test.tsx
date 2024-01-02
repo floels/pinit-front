@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import PinCreationViewContainer from "./PinCreationViewContainer";
 import en from "@/messages/en.json";
 import { act } from "react-dom/test-utils";
@@ -6,16 +12,9 @@ import userEvent from "@testing-library/user-event";
 import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 import { FetchMock } from "jest-fetch-mock";
 import { getObjectFromFormData } from "@/lib/utils/testing";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 const messages = en.PinCreation;
-
-jest.mock("react-toastify", () => ({
-  toast: {
-    warn: jest.fn(),
-    success: jest.fn(),
-  },
-}));
 
 const mockImageFile = new File(["mockImage"], "MockImage.png", {
   type: "image/png",
@@ -39,8 +38,17 @@ const expectInputFieldsToBeDisabled = () => {
   expect(descriptionTextArea).toBeDisabled();
 };
 
+const renderComponent = () => {
+  render(
+    <div>
+      <ToastContainer />
+      <PinCreationViewContainer />
+    </div>,
+  );
+};
+
 it("should render header, have input fields disabled, and not render submit button initially", () => {
-  render(<PinCreationViewContainer />);
+  renderComponent();
 
   screen.getByText(messages.CREATE_PIN);
 
@@ -50,7 +58,7 @@ it("should render header, have input fields disabled, and not render submit butt
 });
 
 it("should render image preview, have input fields enabled and render submit button upon file dropped", async () => {
-  render(<PinCreationViewContainer />);
+  renderComponent();
 
   screen.getByText(messages.DROPZONE_INSTRUCTION);
 
@@ -76,7 +84,7 @@ it("should render image preview, have input fields enabled and render submit but
 });
 
 it("should post to API route when user clicks submit", async () => {
-  render(<PinCreationViewContainer />);
+  renderComponent();
 
   await dropImageFile();
 
@@ -113,8 +121,32 @@ it("should post to API route when user clicks submit", async () => {
   });
 });
 
+it("should display success toast with proper link and reset form in case of OK response upon posting", async () => {
+  renderComponent();
+
+  await dropImageFile();
+
+  fetchMock.doMockOnceIf(
+    `${API_ROUTE_CREATE_PIN}`,
+    JSON.stringify({ unique_id: "0123456789012345" }),
+    { status: 200 },
+  );
+
+  const submitButton = screen.getByTestId("pin-creation-submit-button");
+  await userEvent.click(submitButton);
+
+  const successMessage = screen.getByTestId("success-toast-message");
+  const pinLink = within(successMessage).getByRole("link") as HTMLAnchorElement;
+  expect(pinLink.href).toMatch(/\/pin\/0123456789012345$/);
+
+  // Check for was reset:
+  screen.getByText(messages.DROPZONE_INSTRUCTION);
+  expectInputFieldsToBeDisabled();
+  expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
+});
+
 it("should display loading overlay and change text of submit button when posting", async () => {
-  render(<PinCreationViewContainer />);
+  renderComponent();
 
   await dropImageFile();
 
@@ -134,30 +166,8 @@ it("should display loading overlay and change text of submit button when posting
   screen.getByTestId("pin-creation-loading-overlay");
 });
 
-it("should display error toast and disable loading state in case of fetch error when posting", async () => {
-  render(<PinCreationViewContainer />);
-
-  await dropImageFile();
-
-  fetchMock.mockRejectOnce(new Error("Network failure"));
-
-  const submitButton = screen.getByTestId("pin-creation-submit-button");
-
-  await userEvent.click(submitButton);
-
-  expect(toast.warn).toHaveBeenLastCalledWith(
-    en.Common.CONNECTION_ERROR,
-    expect.anything(), // we don't really care about the options argument here
-  );
-
-  // Assert loading state was deactivated:
-  expect(submitButton).toHaveTextContent(messages.PUBLISH);
-
-  expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
-});
-
 it("should display error toast in case of KO response upon posting", async () => {
-  render(<PinCreationViewContainer />);
+  renderComponent();
 
   await dropImageFile();
 
@@ -168,31 +178,27 @@ it("should display error toast in case of KO response upon posting", async () =>
   const submitButton = screen.getByTestId("pin-creation-submit-button");
   await userEvent.click(submitButton);
 
-  expect(toast.warn).toHaveBeenLastCalledWith(
-    messages.ERROR_POSTING_PIN,
-    expect.anything(), // we don't really care about the options argument here
-  );
+  screen.getByText(messages.ERROR_POSTING_PIN);
+
+  // Assert loading state was deactivated:
+  expect(submitButton).toHaveTextContent(messages.PUBLISH);
+  expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
 });
 
-it("should display success toast and reset form in case of OK response upon posting", async () => {
-  render(<PinCreationViewContainer />);
+it("should display error toast and disable loading state in case of fetch error when posting", async () => {
+  renderComponent();
 
   await dropImageFile();
 
-  fetchMock.doMockOnceIf(
-    `${API_ROUTE_CREATE_PIN}`,
-    JSON.stringify({ pinId: "0123456789012345" }),
-    { status: 200 },
-  );
+  fetchMock.mockRejectOnce(new Error("Network failure"));
 
   const submitButton = screen.getByTestId("pin-creation-submit-button");
+
   await userEvent.click(submitButton);
 
-  expect(toast.success).toHaveBeenCalled();
+  screen.getByText(en.Common.CONNECTION_ERROR);
 
-  screen.getByText(messages.DROPZONE_INSTRUCTION);
-
-  expectInputFieldsToBeDisabled();
-
-  expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
+  // Assert loading state was deactivated:
+  expect(submitButton).toHaveTextContent(messages.PUBLISH);
+  expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
 });

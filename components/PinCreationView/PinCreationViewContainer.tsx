@@ -93,7 +93,7 @@ const PinCreationViewContainer = () => {
       return;
     }
 
-    displaySuccessToast({ pinId: responseData.pin_id });
+    displaySuccessToast({ pinId: responseData.unique_id });
 
     resetForm();
   };

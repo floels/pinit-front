@@ -4,6 +4,7 @@ import cors from "cors";
 import { BrowserContext } from "@playwright/test";
 import {
   ACCESS_TOKEN_COOKIE_KEY,
+  ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
   REFRESH_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
 
@@ -65,6 +66,21 @@ export const addRefreshTokenTookie = ({
       domain: "127.0.0.1",
       httpOnly: true,
       secure: true,
+    },
+  ]);
+};
+
+export const addActiveAccountCookie = ({
+  context,
+}: {
+  context: BrowserContext;
+}) => {
+  context.addCookies([
+    {
+      name: ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
+      value: "johndoe",
+      path: "/",
+      domain: "127.0.0.1",
     },
   ]);
 };
