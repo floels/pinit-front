@@ -13,7 +13,7 @@ import { PinType } from "@/lib/types";
 type PinsBoardProps = {
   pins: PinType[];
   isFetching: boolean;
-  isFetchError: boolean;
+  fetchFailed: boolean;
   handleFetchMorePins: () => void;
 };
 
@@ -38,7 +38,7 @@ const PinsBoard = ({
   pins,
   handleFetchMorePins,
   isFetching,
-  isFetchError,
+  fetchFailed,
 }: PinsBoardProps) => {
   const t = useTranslations("PinsBoard");
 
@@ -126,7 +126,7 @@ const PinsBoard = ({
           />
         </div>
       )}
-      {isFetchError && (
+      {fetchFailed && (
         <div className={styles.errorMessage}>
           <FontAwesomeIcon
             icon={faTriangleExclamation}

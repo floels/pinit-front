@@ -38,7 +38,7 @@
   align-items: center;
 }
 
-.navigationItem.navigationItemactive {
+.navigationItem.navigationItemActive {
   background-color: var(--color-background-selected);
   color: var(--color-text-inverse);
 }

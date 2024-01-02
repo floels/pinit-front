@@ -102,6 +102,9 @@
   "HomePageContent": {
     "ERROR_FETCH_PIN_SUGGESTIONS": "An error occurred while attempting to retrieve your pin suggestions."
   },
+  "PinsSearch": {
+    "ERROR_FETCH_SEARCH_RESULTS": "An error occurred while attempting to retrieve your search results."
+  },
   "PinsBoard": {
     "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",
     "ALT_PIN_BY": "Pin by",

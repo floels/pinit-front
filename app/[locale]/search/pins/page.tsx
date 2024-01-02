@@ -3,11 +3,10 @@ import {
   API_ROUTE_PINS_SEARCH,
   API_ENDPOINT_SEARCH_PINS,
   API_BASE_URL,
-  ERROR_CODE_FETCH_BACKEND_FAILED,
-  ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
-import { NetworkError, ResponseKOError } from "@/lib/customErrors";
+import { ResponseKOError } from "@/lib/customErrors";
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
+import ErrorView from "@/components/ErrorView/ErrorView";
 
 type PageProps = {
   searchParams: { q: string };
@@ -18,15 +17,9 @@ const fetchInitialSearchResults = async ({
 }: {
   searchTerm: string;
 }) => {
-  let response;
-
-  try {
-    response = await fetch(
-      `${API_BASE_URL}/${API_ENDPOINT_SEARCH_PINS}/?q=${searchTerm}`,
-    );
-  } catch (error) {
-    throw new NetworkError();
-  }
+  const response = await fetch(
+    `${API_BASE_URL}/${API_ENDPOINT_SEARCH_PINS}/?q=${searchTerm}`,
+  );
 
   if (!response.ok) {
     throw new ResponseKOError();
@@ -51,22 +44,8 @@ const Page = async ({ searchParams }: PageProps) => {
       searchTerm,
     });
   } catch (error) {
-    if (error instanceof NetworkError) {
-      return (
-        <PinsBoardContainer
-          initialPins={[]}
-          fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
-          errorCode={ERROR_CODE_FETCH_BACKEND_FAILED}
-        />
-      );
-    }
-
     return (
-      <PinsBoardContainer
-        initialPins={[]}
-        fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
-        errorCode={ERROR_CODE_UNEXPECTED_SERVER_RESPONSE}
-      />
+      <ErrorView errorMessageKey="PinsSearch.ERROR_FETCH_SEARCH_RESULTS" />
     );
   }
 
