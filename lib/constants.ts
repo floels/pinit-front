@@ -40,7 +40,9 @@ export const ERROR_CODE_MISSING_ACCESS_TOKEN = "missing_access_token";
 export const ERROR_CODE_MISSING_ACCOUNT_USERNAME_COOKIE =
   "missing_account_username_cookie";
 
-// Cookie keys
+// Cookie and local storage keys
 export const ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY = "activeAccountUsername";
 export const ACCESS_TOKEN_COOKIE_KEY = "accessToken";
 export const REFRESH_TOKEN_COOKIE_KEY = "refreshToken";
+export const ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY =
+  "accessTokenExpirationDate";

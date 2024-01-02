@@ -2,7 +2,10 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LoginForm from "./LoginForm";
 import en from "@/messages/en.json";
-import { API_ROUTE_OBTAIN_TOKEN } from "@/lib/constants";
+import {
+  ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+  API_ROUTE_OBTAIN_TOKEN,
+} from "@/lib/constants";
 
 const messages = en.LandingPageContent;
 
@@ -20,21 +23,7 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-it("should display relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
-  // Inspired by https://stackoverflow.com/a/55771671
-  Object.defineProperty(window, "location", {
-    configurable: true,
-    value: { ...window.location, reload: jest.fn() },
-  });
-
-  fetchMock.doMockOnceIf(
-    API_ROUTE_OBTAIN_TOKEN,
-    JSON.stringify({
-      access_token: "accessToken",
-      refresh_token: "refreshToken",
-    }),
-  );
-
+it("should display relevant input errors and not send any request before all inputs are valid, and reload the page on successful response", async () => {
   renderComponent();
 
   screen.getByText(messages.LoginForm.WELCOME_TO_PINIT);
@@ -74,9 +63,40 @@ it("should display relevant input errors, send request only when inputs are vali
   expect(
     screen.queryByText(messages.LoginForm.INVALID_PASSWORD_INPUT),
   ).toBeNull();
+});
 
-  // Submit with correct inputs:
+it("should set the access token's expiration date in local storage and reload the page upon successful response", async () => {
+  renderComponent();
+
+  const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
+  const passwordInput = screen.getByLabelText(messages.LoginForm.PASSWORD);
+
+  await userEvent.type(emailInput, "test@example.com");
+  await userEvent.type(passwordInput, "Pa$$w0rd");
+
+  const ACCESS_TOKEN_EXPIRATION_DATE = "2024-04-12T14:30:00Z";
+
+  fetchMock.doMockOnceIf(
+    API_ROUTE_OBTAIN_TOKEN,
+    JSON.stringify({
+      access_token_expiration_utc: ACCESS_TOKEN_EXPIRATION_DATE,
+    }),
+  );
+
+  Object.defineProperty(window, "localStorage", {
+    value: {
+      setItem: jest.fn(),
+    },
+  });
+
+  const submitButton = screen.getByText(messages.LoginForm.LOG_IN);
   await userEvent.click(submitButton);
+
+  expect(window.localStorage.setItem).toHaveBeenLastCalledWith(
+    ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+    ACCESS_TOKEN_EXPIRATION_DATE,
+  );
+
   expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 
@@ -85,7 +105,6 @@ it("should display relevant errors when receiving KO responses", async () => {
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
   const passwordInput = screen.getByLabelText(messages.LoginForm.PASSWORD);
-  const submitButton = screen.getByText(messages.LoginForm.LOG_IN);
 
   await userEvent.type(emailInput, "test@example.com");
   await userEvent.type(passwordInput, "Pa$$w0rd");
@@ -95,6 +114,8 @@ it("should display relevant errors when receiving KO responses", async () => {
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 401 },
   );
+
+  const submitButton = screen.getByText(messages.LoginForm.LOG_IN);
   await userEvent.click(submitButton);
 
   screen.getByText(messages.LoginForm.INVALID_EMAIL_LOGIN);
@@ -106,8 +127,8 @@ it("should display relevant errors when receiving KO responses", async () => {
   );
   await userEvent.clear(passwordInput);
   await userEvent.type(passwordInput, "IsWr0ng");
-  await userEvent.click(submitButton);
 
+  await userEvent.click(submitButton);
   screen.getByText(messages.LoginForm.INVALID_PASSWORD_LOGIN);
 
   fetchMock.doMockOnceIf(API_ROUTE_OBTAIN_TOKEN, JSON.stringify({}), {
@@ -115,8 +136,8 @@ it("should display relevant errors when receiving KO responses", async () => {
   });
   await userEvent.clear(passwordInput);
   await userEvent.type(passwordInput, "IsRight");
-  await userEvent.click(submitButton);
 
+  await userEvent.click(submitButton);
   screen.getByText(en.Common.UNFORESEEN_ERROR);
 });
 

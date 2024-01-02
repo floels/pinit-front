@@ -7,12 +7,15 @@ import {
   API_ROUTE_OWNED_ACCOUNTS,
   API_ROUTE_REFRESH_TOKEN,
   ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
+  ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
 import { Response401Error, ResponseKOError } from "@/lib/customErrors";
 import { AccountType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
 import { getAccountsWithCamelCaseKeys } from "@/lib/utils/adapters";
+
+export const TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION = 60 * 60 * 1000; // i.e. 1 hour
 
 const AuthenticatedSetupBuilder = () => {
   const {
@@ -23,9 +26,34 @@ const AuthenticatedSetupBuilder = () => {
   } = useAccountsContext();
 
   const checkShouldRefreshAccessToken = () => {
-    // TODO: implement this logic with local storage
-    // In the meantime, systematically refresh the access token when the app boots
-    return true;
+    if (typeof window === "undefined" || !window.localStorage) {
+      return true;
+    }
+
+    const accessTokenExpirationDateString = localStorage.getItem(
+      ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+    );
+
+    if (!accessTokenExpirationDateString) {
+      return true;
+    }
+
+    const accessTokenExpirationDateTime = new Date(
+      accessTokenExpirationDateString,
+    ).getTime();
+
+    const isInvalidDate = isNaN(accessTokenExpirationDateTime);
+
+    if (isInvalidDate) {
+      return true;
+    }
+
+    const nowTime = new Date().getTime();
+
+    return (
+      nowTime + TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION >
+      accessTokenExpirationDateTime
+    );
   };
 
   const shouldRefreshAccessToken = checkShouldRefreshAccessToken();
