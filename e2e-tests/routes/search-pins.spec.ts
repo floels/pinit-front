@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { Request, Response, Express } from "express";
 import en from "@/messages/en.json";
 import { launchMockAPIServer } from "../utils";
+import { PIN_IMAGE_URL } from "../fixtures/constants";
 
 const NUMBER_SEARCH_RESULTS = 50;
 
@@ -13,7 +14,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
       response.json({
         results: Array.from({ length: NUMBER_SEARCH_RESULTS }, (_, index) => ({
           unique_id: index + 1,
-          image_url: "https://some.url",
+          image_url: PIN_IMAGE_URL,
           title: "",
           description: "",
           author: {
@@ -32,6 +33,10 @@ let mockAPIServer: any;
 
 test.beforeAll(async () => {
   mockAPIServer = await launchMockAPIServer(configureAPIResponses);
+});
+
+test.afterAll(() => {
+  mockAPIServer.close();
 });
 
 test("should display search results upon successful response from the API", async ({
@@ -64,8 +69,4 @@ test("should redirect to landing page if search param is empty", async ({
   await page.waitForSelector(
     `text=${en.LandingPageContent.PictureSlider.GET_YOUR_NEXT}`,
   );
-});
-
-test.afterAll(() => {
-  mockAPIServer.close();
 });

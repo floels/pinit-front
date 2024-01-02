@@ -2,19 +2,16 @@ import { test } from "@playwright/test";
 import { Response, Express } from "express";
 import en from "@/messages/en.json";
 import { launchMockAPIServer } from "../utils";
-
-const pinImageURL =
-  "https://i.pinimg.com/564x/7b/e8/0e/7be80e1dd312352fb3616ff285f18037.jpg";
+import { PIN_IMAGE_URL } from "../fixtures/constants";
 
 const PIN_ID_OK = "123456789012345";
-const PIN_ID_404 = "404404404404404";
 const PIN_ID_400 = "400400400400400";
 
 const configureAPIResponses = (mockAPIApp: Express) => {
   mockAPIApp.get(`/api/pins/${PIN_ID_OK}/`, (_, response: Response) => {
     response.json({
       unique_id: PIN_ID_OK,
-      image_url: pinImageURL,
+      image_url: PIN_IMAGE_URL,
       title: "Pin title",
       description: "This is the pin's description.",
       author: {
@@ -24,10 +21,6 @@ const configureAPIResponses = (mockAPIApp: Express) => {
           "https://i.pinimg.com/75x75_RS/62/92/1c/62921c97019ba8fa790ce3074ccaf3c6.jpg",
       },
     });
-  });
-
-  mockAPIApp.get(`/api/pins/${PIN_ID_404}/`, (_, response: Response) => {
-    response.status(404).json({});
   });
 
   mockAPIApp.get(`/api/pins/${PIN_ID_400}/`, (_, response: Response) => {
@@ -41,6 +34,10 @@ test.beforeAll(async () => {
   mockAPIServer = await launchMockAPIServer(configureAPIResponses);
 });
 
+test.afterAll(() => {
+  mockAPIServer.close();
+});
+
 test("should display pin details in case of successful response from the API", async ({
   page,
 }) => {
@@ -48,7 +45,7 @@ test("should display pin details in case of successful response from the API", a
 
   await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 
-  await page.waitForSelector(`img[src="${pinImageURL}"]`);
+  await page.waitForSelector(`img[src="${PIN_IMAGE_URL}"]`);
 
   await page.waitForSelector('text="Pin title"');
   await page.waitForSelector('text="This is the pin\'s description."');
@@ -60,7 +57,7 @@ test("should display pin details in case of successful response from the API", a
 test("should display 'pin not found' error in case of 404 response from the API", async ({
   page,
 }) => {
-  await page.goto(`/pin/${PIN_ID_404}`);
+  await page.goto("/pin/404404404404404");
 
   await page.waitForSelector(`text=${en.PinDetails.ERROR_PIN_NOT_FOUND}`);
 });
@@ -71,8 +68,4 @@ test("should display generic error in case of 400 response from the API", async 
   await page.goto(`/pin/${PIN_ID_400}`);
 
   await page.waitForSelector(`text=${en.PinDetails.ERROR_FETCH_PIN_DETAILS}`);
-});
-
-test.afterAll(() => {
-  mockAPIServer.close();
 });
