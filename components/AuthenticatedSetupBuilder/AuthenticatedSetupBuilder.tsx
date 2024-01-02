@@ -60,6 +60,10 @@ const AuthenticatedSetupBuilder = () => {
   const fetchOwnedAccounts = async () => {
     const response = await fetch(API_ROUTE_OWNED_ACCOUNTS);
 
+    if (!response.ok) {
+      throw new ResponseKOError();
+    }
+
     const responseData = await response.json();
 
     return getAccountsWithCamelCaseKeys(responseData.results);

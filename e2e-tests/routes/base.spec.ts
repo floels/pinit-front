@@ -6,10 +6,7 @@ import {
   addRefreshTokenTookie,
   launchMockAPIServer,
 } from "../utils";
-import {
-  ERROR_CODE_INVALID_REFRESH_TOKEN,
-  ERROR_CODE_UNAUTHORIZED,
-} from "@/lib/constants";
+import { ERROR_CODE_INVALID_REFRESH_TOKEN } from "@/lib/constants";
 
 test("should display landing page if user is not logged in", async ({
   page,
@@ -29,6 +26,12 @@ test("should display owned accounts and pin suggestions if user is logged in", a
   const NUMBER_PIN_SUGGESTIONS = 50;
 
   const configureAPIResponses = (mockAPIApp: Express) => {
+    mockAPIApp.post("/api/token/refresh/", (_, response: Response) => {
+      response.json({
+        access_token: "refreshed_access_token",
+      });
+    });
+
     mockAPIApp.get("/api/owned-accounts/", (_, response: Response) => {
       response.json({
         results: [
@@ -66,11 +69,6 @@ test("should display owned accounts and pin suggestions if user is logged in", a
   await page.goto("/");
 
   await page.click('[data-testid="account-options-button"]');
-
-  // Wait for fetch to be complete:
-  await page.waitForSelector('[data-testid="owned-accounts-spinner"]', {
-    state: "detached",
-  });
 
   const accountOptionsFlyout = page.locator(
     '[data-testid="account-options-flyout"]',
@@ -112,14 +110,12 @@ test("should log user out when refresh token is expired", async ({
   mockAPIServer.close();
 });
 
-test("should display error message when server is unreachable", async ({
+test("should display error message when API is unreachable", async ({
   page,
   context,
 }) => {
   // We set an 'accessToken' cookie so that the page tries to reach the server.
   addAccessTokenTookie({ context });
-
-  // We don't launch a mock API server for this test, which simulates an unreachable server.
 
   await page.goto("/");
 

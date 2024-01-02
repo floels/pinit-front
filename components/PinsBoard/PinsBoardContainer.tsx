@@ -11,13 +11,11 @@ import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
 type PinsBoardContainerProps = {
   initialPins: PinType[];
   fetchPinsAPIRoute: string;
-  errorCode?: string;
 };
 
 const PinsBoardContainer = ({
   initialPins,
   fetchPinsAPIRoute,
-  errorCode,
 }: PinsBoardContainerProps) => {
   const t = useTranslations("Common");
 
@@ -78,13 +76,11 @@ const PinsBoardContainer = ({
     setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
   };
 
-  const isFetchError = errorCode !== undefined || fetchFailed;
-
   return (
     <PinsBoard
       pins={pins}
       isFetching={isFetching}
-      isFetchError={isFetchError}
+      fetchFailed={fetchFailed}
       handleFetchMorePins={fetchNextPinsAndFallBack}
     />
   );
