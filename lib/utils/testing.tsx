@@ -60,3 +60,20 @@ export const mockIntersectionObserver = () => {
     takeRecords: () => [],
   }));
 };
+
+// A generic mock for local storage:
+export class MockLocalStorage {
+  store: { [key: string]: string } = {};
+
+  clear() {
+    this.store = {};
+  }
+
+  getItem(key: string) {
+    return this.store[key] || null;
+  }
+
+  setItem(key: string, value: string) {
+    this.store[key] = value.toString();
+  }
+}

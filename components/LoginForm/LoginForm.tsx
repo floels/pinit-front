@@ -9,6 +9,7 @@ import {
   ERROR_CODE_INVALID_EMAIL,
   ERROR_CODE_FETCH_FAILED,
   API_ROUTE_OBTAIN_TOKEN,
+  ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
@@ -69,6 +70,17 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
     setShowFormErrors(false);
   };
 
+  const setAccessTokenExpirationDate = (expirationDate: string) => {
+    if (typeof window === "undefined" || !window.localStorage) {
+      return;
+    }
+
+    localStorage.setItem(
+      ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+      expirationDate,
+    );
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -82,7 +94,11 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
     setIsLoading(true);
 
     try {
-      await fetchTokens();
+      const response = await fetchTokens();
+
+      const responseData = await response.json();
+
+      setAccessTokenExpirationDate(responseData.access_token_expiration_utc);
 
       router.refresh();
     } catch (error) {
@@ -123,6 +139,8 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
 
       throw new Error();
     }
+
+    return response;
   };
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {

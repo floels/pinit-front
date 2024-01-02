@@ -1,15 +1,19 @@
 import {
+  ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
   ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
   API_ROUTE_OWNED_ACCOUNTS,
   API_ROUTE_REFRESH_TOKEN,
 } from "@/lib/constants";
 import { render, screen, waitFor } from "@testing-library/react";
-import AuthenticatedSetupBuilder from "./AuthenticatedSetupBuilder";
+import AuthenticatedSetupBuilder, {
+  TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION,
+} from "./AuthenticatedSetupBuilder";
 import { AccountsContext } from "@/contexts/AccountsContext";
-import { withQueryClient } from "@/lib/utils/testing";
+import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
 import { TypesOfAccount } from "@/lib/types";
 import Cookies from "js-cookie";
 import { getAccountsWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { FetchMock } from "jest-fetch-mock";
 
 jest.mock("js-cookie");
 
@@ -49,10 +53,37 @@ const renderComponent = () => {
   );
 };
 
-it("should refresh access token", () => {
+(global.localStorage as any) = new MockLocalStorage();
+
+beforeEach(() => {
+  fetchMock.resetMocks();
+  localStorage.clear();
+});
+
+it("should not refresh access token if expiration date is beyond buffer", () => {
+  const nowTime = new Date().getTime();
+
+  const accessTokenExpirationDate = new Date(
+    nowTime + 2 * TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION,
+  );
+
+  localStorage.setItem(
+    ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+    accessTokenExpirationDate.toISOString(),
+  );
+
   renderComponent();
 
-  expect(fetch).toHaveBeenLastCalledWith(
+  expect(fetch).toHaveBeenCalledTimes(1);
+  expect((fetch as FetchMock).mock.calls[0]).toEqual([
+    "/api/user/owned-accounts",
+  ]);
+});
+
+it("should refresh access token if no expiration date in local storage", () => {
+  renderComponent();
+
+  expect(fetch).toHaveBeenCalledWith(
     API_ROUTE_REFRESH_TOKEN,
     expect.objectContaining({
       method: "POST",
@@ -60,8 +91,46 @@ it("should refresh access token", () => {
   );
 });
 
-it(`in the absence of a cookie and when receiving only one owned account, should define it as active
- and set the corresponding cookie`, async () => {
+it("should refresh access token if invalid expiration date in local storage", () => {
+  localStorage.setItem(
+    ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+    "20-10-03",
+  );
+
+  renderComponent();
+
+  expect(fetch).toHaveBeenCalledWith(
+    API_ROUTE_REFRESH_TOKEN,
+    expect.objectContaining({
+      method: "POST",
+    }),
+  );
+});
+
+it("should refresh access token if expiration date in local storage is within buffer", () => {
+  const nowTime = new Date().getTime();
+
+  const accessTokenExpirationDate = new Date(
+    nowTime + TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION / 2,
+  );
+
+  localStorage.setItem(
+    ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+    accessTokenExpirationDate.toISOString(),
+  );
+
+  renderComponent();
+
+  expect(fetch).toHaveBeenCalledWith(
+    API_ROUTE_REFRESH_TOKEN,
+    expect.objectContaining({
+      method: "POST",
+    }),
+  );
+});
+
+it(`in the absence of an active account cookie and when receiving only one owned account,
+should define it as active and set the corresponding cookie`, async () => {
   fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}));
 
   const mockAccounts = [
@@ -100,7 +169,8 @@ it(`in the absence of a cookie and when receiving only one owned account, should
   });
 });
 
-it(`in the presence of a cookie and when receiving two accounts including one matching the cookie,
+it(`in the presence of an active account cookie and when receiving
+two accounts including one matching the cookie,
 should define it as active account`, async () => {
   (Cookies.get as jest.Mock).mockImplementationOnce((key) => {
     if (key === ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY) {
