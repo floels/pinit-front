@@ -37,7 +37,7 @@ export const POST = async () => {
         }),
       },
     );
-  } catch (error) {
+  } catch {
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
@@ -48,7 +48,7 @@ export const POST = async () => {
 
   try {
     backendResponseData = await backendResponse.json();
-  } catch (error) {
+  } catch {
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_UNEXPECTED_SERVER_RESPONSE] }),
       { status: 500 },

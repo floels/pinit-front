@@ -26,7 +26,7 @@ export const GET = async (request: NextRequest) => {
       endpoint: `${API_ENDPOINT_OWNED_ACCOUNTS}/`,
       accessToken,
     });
-  } catch (error) {
+  } catch {
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },

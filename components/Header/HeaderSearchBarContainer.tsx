@@ -6,24 +6,31 @@ import HeaderSearchBar from "./HeaderSearchBar";
 
 export const AUTOCOMPLETE_DEBOUNCE_TIME_MS = 300;
 
-const getRefinedSuggestions = (
-  searchTerm: string,
-  suggestionsfromAPI: string[],
-) => {
+const getSuggestionsWithSearchTermAtTop = ({
+  searchTerm,
+  originalSuggestions,
+}: {
+  searchTerm: string;
+  originalSuggestions: string[];
+}) => {
   const MAX_SUGGESTIONS = 12;
 
   const isSearchTermIncludedInSuggestions =
-    suggestionsfromAPI.includes(searchTerm);
+    originalSuggestions.includes(searchTerm);
 
   if (isSearchTermIncludedInSuggestions) {
     // NB: normally the API returns 12 suggestions at most
     // so this `slice` is just for precaution.
-    return suggestionsfromAPI.slice(0, MAX_SUGGESTIONS);
+    return originalSuggestions.slice(0, MAX_SUGGESTIONS);
   }
 
   // If search term is not present, add searchTerm as the first suggestion
   // (and drop the last suggestion received from the API):
-  const remainingSuggestions = suggestionsfromAPI.slice(0, MAX_SUGGESTIONS - 1);
+  const remainingSuggestions = originalSuggestions.slice(
+    0,
+    MAX_SUGGESTIONS - 1,
+  );
+
   return [searchTerm, ...remainingSuggestions];
 };
 
@@ -83,32 +90,37 @@ const HeaderSearchBarContainer = () => {
   }: {
     searchTerm: string;
   }) => {
-    let response, responseData;
+    let response;
 
     try {
       response = await fetch(
         `${API_ROUTE_SEARCH_SUGGESTIONS}?search=${searchTerm}`,
       );
-
-      responseData = await response.json();
-    } catch (error) {
-      // Fail silently
+    } catch {
       setSearchSuggestions([]);
       return;
     }
 
     if (!response.ok) {
-      // Fail silently
       setSearchSuggestions([]);
       return;
     }
 
-    const refinedSuggestions = getRefinedSuggestions(
-      searchTerm,
-      responseData.results,
-    );
+    let responseData;
 
-    setSearchSuggestions(refinedSuggestions);
+    try {
+      responseData = await response.json();
+    } catch {
+      setSearchSuggestions([]);
+      return;
+    }
+
+    const suggestionsWithSearchTermAtTop = getSuggestionsWithSearchTermAtTop({
+      searchTerm,
+      originalSuggestions: responseData.results,
+    });
+
+    setSearchSuggestions(suggestionsWithSearchTermAtTop);
   };
 
   const debouncedFetchSearchSuggestions = debounce(

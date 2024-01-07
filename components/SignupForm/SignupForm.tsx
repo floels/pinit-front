@@ -99,13 +99,13 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
 
     try {
       await fetchSignup();
-
-      router.refresh();
     } catch (error) {
       const errorCode = (error as Error).message;
-
       updateFormErrorsFromErrorCode(errorCode);
+      return;
     }
+
+    router.refresh();
   };
 
   const fetchSignup = async () => {
@@ -119,7 +119,7 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
         },
         body: JSON.stringify(formData),
       });
-    } catch (error) {
+    } catch {
       throw new Error(ERROR_CODE_FETCH_FAILED);
     } finally {
       setIsLoading(false);

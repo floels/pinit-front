@@ -46,7 +46,7 @@ export const POST = async (request: NextRequest) => {
         headers: { "X-Username": accountUsername },
       },
     });
-  } catch (error) {
+  } catch {
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
