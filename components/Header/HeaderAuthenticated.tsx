@@ -5,7 +5,7 @@ import Link from "next/link";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import HeaderSearchBar from "./HeaderSearchBar";
+import HeaderSearchBarContainer from "./HeaderSearchBarContainer";
 import styles from "./HeaderAuthenticated.module.css";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -77,7 +77,9 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
           {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
             This way, the component will be re-rendered on each route transition, and its value
             will be cleared. */}
-          <HeaderSearchBar key={`header-search-bar-pathname-${pathname}`} />
+          <HeaderSearchBarContainer
+            key={`header-search-bar-pathname-${pathname}`}
+          />
           <Link
             href="/florianellis/"
             className={styles.profileLink}

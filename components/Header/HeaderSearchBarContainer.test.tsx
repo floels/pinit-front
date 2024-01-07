@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import HeaderSearchBar, {
+import HeaderSearchBarContainer, {
   AUTOCOMPLETE_DEBOUNCE_TIME_MS,
-} from "./HeaderSearchBar";
+} from "./HeaderSearchBarContainer";
 import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
 import { usePathname } from "next/navigation";
 
@@ -47,7 +47,7 @@ beforeEach(() => {
 });
 
 it("should reset input value and blur input upon pressing Escape", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -66,7 +66,7 @@ it("should reset input value and blur input upon pressing Escape", async () => {
 });
 
 it("should reset input value, blur input and hide 'Clear' icon upon pressing 'Clear' icon", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -89,7 +89,7 @@ it("should reset input value, blur input and hide 'Clear' icon upon pressing 'Cl
 });
 
 it("should hide icon when input gets focus", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   screen.getByTestId("search-icon");
 
@@ -106,7 +106,7 @@ it("should display autocomplete suggestions with search term as first suggestion
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   await typeSearchTerm("foo");
 
@@ -137,7 +137,7 @@ it("should display autocomplete suggestions as such if search term is already am
     }),
   );
 
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   await typeSearchTerm("foo");
 
@@ -159,7 +159,7 @@ it("should navigate to search route when user clicks suggestion", async () => {
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   await typeSearchTerm("foo");
 
@@ -177,7 +177,7 @@ it("should navigate to search route when user clicks suggestion", async () => {
 });
 
 it("should navigate to /search/pins route when user types and presses Enter", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -192,7 +192,7 @@ it("should set the input value based on the search param", async () => {
   mockedUsePathname.mockReturnValue("/search/pins");
   mockGetSearchParams.mockReturnValue("foo");
 
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
   expect(searchInput).toHaveValue("foo");
@@ -202,7 +202,7 @@ it("should set the input value based on the search param", async () => {
 });
 
 it("should not display any suggestion in case of KO response from the API", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   // We need to start with a first successful request in order to trigger an
   // initial state change:
@@ -231,7 +231,7 @@ it("should not display any suggestion in case of KO response from the API", asyn
 });
 
 it("should not display any suggestion in case of fetch error", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   // We need to start with a first successful request in order to trigger an
   // initial state change:
@@ -256,7 +256,7 @@ it("should not display any suggestion in case of fetch error", async () => {
 });
 
 it("should fetch only once if two characters are typed within debounce time", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
   await userEvent.click(searchInput);
@@ -281,7 +281,7 @@ it("should fetch only once if two characters are typed within debounce time", as
 });
 
 it("should fetch twice if two characters are typed beyond debounce time", async () => {
-  render(<HeaderSearchBar />);
+  render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
   await userEvent.click(searchInput);
