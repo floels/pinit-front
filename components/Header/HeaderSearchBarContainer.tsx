@@ -1,8 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import debounce from "lodash/debounce";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
 import HeaderSearchBar from "./HeaderSearchBar";
