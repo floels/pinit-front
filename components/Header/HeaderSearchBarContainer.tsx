@@ -94,7 +94,7 @@ const HeaderSearchBarContainer = () => {
 
     try {
       response = await fetch(
-        `${API_ROUTE_SEARCH_SUGGESTIONS}?search=${searchTerm}`,
+        `${API_ROUTE_SEARCH_SUGGESTIONS}?search=${searchTerm.toLowerCase()}`,
       );
     } catch {
       setSearchSuggestions([]);
