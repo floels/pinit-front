@@ -19,7 +19,7 @@ const PinsBoardContainer = ({
 }: PinsBoardContainerProps) => {
   const t = useTranslations("Common");
 
-  const [currentEndpointPage, setCurrentEndpointPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pins, setPins] = useState<PinType[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
@@ -28,60 +28,64 @@ const PinsBoardContainer = ({
     setPins([...initialPins]);
   }, [initialPins]);
 
-  const fetchNextPinsAndFallBack = async () => {
-    try {
-      await fetchNextPins();
-    } catch (error) {
-      toast.warn(t("CONNECTION_ERROR"), {
-        toastId: "toast-pins-board-connection-error",
-      });
-      setIsFetching(false);
-    }
-  };
-
   const fetchNextPins = async () => {
-    const nextEndpointPage = currentEndpointPage + 1;
-
-    setIsFetching(true);
-
     const url = appendQueryParam(
       fetchPinsAPIRoute,
       "page",
-      nextEndpointPage.toString(),
+      currentPage.toString(),
     );
 
-    const newPinsResponse = await fetch(url, { method: "GET" });
+    const nextPinsResponse = await fetch(url);
 
-    setIsFetching(false);
+    return nextPinsResponse;
+  };
 
-    if (!newPinsResponse.ok) {
-      setFetchFailed(true);
-      return;
+  const handleScrolledToBottom = () => {
+    if (!isFetching) {
+      setIsFetching(true);
+      setFetchFailed(false);
+      setCurrentPage((previousPage) => previousPage + 1); // will trigger the fetch of next pins, via the 'useEffect' below
     }
-
-    setFetchFailed(false);
-
-    await updateStateWithNewPinsResponse(newPinsResponse);
   };
 
-  const updateStateWithNewPinsResponse = async (newPinsResponse: Response) => {
-    const newPinsResponseData = await newPinsResponse.json();
+  useEffect(() => {
+    const fetchNextPinsAndFallBack = async () => {
+      let response;
 
-    const newPinsFetched = newPinsResponseData.results;
+      try {
+        response = await fetchNextPins();
+      } catch {
+        toast.warn(t("CONNECTION_ERROR"), {
+          toastId: "toast-pins-board-connection-error",
+        });
+        return;
+      }
 
-    const newPins = getPinsWithCamelCaseKeys(newPinsFetched);
+      if (!response.ok) {
+        setIsFetching(false);
+        setFetchFailed(true);
+        return;
+      }
 
-    setPins((existingPins) => [...existingPins, ...newPins]);
+      const nextPinsResponseData = await response.json();
+      const newPins = getPinsWithCamelCaseKeys(nextPinsResponseData.results);
+      setPins((currentPins) => [...currentPins, ...newPins]);
 
-    setCurrentEndpointPage((currentEndpointPage) => currentEndpointPage + 1);
-  };
+      setFetchFailed(false);
+      setIsFetching(false);
+    };
+
+    if (currentPage > 1) {
+      fetchNextPinsAndFallBack();
+    }
+  }, [currentPage]);
 
   return (
     <PinsBoard
       pins={pins}
       isFetching={isFetching}
       fetchFailed={fetchFailed}
-      handleFetchMorePins={fetchNextPinsAndFallBack}
+      onScrolledToBottom={handleScrolledToBottom}
     />
   );
 };
