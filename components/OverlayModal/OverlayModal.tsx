@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import styles from "./OverlayModal.module.css";
@@ -9,14 +9,11 @@ type OverlayModalProps = {
 };
 
 const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    },
-    [onClose],
-  );
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  };
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
