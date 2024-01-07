@@ -29,11 +29,11 @@ const PinsBoardContainer = ({
   }, [initialPins]);
 
   const fetchNextPins = async () => {
-    const url = appendQueryParam(
-      fetchPinsAPIRoute,
-      "page",
-      currentPage.toString(),
-    );
+    const url = appendQueryParam({
+      url: fetchPinsAPIRoute,
+      key: "page",
+      value: currentPage.toString(),
+    });
 
     const nextPinsResponse = await fetch(url);
 
