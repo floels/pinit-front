@@ -4,7 +4,7 @@ import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
   API_ROUTE_PINS_SUGGESTIONS,
-  API_ENDPOINT_GET_PIN_SUGGESTIONS,
+  API_ENDPOINT_PIN_SUGGESTIONS,
   ACCESS_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
 import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
@@ -22,7 +22,7 @@ const fetchInitialPinSuggestions = async ({
   accessToken: string;
 }) => {
   const response = await fetchWithAuthentication({
-    endpoint: `${API_ENDPOINT_GET_PIN_SUGGESTIONS}/`,
+    endpoint: `${API_ENDPOINT_PIN_SUGGESTIONS}/`,
     accessToken,
   });
 

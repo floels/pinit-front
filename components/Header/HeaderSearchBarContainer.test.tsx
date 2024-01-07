@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import HeaderSearchBarContainer, {
   AUTOCOMPLETE_DEBOUNCE_TIME_MS,
 } from "./HeaderSearchBarContainer";
-import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
+import { API_ROUTE_SEARCH_SUGGESTIONS } from "@/lib/constants";
 import { usePathname } from "next/navigation";
 
 const mockPush = jest.fn();
@@ -100,9 +100,9 @@ it("should hide icon when input gets focus", async () => {
   expect(screen.queryByTestId("search-icon")).toBeNull();
 });
 
-it("should display autocomplete suggestions with search term as first suggestion", async () => {
+it("should display search suggestions with search term as first suggestion", async () => {
   fetchMock.mockOnceIf(
-    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foo`,
+    `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
@@ -111,24 +111,20 @@ it("should display autocomplete suggestions with search term as first suggestion
   await typeSearchTerm("foo");
 
   await waitFor(() => {
-    const autoCompleteSuggestionsListItems = screen.getAllByTestId(
-      "autocomplete-suggestions-list-item",
+    const searchSuggestionsListItems = screen.getAllByTestId(
+      "search-suggestions-list-item",
     );
 
-    expect(autoCompleteSuggestionsListItems).toHaveLength(
-      NUMBER_MOCK_SUGGESTIONS,
-    );
+    expect(searchSuggestionsListItems).toHaveLength(NUMBER_MOCK_SUGGESTIONS);
 
-    expect(autoCompleteSuggestionsListItems[0]).toHaveTextContent("foo");
-    expect(autoCompleteSuggestionsListItems[1]).toHaveTextContent(
-      "foo suggestion 1",
-    );
+    expect(searchSuggestionsListItems[0]).toHaveTextContent("foo");
+    expect(searchSuggestionsListItems[1]).toHaveTextContent("foo suggestion 1");
   });
 });
 
-it("should display autocomplete suggestions as such if search term is already among suggestions", async () => {
+it("should display search suggestions as such if search term is already among suggestions", async () => {
   fetchMock.mockOnceIf(
-    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foo`,
+    `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({
       results: [
         "foo",
@@ -142,20 +138,18 @@ it("should display autocomplete suggestions as such if search term is already am
   await typeSearchTerm("foo");
 
   await waitFor(() => {
-    const autoCompleteSuggestionsListItems = screen.getAllByTestId(
-      "autocomplete-suggestions-list-item",
+    const searchSuggestionsListItems = screen.getAllByTestId(
+      "search-suggestions-list-item",
     );
 
-    expect(autoCompleteSuggestionsListItems[0]).toHaveTextContent("foo");
-    expect(autoCompleteSuggestionsListItems[1]).toHaveTextContent(
-      "foo suggestion 1",
-    );
+    expect(searchSuggestionsListItems[0]).toHaveTextContent("foo");
+    expect(searchSuggestionsListItems[1]).toHaveTextContent("foo suggestion 1");
   });
 });
 
 it("should navigate to search route when user clicks suggestion", async () => {
   fetchMock.mockOnceIf(
-    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foo`,
+    `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
@@ -164,11 +158,11 @@ it("should navigate to search route when user clicks suggestion", async () => {
   await typeSearchTerm("foo");
 
   await waitFor(async () => {
-    const autoCompleteSuggestionsListItems = screen.getAllByTestId(
-      "autocomplete-suggestions-list-item",
+    const searchSuggestionsListItems = screen.getAllByTestId(
+      "search-suggestions-list-item",
     );
 
-    await userEvent.click(autoCompleteSuggestionsListItems[1]);
+    await userEvent.click(searchSuggestionsListItems[1]);
 
     expect(mockPush).toHaveBeenLastCalledWith(
       `/search/pins?q=foo suggestion 1`,
@@ -207,18 +201,18 @@ it("should not display any suggestion in case of KO response from the API", asyn
   // We need to start with a first successful request in order to trigger an
   // initial state change:
   fetchMock.mockOnceIf(
-    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foo`,
+    `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
   await typeSearchTerm("foo");
 
   await waitFor(() => {
-    screen.getByTestId("autocomplete-suggestions-list");
+    screen.getByTestId("search-suggestions-list");
   });
 
   fetchMock.doMockOnceIf(
-    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foobar`,
+    `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foobar`,
     JSON.stringify({}),
     { status: 400 },
   );
@@ -226,7 +220,7 @@ it("should not display any suggestion in case of KO response from the API", asyn
   await typeSearchTerm("bar");
 
   await waitFor(() => {
-    expect(screen.queryByTestId("autocomplete-suggestions-list")).toBeNull();
+    expect(screen.queryByTestId("search-suggestions-list")).toBeNull();
   });
 });
 
@@ -236,14 +230,14 @@ it("should not display any suggestion in case of fetch error", async () => {
   // We need to start with a first successful request in order to trigger an
   // initial state change:
   fetchMock.mockOnceIf(
-    `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=foo`,
+    `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
   await typeSearchTerm("foo");
 
   await waitFor(() => {
-    screen.getByTestId("autocomplete-suggestions-list");
+    screen.getByTestId("search-suggestions-list");
   });
 
   fetchMock.mockRejectOnce(new Error("Network failure"));
@@ -251,7 +245,7 @@ it("should not display any suggestion in case of fetch error", async () => {
   await typeSearchTerm("bar");
 
   await waitFor(() => {
-    expect(screen.queryByTestId("autocomplete-suggestions-list")).toBeNull();
+    expect(screen.queryByTestId("search-suggestions-list")).toBeNull();
   });
 });
 
@@ -272,7 +266,7 @@ it("should fetch only once if two characters are typed within debounce time", as
   await waitFor(() => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenLastCalledWith(
-      `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=ab`,
+      `${API_ROUTE_SEARCH_SUGGESTIONS}?search=ab`,
     );
   });
 
@@ -292,7 +286,7 @@ it("should fetch twice if two characters are typed beyond debounce time", async 
 
   await waitFor(() => {
     expect(fetch).toHaveBeenLastCalledWith(
-      `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=a`,
+      `${API_ROUTE_SEARCH_SUGGESTIONS}?search=a`,
     );
   });
 
@@ -302,7 +296,7 @@ it("should fetch twice if two characters are typed beyond debounce time", async 
 
   await waitFor(() => {
     expect(fetch).toHaveBeenLastCalledWith(
-      `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=ab`,
+      `${API_ROUTE_SEARCH_SUGGESTIONS}?search=ab`,
     );
   });
 

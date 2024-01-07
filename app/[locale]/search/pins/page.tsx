@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import {
-  API_ROUTE_PINS_SEARCH,
+  API_ROUTE_SEARCH,
   API_ENDPOINT_SEARCH_PINS,
   API_BASE_URL,
 } from "@/lib/constants";
@@ -55,7 +55,7 @@ const Page = async ({ searchParams }: PageProps) => {
   return (
     <PinsBoardContainer
       initialPins={initialSearchResults}
-      fetchPinsAPIRoute={API_ROUTE_PINS_SEARCH}
+      fetchPinsAPIRoute={API_ROUTE_SEARCH}
     />
   );
 };
