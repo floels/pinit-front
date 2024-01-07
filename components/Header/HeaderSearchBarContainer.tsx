@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
+import { API_ROUTE_SEARCH_SUGGESTIONS } from "@/lib/constants";
 import HeaderSearchBar from "./HeaderSearchBar";
 
 export const AUTOCOMPLETE_DEBOUNCE_TIME_MS = 300;
@@ -34,9 +34,7 @@ const HeaderSearchBarContainer = () => {
 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<
-    string[]
-  >([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
 
   const handleInputFocus = () => {
     setIsInputFocused(true);
@@ -80,7 +78,7 @@ const HeaderSearchBarContainer = () => {
     }
   }, [pathname, searchParams]);
 
-  const fetchAutocompleteSuggestions = async ({
+  const fetchSearchSuggestions = async ({
     searchTerm,
   }: {
     searchTerm: string;
@@ -89,19 +87,19 @@ const HeaderSearchBarContainer = () => {
 
     try {
       response = await fetch(
-        `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${searchTerm}`,
+        `${API_ROUTE_SEARCH_SUGGESTIONS}?search=${searchTerm}`,
       );
 
       responseData = await response.json();
     } catch (error) {
       // Fail silently
-      setAutocompleteSuggestions([]);
+      setSearchSuggestions([]);
       return;
     }
 
     if (!response.ok) {
       // Fail silently
-      setAutocompleteSuggestions([]);
+      setSearchSuggestions([]);
       return;
     }
 
@@ -110,24 +108,24 @@ const HeaderSearchBarContainer = () => {
       responseData.results,
     );
 
-    setAutocompleteSuggestions(refinedSuggestions);
+    setSearchSuggestions(refinedSuggestions);
   };
 
-  const debouncedFetchAutoCompleteSuggestions = debounce(
-    fetchAutocompleteSuggestions,
+  const debouncedFetchSearchSuggestions = debounce(
+    fetchSearchSuggestions,
     AUTOCOMPLETE_DEBOUNCE_TIME_MS,
   );
 
   useEffect(() => {
     if (!inputValue) {
-      setAutocompleteSuggestions([]);
+      setSearchSuggestions([]);
       return;
     }
 
-    debouncedFetchAutoCompleteSuggestions({ searchTerm: inputValue });
+    debouncedFetchSearchSuggestions({ searchTerm: inputValue });
 
     return () => {
-      debouncedFetchAutoCompleteSuggestions.cancel();
+      debouncedFetchSearchSuggestions.cancel();
     };
   }, [inputValue]);
 
@@ -145,7 +143,7 @@ const HeaderSearchBarContainer = () => {
       onInputBlur={handleInputBlur}
       onClickClearIcon={handleClickClearIcon}
       onPressEscape={handlePressEscape}
-      autocompleteSuggestions={autocompleteSuggestions}
+      searchSuggestions={searchSuggestions}
       getSuggestionLinkClickHandler={getSuggestionLinkClickHandler}
     />
   );

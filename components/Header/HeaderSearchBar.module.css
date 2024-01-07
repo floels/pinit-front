@@ -46,7 +46,7 @@
   background-color: var(--color-gray-200);
 }
 
-.autocompleteSuggestionsList {
+.searchSuggestionsList {
   list-style-type: none;
   width: 100%;
   position: absolute;
@@ -58,21 +58,21 @@
   border-bottom-right-radius: 24px;
 }
 
-.autoCompleteSuggestionsLink {
+.searchSuggestionsLink {
   text-decoration: none;
   color: inherit;
   display: block;
 }
 
-.autoCompleteSuggestionsLink:hover {
+.searchSuggestionsLink:hover {
   background-color: var(--color-gray-100);
 }
 
-.autocompleteSuggestionsListItem {
+.searchSuggestionsListItem {
   display: flex;
   padding: 16px 0;
 }
 
-.autocompleteSuggestionSearchIcon {
+.searchSuggestionSearchIcon {
   margin: 0 24px;
 }

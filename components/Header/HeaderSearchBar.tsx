@@ -14,7 +14,7 @@ type HeaderSearchBarProps = {
   onInputBlur: () => void;
   onClickClearIcon: () => void;
   onPressEscape: () => void;
-  autocompleteSuggestions: string[];
+  searchSuggestions: string[];
   getSuggestionLinkClickHandler: (suggestion: string) => () => void;
 };
 
@@ -26,7 +26,7 @@ const HeaderSearchBar = ({
   onInputBlur,
   onClickClearIcon,
   onPressEscape,
-  autocompleteSuggestions,
+  searchSuggestions,
   getSuggestionLinkClickHandler,
 }: HeaderSearchBarProps) => {
   const router = useRouter();
@@ -93,25 +93,25 @@ const HeaderSearchBar = ({
           <FontAwesomeIcon icon={faCircleXmark} size="lg" />
         </div>
       )}
-      {isInputFocused && autocompleteSuggestions.length > 0 && (
+      {isInputFocused && searchSuggestions.length > 0 && (
         <ul
-          className={styles.autocompleteSuggestionsList}
-          data-testid="autocomplete-suggestions-list"
+          className={styles.searchSuggestionsList}
+          data-testid="search-suggestions-list"
         >
-          {autocompleteSuggestions.map((suggestion, index) => (
+          {searchSuggestions.map((suggestion, index) => (
             <Link
               href={`/search/pins?q=${suggestion}`}
-              key={`autocomplete-suggestion-link-${index}`}
-              className={styles.autoCompleteSuggestionsLink}
+              key={`search-suggestion-link-${index}`}
+              className={styles.searchSuggestionsLink}
               onMouseDown={getSuggestionLinkClickHandler(suggestion)}
             >
               <li
-                className={styles.autocompleteSuggestionsListItem}
-                data-testid="autocomplete-suggestions-list-item"
+                className={styles.searchSuggestionsListItem}
+                data-testid="search-suggestions-list-item"
               >
                 <FontAwesomeIcon
                   icon={faSearch}
-                  className={styles.autocompleteSuggestionSearchIcon}
+                  className={styles.searchSuggestionSearchIcon}
                 />
                 {suggestion}
               </li>
