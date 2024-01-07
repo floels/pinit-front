@@ -46,7 +46,7 @@ const Page = async ({ searchParams }: PageProps) => {
     initialSearchResults = await fetchInitialSearchResults({
       searchTerm,
     });
-  } catch (error) {
+  } catch {
     return (
       <ErrorView errorMessageKey="PinsSearch.ERROR_FETCH_SEARCH_RESULTS" />
     );

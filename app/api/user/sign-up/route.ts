@@ -25,7 +25,7 @@ export const POST = async (request: Request) => {
         birthdate,
       }),
     });
-  } catch (error) {
+  } catch {
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
@@ -36,7 +36,7 @@ export const POST = async (request: Request) => {
 
   try {
     backendResponseData = await backendResponse.json();
-  } catch (error) {
+  } catch {
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_UNEXPECTED_SERVER_RESPONSE] }),
       { status: 500 },

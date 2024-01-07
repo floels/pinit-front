@@ -93,19 +93,33 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
 
     setIsLoading(true);
 
+    let response;
+
     try {
-      const response = await fetchTokens();
-
-      const responseData = await response.json();
-
-      setAccessTokenExpirationDate(responseData.access_token_expiration_utc);
-
-      router.refresh();
+      response = await fetchTokens();
     } catch (error) {
       const errorCode = (error as Error).message;
-
       updateFormErrorsFromErrorCode(errorCode);
+      return;
     }
+
+    let responseData;
+
+    try {
+      responseData = await response.json();
+    } catch {
+      // We couldn't retrieve the access token expiration date
+      // By default, clear it:
+      setAccessTokenExpirationDate("");
+
+      router.refresh();
+
+      return;
+    }
+
+    setAccessTokenExpirationDate(responseData.access_token_expiration_utc);
+
+    router.refresh();
   };
 
   const fetchTokens = async () => {
@@ -122,7 +136,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
           password: credentials.password,
         }),
       });
-    } catch (error) {
+    } catch {
       throw new Error(ERROR_CODE_FETCH_FAILED);
     } finally {
       setIsLoading(false);

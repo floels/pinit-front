@@ -76,7 +76,7 @@ const PinCreationViewContainer = () => {
         method: "POST",
         body: formData,
       });
-    } catch (error) {
+    } catch {
       toast.warn(translatedConnectionErrorMessage, {
         toastId: "toast-pin-creation-connection-error",
       });
@@ -94,7 +94,7 @@ const PinCreationViewContainer = () => {
 
     try {
       responseData = await response.json();
-    } catch (error) {
+    } catch {
       displayPinCreationErrorToast();
       return;
     }

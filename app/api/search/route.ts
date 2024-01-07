@@ -16,7 +16,7 @@ export const GET = async (request: NextRequest) => {
     backendResponse = await fetch(
       `${API_ENDPOINT_SEARCH_PINS}/?q=${q}&page=${page}`,
     );
-  } catch (error) {
+  } catch {
     return new NextResponse(
       JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
       { status: 500 },
