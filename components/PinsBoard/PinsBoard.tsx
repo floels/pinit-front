@@ -14,7 +14,7 @@ type PinsBoardProps = {
   pins: PinType[];
   isFetching: boolean;
   fetchFailed: boolean;
-  handleFetchMorePins: () => void;
+  onScrolledToBottom: () => void;
 };
 
 const GRID_COLUMN_WIDTH_WITH_MARGINS_PX = 236 + 2 * 8; // each column has a set width of 236px and side margins of 8px
@@ -36,7 +36,7 @@ const getNumberOfColumns = (viewportWidth: number) => {
 
 const PinsBoard = ({
   pins,
-  handleFetchMorePins,
+  onScrolledToBottom,
   isFetching,
   fetchFailed,
 }: PinsBoardProps) => {
@@ -53,7 +53,7 @@ const PinsBoard = ({
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        handleFetchMorePins();
+        onScrolledToBottom();
       }
     });
 
@@ -64,7 +64,7 @@ const PinsBoard = ({
     return () => {
       observer.disconnect();
     };
-  }, [handleFetchMorePins, shouldRenderPinThumbnailsAndSentinelDiv]);
+  }, [onScrolledToBottom, shouldRenderPinThumbnailsAndSentinelDiv]);
 
   useEffect(() => {
     if (viewportWidth) {
