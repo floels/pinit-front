@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useAccountsContext } from "@/contexts/AccountsContext";
 import {
@@ -110,36 +110,37 @@ const AuthenticatedSetupBuilder = () => {
     retry: false,
   });
 
-  const setAndPersistActiveAccount = useCallback(
-    ({ ownedAccounts }: { ownedAccounts: AccountType[] }) => {
-      const lastActiveAccountUsernameCookie = Cookies.get(
-        ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
+  const setAndPersistActiveAccount = ({
+    ownedAccounts,
+  }: {
+    ownedAccounts: AccountType[];
+  }) => {
+    const lastActiveAccountUsernameCookie = Cookies.get(
+      ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
+    );
+
+    if (lastActiveAccountUsernameCookie) {
+      const cookieMatchesOneAccount = ownedAccounts.some(
+        (account) => account.username === lastActiveAccountUsernameCookie,
       );
 
-      if (lastActiveAccountUsernameCookie) {
-        const cookieMatchesOneAccount = ownedAccounts.some(
-          (account) => account.username === lastActiveAccountUsernameCookie,
-        );
+      if (cookieMatchesOneAccount) {
+        setActiveAccountUsername(lastActiveAccountUsernameCookie);
 
-        if (cookieMatchesOneAccount) {
-          setActiveAccountUsername(lastActiveAccountUsernameCookie);
-
-          return;
-        }
+        return;
       }
+    }
 
-      // Either we don't have a cookie, or it doesn't match any account
-      // By default, set the first account as the active account.
-      if (ownedAccounts?.length) {
-        const firstAccountUsername = ownedAccounts[0].username;
+    // Either we don't have a cookie, or it doesn't match any account
+    // By default, set the first account as the active account.
+    if (ownedAccounts?.length) {
+      const firstAccountUsername = ownedAccounts[0].username;
 
-        setActiveAccountUsername(firstAccountUsername);
+      setActiveAccountUsername(firstAccountUsername);
 
-        Cookies.set(ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY, firstAccountUsername);
-      }
-    },
-    [setActiveAccountUsername],
-  );
+      Cookies.set(ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY, firstAccountUsername);
+    }
+  };
 
   // Pass query statuses to the AccountsContext:
   useEffect(() => {
@@ -161,15 +162,7 @@ const AuthenticatedSetupBuilder = () => {
 
     setAccounts(ownedAccounts);
     setAndPersistActiveAccount({ ownedAccounts });
-  }, [
-    isErrorFetchOwnedAccounts,
-    setIsFetchingAccounts,
-    setIsErrorFetchingAccounts,
-    isPendingFetchOwnedAccounts,
-    setAccounts,
-    ownedAccounts,
-    setAndPersistActiveAccount,
-  ]);
+  }, [isErrorFetchOwnedAccounts, isPendingFetchOwnedAccounts, ownedAccounts]);
 
   // Log out in case of 401 response upon token refresh:
   if (

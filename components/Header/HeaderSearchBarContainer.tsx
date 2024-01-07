@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { API_ROUTE_PINS_SEARCH_AUTOCOMPLETE } from "@/lib/constants";
@@ -31,8 +31,6 @@ const HeaderSearchBarContainer = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -82,36 +80,42 @@ const HeaderSearchBarContainer = () => {
     }
   }, [pathname, searchParams]);
 
-  const fetchAutocompleteSuggestions = useCallback(
-    async ({ searchTerm }: { searchTerm: string }) => {
-      let response, responseData;
+  const fetchAutocompleteSuggestions = async ({
+    searchTerm,
+  }: {
+    searchTerm: string;
+  }) => {
+    let response, responseData;
 
-      try {
-        response = await fetch(
-          `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${searchTerm}`,
-        );
-
-        responseData = await response.json();
-      } catch (error) {
-        // Fail silently
-        setAutocompleteSuggestions([]);
-        return;
-      }
-
-      if (!response.ok) {
-        // Fail silently
-        setAutocompleteSuggestions([]);
-        return;
-      }
-
-      const refinedSuggestions = getRefinedSuggestions(
-        searchTerm,
-        responseData.results,
+    try {
+      response = await fetch(
+        `${API_ROUTE_PINS_SEARCH_AUTOCOMPLETE}?search=${searchTerm}`,
       );
 
-      setAutocompleteSuggestions(refinedSuggestions);
-    },
-    [setAutocompleteSuggestions],
+      responseData = await response.json();
+    } catch (error) {
+      // Fail silently
+      setAutocompleteSuggestions([]);
+      return;
+    }
+
+    if (!response.ok) {
+      // Fail silently
+      setAutocompleteSuggestions([]);
+      return;
+    }
+
+    const refinedSuggestions = getRefinedSuggestions(
+      searchTerm,
+      responseData.results,
+    );
+
+    setAutocompleteSuggestions(refinedSuggestions);
+  };
+
+  const debouncedFetchAutoCompleteSuggestions = debounce(
+    fetchAutocompleteSuggestions,
+    AUTOCOMPLETE_DEBOUNCE_TIME_MS,
   );
 
   useEffect(() => {
@@ -120,17 +124,12 @@ const HeaderSearchBarContainer = () => {
       return;
     }
 
-    const debouncedFetchAutoCompleteSuggestions = debounce(
-      fetchAutocompleteSuggestions,
-      AUTOCOMPLETE_DEBOUNCE_TIME_MS,
-    );
-
     debouncedFetchAutoCompleteSuggestions({ searchTerm: inputValue });
 
     return () => {
       debouncedFetchAutoCompleteSuggestions.cancel();
     };
-  }, [inputValue, fetchAutocompleteSuggestions]);
+  }, [inputValue]);
 
   const handleClickClearIcon = () => {
     setInputValue("");

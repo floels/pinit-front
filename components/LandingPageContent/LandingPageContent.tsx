@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import PictureSlider from "./PictureSlider";
 import styles from "./LandingPageContent.module.css";
@@ -69,47 +69,44 @@ const LandingPageContent = () => {
     setCurrentFold(1);
   };
 
-  const handleMouseWheel = useCallback(
-    (event: WheelEvent) => {
-      if (!event.deltaY) {
-        return;
-      }
+  const handleMouseWheel = (event: WheelEvent) => {
+    if (!event.deltaY) {
+      return;
+    }
 
-      const scrollDirection =
-        event.deltaY > 0 ? SCROLL_DIRECTIONS.DOWN : SCROLL_DIRECTIONS.UP;
+    const scrollDirection =
+      event.deltaY > 0 ? SCROLL_DIRECTIONS.DOWN : SCROLL_DIRECTIONS.UP;
 
-      const dateLastScrollSameDirection = dateLastScroll[scrollDirection];
+    const dateLastScrollSameDirection = dateLastScroll[scrollDirection];
 
-      const now = new Date();
+    const now = new Date();
 
-      setDateLastScroll({ ...dateLastScroll, [scrollDirection]: now });
+    setDateLastScroll({ ...dateLastScroll, [scrollDirection]: now });
 
-      let timeElapsedSinceLastScrollSameDirection;
+    let timeElapsedSinceLastScrollSameDirection;
 
-      if (dateLastScrollSameDirection) {
-        timeElapsedSinceLastScrollSameDirection =
-          now.getTime() - dateLastScrollSameDirection.getTime();
-      }
+    if (dateLastScrollSameDirection) {
+      timeElapsedSinceLastScrollSameDirection =
+        now.getTime() - dateLastScrollSameDirection.getTime();
+    }
 
-      const shouldBeDebounced =
-        timeElapsedSinceLastScrollSameDirection &&
-        timeElapsedSinceLastScrollSameDirection < SCROLLING_DEBOUNCING_TIME_MS;
+    const shouldBeDebounced =
+      timeElapsedSinceLastScrollSameDirection &&
+      timeElapsedSinceLastScrollSameDirection < SCROLLING_DEBOUNCING_TIME_MS;
 
-      if (shouldBeDebounced) {
-        return;
-      }
+    if (shouldBeDebounced) {
+      return;
+    }
 
-      if (
-        scrollDirection === SCROLL_DIRECTIONS.DOWN &&
-        currentFold !== NUMBER_FOLDS
-      ) {
-        setCurrentFold(currentFold + 1);
-      } else if (scrollDirection === SCROLL_DIRECTIONS.UP && currentFold > 1) {
-        setCurrentFold(currentFold - 1);
-      }
-    },
-    [currentFold, dateLastScroll, setDateLastScroll, setCurrentFold],
-  );
+    if (
+      scrollDirection === SCROLL_DIRECTIONS.DOWN &&
+      currentFold !== NUMBER_FOLDS
+    ) {
+      setCurrentFold(currentFold + 1);
+    } else if (scrollDirection === SCROLL_DIRECTIONS.UP && currentFold > 1) {
+      setCurrentFold(currentFold - 1);
+    }
+  };
 
   useEffect(() => {
     document.addEventListener("wheel", handleMouseWheel);

@@ -40,6 +40,32 @@ const PinsBoardContainer = ({
     return nextPinsResponse;
   };
 
+  const fetchNextPinsAndFallBack = async () => {
+    let response;
+
+    try {
+      response = await fetchNextPins();
+    } catch {
+      toast.warn(t("CONNECTION_ERROR"), {
+        toastId: "toast-pins-board-connection-error",
+      });
+      return;
+    }
+
+    if (!response.ok) {
+      setIsFetching(false);
+      setFetchFailed(true);
+      return;
+    }
+
+    const nextPinsResponseData = await response.json();
+    const newPins = getPinsWithCamelCaseKeys(nextPinsResponseData.results);
+    setPins((currentPins) => [...currentPins, ...newPins]);
+
+    setFetchFailed(false);
+    setIsFetching(false);
+  };
+
   const handleScrolledToBottom = () => {
     if (!isFetching) {
       setIsFetching(true);
@@ -49,32 +75,6 @@ const PinsBoardContainer = ({
   };
 
   useEffect(() => {
-    const fetchNextPinsAndFallBack = async () => {
-      let response;
-
-      try {
-        response = await fetchNextPins();
-      } catch {
-        toast.warn(t("CONNECTION_ERROR"), {
-          toastId: "toast-pins-board-connection-error",
-        });
-        return;
-      }
-
-      if (!response.ok) {
-        setIsFetching(false);
-        setFetchFailed(true);
-        return;
-      }
-
-      const nextPinsResponseData = await response.json();
-      const newPins = getPinsWithCamelCaseKeys(nextPinsResponseData.results);
-      setPins((currentPins) => [...currentPins, ...newPins]);
-
-      setFetchFailed(false);
-      setIsFetching(false);
-    };
-
     if (currentPage > 1) {
       fetchNextPinsAndFallBack();
     }

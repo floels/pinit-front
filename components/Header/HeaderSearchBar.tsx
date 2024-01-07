@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -35,19 +35,16 @@ const HeaderSearchBar = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onPressEscape();
-        if (inputRef.current) {
-          inputRef.current.blur();
-        }
-      } else if (event.key === "Enter" && inputValue !== "") {
-        router.push(`/search/pins?q=${inputValue}`);
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      onPressEscape();
+      if (inputRef.current) {
+        inputRef.current.blur();
       }
-    },
-    [inputValue, router],
-  );
+    } else if (event.key === "Enter" && inputValue !== "") {
+      router.push(`/search/pins?q=${inputValue}`);
+    }
+  };
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);

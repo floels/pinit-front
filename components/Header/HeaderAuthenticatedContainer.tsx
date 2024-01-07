@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import HeaderAuthenticated from "./HeaderAuthenticated";
 
@@ -41,34 +41,28 @@ const HeaderAuthenticatedContainer = () => {
     setIsAccountOptionsFlyoutOpen(!isAccountOptionsFlyoutOpen);
   };
 
-  const handleClickDocument = useCallback(
-    (event: MouseEvent) => {
-      const target = event.target as Node;
+  const handleClickDocument = (event: MouseEvent) => {
+    const target = event.target as Node;
 
-      const userClickedOutOfAccountOptionsFlyoutOrButton =
-        !accountOptionsFlyoutRef.current?.contains(target) &&
-        !accountOptionsButtonRef.current?.contains(target);
+    const userClickedOutOfAccountOptionsFlyoutOrButton =
+      !accountOptionsFlyoutRef.current?.contains(target) &&
+      !accountOptionsButtonRef.current?.contains(target);
 
-      if (
-        userClickedOutOfAccountOptionsFlyoutOrButton &&
-        isAccountOptionsFlyoutOpen
-      ) {
+    if (
+      userClickedOutOfAccountOptionsFlyoutOrButton &&
+      isAccountOptionsFlyoutOpen
+    ) {
+      setIsAccountOptionsFlyoutOpen(false);
+    }
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      if (isAccountOptionsFlyoutOpen) {
         setIsAccountOptionsFlyoutOpen(false);
       }
-    },
-    [isAccountOptionsFlyoutOpen],
-  );
-
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        if (isAccountOptionsFlyoutOpen) {
-          setIsAccountOptionsFlyoutOpen(false);
-        }
-      }
-    },
-    [isAccountOptionsFlyoutOpen],
-  );
+    }
+  };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickDocument);
