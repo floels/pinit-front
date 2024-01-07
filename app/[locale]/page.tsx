@@ -3,7 +3,7 @@ import LandingPageContent from "@/components/LandingPageContent/LandingPageConte
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import {
-  API_ROUTE_PINS_SUGGESTIONS,
+  API_ROUTE_PIN_SUGGESTIONS,
   API_ENDPOINT_PIN_SUGGESTIONS,
   ACCESS_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
@@ -73,7 +73,7 @@ const Page = async () => {
   return (
     <PinsBoardContainer
       initialPins={initialPinSuggestions}
-      fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
+      fetchPinsAPIRoute={API_ROUTE_PIN_SUGGESTIONS}
     />
   );
 };

@@ -3,7 +3,7 @@ import en from "@/messages/en.json";
 import PinsBoardContainer from "./PinsBoardContainer";
 import { toast } from "react-toastify";
 import { PinType } from "@/lib/types";
-import { API_ROUTE_PINS_SUGGESTIONS } from "@/lib/constants";
+import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 import { mockIntersectionObserver } from "@/lib/utils/testing";
 
 const SUGGESTIONS_ENDPOINT_PAGE_SIZE = 50;
@@ -41,7 +41,7 @@ const renderComponent = () => {
   render(
     <PinsBoardContainer
       initialPins={initialPins}
-      fetchPinsAPIRoute={API_ROUTE_PINS_SUGGESTIONS}
+      fetchPinsAPIRoute={API_ROUTE_PIN_SUGGESTIONS}
     />,
   );
 };
@@ -62,7 +62,7 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   );
 
   fetchMock.doMockOnceIf(
-    `${API_ROUTE_PINS_SUGGESTIONS}?page=2`,
+    `${API_ROUTE_PIN_SUGGESTIONS}?page=2`,
     JSON.stringify({ results: newPins }),
   );
 
@@ -93,7 +93,7 @@ it("should display loading spinner while fetching new thumbnails", () => {
 
 it("should display error message in case of KO response upon new thumbnails fetch", async () => {
   fetchMock.doMockOnceIf(
-    `${API_ROUTE_PINS_SUGGESTIONS}?page=2`,
+    `${API_ROUTE_PIN_SUGGESTIONS}?page=2`,
     JSON.stringify({}),
     { status: 400 },
   );
