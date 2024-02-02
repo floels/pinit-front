@@ -43,24 +43,18 @@ const HeaderAuthenticatedContainer = () => {
 
   const handleClickDocument = (event: MouseEvent) => {
     const target = event.target as Node;
-
     const userClickedOutOfAccountOptionsFlyoutOrButton =
       !accountOptionsFlyoutRef.current?.contains(target) &&
       !accountOptionsButtonRef.current?.contains(target);
 
-    if (
-      userClickedOutOfAccountOptionsFlyoutOrButton &&
-      isAccountOptionsFlyoutOpen
-    ) {
+    if (userClickedOutOfAccountOptionsFlyoutOrButton) {
       setIsAccountOptionsFlyoutOpen(false);
     }
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
-      if (isAccountOptionsFlyoutOpen) {
-        setIsAccountOptionsFlyoutOpen(false);
-      }
+      setIsAccountOptionsFlyoutOpen(false);
     }
   };
 
@@ -72,7 +66,7 @@ const HeaderAuthenticatedContainer = () => {
       document.removeEventListener("mousedown", handleClickDocument);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleClickDocument, handleKeyDown]);
+  }, []);
 
   return (
     <HeaderAuthenticated
