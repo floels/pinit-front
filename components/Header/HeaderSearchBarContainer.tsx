@@ -3,6 +3,7 @@ import debounce from "lodash/debounce";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { API_ROUTE_SEARCH_SUGGESTIONS } from "@/lib/constants";
 import HeaderSearchBar from "./HeaderSearchBar";
+import { useLocale } from "next-intl";
 
 export const AUTOCOMPLETE_DEBOUNCE_TIME_MS = 300;
 
@@ -37,6 +38,7 @@ const getSuggestionsWithSearchTermAtTop = ({
 const HeaderSearchBarContainer = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const locale = useLocale();
   const searchParams = useSearchParams();
 
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -76,7 +78,7 @@ const HeaderSearchBarContainer = () => {
 
   // Initialize the input value to the search param if present:
   useEffect(() => {
-    if (pathname === "/search/pins") {
+    if (pathname === `/${locale}/search/pins`) {
       const searchTerm = searchParams.get("q");
 
       if (searchTerm) {
