@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useEffect, useRef, MouseEvent } from "react";
+import debounce from "lodash/debounce";
 import PictureSlider from "./PictureSlider";
 import styles from "./LandingPageContent.module.css";
 import SecondFold from "./SecondFold";
@@ -54,13 +54,6 @@ const LandingPageContent = () => {
 
   const [currentFold, setCurrentFold] = useState(1);
 
-  const [dateLastScroll, setDateLastScroll] = useState<
-    Record<SCROLL_DIRECTIONS, Date | null>
-  >({
-    [SCROLL_DIRECTIONS.DOWN]: null,
-    [SCROLL_DIRECTIONS.UP]: null,
-  });
-
   const handleClickHeroSeeBelow = () => {
     setCurrentFold(2); // i.e. move down from picture slider to search section
   };
@@ -70,43 +63,44 @@ const LandingPageContent = () => {
   };
 
   const handleMouseWheel = (event: WheelEvent) => {
-    if (!event.deltaY) {
-      return;
-    }
-
-    const scrollDirection =
-      event.deltaY > 0 ? SCROLL_DIRECTIONS.DOWN : SCROLL_DIRECTIONS.UP;
-
-    const dateLastScrollSameDirection = dateLastScroll[scrollDirection];
-
-    const now = new Date();
-
-    setDateLastScroll({ ...dateLastScroll, [scrollDirection]: now });
-
-    let timeElapsedSinceLastScrollSameDirection;
-
-    if (dateLastScrollSameDirection) {
-      timeElapsedSinceLastScrollSameDirection =
-        now.getTime() - dateLastScrollSameDirection.getTime();
-    }
-
-    const shouldBeDebounced =
-      timeElapsedSinceLastScrollSameDirection &&
-      timeElapsedSinceLastScrollSameDirection < SCROLLING_DEBOUNCING_TIME_MS;
-
-    if (shouldBeDebounced) {
-      return;
-    }
-
-    if (
-      scrollDirection === SCROLL_DIRECTIONS.DOWN &&
-      currentFold !== NUMBER_FOLDS
-    ) {
-      setCurrentFold(currentFold + 1);
-    } else if (scrollDirection === SCROLL_DIRECTIONS.UP && currentFold > 1) {
-      setCurrentFold(currentFold - 1);
+    if (event.deltaY > 0) {
+      debouncedHandleScrollDown();
+    } else if (event.deltaY < 0) {
+      debouncedHandleScrollUp();
     }
   };
+
+  const handleScrollDown = () => {
+    setCurrentFold((currentFold) => {
+      if (currentFold === NUMBER_FOLDS) {
+        return currentFold;
+      }
+
+      return currentFold + 1;
+    });
+  };
+
+  const debouncedHandleScrollDown = debounce(
+    handleScrollDown,
+    SCROLLING_DEBOUNCING_TIME_MS,
+    { leading: true, trailing: false },
+  );
+
+  const handleScrollUp = () => {
+    setCurrentFold((currentFold) => {
+      if (currentFold === 1) {
+        return currentFold;
+      }
+
+      return currentFold - 1;
+    });
+  };
+
+  const debouncedHandleScrollUp = debounce(
+    handleScrollUp,
+    SCROLLING_DEBOUNCING_TIME_MS,
+    { leading: true, trailing: false },
+  );
 
   useEffect(() => {
     document.addEventListener("wheel", handleMouseWheel);
@@ -114,7 +108,7 @@ const LandingPageContent = () => {
     return () => {
       document.removeEventListener("wheel", handleMouseWheel);
     };
-  }, [handleMouseWheel]);
+  }, []);
 
   const contentClass = computeContentClass({ currentFold });
 
