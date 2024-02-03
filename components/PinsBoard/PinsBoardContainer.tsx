@@ -72,6 +72,11 @@ const PinsBoardContainer = ({
     }
   };
 
+  // 'initialPins' will change if user searches for another term:
+  useEffect(() => {
+    setPins([...initialPins]);
+  }, [initialPins]);
+
   useEffect(() => {
     if (currentPage > 1) {
       fetchNextPinsAndFallBack();
