@@ -2,6 +2,7 @@ import { PinType } from "@/lib/types";
 import { render, screen } from "@testing-library/react";
 import PinsBoard from "./PinsBoard";
 import { mockIntersectionObserver } from "@/lib/utils/testing";
+import en from "@/messages/en.json";
 
 const VIEWPORT_WIDTH_PX = 1200;
 
@@ -22,23 +23,19 @@ const pins = Array.from({ length: NUMBER_PINS }, (_, index) => ({
   authorDisplayName: "John Doe",
 })) as PinType[];
 
-const renderComponent = () => {
-  const props = {
-    pins,
-    handleFetchMorePins: jest.fn(),
-    isFetching: false,
-    isFetchError: false,
-  };
-
-  render(<PinsBoard {...props} />);
-};
-
 beforeEach(() => {
   mockIntersectionObserver();
 });
 
 it("should render the thumbnails with the right number of columns", () => {
-  renderComponent();
+  render(
+    <PinsBoard
+      pins={pins}
+      isFetching={false}
+      fetchFailed={false}
+      onScrolledToBottom={jest.fn()}
+    />,
+  );
 
   const renderedPins = screen.getAllByTestId("pin-thumbnail");
 
@@ -47,6 +44,20 @@ it("should render the thumbnails with the right number of columns", () => {
   const thumbnailsColumns = screen.getAllByTestId("thumbnails-column");
 
   expect(thumbnailsColumns).toHaveLength(4); // given `const VIEWPORT_WIDTH_PX = 1200;`
+});
+
+it("should render empty results message when pins table is empty", () => {
+  render(
+    <PinsBoard
+      pins={[]}
+      isFetching={false}
+      fetchFailed={false}
+      onScrolledToBottom={jest.fn()}
+      emptyResultsMessageKey="PinsSearch.NO_RESULTS"
+    />,
+  );
+
+  screen.getByText(en.PinsSearch.NO_RESULTS);
 });
 
 // The rest of the component's behavior is tested in 'PinsBoardContainer.test.tsx'.

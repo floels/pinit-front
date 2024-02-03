@@ -11,22 +11,20 @@ import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
 type PinsBoardContainerProps = {
   initialPins: PinType[];
   fetchPinsAPIRoute: string;
+  emptyResultsMessageKey?: string;
 };
 
 const PinsBoardContainer = ({
   initialPins,
   fetchPinsAPIRoute,
+  emptyResultsMessageKey,
 }: PinsBoardContainerProps) => {
   const t = useTranslations("Common");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pins, setPins] = useState<PinType[]>([]);
+  const [pins, setPins] = useState<PinType[]>(initialPins);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
-
-  useEffect(() => {
-    setPins([...initialPins]);
-  }, [initialPins]);
 
   const fetchNextPins = async () => {
     const url = appendQueryParam({
@@ -85,6 +83,7 @@ const PinsBoardContainer = ({
       pins={pins}
       isFetching={isFetching}
       fetchFailed={fetchFailed}
+      emptyResultsMessageKey={emptyResultsMessageKey}
       onScrolledToBottom={handleScrolledToBottom}
     />
   );

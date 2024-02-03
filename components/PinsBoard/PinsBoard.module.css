@@ -37,6 +37,8 @@ so we need to override with a media query: */
 }
 
 .errorMessage {
+  color: var(--color-text-warning);
+  font-size: var(--font-size-200);
   display: flex;
   justify-content: center;
   align-items: center;
