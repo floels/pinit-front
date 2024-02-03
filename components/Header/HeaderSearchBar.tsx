@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -35,14 +35,18 @@ const HeaderSearchBar = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    router.push(`/search/pins?q=${inputValue}`);
+  };
+
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       onPressEscape();
       if (inputRef.current) {
         inputRef.current.blur();
       }
-    } else if (event.key === "Enter" && inputValue !== "") {
-      router.push(`/search/pins?q=${inputValue}`);
     }
   };
 
@@ -52,10 +56,11 @@ const HeaderSearchBar = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleKeyDown]);
+  }, []);
 
   return (
-    <div
+    <form
+      onSubmit={handleSubmit}
       className={`${styles.container}
           ${isInputFocused ? styles.containerInputFocused : ""} 
         `}
@@ -119,7 +124,7 @@ const HeaderSearchBar = ({
           ))}
         </ul>
       )}
-    </div>
+    </form>
   );
 };
 

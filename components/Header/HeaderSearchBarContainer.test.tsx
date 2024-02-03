@@ -183,7 +183,7 @@ it("should navigate to /search/pins route when user types and presses Enter", as
 });
 
 it("should set the input value based on the search param", async () => {
-  mockedUsePathname.mockReturnValue("/search/pins");
+  mockedUsePathname.mockReturnValue("/en/search/pins");
   mockGetSearchParams.mockReturnValue("foo");
 
   render(<HeaderSearchBarContainer />);
