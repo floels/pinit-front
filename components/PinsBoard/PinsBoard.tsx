@@ -14,6 +14,7 @@ type PinsBoardProps = {
   pins: PinType[];
   isFetching: boolean;
   fetchFailed: boolean;
+  emptyResultsMessageKey?: string;
   onScrolledToBottom: () => void;
 };
 
@@ -36,11 +37,12 @@ const getNumberOfColumns = (viewportWidth: number) => {
 
 const PinsBoard = ({
   pins,
-  onScrolledToBottom,
   isFetching,
   fetchFailed,
+  emptyResultsMessageKey,
+  onScrolledToBottom,
 }: PinsBoardProps) => {
-  const t = useTranslations("PinsBoard");
+  const t = useTranslations();
 
   const scrolledToBottomSentinel = useRef(null);
 
@@ -109,11 +111,24 @@ const PinsBoard = ({
     </div>
   );
 
+  const shouldRenderEmptyResultsMessage =
+    pins.length === 0 && !!emptyResultsMessageKey;
+
   return (
     <main className={styles.container}>
       {shouldRenderPinThumbnailsAndSentinelDiv && thumbnailsGrid}
       {shouldRenderPinThumbnailsAndSentinelDiv && (
         <div ref={scrolledToBottomSentinel} style={{ height: "1px" }}></div>
+      )}
+      {shouldRenderEmptyResultsMessage && (
+        <div className={styles.errorMessage}>
+          <FontAwesomeIcon
+            icon={faTriangleExclamation}
+            size="xs"
+            className={styles.errorMessageIcon}
+          />
+          {t(emptyResultsMessageKey)}
+        </div>
       )}
       {isFetching && (
         <div className={styles.loadingIconContainer}>
@@ -133,7 +148,7 @@ const PinsBoard = ({
             size="xs"
             className={styles.errorMessageIcon}
           />
-          {t("ERROR_DISPLAY_PINS")}
+          {t("PinsBoard.ERROR_DISPLAY_PINS")}
         </div>
       )}
     </main>

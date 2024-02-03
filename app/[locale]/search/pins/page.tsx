@@ -56,6 +56,7 @@ const Page = async ({ searchParams }: PageProps) => {
     <PinsBoardContainer
       initialPins={initialSearchResults}
       fetchPinsAPIRoute={API_ROUTE_SEARCH}
+      emptyResultsMessageKey="PinsSearch.NO_RESULTS"
     />
   );
 };
