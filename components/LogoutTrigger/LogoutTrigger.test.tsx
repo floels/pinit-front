@@ -15,13 +15,13 @@ jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
-const mockRefresh = jest.fn();
+const mockPush = jest.fn();
 (useRouter as jest.Mock).mockReturnValue({
-  refresh: mockRefresh,
+  push: mockPush,
 });
 
 beforeEach(() => {
-  mockRefresh.mockClear();
+  mockPush.mockClear();
 });
 
 it("should display overlay while logging out, and not call router.refresh() before successful logout", () => {
@@ -31,7 +31,7 @@ it("should display overlay while logging out, and not call router.refresh() befo
   render(<LogoutTrigger />);
 
   screen.getByTestId("logout-trigger-overlay");
-  expect(mockRefresh).not.toHaveBeenCalled();
+  expect(mockPush).not.toHaveBeenCalled();
 });
 
 it("should call 'router.refresh()' upon successful logout request", async () => {
@@ -40,7 +40,7 @@ it("should call 'router.refresh()' upon successful logout request", async () => 
   render(<LogoutTrigger />);
 
   await waitFor(() => {
-    expect(mockRefresh).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith("/");
   });
 });
 
@@ -55,6 +55,6 @@ it("should display warning toast and not refresh upon logout fetch error", async
       expect.anything(), // we don't really care about the options argument here
     );
 
-    expect(mockRefresh).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
   });
 });
