@@ -21,7 +21,7 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleKeyDown]);
+  }, []);
 
   return (
     <div

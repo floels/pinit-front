@@ -66,7 +66,7 @@ const PinsBoard = ({
     return () => {
       observer.disconnect();
     };
-  }, [onScrolledToBottom, shouldRenderPinThumbnailsAndSentinelDiv]);
+  }, [shouldRenderPinThumbnailsAndSentinelDiv]);
 
   useEffect(() => {
     if (viewportWidth) {
