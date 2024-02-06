@@ -1,4 +1,4 @@
-import { AccountsContext } from "@/contexts/AccountsContext";
+import { AccountsContext } from "@/contexts/accountsContext";
 import { TypesOfAccount } from "@/lib/types";
 import en from "@/messages/en.json";
 import { render, screen, waitFor, within } from "@testing-library/react";

@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClientProvider } from "@tanstack/react-query";
-import { AccountsContextProvider } from "@/contexts/AccountsContext";
+import { AccountsContextProvider } from "@/contexts/accountsContext";
 import { QueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
