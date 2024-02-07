@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { useAccountsContext } from "@/contexts/AccountsContext";
+import { useAccountsContext } from "@/contexts/accountsContext";
 import {
   API_ROUTE_OWNED_ACCOUNTS,
   API_ROUTE_REFRESH_TOKEN,

@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
-import { AccountsContext } from "@/contexts/AccountsContext";
+import { AccountsContext } from "@/contexts/accountsContext";
 import { TypesOfAccount } from "@/lib/types";
 
 const messages = en.HeaderAuthenticated;

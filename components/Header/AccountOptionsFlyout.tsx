@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faWarning } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AccountOptionsFlyout.module.css";
 import { AccountType } from "@/lib/types";
-import { useAccountsContext } from "@/contexts/AccountsContext";
+import { useAccountsContext } from "@/contexts/accountsContext";
 import AccountDisplay from "./AccountDisplay";
 import Cookies from "js-cookie";
 import { ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY } from "@/lib/constants";

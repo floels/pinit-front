@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import ClientsAndContextsProvider from "./ClientsAndContextsProvider";
 import { render, screen } from "@testing-library/react";
-import { useAccountsContext } from "@/contexts/AccountsContext";
+import { useAccountsContext } from "@/contexts/accountsContext";
 
 it("should give its child access to 'useQuery'", () => {
   const ChildElement = () => {

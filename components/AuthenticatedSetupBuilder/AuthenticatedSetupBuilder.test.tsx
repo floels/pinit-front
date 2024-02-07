@@ -8,7 +8,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import AuthenticatedSetupBuilder, {
   TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION,
 } from "./AuthenticatedSetupBuilder";
-import { AccountsContext } from "@/contexts/AccountsContext";
+import { AccountsContext } from "@/contexts/accountsContext";
 import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
 import { TypesOfAccount } from "@/lib/types";
 import Cookies from "js-cookie";
