@@ -144,7 +144,7 @@ it("should display success toast with proper link and reset form in case of OK r
 
   await dropImageFile();
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     `${API_ROUTE_CREATE_PIN}`,
     JSON.stringify({ unique_id: "0123456789012345" }),
     { status: 200 },
@@ -189,7 +189,7 @@ it("should display error toast in case of KO response upon posting", async () =>
 
   await dropImageFile();
 
-  fetchMock.doMockOnceIf(`${API_ROUTE_CREATE_PIN}`, JSON.stringify({}), {
+  fetchMock.mockOnceIf(`${API_ROUTE_CREATE_PIN}`, JSON.stringify({}), {
     status: 400,
   });
 

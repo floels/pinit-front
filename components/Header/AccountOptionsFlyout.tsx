@@ -30,10 +30,6 @@ const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
 
   const accounts = accountsContext.accounts || [];
 
-  if (clickedLogOut) {
-    return <LogoutTrigger />;
-  }
-
   const handleChangeActiveAccount = (newActiveAccountUsername: string) => {
     setActiveAccountUsername(newActiveAccountUsername);
 
@@ -134,6 +130,10 @@ const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
       {t("ERROR_RETRIEVING_ACCOUNTS")}
     </div>
   );
+
+  if (clickedLogOut) {
+    return <LogoutTrigger />;
+  }
 
   return (
     <div

@@ -2,7 +2,7 @@ import { API_BASE_URL, API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 import AccountDetailsView from "@/components/AccountDetailsView/AccountDetailsView";
 import { Response404Error, ResponseKOError } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
-import { getAccountWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { getAccountWithCamelCaseKeys } from "@/lib/utils/serializers";
 
 type PageProps = {
   params: { username: string };

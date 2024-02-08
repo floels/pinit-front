@@ -19,6 +19,7 @@ const LogoutTrigger = () => {
       });
 
       router.push("/");
+      router.refresh();
     } catch {
       toast.warn(t("CONNECTION_ERROR"), {
         toastId: "toast-log-out-connection-error",

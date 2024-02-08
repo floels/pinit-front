@@ -21,7 +21,7 @@ const renderComponent = () => {
 };
 
 it("should display relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_SIGN_UP,
     JSON.stringify({ access: "access", refresh: "refresh" }),
   );
@@ -106,7 +106,7 @@ it("should display relevant error when receiving KO responses", async () => {
   await userEvent.type(passwordInput, "Pa$$w0rd");
   await userEvent.type(birthdateInput, "1970-01-01");
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_SIGN_UP,
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 400 },
@@ -115,7 +115,7 @@ it("should display relevant error when receiving KO responses", async () => {
 
   screen.getByText(messages.SignupForm.INVALID_EMAIL_SIGNUP);
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_SIGN_UP,
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 400 },
@@ -125,7 +125,7 @@ it("should display relevant error when receiving KO responses", async () => {
 
   screen.getByText(messages.SignupForm.INVALID_PASSWORD_SIGNUP);
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_SIGN_UP,
     JSON.stringify({ errors: [{ code: "invalid_birthdate" }] }),
     { status: 400 },
@@ -136,7 +136,7 @@ it("should display relevant error when receiving KO responses", async () => {
 
   screen.getByText(messages.SignupForm.INVALID_BIRTHDATE_SIGNUP);
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_SIGN_UP,
     JSON.stringify({ errors: [{ code: "email_already_signed_up" }] }),
     { status: 400 },
@@ -147,7 +147,7 @@ it("should display relevant error when receiving KO responses", async () => {
 
   screen.getByText(messages.SignupForm.EMAIL_ALREADY_SIGNED_UP);
 
-  fetchMock.doMockOnceIf(API_ROUTE_SIGN_UP, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_SIGN_UP, JSON.stringify({}), {
     status: 400,
   });
   await userEvent.clear(passwordInput);

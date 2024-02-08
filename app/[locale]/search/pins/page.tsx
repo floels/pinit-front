@@ -7,7 +7,7 @@ import {
 import { ResponseKOError } from "@/lib/customErrors";
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import ErrorView from "@/components/ErrorView/ErrorView";
-import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { getPinsWithCamelCaseKeys } from "@/lib/utils/serializers";
 
 type PageProps = {
   searchParams: { q: string };

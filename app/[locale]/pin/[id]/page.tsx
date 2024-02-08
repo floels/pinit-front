@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import PinDetailsView from "@/components/PinDetailsView/PinDetailsView";
 import { API_BASE_URL, API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
-import { getPinWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { getPinWithCamelCaseKeys } from "@/lib/utils/serializers";
 import { Response404Error, ResponseKOError } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
 

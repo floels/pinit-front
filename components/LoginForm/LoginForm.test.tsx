@@ -76,7 +76,7 @@ it("should set the access token's expiration date in local storage and reload th
 
   const ACCESS_TOKEN_EXPIRATION_DATE = "2024-04-12T14:30:00Z";
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_OBTAIN_TOKEN,
     JSON.stringify({
       access_token_expiration_utc: ACCESS_TOKEN_EXPIRATION_DATE,
@@ -109,7 +109,7 @@ it("should display relevant errors when receiving KO responses", async () => {
   await userEvent.type(emailInput, "test@example.com");
   await userEvent.type(passwordInput, "Pa$$w0rd");
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_OBTAIN_TOKEN,
     JSON.stringify({ errors: [{ code: "invalid_email" }] }),
     { status: 401 },
@@ -120,7 +120,7 @@ it("should display relevant errors when receiving KO responses", async () => {
 
   screen.getByText(messages.LoginForm.INVALID_EMAIL_LOGIN);
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     API_ROUTE_OBTAIN_TOKEN,
     JSON.stringify({ errors: [{ code: "invalid_password" }] }),
     { status: 401 },
@@ -131,7 +131,7 @@ it("should display relevant errors when receiving KO responses", async () => {
   await userEvent.click(submitButton);
   screen.getByText(messages.LoginForm.INVALID_PASSWORD_LOGIN);
 
-  fetchMock.doMockOnceIf(API_ROUTE_OBTAIN_TOKEN, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_OBTAIN_TOKEN, JSON.stringify({}), {
     status: 400,
   });
   await userEvent.clear(passwordInput);

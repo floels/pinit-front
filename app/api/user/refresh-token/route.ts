@@ -62,7 +62,10 @@ export const POST = async () => {
     );
   }
 
-  const { access_token: accessToken } = backendResponseData;
+  const {
+    access_token: accessToken,
+    access_token_expiration_utc: accessTokenExpirationDate,
+  } = backendResponseData;
 
   const accessTokenCookie = {
     name: ACCESS_TOKEN_COOKIE_KEY,
@@ -73,7 +76,9 @@ export const POST = async () => {
   };
 
   // See https://nextjs.org/docs/app/api-reference/functions/next-response#setname-value
-  const response = new NextResponse();
+  const response = new NextResponse(
+    JSON.stringify({ access_token_expiration_utc: accessTokenExpirationDate }),
+  );
 
   response.cookies.set(accessTokenCookie);
 

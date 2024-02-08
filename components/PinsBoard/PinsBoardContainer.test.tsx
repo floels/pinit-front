@@ -61,7 +61,7 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
     }),
   );
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     `${API_ROUTE_PIN_SUGGESTIONS}?page=2`,
     JSON.stringify({ results: newPins }),
   );
@@ -92,7 +92,7 @@ it("should display loading spinner while fetching new thumbnails", () => {
 });
 
 it("should display error message in case of KO response upon new thumbnails fetch", async () => {
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     `${API_ROUTE_PIN_SUGGESTIONS}?page=2`,
     JSON.stringify({}),
     { status: 400 },
