@@ -7,7 +7,7 @@ import {
   API_ENDPOINT_PIN_SUGGESTIONS,
   ACCESS_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
-import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { getPinsWithCamelCaseKeys } from "@/lib/utils/serializers";
 import {
   MalformedResponseError,
   Response401Error,

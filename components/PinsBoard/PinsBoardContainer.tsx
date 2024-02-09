@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { appendQueryParam } from "@/lib/utils/strings";
 import PinsBoard from "./PinsBoard";
 import { PinType } from "@/lib/types";
-import { getPinsWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { getPinsWithCamelCaseKeys } from "@/lib/utils/serializers";
 
 type PinsBoardContainerProps = {
   initialPins: PinType[];

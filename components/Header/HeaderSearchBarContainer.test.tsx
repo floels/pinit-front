@@ -211,7 +211,7 @@ it("should not display any suggestion in case of KO response from the API", asyn
     screen.getByTestId("search-suggestions-list");
   });
 
-  fetchMock.doMockOnceIf(
+  fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foobar`,
     JSON.stringify({}),
     { status: 400 },

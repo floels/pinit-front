@@ -12,7 +12,7 @@ import { AccountsContext } from "@/contexts/accountsContext";
 import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
 import { TypesOfAccount } from "@/lib/types";
 import Cookies from "js-cookie";
-import { getAccountsWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { getAccountsWithCamelCaseKeys } from "@/lib/utils/serializers";
 import { FetchMock } from "jest-fetch-mock";
 
 jest.mock("js-cookie");
@@ -80,15 +80,24 @@ it("should not refresh access token if expiration date is beyond buffer", () => 
   ]);
 });
 
-it("should refresh access token if no expiration date in local storage", () => {
-  renderComponent();
+it(`should refresh access token and persist new expiration date
+in local storage if no expiration date was in local storage`, async () => {
+  const expirationDateUTC = "2024-02-09T07:09:45+00:00";
 
-  expect(fetch).toHaveBeenCalledWith(
+  fetchMock.mockOnceIf(
     API_ROUTE_REFRESH_TOKEN,
-    expect.objectContaining({
-      method: "POST",
+    JSON.stringify({
+      access_token_expiration_utc: expirationDateUTC,
     }),
   );
+
+  renderComponent();
+
+  await waitFor(() => {
+    expect(
+      localStorage.getItem(ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY),
+    ).toEqual(expirationDateUTC);
+  });
 });
 
 it("should refresh access token if invalid expiration date in local storage", () => {
@@ -213,7 +222,7 @@ should define it as active account`, async () => {
 });
 
 it("should fetch owned accounts even upon failed refresh of access token", async () => {
-  fetchMock.doMockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}), {
     status: 500,
   });
 
@@ -225,7 +234,7 @@ it("should fetch owned accounts even upon failed refresh of access token", async
 });
 
 it("should log out in case of 401 response upon token refresh", async () => {
-  fetchMock.doMockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}), {
     status: 401,
   });
 

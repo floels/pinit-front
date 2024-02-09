@@ -9,11 +9,11 @@ import {
   ERROR_CODE_INVALID_EMAIL,
   ERROR_CODE_FETCH_FAILED,
   API_ROUTE_OBTAIN_TOKEN,
-  ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
 } from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
+import { setAccessTokenExpirationDate } from "@/lib/utils/authentication";
 
 type LoginFormProps = {
   onClickNoAccountYet: () => void;
@@ -68,17 +68,6 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
     setFormErrors(computeFormErrors(newCredentials));
 
     setShowFormErrors(false);
-  };
-
-  const setAccessTokenExpirationDate = (expirationDate: string) => {
-    if (typeof window === "undefined" || !window.localStorage) {
-      return;
-    }
-
-    localStorage.setItem(
-      ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
-      expirationDate,
-    );
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

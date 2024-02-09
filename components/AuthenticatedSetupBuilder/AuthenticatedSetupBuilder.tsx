@@ -13,7 +13,8 @@ import { Response401Error, ResponseKOError } from "@/lib/customErrors";
 import { AccountType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
-import { getAccountsWithCamelCaseKeys } from "@/lib/utils/adapters";
+import { getAccountsWithCamelCaseKeys } from "@/lib/utils/serializers";
+import { setAccessTokenExpirationDate } from "@/lib/utils/authentication";
 
 export const TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION = 60 * 60 * 1000; // i.e. 1 hour
 
@@ -71,10 +72,11 @@ const AuthenticatedSetupBuilder = () => {
       throw new ResponseKOError();
     }
 
-    return {}; // necessary, otherwise React Query doesn't change the query's status to "success"
+    return response.json();
   };
 
   const {
+    data: dataFetchRefreshedAccessToken,
     error: errorFetchRefreshedAccessToken,
     isPending: isPendingFetchRefreshedAccessToken,
     isError: isErrorFetchRefreshedAccessToken,
@@ -141,6 +143,16 @@ const AuthenticatedSetupBuilder = () => {
       Cookies.set(ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY, firstAccountUsername);
     }
   };
+
+  // Save refreshed access token expiration date to local storage:
+  useEffect(() => {
+    const accessTokenExpirationDate =
+      dataFetchRefreshedAccessToken?.access_token_expiration_utc;
+
+    if (accessTokenExpirationDate) {
+      setAccessTokenExpirationDate(accessTokenExpirationDate);
+    }
+  }, [dataFetchRefreshedAccessToken]);
 
   // Pass query statuses to the AccountsContext:
   useEffect(() => {
