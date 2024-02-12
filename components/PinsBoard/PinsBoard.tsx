@@ -112,7 +112,10 @@ const PinsBoard = ({
   );
 
   const shouldRenderEmptyResultsMessage =
-    pins.length === 0 && !!emptyResultsMessageKey;
+    !!emptyResultsMessageKey &&
+    !isFetching &&
+    !fetchFailed &&
+    pins.length === 0;
 
   return (
     <main className={styles.container}>
