@@ -93,10 +93,6 @@
     "ACCOUNT_OPTIONS": "Account and more options",
     "PLACEHOLDER_SEARCH": "Search",
     "MORE_OPTIONS": "More options",
-    "CURRENTLY_IN": "Currently in",
-    "YOUR_OTHER_ACCOUNTS": "Your other accounts",
-    "ERROR_RETRIEVING_ACCOUNTS": "We couldn't retrieve your list of accounts.",
-    "ALT_PROFILE_PICTURE_OF": "Profile picture of",
     "LOG_OUT": "Log out"
   },
   "HomePageContent": {

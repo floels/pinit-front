@@ -19,9 +19,9 @@ import "@/styles/globals.css";
 
 import HeaderAuthenticatedContainer from "@/components/Header/HeaderAuthenticatedContainer";
 import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
-import AuthenticatedSetupBuilder from "@/components/AuthenticatedSetupBuilder/AuthenticatedSetupBuilder";
-import ClientsAndContextsProvider from "@/components/ClientsAndContextsProvider/ClientsAndContextsProvider";
+import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
 import { ACCESS_TOKEN_COOKIE_KEY } from "@/lib/constants";
+import QueryClientProvider from "@/components/QueryClientProvider/QueryClientProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -56,15 +56,15 @@ const Layout = ({ children, params: { locale } }: Props) => {
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ToastContainer position="bottom-left" autoClose={5000} />
-          <ClientsAndContextsProvider>
-            {isAuthenticated && <AuthenticatedSetupBuilder />}
+          <QueryClientProvider>
+            {isAuthenticated && <AccessTokenRefresher />}
             {isAuthenticated ? (
               <HeaderAuthenticatedContainer />
             ) : (
               <HeaderUnauthenticated />
             )}
             {children}
-          </ClientsAndContextsProvider>
+          </QueryClientProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -17,29 +17,10 @@ const configureAPIResponses = (mockAPIApp: Express) => {
     });
   });
 
-  mockAPIApp.get("/api/owned-accounts/", (_, response: Response) => {
-    response.json({
-      results: [
-        {
-          username: "johndoe",
-          display_name: "John Doe",
-          type: "personal",
-          initial: "J",
-          profile_picture_url: null,
-        },
-      ],
-    });
-  });
-
   mockAPIApp.post("/api/create-pin", (request: Request, response: Response) => {
-    const hasExpectedUsernameHeader =
-      request.headers["x-username"] === "johndoe";
-
-    if (hasExpectedUsernameHeader) {
-      response.status(201).json({
-        unique_id: ID_CREATED_PIN,
-      });
-    }
+    response.status(201).json({
+      unique_id: ID_CREATED_PIN,
+    });
   });
 };
 

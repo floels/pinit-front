@@ -26,7 +26,3 @@ export const getAccountWithCamelCaseKeys = (account: any) => {
     description: account.description,
   };
 };
-
-export const getAccountsWithCamelCaseKeys = (accounts: any[]) => {
-  return accounts.map(getAccountWithCamelCaseKeys);
-};
