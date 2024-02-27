@@ -22,16 +22,6 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const accountUsername = cookieStore.get(ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY)
-    ?.value;
-
-  if (!accountUsername) {
-    return new NextResponse(
-      JSON.stringify({ errors: [ERROR_CODE_MISSING_ACCOUNT_USERNAME_COOKIE] }),
-      { status: 400 },
-    );
-  }
-
   const formData = await request.formData();
 
   let backendResponse;
@@ -43,7 +33,6 @@ export const POST = async (request: NextRequest) => {
       fetchOptions: {
         method: "POST",
         body: formData,
-        headers: { "X-Username": accountUsername },
       },
     });
   } catch {

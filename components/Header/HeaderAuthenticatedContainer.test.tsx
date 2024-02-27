@@ -3,8 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
-import { AccountsContext } from "@/contexts/accountsContext";
-import { TypesOfAccount } from "@/lib/types";
 
 const messages = en.HeaderAuthenticated;
 
@@ -27,33 +25,8 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-const defaultMockAccountsContext = {
-  accounts: [
-    {
-      username: "johndoe",
-      type: TypesOfAccount.PERSONAL,
-      displayName: "John Doe",
-      initial: "J",
-      profilePictureURL: "https://profile.picture.url",
-    },
-  ],
-  setAccounts: jest.fn(),
-  isFetchingAccounts: false,
-  setIsFetchingAccounts: jest.fn(),
-  isErrorFetchingAccounts: false,
-  setIsErrorFetchingAccounts: jest.fn(),
-  activeAccountUsername: "johndoe",
-  setActiveAccountUsername: jest.fn(),
-};
-
-const renderComponent = (
-  { mockAccountsContext } = { mockAccountsContext: defaultMockAccountsContext },
-) => {
-  render(
-    <AccountsContext.Provider value={mockAccountsContext}>
-      <HeaderAuthenticatedContainer />
-    </AccountsContext.Provider>,
-  );
+const renderComponent = () => {
+  render(<HeaderAuthenticatedContainer />);
 };
 
 it("should display tooltip for profile link upon hover", () => {

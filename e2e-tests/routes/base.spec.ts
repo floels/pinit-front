@@ -33,20 +33,6 @@ test("should display owned accounts and pin suggestions if user is logged in", a
       });
     });
 
-    mockAPIApp.get("/api/owned-accounts/", (_, response: Response) => {
-      response.json({
-        results: [
-          {
-            username: "johndoe",
-            display_name: "John Doe",
-            type: "personal",
-            initial: "J",
-            profile_picture_url: null,
-          },
-        ],
-      });
-    });
-
     mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
       response.json({
         results: Array.from({ length: NUMBER_PIN_SUGGESTIONS }, (_, index) => ({
@@ -69,16 +55,10 @@ test("should display owned accounts and pin suggestions if user is logged in", a
 
   await page.goto("/");
 
-  await page.click('[data-testid="account-options-button"]');
-
-  const accountOptionsFlyout = page.locator(
-    '[data-testid="account-options-flyout"]',
-  );
-  await accountOptionsFlyout.locator('text="John Doe"').waitFor();
-  await accountOptionsFlyout.locator('text="Personal"').waitFor();
-
-  // Close account options flyout:
-  await page.click('[data-testid="account-options-button"]');
+  const header = page.locator("nav");
+  await header
+    .locator(`text=${en.HeaderAuthenticated.NAV_ITEM_HOME}`)
+    .waitFor();
 
   await page.waitForSelector('[data-testid="pin-thumbnail"]');
   const pinSuggestions = await page.$$('[data-testid="pin-thumbnail"]');
