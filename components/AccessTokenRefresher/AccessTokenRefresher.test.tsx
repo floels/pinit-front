@@ -1,17 +1,12 @@
 import {
   ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
-  ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
-  API_ROUTE_OWNED_ACCOUNTS,
   API_ROUTE_REFRESH_TOKEN,
 } from "@/lib/constants";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import AccessTokenRefresher, {
   TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION,
 } from "./AccessTokenRefresher";
 import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
-import { TypesOfAccount } from "@/lib/types";
-import Cookies from "js-cookie";
-import { FetchMock } from "jest-fetch-mock";
 
 jest.mock("js-cookie");
 
