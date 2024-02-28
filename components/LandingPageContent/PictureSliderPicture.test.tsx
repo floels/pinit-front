@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 import PictureSliderPicture, { IMAGE_URLS } from "./PictureSliderPicture";
 
-it("should render <img> element with proper 'src' attribute", () => {
+it("renders <img> element with proper 'src' attribute", () => {
   const props = {
     topicIndex: 0,
     imageIndex: 0,

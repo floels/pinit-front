@@ -20,7 +20,7 @@ const renderComponent = () => {
   render(<SignupForm onClickAlreadyHaveAccount={onClickAlreadyHaveAccount} />);
 };
 
-it("should display relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
+it("displays relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
   fetchMock.mockOnceIf(
     API_ROUTE_SIGN_UP,
     JSON.stringify({ access: "access", refresh: "refresh" }),
@@ -94,7 +94,7 @@ it("should display relevant input errors, send request only when inputs are vali
   expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 
-it("should display relevant error when receiving KO responses", async () => {
+it("displays relevant error when receiving KO responses", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
@@ -157,7 +157,7 @@ it("should display relevant error when receiving KO responses", async () => {
   screen.getByText(en.Common.UNFORESEEN_ERROR);
 });
 
-it("should display relevant error upon fetch error", async () => {
+it("displays relevant error upon fetch error", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
@@ -176,7 +176,7 @@ it("should display relevant error upon fetch error", async () => {
   screen.getByText(en.Common.CONNECTION_ERROR);
 });
 
-it("should display loading state while expecting network response", async () => {
+it("displays loading state while expecting network response", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);

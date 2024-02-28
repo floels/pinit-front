@@ -47,7 +47,7 @@ and back to signup form upon click on 'No account yet'`, async () => {
   screen.getByText(messages.SignupForm.ALREADY_HAVE_ACCOUNT);
 });
 
-it("should call onClickBackToTop when corresponding button is clicked", async () => {
+it("calls onClickBackToTop when corresponding button is clicked", async () => {
   render(fifthFold);
 
   const backToTopButton = screen.getByTestId("back-to-top-button");

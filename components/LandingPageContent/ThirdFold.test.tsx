@@ -2,6 +2,6 @@ import { render } from "@testing-library/react";
 import ThirdFold from "./ThirdFold";
 
 // This component is purely presentational:
-it("should render", () => {
+it("renders", () => {
   render(<ThirdFold />);
 });

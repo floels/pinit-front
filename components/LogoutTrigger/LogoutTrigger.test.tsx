@@ -24,7 +24,7 @@ beforeEach(() => {
   mockPush.mockClear();
 });
 
-it("should display overlay while logging out, and not call router.refresh() before successful logout", () => {
+it("displays overlay while logging out, and not call router.refresh() before successful logout", () => {
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
@@ -34,7 +34,7 @@ it("should display overlay while logging out, and not call router.refresh() befo
   expect(mockPush).not.toHaveBeenCalled();
 });
 
-it("should call 'router.refresh()' upon successful logout request", async () => {
+it("calls 'router.refresh()' upon successful logout request", async () => {
   fetchMock.mockOnceIf(API_ROUTE_LOG_OUT, JSON.stringify({}));
 
   render(<LogoutTrigger />);
@@ -44,7 +44,7 @@ it("should call 'router.refresh()' upon successful logout request", async () => 
   });
 });
 
-it("should display warning toast and not refresh upon logout fetch error", async () => {
+it("displays warning toast and not refresh upon logout fetch error", async () => {
   fetchMock.mockRejectOnce(new Error("Network failure"));
 
   render(<LogoutTrigger />);

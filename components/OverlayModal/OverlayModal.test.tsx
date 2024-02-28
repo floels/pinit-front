@@ -16,7 +16,7 @@ beforeEach(() => {
   mockOnClose.mockReset();
 });
 
-it("should call onClose when user clicks on close button", async () => {
+it("calls onClose when user clicks on close button", async () => {
   renderComponent();
 
   const closeButton = screen.getByTestId("overlay-modal-close-button");
@@ -25,7 +25,7 @@ it("should call onClose when user clicks on close button", async () => {
   expect(mockOnClose).toHaveBeenCalledTimes(1);
 });
 
-it("should call onClose when user presses Escape", async () => {
+it("calls onClose when user presses Escape", async () => {
   renderComponent();
 
   await userEvent.keyboard("[Escape]");

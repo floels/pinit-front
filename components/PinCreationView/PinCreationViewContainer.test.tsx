@@ -47,7 +47,7 @@ const renderComponent = () => {
   );
 };
 
-it("should render header, have input fields disabled, and not render submit button initially", () => {
+it("renders header, have input fields disabled, and not render submit button initially", () => {
   renderComponent();
 
   screen.getByText(messages.CREATE_PIN);
@@ -57,7 +57,7 @@ it("should render header, have input fields disabled, and not render submit butt
   expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
 });
 
-it("should render image preview, have input fields enabled and render submit button upon file dropped", async () => {
+it("renders image preview, have input fields enabled and render submit button upon file dropped", async () => {
   renderComponent();
 
   screen.getByText(messages.DROPZONE_INSTRUCTION);
@@ -83,7 +83,7 @@ it("should render image preview, have input fields enabled and render submit but
   });
 });
 
-it("should render dropzone again and hide submit button upon click on 'delete image'", async () => {
+it("renders dropzone again and hide submit button upon click on 'delete image'", async () => {
   renderComponent();
 
   await dropImageFile();
@@ -101,7 +101,7 @@ it("should render dropzone again and hide submit button upon click on 'delete im
   });
 });
 
-it("should post to API route when user clicks submit", async () => {
+it("posts to API route when user clicks submit", async () => {
   renderComponent();
 
   await dropImageFile();
@@ -139,7 +139,7 @@ it("should post to API route when user clicks submit", async () => {
   });
 });
 
-it("should display success toast with proper link and reset form in case of OK response upon posting", async () => {
+it("displays success toast with proper link and reset form in case of OK response upon posting", async () => {
   renderComponent();
 
   await dropImageFile();
@@ -163,7 +163,7 @@ it("should display success toast with proper link and reset form in case of OK r
   expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
 });
 
-it("should display loading overlay and change text of submit button when posting", async () => {
+it("displays loading overlay and change text of submit button when posting", async () => {
   renderComponent();
 
   await dropImageFile();
@@ -184,7 +184,7 @@ it("should display loading overlay and change text of submit button when posting
   screen.getByTestId("pin-creation-loading-overlay");
 });
 
-it("should display error toast in case of KO response upon posting", async () => {
+it("displays error toast in case of KO response upon posting", async () => {
   renderComponent();
 
   await dropImageFile();
@@ -203,7 +203,7 @@ it("should display error toast in case of KO response upon posting", async () =>
   expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
 });
 
-it("should display error toast and disable loading state in case of fetch error when posting", async () => {
+it("displays error toast and disable loading state in case of fetch error when posting", async () => {
   renderComponent();
 
   await dropImageFile();

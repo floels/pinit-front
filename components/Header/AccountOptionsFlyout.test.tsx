@@ -27,7 +27,7 @@ const renderComponent = () => {
   render(<AccountOptionsFlyout />);
 };
 
-it("should render <LogoutTrigger /> upon clicking 'Log out'", async () => {
+it("renders <LogoutTrigger /> upon clicking 'Log out'", async () => {
   renderComponent();
 
   expect(screen.queryByTestId("mock-logout-trigger")).toBeNull();

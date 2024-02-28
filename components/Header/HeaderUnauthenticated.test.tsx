@@ -12,7 +12,7 @@ jest.mock("next/navigation", () => ({
 
 const messages = en.LandingPageContent;
 
-it("should render without any modal open", () => {
+it("renders without any modal open", () => {
   render(<HeaderUnauthenticated />);
 
   expect(screen.queryByTestId("overlay-modal")).toBeNull();

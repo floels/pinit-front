@@ -10,9 +10,27 @@ import { useQuery } from "@tanstack/react-query";
 import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
 import { setAccessTokenExpirationDate } from "@/lib/utils/authentication";
 
+type AccessTokenRefresherProps = {
+  handleFinishedFetching: () => void;
+};
+
 export const TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION = 60 * 60 * 1000; // i.e. 1 hour
 
-const AccessTokenRefresher = () => {
+const AccessTokenRefresher = ({
+  handleFinishedFetching,
+}: AccessTokenRefresherProps) => {
+  const fetchRefreshedAccessTokenIfNecessary = async () => {
+    const shouldRefreshAccessToken = checkShouldRefreshAccessToken();
+
+    if (!shouldRefreshAccessToken) {
+      handleFinishedFetching();
+      return {}; // necessary to return empty object,
+      // since we'll use this function as the 'queryFn' of a React Query.
+    }
+
+    return await fetchRefreshedAccessToken();
+  };
+
   const checkShouldRefreshAccessToken = () => {
     if (typeof window === "undefined" || !window.localStorage) {
       return true;
@@ -44,8 +62,6 @@ const AccessTokenRefresher = () => {
     );
   };
 
-  const shouldRefreshAccessToken = checkShouldRefreshAccessToken();
-
   const fetchRefreshedAccessToken = async () => {
     const response = await fetch(API_ROUTE_REFRESH_TOKEN, {
       method: "POST",
@@ -62,33 +78,29 @@ const AccessTokenRefresher = () => {
     return response.json();
   };
 
-  const {
-    data: dataFetchRefreshedAccessToken,
-    error: errorFetchRefreshedAccessToken,
-    isPending: isPendingFetchRefreshedAccessToken,
-    isError: isErrorFetchRefreshedAccessToken,
-  } = useQuery({
+  const { data, error, status } = useQuery({
     queryKey: ["fetchRefreshedAccessToken"],
-    queryFn: fetchRefreshedAccessToken,
+    queryFn: fetchRefreshedAccessTokenIfNecessary,
     retry: false,
-    enabled: shouldRefreshAccessToken,
   });
+
+  useEffect(() => {
+    if (status === "success" || status === "error") {
+      handleFinishedFetching();
+    }
+  }, [status]);
 
   // Save refreshed access token expiration date to local storage:
   useEffect(() => {
-    const accessTokenExpirationDate =
-      dataFetchRefreshedAccessToken?.access_token_expiration_utc;
+    const accessTokenExpirationDate = data?.access_token_expiration_utc;
 
     if (accessTokenExpirationDate) {
       setAccessTokenExpirationDate(accessTokenExpirationDate);
     }
-  }, [dataFetchRefreshedAccessToken]);
+  }, [data]);
 
   // Log out in case of 401 response upon token refresh:
-  if (
-    isErrorFetchRefreshedAccessToken &&
-    errorFetchRefreshedAccessToken instanceof Response401Error
-  ) {
+  if (error instanceof Response401Error) {
     return <LogoutTrigger />;
   }
 
