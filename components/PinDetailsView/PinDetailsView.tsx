@@ -28,6 +28,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
         </button>
       </Link>
       <div className={styles.pinViewContainer} data-testid="pin-view-container">
+        {/* We don't use Next's Image component because we don't know the image's display height in advance. */}
         <img
           src={pin.imageURL}
           alt={
@@ -42,21 +43,22 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
           {pin.description && (
             <p className={styles.pinDescription}>{pin.description}</p>
           )}
-          {shouldDisplayAuthorDetails && (
-            <div
-              className={styles.authorDetails}
-              data-testid="pin-author-details"
-            >
+          <Link
+            href={`/${pin.authorUsername}`}
+            className={styles.authorDetails}
+            data-testid="pin-author-details"
+          >
+            {pin.authorProfilePictureURL && (
               <Image
                 className={styles.authorProfilePicture}
                 width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
                 height={AUTHOR_PROFILE_PICTURE_SIZE_PX}
-                src={pin.authorProfilePictureURL as string}
+                src={pin.authorProfilePictureURL}
                 alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.authorDisplayName}`}
               />
-              <span className={styles.authorName}>{pin.authorDisplayName}</span>
-            </div>
-          )}
+            )}
+            <span className={styles.authorName}>{pin.authorDisplayName}</span>
+          </Link>
         </div>
       </div>
     </div>
