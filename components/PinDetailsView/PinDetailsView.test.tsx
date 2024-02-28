@@ -5,7 +5,7 @@ import en from "@/messages/en.json";
 
 const messages = en.PinDetails;
 
-it("renders image, title, description and author details when all are provided", () => {
+it("renders all required elements", () => {
   const pin = {
     id: "999999999999999999",
     title: "Pin title",
@@ -55,34 +55,4 @@ it("renders fallback image 'alt' when title is empty", () => {
   render(<PinDetailsView pin={pin} />);
 
   screen.getByAltText(`${messages.ALT_PIN_BY} John Doe`);
-});
-
-it("does not render author details when author's profile picture URL is not provided", () => {
-  const pin = {
-    id: "999999999999999999",
-    title: "Pin title",
-    imageURL: "https://pin.url",
-    authorUsername: "john.doe",
-    authorDisplayName: "John Doe",
-    description: "Pin description",
-  };
-
-  render(<PinDetailsView pin={pin} />);
-
-  expect(screen.queryByTestId("pin-author-details")).toBeNull();
-});
-
-it("does not render author details when author's display name is not provided", () => {
-  const pin = {
-    id: "999999999999999999",
-    title: "Pin title",
-    imageURL: "https://pin.url",
-    authorUsername: "john.doe",
-    authorProfilePictureURL: "https://profile.picture.url",
-    description: "Pin description",
-  };
-
-  render(<PinDetailsView pin={pin} />);
-
-  expect(screen.queryByTestId("pin-author-details")).toBeNull();
 });

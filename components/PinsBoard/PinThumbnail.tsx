@@ -15,15 +15,10 @@ const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
 const PinThumbnail = ({ pin }: PinThumbnailProps) => {
   const t = useTranslations("PinsBoard");
 
-  const shouldDisplayAuthorDetails =
-    !!pin.authorProfilePictureURL &&
-    !!pin.authorDisplayName &&
-    !!pin.authorUsername;
-
   return (
     <div className={styles.container} data-testid="pin-thumbnail">
-      {/* We don't use Next's Image component because we don't know the image's display height in advance. */}
       <Link href={`/pin/${pin.id}`}>
+        {/* We don't use Next's Image component because we don't know the image's display height in advance. */}
         <img
           alt={
             pin.title
@@ -39,22 +34,22 @@ const PinThumbnail = ({ pin }: PinThumbnailProps) => {
           {pin.title}
         </Link>
       )}
-      {shouldDisplayAuthorDetails && (
-        <Link
-          className={styles.authorDetails}
-          data-testid="pin-author-details"
-          href={`/${pin.authorUsername}`}
-        >
+      <Link
+        className={styles.authorDetails}
+        data-testid="pin-author-details"
+        href={`/${pin.authorUsername}`}
+      >
+        {pin.authorProfilePictureURL && (
           <Image
             className={styles.authorProfilePicture}
             width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
             height={AUTHOR_PROFILE_PICTURE_SIZE_PX}
-            src={pin.authorProfilePictureURL as string}
+            src={pin.authorProfilePictureURL}
             alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.authorDisplayName}`}
           />
-          <span className={styles.authorName}>{pin.authorDisplayName}</span>
-        </Link>
-      )}
+        )}
+        <span className={styles.authorName}>{pin.authorDisplayName}</span>
+      </Link>
     </div>
   );
 };

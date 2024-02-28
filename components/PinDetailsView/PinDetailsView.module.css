@@ -61,6 +61,12 @@
 .authorDetails {
   display: flex;
   align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.authorDetails:hover {
+  text-decoration: underline;
 }
 
 .authorProfilePicture {
