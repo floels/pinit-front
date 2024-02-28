@@ -10,6 +10,7 @@ import styles from "./HeaderAuthenticated.module.css";
 import { useLocale, useTranslations } from "next-intl";
 
 type HeaderAuthenticatedProps = {
+  username: string | null;
   profilePictureURL: string | null;
   isProfileLinkHovered: boolean;
   isAccountOptionsButtonHovered: boolean;
@@ -24,6 +25,7 @@ type HeaderAuthenticatedProps = {
 const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
   (
     {
+      username,
       profilePictureURL,
       isProfileLinkHovered,
       isAccountOptionsButtonHovered,
@@ -82,13 +84,10 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
               height={24}
             />
           </Link>
-          <Link href={`/${locale}`} className={classHomeLink}>
+          <Link href="/" className={classHomeLink}>
             {t("NAV_ITEM_HOME")}
           </Link>
-          <Link
-            href={`/${locale}/pin-creation-tool`}
-            className={classCreateLink}
-          >
+          <Link href="/pin-creation-tool" className={classCreateLink}>
             {t("NAV_ITEM_CREATE")}
           </Link>
           {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
@@ -97,15 +96,17 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
           <HeaderSearchBarContainer
             key={`header-search-bar-pathname-${pathname}`}
           />
-          <Link
-            href="/florianellis/"
-            className={styles.profileLink}
-            data-testid="profile-link"
-            onMouseEnter={handleMouseEnterProfileLink}
-            onMouseLeave={handleMouseLeaveProfileLink}
-          >
-            {profileLinkBadge}
-          </Link>
+          {username && (
+            <Link
+              href={`/${username}`}
+              className={styles.profileLink}
+              data-testid="profile-link"
+              onMouseEnter={handleMouseEnterProfileLink}
+              onMouseLeave={handleMouseLeaveProfileLink}
+            >
+              {profileLinkBadge}
+            </Link>
+          )}
           {isProfileLinkHovered && (
             <div className={`${styles.tooltip} ${styles.profileLinkTooltip}`}>
               {t("YOUR_PROFILE")}

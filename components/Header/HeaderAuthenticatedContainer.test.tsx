@@ -8,6 +8,8 @@ import {
   getNextImageSrcRegexFromURL,
 } from "@/lib/utils/testing";
 import { PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY } from "@/lib/constants";
+import { AccountContext } from "@/contexts/accountContext";
+import { TypesOfAccount } from "@/lib/types";
 
 const messages = en.HeaderAuthenticated;
 
@@ -32,8 +34,23 @@ jest.mock("next/navigation", () => ({
 
 (localStorage as any) = new MockLocalStorage();
 
-const renderComponent = () => {
-  render(<HeaderAuthenticatedContainer />);
+const account = {
+  type: TypesOfAccount.PERSONAL,
+  username: "johndoe",
+  displayName: "John Doe",
+  initial: "J",
+  profilePictureURL: "https://example.com/profile-picture.jpg",
+};
+
+const renderComponent = (accountContextProviderProps?: any) => {
+  render(
+    <AccountContext.Provider
+      value={{ account, setAccount: jest.fn() }}
+      {...accountContextProviderProps}
+    >
+      <HeaderAuthenticatedContainer />
+    </AccountContext.Provider>,
+  );
 };
 
 beforeEach(() => {
@@ -98,15 +115,30 @@ it("closes account options button when clicking out", async () => {
   expect(screen.queryByTestId("mock-account-options-flyout")).toBeNull();
 });
 
-it(`displays icon in 'Your profile' link if no profile picture URL
-was found in local storage`, () => {
+it(`displays profile link with proper 'href' attribute
+when username is available in account context`, async () => {
   renderComponent();
 
-  screen.getByTestId("profile-link-icon");
+  const profileLink = screen.getByTestId("profile-link");
+
+  expect(profileLink).toHaveAttribute("href", `/${account.username}`);
 });
 
-it(`displays icon in 'Your profile' link if no profile picture URL
-was found in local storage`, async () => {
+it(`displays profile picture with proper 'src' attribute when
+profile picture URL is available in account context`, () => {
+  renderComponent();
+
+  const profilePicture = screen.getByTestId(
+    "profile-picture",
+  ) as HTMLImageElement;
+
+  const srcPattern = getNextImageSrcRegexFromURL(account.profilePictureURL);
+
+  expect(profilePicture.src).toMatch(srcPattern);
+});
+
+it(`displays profile picture in 'Your profile' link if no profile picture URL
+was found in account context but one was found in local storage`, () => {
   const profilePictureURL = "https://some.domain.com/profile-picture.jpb";
 
   localStorage.setItem(
@@ -114,15 +146,21 @@ was found in local storage`, async () => {
     profilePictureURL,
   );
 
-  renderComponent();
+  renderComponent({ value: { account: { username: "johndoe" } } });
 
-  await waitFor(() => {
-    const profilePicture = screen.getByTestId(
-      "profile-picture",
-    ) as HTMLImageElement;
+  const profilePicture = screen.getByTestId(
+    "profile-picture",
+  ) as HTMLImageElement;
 
-    const srcPattern = getNextImageSrcRegexFromURL(profilePictureURL);
+  const srcPattern = getNextImageSrcRegexFromURL(profilePictureURL);
 
-    expect(profilePicture.src).toMatch(srcPattern);
-  });
+  expect(profilePicture.src).toMatch(srcPattern);
+});
+
+it(`displays icon in 'Your profile' link if no profile picture URL
+was found in account context or in local storage, but username
+was found in account context`, () => {
+  renderComponent({ value: { account: { username: "johndoe" } } });
+
+  screen.getByTestId("profile-link-icon");
 });
