@@ -1,8 +1,13 @@
 import React from "react";
 import userEvent from "@testing-library/user-event";
-import { screen, fireEvent, render } from "@testing-library/react";
+import { screen, fireEvent, render, waitFor } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
+import {
+  MockLocalStorage,
+  getNextImageSrcRegexFromURL,
+} from "@/lib/utils/testing";
+import { PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY } from "@/lib/constants";
 
 const messages = en.HeaderAuthenticated;
 
@@ -25,9 +30,15 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
+(localStorage as any) = new MockLocalStorage();
+
 const renderComponent = () => {
   render(<HeaderAuthenticatedContainer />);
 };
+
+beforeEach(() => {
+  localStorage.clear();
+});
 
 it("displays tooltip for profile link upon hover", () => {
   renderComponent();
@@ -73,7 +84,7 @@ it("displays account options flyout upon click on corresponding button, and clos
   expect(screen.queryByTestId("mock-account-options-flyout")).toBeNull();
 });
 
-it("should close account options button when clicking out", async () => {
+it("closes account options button when clicking out", async () => {
   renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
@@ -85,4 +96,33 @@ it("should close account options button when clicking out", async () => {
   fireEvent.mouseDown(document.body);
 
   expect(screen.queryByTestId("mock-account-options-flyout")).toBeNull();
+});
+
+it(`displays icon in 'Your profile' link if no profile picture URL
+was found in local storage`, () => {
+  renderComponent();
+
+  screen.getByTestId("profile-link-icon");
+});
+
+it(`displays icon in 'Your profile' link if no profile picture URL
+was found in local storage`, async () => {
+  const profilePictureURL = "https://some.domain.com/profile-picture.jpb";
+
+  localStorage.setItem(
+    PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
+    profilePictureURL,
+  );
+
+  renderComponent();
+
+  await waitFor(() => {
+    const profilePicture = screen.getByTestId(
+      "profile-picture",
+    ) as HTMLImageElement;
+
+    const srcPattern = getNextImageSrcRegexFromURL(profilePictureURL);
+
+    expect(profilePicture.src).toMatch(srcPattern);
+  });
 });

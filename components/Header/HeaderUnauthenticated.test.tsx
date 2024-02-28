@@ -18,7 +18,7 @@ it("renders without any modal open", () => {
   expect(screen.queryByTestId("overlay-modal")).toBeNull();
 });
 
-it("should open login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {
+it("opens login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {
   render(<HeaderUnauthenticated />);
 
   const logInButton = screen.getByTestId("header-log-in-button");
@@ -44,7 +44,7 @@ it("should open login modal when user clicks on Login button, and switch to sign
   within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
 });
 
-it("should open signup modal when user clicks on Signup button, and switch to login modal when user clicks on 'Log in'", async () => {
+it("opens signup modal when user clicks on Signup button, and switch to login modal when user clicks on 'Log in'", async () => {
   render(<HeaderUnauthenticated />);
 
   const signUpButton = screen.getByTestId("header-sign-up-button");
@@ -74,7 +74,7 @@ it("should open signup modal when user clicks on Signup button, and switch to lo
   within(modal).getByText(messages.LoginForm.WELCOME_TO_PINIT);
 });
 
-it("should close login modal when user clicks close button", async () => {
+it("closes login modal when user clicks close button", async () => {
   render(<HeaderUnauthenticated />);
 
   const logInButton = screen.getByTestId("header-log-in-button");
@@ -90,7 +90,7 @@ it("should close login modal when user clicks close button", async () => {
   expect(screen.queryByTestId("overlay-modal")).toBeNull();
 });
 
-it("should close signup modal when user clicks close button", async () => {
+it("closes signup modal when user clicks close button", async () => {
   render(<HeaderUnauthenticated />);
 
   const signUpButton = screen.getByTestId("header-sign-up-button");

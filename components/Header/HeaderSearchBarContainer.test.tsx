@@ -46,7 +46,7 @@ beforeEach(() => {
   fetchMock.resetMocks();
 });
 
-it("should reset input value and blur input upon pressing Escape", async () => {
+it("resets input value and blur input upon pressing Escape", async () => {
   render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
@@ -65,7 +65,7 @@ it("should reset input value and blur input upon pressing Escape", async () => {
   });
 });
 
-it("should reset input value, blur input and hide 'Clear' icon upon pressing 'Clear' icon", async () => {
+it("resets input value, blurs input and hides 'Clear' icon upon pressing 'Clear' icon", async () => {
   render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
@@ -88,7 +88,7 @@ it("should reset input value, blur input and hide 'Clear' icon upon pressing 'Cl
   });
 });
 
-it("should hide icon when input gets focus", async () => {
+it("hides icon when input gets focus", async () => {
   render(<HeaderSearchBarContainer />);
 
   screen.getByTestId("search-icon");
@@ -147,7 +147,7 @@ it("displays search suggestions as such if search term is already among suggesti
   });
 });
 
-it("should navigate to search route when user clicks suggestion", async () => {
+it("navigates to search route when user clicks suggestion", async () => {
   fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
@@ -170,7 +170,7 @@ it("should navigate to search route when user clicks suggestion", async () => {
   });
 });
 
-it("should navigate to /search/pins route when user types and presses Enter", async () => {
+it("navigates to /search/pins route when user types and presses Enter", async () => {
   render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
@@ -182,7 +182,7 @@ it("should navigate to /search/pins route when user types and presses Enter", as
   expect(mockPush).toHaveBeenLastCalledWith(`/search/pins?q=foo`);
 });
 
-it("should set the input value based on the search param", async () => {
+it("sets the input value based on the search param", async () => {
   mockedUsePathname.mockReturnValue("/en/search/pins");
   mockGetSearchParams.mockReturnValue("foo");
 
@@ -249,7 +249,7 @@ it("does not display any suggestion in case of fetch error", async () => {
   });
 });
 
-it("should fetch only once if two characters are typed within debounce time", async () => {
+it("fetches only once if two characters are typed within debounce time", async () => {
   render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");
@@ -274,7 +274,7 @@ it("should fetch only once if two characters are typed within debounce time", as
   jest.useRealTimers();
 });
 
-it("should fetch twice if two characters are typed beyond debounce time", async () => {
+it("fetches twice if two characters are typed beyond debounce time", async () => {
   render(<HeaderSearchBarContainer />);
 
   const searchInput = screen.getByTestId("search-bar-input");

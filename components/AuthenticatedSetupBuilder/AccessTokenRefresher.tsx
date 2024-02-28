@@ -5,9 +5,7 @@ import {
   API_ROUTE_REFRESH_TOKEN,
   ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
-import { Response401Error, ResponseKOError } from "@/lib/customErrors";
 import { useQuery } from "@tanstack/react-query";
-import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
 import { setAccessTokenExpirationDate } from "@/lib/utils/authentication";
 
 type AccessTokenRefresherProps = {

@@ -3,6 +3,7 @@ export const API_ROUTE_SIGN_UP = "/api/user/sign-up";
 export const API_ROUTE_OBTAIN_TOKEN = "/api/user/obtain-token";
 export const API_ROUTE_REFRESH_TOKEN = "/api/user/refresh-token";
 export const API_ROUTE_OWNED_ACCOUNTS = "/api/user/owned-accounts";
+export const API_ROUTE_MY_ACCOUNT_DETAILS = "/api/user/account-details";
 export const API_ROUTE_PIN_SUGGESTIONS = "/api/pin-suggestions";
 export const API_ROUTE_SEARCH = "/api/search";
 export const API_ROUTE_SEARCH_SUGGESTIONS = "/api/search-suggestions";
@@ -21,6 +22,7 @@ export const API_ENDPOINT_PIN_DETAILS = "pins";
 export const API_ENDPOINT_ACCOUNT_DETAILS = "accounts";
 export const API_ENDPOINT_OWNED_ACCOUNTS = "owned-accounts";
 export const API_ENDPOINT_CREATE_PIN = "create-pin";
+export const API_ENDPOINT_MY_ACCOUNT_DETAILS = "accounts/me";
 
 // API error codes
 export const ERROR_CODE_UNAUTHORIZED = "unauthorized";
@@ -40,8 +42,8 @@ export const ERROR_CODE_MISSING_ACCOUNT_USERNAME_COOKIE =
   "missing_account_username_cookie";
 
 // Cookie and local storage keys
-export const ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY = "activeAccountUsername";
 export const ACCESS_TOKEN_COOKIE_KEY = "accessToken";
 export const REFRESH_TOKEN_COOKIE_KEY = "refreshToken";
 export const ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY =
   "accessTokenExpirationDate";
+export const PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY = "profilePictureURL";

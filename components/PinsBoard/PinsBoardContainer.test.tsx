@@ -46,7 +46,7 @@ const renderComponent = () => {
   );
 };
 
-it("should fetch new thumbnails when user scrolls to bottom", async () => {
+it("fetches new thumbnails when user scrolls to bottom", async () => {
   const newPins = Array.from(
     { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
     (_, index) => ({

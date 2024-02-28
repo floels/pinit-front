@@ -1,11 +1,7 @@
 import { test } from "@playwright/test";
 import { Request, Response, Express } from "express";
 import en from "@/messages/en.json";
-import {
-  addAccessTokenTookie,
-  addActiveAccountCookie,
-  launchMockAPIServer,
-} from "../utils";
+import { addAccessTokenTookie, launchMockAPIServer } from "../utils";
 import path from "path";
 
 const ID_CREATED_PIN = "123456789012345";
@@ -49,7 +45,6 @@ test("should display success toast with link to newly-created pin upon successfu
   context,
 }) => {
   addAccessTokenTookie({ context });
-  addActiveAccountCookie({ context });
 
   await page.goto("/pin-creation-tool");
 

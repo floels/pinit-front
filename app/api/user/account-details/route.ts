@@ -1,5 +1,5 @@
 import {
-  API_ENDPOINT_OWNED_ACCOUNTS,
+  API_ENDPOINT_MY_ACCOUNT_DETAILS,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_MISSING_ACCESS_TOKEN,
 } from "@/lib/constants";
@@ -23,7 +23,7 @@ export const GET = async (request: NextRequest) => {
 
   try {
     backendResponse = await fetchWithAuthentication({
-      endpoint: `${API_ENDPOINT_OWNED_ACCOUNTS}/`,
+      endpoint: `${API_ENDPOINT_MY_ACCOUNT_DETAILS}/`,
       accessToken,
     });
   } catch {

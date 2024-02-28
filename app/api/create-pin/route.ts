@@ -1,10 +1,8 @@
 import {
   ACCESS_TOKEN_COOKIE_KEY,
-  ACTIVE_ACCOUNT_USERNAME_COOKIE_KEY,
   API_ENDPOINT_CREATE_PIN,
   ERROR_CODE_FETCH_BACKEND_FAILED,
   ERROR_CODE_MISSING_ACCESS_TOKEN,
-  ERROR_CODE_MISSING_ACCOUNT_USERNAME_COOKIE,
 } from "@/lib/constants";
 import { fetchWithAuthentication } from "@/lib/utils/fetch";
 import { cookies } from "next/headers";

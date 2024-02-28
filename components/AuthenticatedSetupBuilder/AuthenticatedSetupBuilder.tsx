@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import AccessTokenRefresher from "./AccessTokenRefresher";
+import AccountDetailsFetcher from "./AccountDetailsFetcher";
 
 const AuthenticatedSetupBuilder = () => {
   const [isFetchingRefreshedToken, setIsFetchingRefreshedToken] =
@@ -20,7 +21,7 @@ const AuthenticatedSetupBuilder = () => {
     );
   }
 
-  return null; // TODO: return <AccountDetailsFetcher />
+  return <AccountDetailsFetcher />;
 };
 
 export default AuthenticatedSetupBuilder;

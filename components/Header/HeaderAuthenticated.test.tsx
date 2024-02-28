@@ -16,14 +16,15 @@ const mockedUsePathname = usePathname as jest.Mock;
 
 const renderComponent = () => {
   const props = {
+    profilePictureURL: null,
+    isProfileLinkHovered: false,
+    isAccountOptionsButtonHovered: false,
+    isAccountOptionsFlyoutOpen: false,
     handleMouseEnterProfileLink: jest.fn(),
     handleMouseLeaveProfileLink: jest.fn(),
-    isProfileLinkHovered: false,
     handleClickAccountOptionsButton: jest.fn(),
     handleMouseEnterAccountOptionsButton: jest.fn(),
     handleMouseLeaveAccountOptionsButton: jest.fn(),
-    isAccountOptionsButtonHovered: false,
-    isAccountOptionsFlyoutOpen: false,
   };
 
   const mockRef = React.createRef();
