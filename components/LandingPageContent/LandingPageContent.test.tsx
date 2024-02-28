@@ -40,7 +40,7 @@ const scrollAfterDebounceTime = ({
   fireEvent.wheel(document, { deltaY });
 };
 
-it("should scroll from fold to fold, down and up", async () => {
+it("scrolls from fold to fold, down and up", async () => {
   jest.useFakeTimers();
 
   render(<LandingPageContent />);
@@ -103,7 +103,7 @@ it("does not move to third fold if user scrolls twice within debounce time", asy
   jest.useRealTimers();
 });
 
-it("should scroll to second fold when user clicks on the hero carret", async () => {
+it("scrolls to second fold when user clicks on the hero carret", async () => {
   render(<LandingPageContent />);
 
   const heroCarret = screen.getByTestId("picture-slider-carret-icon");
@@ -113,7 +113,7 @@ it("should scroll to second fold when user clicks on the hero carret", async () 
   expect(content.className).toEqual("content contentSecondFoldActive");
 });
 
-it("should scroll back to top upon click on 'send back to top'", async () => {
+it("scrolls back to top upon click on 'send back to top'", async () => {
   jest.useFakeTimers();
 
   render(<LandingPageContent />);

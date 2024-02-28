@@ -4,33 +4,35 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import AccountOptionsFlyout from "./AccountOptionsFlyout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faUser } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBarContainer from "./HeaderSearchBarContainer";
 import styles from "./HeaderAuthenticated.module.css";
 import { useLocale, useTranslations } from "next-intl";
 
 type HeaderAuthenticatedProps = {
+  profilePictureURL: string | null;
+  isProfileLinkHovered: boolean;
+  isAccountOptionsButtonHovered: boolean;
+  isAccountOptionsFlyoutOpen: boolean;
   handleMouseEnterProfileLink: () => void;
   handleMouseLeaveProfileLink: () => void;
-  isProfileLinkHovered: boolean;
   handleClickAccountOptionsButton: () => void;
   handleMouseEnterAccountOptionsButton: () => void;
   handleMouseLeaveAccountOptionsButton: () => void;
-  isAccountOptionsButtonHovered: boolean;
-  isAccountOptionsFlyoutOpen: boolean;
 };
 
 const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
   (
     {
+      profilePictureURL,
+      isProfileLinkHovered,
+      isAccountOptionsButtonHovered,
+      isAccountOptionsFlyoutOpen,
       handleMouseEnterProfileLink,
       handleMouseLeaveProfileLink,
-      isProfileLinkHovered,
       handleClickAccountOptionsButton,
       handleMouseEnterAccountOptionsButton,
       handleMouseLeaveAccountOptionsButton,
-      isAccountOptionsButtonHovered,
-      isAccountOptionsFlyoutOpen,
     },
     ref,
   ) => {
@@ -53,6 +55,21 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
     if (pathname === `/${locale}/pin-creation-tool`) {
       classCreateLink = `${classCreateLink} ${styles.navigationItemActive}`;
     }
+
+    const profileLinkBadge = profilePictureURL ? (
+      <Image
+        src={profilePictureURL}
+        alt={t("ALT_PROFILE_PICTURE")}
+        width={24}
+        height={24}
+        className={styles.profilePicture}
+        data-testid="profile-picture"
+      />
+    ) : (
+      <div className={styles.profileLinkBadge}>
+        <FontAwesomeIcon icon={faUser} data-testid="profile-link-icon" />
+      </div>
+    );
 
     return (
       <nav className={styles.container}>
@@ -87,7 +104,7 @@ const HeaderAuthenticated = React.forwardRef<any, HeaderAuthenticatedProps>(
             onMouseEnter={handleMouseEnterProfileLink}
             onMouseLeave={handleMouseLeaveProfileLink}
           >
-            <div className={styles.profileLinkBadge}>F</div>
+            {profileLinkBadge}
           </Link>
           {isProfileLinkHovered && (
             <div className={`${styles.tooltip} ${styles.profileLinkTooltip}`}>

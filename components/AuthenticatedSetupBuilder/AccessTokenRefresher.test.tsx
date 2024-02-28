@@ -16,14 +16,6 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-jest.mock("@/components/LogoutTrigger/LogoutTrigger", () => {
-  const MockedLogoutTrigger = () => <div data-testid="mock-logout-trigger" />;
-
-  MockedLogoutTrigger.displayName = "LogoutTrigger";
-
-  return MockedLogoutTrigger;
-});
-
 const mockHandleFinishedFetching = jest.fn();
 
 const renderComponent = () => {
@@ -36,7 +28,7 @@ const renderComponent = () => {
   );
 };
 
-(global.localStorage as any) = new MockLocalStorage();
+(localStorage as any) = new MockLocalStorage();
 
 beforeEach(() => {
   fetchMock.resetMocks();

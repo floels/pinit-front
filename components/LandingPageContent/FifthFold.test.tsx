@@ -26,7 +26,7 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-it("should scroll hero ref into view upon rendering", () => {
+it("scrolls hero ref into view upon rendering", () => {
   render(fifthFold);
 
   expect(mockScrollIntoView).toHaveBeenCalledTimes(1);

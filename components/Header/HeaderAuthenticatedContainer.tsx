@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import HeaderAuthenticated from "./HeaderAuthenticated";
+import { PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY } from "@/lib/constants";
 
 const HeaderAuthenticatedContainer = () => {
   const t = useTranslations("Common");
@@ -20,6 +21,9 @@ const HeaderAuthenticatedContainer = () => {
     useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
+  const [profilePictureURL, setProfilePictureURL] = useState<string | null>(
+    null,
+  );
 
   const handleMouseEnterProfileLink = () => {
     setIsProfileLinkHovered(true);
@@ -68,11 +72,24 @@ const HeaderAuthenticatedContainer = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const profilePictureURLInLocalStorage = localStorage?.getItem(
+      PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
+    );
+
+    if (profilePictureURLInLocalStorage) {
+      setProfilePictureURL(profilePictureURLInLocalStorage);
+    }
+  }, []);
+
   return (
     <HeaderAuthenticated
+      profilePictureURL={profilePictureURL}
+      isProfileLinkHovered={isProfileLinkHovered}
+      isAccountOptionsButtonHovered={isAccountOptionsButtonHovered}
+      isAccountOptionsFlyoutOpen={isAccountOptionsFlyoutOpen}
       handleMouseEnterProfileLink={handleMouseEnterProfileLink}
       handleMouseLeaveProfileLink={handleMouseLeaveProfileLink}
-      isProfileLinkHovered={isProfileLinkHovered}
       handleClickAccountOptionsButton={handleClickAccountOptionsButton}
       handleMouseEnterAccountOptionsButton={
         handleMouseEnterAccountOptionsButton
@@ -80,8 +97,6 @@ const HeaderAuthenticatedContainer = () => {
       handleMouseLeaveAccountOptionsButton={
         handleMouseLeaveAccountOptionsButton
       }
-      isAccountOptionsButtonHovered={isAccountOptionsButtonHovered}
-      isAccountOptionsFlyoutOpen={isAccountOptionsFlyoutOpen}
       ref={refs as any}
     />
   );

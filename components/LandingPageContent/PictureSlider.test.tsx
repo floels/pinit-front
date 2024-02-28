@@ -215,7 +215,7 @@ and should show first image of second topic`, () => {
   );
 });
 
-it("should move to corresponding step when user clicks stepper button", async () => {
+it("moves to corresponding step when user clicks stepper button", async () => {
   jest.useRealTimers(); // otherwise `await userEvent.click(...);` times out for some reason
 
   renderComponent();

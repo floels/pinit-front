@@ -4,7 +4,7 @@ import LabelledTextInput from "./LabelledTextInput";
 
 const dummyOnChange = () => {};
 
-it("should toggle password visibility when user clicks on corresponding button", async () => {
+it("toggles password visibility when user clicks on corresponding button", async () => {
   const passwordLabelledTextInput = (
     <LabelledTextInput
       label="Test input"
