@@ -1,31 +1,11 @@
 "use client";
 
-import { API_ROUTE_LOG_OUT } from "@/lib/constants";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 import styles from "./LogoutTrigger.module.css";
+import { useLogOutContext } from "@/contexts/logOutContext";
 
 const LogoutTrigger = () => {
-  const t = useTranslations("Common");
-
-  const router = useRouter();
-
-  const logOut = async () => {
-    try {
-      await fetch(API_ROUTE_LOG_OUT, {
-        method: "POST",
-      });
-
-      router.push("/");
-      router.refresh();
-    } catch {
-      toast.warn(t("CONNECTION_ERROR"), {
-        toastId: "toast-log-out-connection-error",
-      });
-    }
-  };
+  const { logOut } = useLogOutContext();
 
   useEffect(() => {
     logOut();

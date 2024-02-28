@@ -28,7 +28,7 @@ const AccessTokenRefresher = ({
       // since we'll use this function as the 'queryFn' of a React Query.
     }
 
-    return await fetchRefreshedAccessToken();
+    return fetchRefreshedAccessToken();
   };
 
   const checkShouldRefreshAccessToken = () => {
@@ -67,18 +67,10 @@ const AccessTokenRefresher = ({
       method: "POST",
     });
 
-    if (response.status === 401) {
-      throw new Response401Error();
-    }
-
-    if (!response.ok) {
-      throw new ResponseKOError();
-    }
-
     return response.json();
   };
 
-  const { data, error, status } = useQuery({
+  const { data, status } = useQuery({
     queryKey: ["fetchRefreshedAccessToken"],
     queryFn: fetchRefreshedAccessTokenIfNecessary,
     retry: false,
@@ -98,11 +90,6 @@ const AccessTokenRefresher = ({
       setAccessTokenExpirationDate(accessTokenExpirationDate);
     }
   }, [data]);
-
-  // Log out in case of 401 response upon token refresh:
-  if (error instanceof Response401Error) {
-    return <LogoutTrigger />;
-  }
 
   return null;
 };
