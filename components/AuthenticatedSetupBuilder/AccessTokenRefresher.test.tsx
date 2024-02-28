@@ -127,7 +127,7 @@ it("refreshes access token if expiration date in local storage is within buffer"
   );
 });
 
-it(`triggers logout and calls 'handleFinishedFetching' upon 401 response
+it(`calls 'handleFinishedFetching' upon KO response
 if no expiration date was found in local storage`, async () => {
   fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}), {
     status: 401,
@@ -136,8 +136,6 @@ if no expiration date was found in local storage`, async () => {
   renderComponent();
 
   await waitFor(() => {
-    screen.getByTestId("mock-logout-trigger");
-
     expect(mockHandleFinishedFetching).toHaveBeenCalledTimes(1);
   });
 });

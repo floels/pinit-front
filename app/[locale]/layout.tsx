@@ -22,6 +22,7 @@ import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
 import AuthenticatedSetupBuilder from "@/components/AuthenticatedSetupBuilder/AuthenticatedSetupBuilder";
 import { ACCESS_TOKEN_COOKIE_KEY } from "@/lib/constants";
 import QueryClientProvider from "@/components/QueryClientProvider/QueryClientProvider";
+import { LogOutContextProvider } from "@/contexts/logOutContext";
 
 type Props = {
   children: React.ReactNode;
@@ -57,13 +58,15 @@ const Layout = ({ children, params: { locale } }: Props) => {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ToastContainer position="bottom-left" autoClose={5000} />
           <QueryClientProvider>
-            {isAuthenticated && <AuthenticatedSetupBuilder />}
-            {isAuthenticated ? (
-              <HeaderAuthenticatedContainer />
-            ) : (
-              <HeaderUnauthenticated />
-            )}
-            {children}
+            <LogOutContextProvider>
+              {isAuthenticated && <AuthenticatedSetupBuilder />}
+              {isAuthenticated ? (
+                <HeaderAuthenticatedContainer />
+              ) : (
+                <HeaderUnauthenticated />
+              )}
+              {children}
+            </LogOutContextProvider>
           </QueryClientProvider>
         </NextIntlClientProvider>
       </body>
