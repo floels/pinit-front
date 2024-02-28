@@ -10,6 +10,13 @@
   background-color: var(--color-white);
 }
 
+.sectionHeader {
+  padding: 8px;
+  color: var(--color-text-default);
+  font-size: var(--font-size-100);
+  font-weight: var(--font-weight-normal);
+}
+
 .logoutButton {
   padding: 8px;
   font-size: var(--font-size-300);
