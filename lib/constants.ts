@@ -46,4 +46,5 @@ export const ACCESS_TOKEN_COOKIE_KEY = "accessToken";
 export const REFRESH_TOKEN_COOKIE_KEY = "refreshToken";
 export const ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY =
   "accessTokenExpirationDate";
+export const USERNAME_LOCAL_STORAGE_KEY = "username";
 export const PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY = "profilePictureURL";

@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import HeaderAuthenticated from "./HeaderAuthenticated";
-import { PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY } from "@/lib/constants";
+import {
+  PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
+  USERNAME_LOCAL_STORAGE_KEY,
+} from "@/lib/constants";
+import { useAccountContext } from "@/contexts/accountContext";
 
 const HeaderAuthenticatedContainer = () => {
   const t = useTranslations("Common");
@@ -21,9 +25,18 @@ const HeaderAuthenticatedContainer = () => {
     useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
-  const [profilePictureURL, setProfilePictureURL] = useState<string | null>(
-    null,
-  );
+
+  const { account } = useAccountContext();
+
+  // The idea here is to fall back to local storage if the account context
+  // is not yet available, which will typically be the case while
+  // <AccountDetailsFetcher /> is still fetching:
+  const username =
+    account?.username || localStorage?.getItem(USERNAME_LOCAL_STORAGE_KEY);
+
+  const profilePictureURL =
+    account?.profilePictureURL ||
+    localStorage?.getItem(PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY);
 
   const handleMouseEnterProfileLink = () => {
     setIsProfileLinkHovered(true);
@@ -72,18 +85,9 @@ const HeaderAuthenticatedContainer = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const profilePictureURLInLocalStorage = localStorage?.getItem(
-      PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
-    );
-
-    if (profilePictureURLInLocalStorage) {
-      setProfilePictureURL(profilePictureURLInLocalStorage);
-    }
-  }, []);
-
   return (
     <HeaderAuthenticated
+      username={username}
       profilePictureURL={profilePictureURL}
       isProfileLinkHovered={isProfileLinkHovered}
       isAccountOptionsButtonHovered={isAccountOptionsButtonHovered}

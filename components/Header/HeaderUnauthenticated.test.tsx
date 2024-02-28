@@ -2,12 +2,16 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import en from "@/messages/en.json";
 import HeaderUnauthenticated from "./HeaderUnauthenticated";
+import { usePathname } from "next/navigation";
 
-// Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter().refresh():
+// 'useRouter' is needed for the <LoginForm /> and <SignupForm /> components, which call useRouter().refresh().
+// 'useSearchParams' is needed for the <HeaderSearchBarContainer /> component.
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     refresh: jest.fn(),
   }),
+  usePathname: jest.fn(),
+  useSearchParams: jest.fn(),
 }));
 
 const messages = en.LandingPageContent;
@@ -16,6 +20,20 @@ it("renders without any modal open", () => {
   render(<HeaderUnauthenticated />);
 
   expect(screen.queryByTestId("overlay-modal")).toBeNull();
+});
+
+it("renders with search bar when pathname is not '/'", () => {
+  render(<HeaderUnauthenticated />);
+
+  screen.getByTestId("header-search-bar");
+});
+
+it("renders without search bar when pathname is '/'", () => {
+  (usePathname as jest.Mock).mockReturnValue("/");
+
+  render(<HeaderUnauthenticated />);
+
+  expect(screen.queryByTestId("header-search-bar")).toBeNull();
 });
 
 it("opens login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {

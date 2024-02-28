@@ -64,6 +64,7 @@ const HeaderSearchBar = ({
       className={`${styles.container}
           ${isInputFocused ? styles.containerInputFocused : ""} 
         `}
+      data-testID="header-search-bar"
     >
       {!isInputFocused && (
         <FontAwesomeIcon
