@@ -4,7 +4,7 @@ import FifthFoldPicturesBackground, {
 } from "./FifthFoldPicturesBackground";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 
-it("should render <img> elements with proper 'src' attribute", () => {
+it("renders <img> elements with proper 'src' attribute", () => {
   render(<FifthFoldPicturesBackground />);
 
   const images = screen.queryAllByRole("img") as HTMLImageElement[];

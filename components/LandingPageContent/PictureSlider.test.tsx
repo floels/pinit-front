@@ -32,9 +32,9 @@ afterEach(() => {
   jest.clearAllTimers();
 });
 
-it(`upon initial render, should show only header for first topic,
-should show proper step in stepper, and
-should style elements with proper color`, () => {
+it(`shows only header for first topic,
+shows proper step in stepper, and
+styles elements with proper color upon initial render`, () => {
   renderComponent();
 
   // Check that only first header is visible

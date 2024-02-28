@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import TextAndExploreButton from "./TextAndExploreButton";
 import { FOLDS_ENUM } from "./LandingPageContent";
 
-it("should render elements with the proper classes", () => {
+it("renders elements with the proper classes", () => {
   const props = {
     foldNumber: FOLDS_ENUM.SECOND,
     labels: { header: "", paragraph: "", link: "" },

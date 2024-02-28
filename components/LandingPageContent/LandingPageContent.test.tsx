@@ -73,7 +73,7 @@ it("should scroll from fold to fold, down and up", async () => {
   jest.useRealTimers();
 });
 
-it("should not scroll down to second fold in case of lateral wheel event", () => {
+it("does not scroll down to second fold in case of lateral wheel event", () => {
   render(<LandingPageContent />);
 
   fireEvent.wheel(document, { deltaX: 10 });
@@ -82,7 +82,7 @@ it("should not scroll down to second fold in case of lateral wheel event", () =>
   expect(content.className).toEqual("content");
 });
 
-it("should not move to third fold if user scrolls twice within debounce time", async () => {
+it("does not move to third fold if user scrolls twice within debounce time", async () => {
   jest.useFakeTimers();
 
   render(<LandingPageContent />);

@@ -10,7 +10,7 @@ const accountDetailsWithoutBackgroundPictureURL = {
   profilePictureURL: "https://profile.picture.url",
 };
 
-it("should render relevant details when provided", () => {
+it("renders relevant details when provided", () => {
   render(
     <AccountDetailsView
       {...accountDetailsWithoutBackgroundPictureURL}
@@ -39,7 +39,7 @@ it("should render relevant details when provided", () => {
   expect(backgroundPicture.src).toMatch(expectedPatternBackgroundPictureSrc);
 });
 
-it("should not display background picture when corresponding URL is not provided", () => {
+it("does not display background picture when corresponding URL is not provided", () => {
   render(
     <AccountDetailsView
       {...accountDetailsWithoutBackgroundPictureURL}

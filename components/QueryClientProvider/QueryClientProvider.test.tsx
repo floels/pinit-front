@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import QueryClientProvider from "./QueryClientProvider";
 import { render, screen } from "@testing-library/react";
 
-it("should give its child access to 'useQuery'", () => {
+it("gives its child access to 'useQuery'", () => {
   const ChildElement = () => {
     useQuery({ queryKey: ["dummyQuery"], queryFn: () => ({}) });
 

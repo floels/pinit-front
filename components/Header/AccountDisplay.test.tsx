@@ -23,19 +23,19 @@ const renderComponent = ({ isActive } = { isActive: false }) => {
   );
 };
 
-it("should not render active icon if account is not active", () => {
+it("does not render active icon if account is not active", () => {
   renderComponent();
 
   expect(screen.queryByTestId("icon-active-account")).toBeNull();
 });
 
-it("should render active icon if account is active", () => {
+it("renders active icon if account is active", () => {
   renderComponent({ isActive: true });
 
   screen.getByTestId("icon-active-account");
 });
 
-it("should call 'onClick' upon click", async () => {
+it("calls 'onClick' upon click", async () => {
   renderComponent({ isActive: true });
 
   const container = screen.getByTestId("account-display-container");

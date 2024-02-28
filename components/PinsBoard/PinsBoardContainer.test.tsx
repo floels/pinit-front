@@ -78,7 +78,7 @@ it("should fetch new thumbnails when user scrolls to bottom", async () => {
   });
 });
 
-it("should display loading spinner while fetching new thumbnails", () => {
+it("displays loading spinner while fetching new thumbnails", () => {
   const eternalPromise = new Promise<Response>(() => {});
   fetchMock.mockImplementationOnce(() => eternalPromise);
 
@@ -91,7 +91,7 @@ it("should display loading spinner while fetching new thumbnails", () => {
   screen.getByTestId("loading-spinner");
 });
 
-it("should display error message in case of KO response upon new thumbnails fetch", async () => {
+it("displays error message in case of KO response upon new thumbnails fetch", async () => {
   fetchMock.mockOnceIf(
     `${API_ROUTE_PIN_SUGGESTIONS}?page=2`,
     JSON.stringify({}),
@@ -107,7 +107,7 @@ it("should display error message in case of KO response upon new thumbnails fetc
   });
 });
 
-it("should display toast in case of fetch failure upon new thumbnails fetch", async () => {
+it("displays toast in case of fetch failure upon new thumbnails fetch", async () => {
   fetchMock.mockRejectOnce(new Error("Network failure"));
 
   renderComponent();

@@ -29,7 +29,7 @@ const renderComponent = () => {
   render(<HeaderAuthenticatedContainer />);
 };
 
-it("should display tooltip for profile link upon hover", () => {
+it("displays tooltip for profile link upon hover", () => {
   renderComponent();
 
   const profileLink = screen.getByTestId("profile-link");
@@ -43,7 +43,7 @@ it("should display tooltip for profile link upon hover", () => {
   expect(screen.queryByText(messages.YOUR_PROFILE)).toBeNull();
 });
 
-it("should display tooltip for account options button upon hover", () => {
+it("displays tooltip for account options button upon hover", () => {
   renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
@@ -57,7 +57,7 @@ it("should display tooltip for account options button upon hover", () => {
   expect(screen.queryByText(messages.ACCOUNT_OPTIONS)).toBeNull();
 });
 
-it("should display account options flyout upon click on corresponding button, and close upon hitting Escape key", async () => {
+it("displays account options flyout upon click on corresponding button, and close upon hitting Escape key", async () => {
   renderComponent();
 
   const accountOptionsButton = screen.getByTestId("account-options-button");

@@ -100,7 +100,7 @@ it("should hide icon when input gets focus", async () => {
   expect(screen.queryByTestId("search-icon")).toBeNull();
 });
 
-it("should display search suggestions with search term as first suggestion", async () => {
+it("displays search suggestions with search term as first suggestion", async () => {
   fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
@@ -122,7 +122,7 @@ it("should display search suggestions with search term as first suggestion", asy
   });
 });
 
-it("should display search suggestions as such if search term is already among suggestions", async () => {
+it("displays search suggestions as such if search term is already among suggestions", async () => {
   fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
     JSON.stringify({
@@ -195,7 +195,7 @@ it("should set the input value based on the search param", async () => {
   mockGetSearchParams.mockReturnValue(undefined);
 });
 
-it("should not display any suggestion in case of KO response from the API", async () => {
+it("does not display any suggestion in case of KO response from the API", async () => {
   render(<HeaderSearchBarContainer />);
 
   // We need to start with a first successful request in order to trigger an
@@ -224,7 +224,7 @@ it("should not display any suggestion in case of KO response from the API", asyn
   });
 });
 
-it("should not display any suggestion in case of fetch error", async () => {
+it("does not display any suggestion in case of fetch error", async () => {
   render(<HeaderSearchBarContainer />);
 
   // We need to start with a first successful request in order to trigger an

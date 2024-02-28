@@ -19,7 +19,7 @@ import "@/styles/globals.css";
 
 import HeaderAuthenticatedContainer from "@/components/Header/HeaderAuthenticatedContainer";
 import HeaderUnauthenticated from "@/components/Header/HeaderUnauthenticated";
-import AccessTokenRefresher from "@/components/AccessTokenRefresher/AccessTokenRefresher";
+import AuthenticatedSetupBuilder from "@/components/AuthenticatedSetupBuilder/AuthenticatedSetupBuilder";
 import { ACCESS_TOKEN_COOKIE_KEY } from "@/lib/constants";
 import QueryClientProvider from "@/components/QueryClientProvider/QueryClientProvider";
 
@@ -57,7 +57,7 @@ const Layout = ({ children, params: { locale } }: Props) => {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ToastContainer position="bottom-left" autoClose={5000} />
           <QueryClientProvider>
-            {isAuthenticated && <AccessTokenRefresher />}
+            {isAuthenticated && <AuthenticatedSetupBuilder />}
             {isAuthenticated ? (
               <HeaderAuthenticatedContainer />
             ) : (

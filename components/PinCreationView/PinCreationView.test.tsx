@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import PinCreationView from "./PinCreationView";
 
 // This component is completely covered by the tests in 'PinCreationViewContainer.test.tsx'.
-it("should render", () => {
+it("renders", () => {
   const props = {
     hasDroppedFile: false,
     imagePreviewURL: null,

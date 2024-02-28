@@ -23,7 +23,7 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-it("should display relevant input errors and not send any request before all inputs are valid, and reload the page on successful response", async () => {
+it("displays relevant input errors and not send any request before all inputs are valid, and reload the page on successful response", async () => {
   renderComponent();
 
   screen.getByText(messages.LoginForm.WELCOME_TO_PINIT);
@@ -65,7 +65,7 @@ it("should display relevant input errors and not send any request before all inp
   ).toBeNull();
 });
 
-it("should set the access token's expiration date in local storage and reload the page upon successful response", async () => {
+it("sets the access token's expiration date in local storage and reload the page upon successful response", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
@@ -100,7 +100,7 @@ it("should set the access token's expiration date in local storage and reload th
   expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 
-it("should display relevant errors when receiving KO responses", async () => {
+it("displays relevant errors when receiving KO responses", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
@@ -141,7 +141,7 @@ it("should display relevant errors when receiving KO responses", async () => {
   screen.getByText(en.Common.UNFORESEEN_ERROR);
 });
 
-it("should display relevant error upon fetch error", async () => {
+it("displays relevant error upon fetch error", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
@@ -158,7 +158,7 @@ it("should display relevant error upon fetch error", async () => {
   screen.getByText(en.Common.CONNECTION_ERROR);
 });
 
-it("should display loading state while expecting network response", async () => {
+it("displays loading state while expecting network response", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);

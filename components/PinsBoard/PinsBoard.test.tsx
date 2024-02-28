@@ -27,7 +27,7 @@ beforeEach(() => {
   mockIntersectionObserver();
 });
 
-it("should render the thumbnails with the right number of columns", () => {
+it("renders the thumbnails with the right number of columns", () => {
   render(
     <PinsBoard
       pins={pins}
@@ -46,7 +46,7 @@ it("should render the thumbnails with the right number of columns", () => {
   expect(thumbnailsColumns).toHaveLength(4); // given `const VIEWPORT_WIDTH_PX = 1200;`
 });
 
-it("should render empty results message when pins table is empty", () => {
+it("renders empty results message when pins table is empty", () => {
   render(
     <PinsBoard
       pins={[]}
