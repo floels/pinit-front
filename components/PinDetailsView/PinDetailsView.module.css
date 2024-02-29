@@ -30,7 +30,7 @@
 
 .pinViewContainer {
   display: flex;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 20px 0px;
+  box-shadow: var(--box-shadow-elevation-floating);
   border-radius: 32px;
   overflow: hidden; /* so that the border-radius affects child elements */
   margin: 0px 8px;

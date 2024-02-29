@@ -23,7 +23,7 @@ const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
       data-testid="account-options-flyout"
     >
       <div className={styles.moreOptionsContainer}>
-        <div className={styles.sectionHeader}>{t("MORE_OPTIONS")}</div>
+        <div className={styles.moreOptionsLabel}>{t("MORE_OPTIONS")}</div>
         <div
           onClick={handleClickLogOut}
           className={styles.logoutButton}

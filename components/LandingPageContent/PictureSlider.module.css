@@ -40,7 +40,6 @@ because then the header text is displayed on two lines instead of one. */
 .headerFixedSentence {
   text-align: center;
   margin: 0;
-  color: var(--color-text-default);
 }
 
 .topicHeader {
@@ -220,7 +219,6 @@ because then the header text is displayed on two lines instead of one. */
   display: flex;
   justify-content: center;
   font-size: var(--font-size-300);
-  color: var(--color-text-default);
   font-weight: var(--font-weight-semibold);
 }
 

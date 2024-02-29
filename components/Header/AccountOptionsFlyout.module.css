@@ -3,18 +3,12 @@
   position: absolute;
   top: 60px;
   right: 2px;
-  border-radius: 16px;
-  box-shadow: var(--elevation-floating);
+  border-radius: var(--border-radius-container);
+  box-shadow: var(--box-shadow-elevation-floating);
   padding: 8px;
   box-sizing: border-box;
   background-color: var(--color-white);
-}
-
-.sectionHeader {
-  padding: 8px;
-  color: var(--color-text-default);
-  font-size: var(--font-size-100);
-  font-weight: var(--font-weight-normal);
+  z-index: 10; /* so it appears above page content */
 }
 
 .logoutButton {
@@ -35,6 +29,11 @@
 
 .moreOptionsContainer {
   margin-top: 16px;
+}
+
+.moreOptionsLabel {
+  padding: 8px;
+  font-size: var(--font-size-100);
 }
 
 .spinnerContainer {
