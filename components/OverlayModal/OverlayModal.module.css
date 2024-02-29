@@ -18,7 +18,7 @@
     500px
   ); /* we cap at 90% of the parent's width, to have a small margin left and right on small-width viewports */
   position: relative;
-  background-color: var(--color-background-primary);
+  background-color: var(--color-background-base);
   border-radius: var(--border-radius-overlay-modal);
 }
 

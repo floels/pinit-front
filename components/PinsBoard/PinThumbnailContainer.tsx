@@ -1,7 +1,6 @@
 import { Pin } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
 import { useState } from "react";
-import { useAccountContext } from "@/contexts/accountContext";
 
 type PinThumbnailContainerProps = {
   pin: Pin;
@@ -10,10 +9,6 @@ type PinThumbnailContainerProps = {
 const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSaveFlyoutOpen, setIsSaveFlyoutOpen] = useState(false);
-
-  const { account } = useAccountContext();
-
-  const boards = account?.boards || [];
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -32,7 +27,6 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
   return (
     <PinThumbnail
       pin={pin}
-      boards={boards}
       isHovered={isHovered}
       isSaveFlyoutOpen={isSaveFlyoutOpen}
       handleMouseEnter={handleMouseEnter}

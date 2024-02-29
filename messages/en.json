@@ -109,7 +109,8 @@
     "ALT_PROFILE_PICTURE_OF": "Profile picture of",
     "PIN_THUMBNAIL_SAVE_BUTTON_TEXT": "Save",
     "PIN_THUMBNAIL_SAVE_FLYOUT_TITLE": "Save",
-    "PIN_THUMBNAIL_SAVE_FLYOUT_BOARDS_LABEL": "Save to board"
+    "PIN_THUMBNAIL_SAVE_FLYOUT_BOARDS_LABEL": "Save to board",
+    "SAVE_IN_BOARD_BUTTON_TEXT": "Save"
   },
   "PinDetails": {
     "ERROR_PIN_NOT_FOUND": "We couldn't find the pin you are looking for.",

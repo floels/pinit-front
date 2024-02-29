@@ -1,7 +1,7 @@
 .container {
   width: 100%;
-  position: relative; /* because save flyout will have
-  'position: absolute' */
+  position: relative; /* because save flyout child 
+  will have 'position: absolute' */
 }
 
 .imageContainer {
@@ -80,43 +80,4 @@
 .authorName {
   margin: 0;
   font-size: var(--font-size-200);
-}
-
-.saveFlyout {
-  position: absolute;
-  top: 60px;
-  background-color: var(--color-background-primary);
-  width: 140%;
-  box-shadow: var(--box-shadow-elevation-floating);
-  left: 50%; /* to center horizontally relative */
-  transform: translateX(-50%); /* to parent (by default) */
-  border-radius: var(--border-radius-container);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-.saveFlyout.saveFlyoutAlignedLeft {
-  left: 0;
-}
-
-.saveFlyout.saveFlyoutAlignedRight {
-  right: 0;
-}
-
-.saveFlyoutTitle {
-  margin-top: 24px;
-  margin-bottom: 24px;
-  font-size: var(--font-size-200);
-  font-weight: var(--font-weight-semibold);
-}
-
-.boardsLabelAndList {
-  width: 100%;
-}
-
-.boardsLabel {
-  font-size: var(--font-size-100);
 }

@@ -40,7 +40,7 @@
 .submitButton {
   margin-top: 16px;
   border-radius: 24px;
-  background-color: var(--color-red);
+  background-color: var(--color-background-important);
   height: 40px;
   width: 100%;
   color: var(--color-text-inverse);
