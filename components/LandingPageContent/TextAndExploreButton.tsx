@@ -1,8 +1,11 @@
+import Link from "next/link";
 import { FOLDS_ENUM } from "./LandingPageContent";
 import styles from "./TextAndExploreButton.module.css";
+import { useTranslations } from "next-intl";
 
 type TextAndExploreButtonProps = {
   foldNumber: FOLDS_ENUM;
+  linkTarget: string;
   labels: { [key: string]: string };
 };
 
@@ -36,8 +39,11 @@ const computeButtonClasses = ({ foldNumber }: { foldNumber: FOLDS_ENUM }) => {
 
 const TextAndExploreButton = ({
   foldNumber,
+  linkTarget,
   labels,
 }: TextAndExploreButtonProps) => {
+  const t = useTranslations("LandingPageContent");
+
   const containerClasses = computeContainerClasses({ foldNumber });
 
   const buttonClasses = computeButtonClasses({ foldNumber });
@@ -49,12 +55,13 @@ const TextAndExploreButton = ({
     >
       <div className={styles.header}>{labels.header}</div>
       <div className={styles.paragraph}>{labels.paragraph}</div>
-      <button
+      <Link
+        href={linkTarget}
         className={buttonClasses}
         data-testid="text-and-explore-button-button"
       >
-        {labels.link}
-      </button>
+        {t("Common.EXPLORE_LINK")}
+      </Link>
     </div>
   );
 };

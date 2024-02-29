@@ -7,6 +7,8 @@ import { FOLDS_ENUM } from "./LandingPageContent";
 const ThirdFold = () => {
   const t = useTranslations("LandingPageContent");
 
+  const exploreLinkTarget = "/search/pins?q=home";
+
   const textAndLinkLabels = {
     header: t("ThirdFold.HEADER"),
     paragraph: t("ThirdFold.PARAGRAPH"),
@@ -18,6 +20,7 @@ const ThirdFold = () => {
       <div className={styles.textArea}>
         <TextAndExploreButton
           foldNumber={FOLDS_ENUM.THIRD}
+          linkTarget={exploreLinkTarget}
           labels={textAndLinkLabels}
         />
       </div>
