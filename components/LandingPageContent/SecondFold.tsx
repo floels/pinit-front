@@ -9,10 +9,11 @@ import { FOLDS_ENUM } from "./LandingPageContent";
 const SecondFold = () => {
   const t = useTranslations("LandingPageContent");
 
+  const exploreLinkTarget = "/search/pins?q=food";
+
   const textAndLinkLabels = {
     header: t("SecondFold.HEADER"),
     paragraph: t("SecondFold.PARAGRAPH"),
-    link: t("SecondFold.LINK"),
   };
 
   return (
@@ -67,6 +68,7 @@ const SecondFold = () => {
       <div className={styles.textArea}>
         <TextAndExploreButton
           foldNumber={FOLDS_ENUM.SECOND}
+          linkTarget={exploreLinkTarget}
           labels={textAndLinkLabels}
         />
       </div>

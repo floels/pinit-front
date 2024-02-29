@@ -10,6 +10,9 @@
     "LOG_IN": "Log in"
   },
   "LandingPageContent": {
+    "Common": {
+      "EXPLORE_LINK": "Explore"
+    },
     "LoginForm": {
       "WELCOME_TO_PINIT": "Welcome to PinIt",
       "MISSING_EMAIL": "You missed a spot! Don't forget to add your email.",
@@ -53,7 +56,6 @@
     "SecondFold": {
       "HEADER": "Search for an idea",
       "PARAGRAPH": "What do you want to try next? Think of something you’re into—like “easy chicken dinner”—and see what you find.",
-      "LINK": "Explore",
       "EASY_CHICKEN_DINNER": "easy chicken dinner",
       "SIGN_UP_TO_GET_IDEAS": "Sign up to get your ideas",
       "CHICKEN_PLATE": "Chicken plate"
@@ -61,7 +63,6 @@
     "ThirdFold": {
       "HEADER": "Save ideas you like",
       "PARAGRAPH": "Collect your favorites so you can get back to them later.",
-      "LINK": "Explore",
       "FUTURE_HOME_VIBES": "Fern future home vibes",
       "SCANDINAVIAN_BEDROOM": "My Scandinavian bedroom",
       "DECK_OF_MY_DREAMS": "The deck of my dreams",
@@ -70,8 +71,7 @@
     },
     "FourthFold": {
       "HEADER": "See it, make it, try it, do it",
-      "PARAGRAPH": "The best part of Pinterest is discovering new things and ideas from people around the world.",
-      "LINK": "Explore",
+      "PARAGRAPH": "The best part of PinIt is discovering new things and ideas from people around the world.",
       "LIP_SHADE_PICTURE_ALT": "lip shade image",
       "EYE_SHADE_PICTURE_ALT": "eye shade image",
       "SECONDARY_PICTURE_TEXT_TITLE": "Scout the City",
