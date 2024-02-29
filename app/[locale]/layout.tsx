@@ -25,6 +25,7 @@ import QueryClientProvider from "@/components/QueryClientProvider/QueryClientPro
 import { LogOutContextProvider } from "@/contexts/logOutContext";
 import { AccountContextProvider } from "@/contexts/accountContext";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
+import HeaderSearchBarFocusedOverlay from "@/components/Header/HeaderSearchBarFocusedOverlay";
 
 type Props = {
   children: React.ReactNode;
@@ -69,6 +70,7 @@ const Layout = ({ children, params: { locale } }: Props) => {
                   ) : (
                     <HeaderUnauthenticated />
                   )}
+                  <HeaderSearchBarFocusedOverlay />
                   {children}
                 </HeaderSearchBarContextProvider>
               </AccountContextProvider>

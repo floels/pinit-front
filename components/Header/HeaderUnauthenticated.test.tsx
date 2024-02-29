@@ -3,27 +3,32 @@ import userEvent from "@testing-library/user-event";
 import en from "@/messages/en.json";
 import HeaderUnauthenticated from "./HeaderUnauthenticated";
 import { usePathname } from "next/navigation";
+import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 
-// 'useRouter' is needed for the <LoginForm /> and <SignupForm /> components, which call useRouter().refresh().
-// 'useSearchParams' is needed for the <HeaderSearchBarContainer /> component.
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    refresh: jest.fn(),
-  }),
+  useRouter: jest.fn(),
   usePathname: jest.fn(),
   useSearchParams: jest.fn(),
 }));
 
 const messages = en.LandingPageContent;
 
+const renderComponent = () => {
+  render(
+    <HeaderSearchBarContextProvider>
+      <HeaderUnauthenticated />
+    </HeaderSearchBarContextProvider>,
+  );
+};
+
 it("renders without any modal open", () => {
-  render(<HeaderUnauthenticated />);
+  renderComponent();
 
   expect(screen.queryByTestId("overlay-modal")).toBeNull();
 });
 
 it("renders with search bar when pathname is not '/'", () => {
-  render(<HeaderUnauthenticated />);
+  renderComponent();
 
   screen.getByTestId("header-search-bar");
 });
@@ -31,13 +36,13 @@ it("renders with search bar when pathname is not '/'", () => {
 it("renders without search bar when pathname is '/'", () => {
   (usePathname as jest.Mock).mockReturnValue("/");
 
-  render(<HeaderUnauthenticated />);
+  renderComponent();
 
   expect(screen.queryByTestId("header-search-bar")).toBeNull();
 });
 
 it("opens login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {
-  render(<HeaderUnauthenticated />);
+  renderComponent();
 
   const logInButton = screen.getByTestId("header-log-in-button");
 
@@ -63,7 +68,7 @@ it("opens login modal when user clicks on Login button, and switch to signup mod
 });
 
 it("opens signup modal when user clicks on Signup button, and switch to login modal when user clicks on 'Log in'", async () => {
-  render(<HeaderUnauthenticated />);
+  renderComponent();
 
   const signUpButton = screen.getByTestId("header-sign-up-button");
 
@@ -93,7 +98,7 @@ it("opens signup modal when user clicks on Signup button, and switch to login mo
 });
 
 it("closes login modal when user clicks close button", async () => {
-  render(<HeaderUnauthenticated />);
+  renderComponent();
 
   const logInButton = screen.getByTestId("header-log-in-button");
 
@@ -109,7 +114,7 @@ it("closes login modal when user clicks close button", async () => {
 });
 
 it("closes signup modal when user clicks close button", async () => {
-  render(<HeaderUnauthenticated />);
+  renderComponent();
 
   const signUpButton = screen.getByTestId("header-sign-up-button");
 

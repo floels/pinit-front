@@ -10,12 +10,6 @@ import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
 
 jest.mock("js-cookie");
 
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    refresh: jest.fn(),
-  }),
-}));
-
 const mockHandleFinishedFetching = jest.fn();
 
 const renderComponent = () => {

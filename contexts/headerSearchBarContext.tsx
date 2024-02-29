@@ -31,7 +31,7 @@ const initialState = {
   isInputFocused: false,
 };
 
-const HeaderSearchBarContext = createContext<
+export const HeaderSearchBarContext = createContext<
   HeaderSearchBarContextType | undefined
 >(undefined);
 

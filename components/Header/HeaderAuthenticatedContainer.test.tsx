@@ -10,6 +10,7 @@ import {
 import { PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY } from "@/lib/constants";
 import { AccountContext } from "@/contexts/accountContext";
 import { TypesOfAccount } from "@/lib/types";
+import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 
 const messages = en.HeaderAuthenticated;
 
@@ -24,10 +25,7 @@ jest.mock("@/components/Header/AccountOptionsFlyout", () => {
 });
 
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    refresh: jest.fn(),
-  }),
+  useRouter: jest.fn(),
   usePathname: jest.fn(),
   useSearchParams: jest.fn(),
 }));
@@ -48,7 +46,9 @@ const renderComponent = (accountContextProviderProps?: any) => {
       value={{ account, setAccount: jest.fn() }}
       {...accountContextProviderProps}
     >
-      <HeaderAuthenticatedContainer />
+      <HeaderSearchBarContextProvider>
+        <HeaderAuthenticatedContainer />
+      </HeaderSearchBarContextProvider>
     </AccountContext.Provider>,
   );
 };

@@ -4,20 +4,17 @@ import HeaderSearchBarContainer, {
   AUTOCOMPLETE_DEBOUNCE_TIME_MS,
 } from "./HeaderSearchBarContainer";
 import { API_ROUTE_SEARCH_SUGGESTIONS } from "@/lib/constants";
-import { usePathname } from "next/navigation";
+import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 
 const mockPush = jest.fn();
-const mockGetSearchParams = jest.fn();
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: mockPush,
   }),
   usePathname: jest.fn(),
-  useSearchParams: () => ({ get: mockGetSearchParams }),
+  useSearchParams: jest.fn(),
 }));
-
-const mockedUsePathname = usePathname as jest.Mock;
 
 jest.mock("next/link", () => {
   const MockedLink = ({ children, ...props }: any) => (
@@ -42,12 +39,26 @@ const typeSearchTerm = async (searchTerm: string) => {
   await userEvent.type(searchInput, searchTerm);
 };
 
+const clickSearchInput = async () => {
+  const searchInput = screen.getByTestId("search-bar-input");
+
+  await userEvent.click(searchInput);
+};
+
+const renderComponent = () => {
+  render(
+    <HeaderSearchBarContextProvider>
+      <HeaderSearchBarContainer />
+    </HeaderSearchBarContextProvider>,
+  );
+};
+
 beforeEach(() => {
   fetchMock.resetMocks();
 });
 
 it("resets input value and blur input upon pressing Escape", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -66,7 +77,7 @@ it("resets input value and blur input upon pressing Escape", async () => {
 });
 
 it("resets input value, blurs input and hides 'Clear' icon upon pressing 'Clear' icon", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -89,13 +100,11 @@ it("resets input value, blurs input and hides 'Clear' icon upon pressing 'Clear'
 });
 
 it("hides icon when input gets focus", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   screen.getByTestId("search-icon");
 
-  const searchInput = screen.getByTestId("search-bar-input");
-
-  await userEvent.click(searchInput);
+  await clickSearchInput();
 
   expect(screen.queryByTestId("search-icon")).toBeNull();
 });
@@ -106,7 +115,7 @@ it("displays search suggestions with search term as first suggestion", async () 
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   await typeSearchTerm("foo");
 
@@ -133,7 +142,7 @@ it("displays search suggestions as such if search term is already among suggesti
     }),
   );
 
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   await typeSearchTerm("foo");
 
@@ -153,7 +162,7 @@ it("navigates to search route when user clicks suggestion", async () => {
     JSON.stringify({ results: MOCK_SUGGESTIONS }),
   );
 
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   await typeSearchTerm("foo");
 
@@ -171,32 +180,19 @@ it("navigates to search route when user clicks suggestion", async () => {
 });
 
 it("navigates to /search/pins route when user types and presses Enter", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   const searchInput = screen.getByTestId("search-bar-input");
 
-  await userEvent.click(searchInput);
-  await userEvent.type(searchInput, "foo");
+  await typeSearchTerm("foo");
+
   await userEvent.keyboard("[Enter]");
 
   expect(mockPush).toHaveBeenLastCalledWith(`/search/pins?q=foo`);
 });
 
-it("sets the input value based on the search param", async () => {
-  mockedUsePathname.mockReturnValue("/en/search/pins");
-  mockGetSearchParams.mockReturnValue("foo");
-
-  render(<HeaderSearchBarContainer />);
-
-  const searchInput = screen.getByTestId("search-bar-input");
-  expect(searchInput).toHaveValue("foo");
-
-  mockedUsePathname.mockReturnValue(undefined);
-  mockGetSearchParams.mockReturnValue(undefined);
-});
-
 it("does not display any suggestion in case of KO response from the API", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   // We need to start with a first successful request in order to trigger an
   // initial state change:
@@ -225,7 +221,7 @@ it("does not display any suggestion in case of KO response from the API", async 
 });
 
 it("does not display any suggestion in case of fetch error", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
   // We need to start with a first successful request in order to trigger an
   // initial state change:
@@ -250,10 +246,9 @@ it("does not display any suggestion in case of fetch error", async () => {
 });
 
 it("fetches only once if two characters are typed within debounce time", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
-  const searchInput = screen.getByTestId("search-bar-input");
-  await userEvent.click(searchInput);
+  await clickSearchInput();
 
   jest.useFakeTimers();
 
@@ -270,15 +265,13 @@ it("fetches only once if two characters are typed within debounce time", async (
     );
   });
 
-  jest.clearAllTimers();
   jest.useRealTimers();
 });
 
 it("fetches twice if two characters are typed beyond debounce time", async () => {
-  render(<HeaderSearchBarContainer />);
+  renderComponent();
 
-  const searchInput = screen.getByTestId("search-bar-input");
-  await userEvent.click(searchInput);
+  await clickSearchInput();
 
   jest.useFakeTimers();
 
@@ -300,6 +293,5 @@ it("fetches twice if two characters are typed beyond debounce time", async () =>
     );
   });
 
-  jest.clearAllTimers();
   jest.useRealTimers();
 });

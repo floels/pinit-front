@@ -21,9 +21,7 @@ const fifthFold = (
 
 // Needed for the <LoginForm /> and <SignupForm /> components, which call useRouter():
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    refresh: jest.fn(),
-  }),
+  useRouter: jest.fn(),
 }));
 
 it("scrolls hero ref into view upon rendering", () => {
