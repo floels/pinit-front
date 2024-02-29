@@ -16,6 +16,7 @@ const mockedUsePathname = usePathname as jest.Mock;
 
 const renderComponent = () => {
   const props = {
+    username: "johndoe",
     profilePictureURL: null,
     isProfileLinkHovered: false,
     isAccountOptionsButtonHovered: false,

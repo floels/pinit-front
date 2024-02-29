@@ -22,7 +22,7 @@
 }
 
 .logoContainer:hover {
-  background-color: var(--color-transparent-gray);
+  background-color: var(--color-background-secondary);
 }
 
 .navigationItem {
