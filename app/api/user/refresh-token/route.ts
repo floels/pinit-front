@@ -22,6 +22,8 @@ export const POST = async () => {
     );
   }
 
+  const backendRequestBody = JSON.stringify({ refresh_token: refreshToken });
+
   let backendResponse;
 
   try {
@@ -32,9 +34,7 @@ export const POST = async () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          refresh_token: refreshToken,
-        }),
+        body: backendRequestBody,
       },
     );
   } catch {

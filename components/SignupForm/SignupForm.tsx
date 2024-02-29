@@ -109,6 +109,8 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
   };
 
   const fetchSignup = async () => {
+    const requestBody = JSON.stringify(formData);
+
     let response;
 
     try {
@@ -117,7 +119,7 @@ const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: requestBody,
       });
     } catch {
       throw new Error(ERROR_CODE_FETCH_FAILED);

@@ -1,21 +1,34 @@
-import { useAccountContext } from "@/contexts/accountContext";
 import { useTranslations } from "next-intl";
 import SaveInBoardButtonContainer from "./SaveInBoardButtonContainer";
 import styles from "./SavePinFlyout.module.css";
+import { Board } from "@/lib/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-type SavePinFlyoutProps = {};
+type SavePinFlyoutProps = {
+  boards: Board[];
+  isSaving: boolean;
+  getClickHandlerForBoard: ({
+    boardIndex,
+  }: {
+    boardIndex: number;
+  }) => () => void;
+};
 
-const SavePinFlyout = () => {
+const SavePinFlyout = ({
+  boards,
+  isSaving,
+  getClickHandlerForBoard,
+}: SavePinFlyoutProps) => {
   const t = useTranslations("PinsBoard");
-
-  const { account } = useAccountContext();
-
-  const boards = account?.boards || [];
 
   const saveInBoardButtons = (
     <div>
       {boards.map((board, index) => (
-        <div key={`board-${index}`}>
+        <div
+          key={`board-${index}`}
+          onClick={getClickHandlerForBoard({ boardIndex: index })}
+        >
           <SaveInBoardButtonContainer board={board} />
         </div>
       ))}
@@ -33,6 +46,16 @@ const SavePinFlyout = () => {
         </span>
         {saveInBoardButtons}
       </div>
+      {isSaving && (
+        <div className={styles.loadingOverlay}>
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            spin
+            className={styles.loadingSpinner}
+          />
+        </div>
+      )}
     </div>
   );
 };

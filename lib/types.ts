@@ -33,6 +33,7 @@ export type AccountPrivateDetails = {
 };
 
 export type Board = {
+  id: string;
   title: string;
   coverPictureURL: string | null;
 };

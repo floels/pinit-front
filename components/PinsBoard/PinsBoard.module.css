@@ -33,7 +33,7 @@ so we need to override with a media query: */
 }
 
 .loadingSpinner {
-  color: var(--color-gray-400);
+  color: var(--color-loading-spinner);
 }
 
 .errorMessage {
