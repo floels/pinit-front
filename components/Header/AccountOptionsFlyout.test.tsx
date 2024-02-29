@@ -10,15 +10,6 @@ jest.mock("@/components/LogoutTrigger/LogoutTrigger", () => {
   return MockedLogoutTrigger;
 });
 
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    refresh: jest.fn(),
-  }),
-  usePathname: jest.fn(),
-  useSearchParams: jest.fn(),
-}));
-
 jest.mock("js-cookie", () => ({
   set: jest.fn(),
 }));

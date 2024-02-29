@@ -13,7 +13,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--color-background-gray-transparent);
   display: flex;
   justify-content: flex-end; /* so that the text area is pushed outside to the left of the screen on small-width viewports */
 }

@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { usePathname } from "next/navigation";
 import HeaderAuthenticated from "./HeaderAuthenticated";
 import en from "@/messages/en.json";
+import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
@@ -16,6 +17,7 @@ const mockedUsePathname = usePathname as jest.Mock;
 
 const renderComponent = () => {
   const props = {
+    username: "johndoe",
     profilePictureURL: null,
     isProfileLinkHovered: false,
     isAccountOptionsButtonHovered: false,
@@ -29,7 +31,11 @@ const renderComponent = () => {
 
   const mockRef = React.createRef();
 
-  render(<HeaderAuthenticated ref={mockRef} {...props} />);
+  render(
+    <HeaderSearchBarContextProvider>
+      <HeaderAuthenticated ref={mockRef} {...props} />
+    </HeaderSearchBarContextProvider>,
+  );
 };
 
 it("when on home route, should mark home link as active and not mark create link as active", () => {

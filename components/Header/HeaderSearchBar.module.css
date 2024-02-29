@@ -56,6 +56,7 @@
   background-color: var(--color-background-primary);
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
+  z-index: 10; /* so it appears above the overlay */
 }
 
 .searchSuggestionsLink {

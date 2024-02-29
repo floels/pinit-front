@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { API_ROUTE_SEARCH_SUGGESTIONS } from "@/lib/constants";
 import HeaderSearchBar from "./HeaderSearchBar";
-import { useLocale } from "next-intl";
+import { useHeaderSearchBarContext } from "@/contexts/headerSearchBarContext";
 
 export const AUTOCOMPLETE_DEBOUNCE_TIME_MS = 300;
 
@@ -37,20 +37,20 @@ const getSuggestionsWithSearchTermAtTop = ({
 
 const HeaderSearchBarContainer = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const locale = useLocale();
-  const searchParams = useSearchParams();
 
-  const [isInputFocused, setIsInputFocused] = useState(false);
-  const [inputValue, setInputValue] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
 
+  const {
+    state: { inputValue, isInputFocused },
+    dispatch,
+  } = useHeaderSearchBarContext();
+
   const handleInputFocus = () => {
-    setIsInputFocused(true);
+    dispatch({ type: "FOCUS_INPUT" });
   };
 
   const handleInputBlur = () => {
-    setIsInputFocused(false);
+    dispatch({ type: "BLUR_INPUT" });
   };
 
   // We need this additional handler when the user clicks a suggestion link,
@@ -60,32 +60,21 @@ const HeaderSearchBarContainer = () => {
   // and the transition to the target route will not take place.
   const getSuggestionLinkClickHandler = (suggestion: string) => {
     return () => {
-      setInputValue(suggestion); // Theoretically this shouldn't be needed since the input's value
-      // is automatically updated based on the route, but updating it here will give a better impression
-      // of reactivity.
+      dispatch({ type: "SET_INPUT_VALUE", payload: suggestion }); // Theoretically this shouldn't
+      // be necessary since the input's value is automatically updated based on the route, but
+      // updating it here will give a better impression of reactivity.
 
       router.push(`/search/pins?q=${suggestion}`);
     };
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+    dispatch({ type: "SET_INPUT_VALUE", payload: event.target.value });
   };
 
   const handlePressEscape = () => {
-    setInputValue("");
+    dispatch({ type: "SET_INPUT_VALUE", payload: "" });
   };
-
-  // Initialize the input value to the search param if present:
-  useEffect(() => {
-    if (pathname === `/${locale}/search/pins`) {
-      const searchTerm = searchParams.get("q");
-
-      if (searchTerm) {
-        setInputValue(searchTerm);
-      }
-    }
-  }, [pathname, searchParams]);
 
   const fetchSearchSuggestions = async ({
     searchTerm,
@@ -144,8 +133,8 @@ const HeaderSearchBarContainer = () => {
   }, [inputValue]);
 
   const handleClickClearIcon = () => {
-    setInputValue("");
-    setIsInputFocused(false);
+    dispatch({ type: "SET_INPUT_VALUE", payload: "" });
+    dispatch({ type: "BLUR_INPUT" });
   };
 
   return (
