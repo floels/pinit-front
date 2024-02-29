@@ -42,7 +42,7 @@
   font-size: var(--font-size-300);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-inverse);
-  background-color: var(--color-red);
+  background-color: var(--color-background-important);
 }
 
 .formInputs {
