@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState, useRef } from "react";
 import HeaderAuthenticated from "./HeaderAuthenticated";
 import {
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
@@ -10,8 +9,6 @@ import {
 import { useAccountContext } from "@/contexts/accountContext";
 
 const HeaderAuthenticatedContainer = () => {
-  const t = useTranslations("Common");
-
   const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -20,23 +17,17 @@ const HeaderAuthenticatedContainer = () => {
     accountOptionsButtonRef,
   };
 
+  const [username, setUsername] = useState<string | null>(null);
+  const [profilePictureURL, setProfilePictureURL] = useState<string | null>(
+    null,
+  );
   const [isProfileLinkHovered, setIsProfileLinkHovered] = useState(false);
   const [isAccountOptionsButtonHovered, setIsAccountOptionsButtonHovered] =
     useState(false);
   const [isAccountOptionsFlyoutOpen, setIsAccountOptionsFlyoutOpen] =
     useState(false);
 
-  const { account } = useAccountContext();
-
-  // The idea here is to fall back to local storage if the account context
-  // is not yet available, which will typically be the case while
-  // <AccountDetailsFetcher /> is still fetching:
-  const username =
-    account?.username || localStorage?.getItem(USERNAME_LOCAL_STORAGE_KEY);
-
-  const profilePictureURL =
-    account?.profilePictureURL ||
-    localStorage?.getItem(PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY);
+  const accountContext = useAccountContext();
 
   const handleMouseEnterProfileLink = () => {
     setIsProfileLinkHovered(true);
@@ -74,6 +65,23 @@ const HeaderAuthenticatedContainer = () => {
       setIsAccountOptionsFlyoutOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (accountContext.account) {
+      const { username, profilePictureURL } = accountContext.account;
+
+      setUsername(username);
+      setProfilePictureURL(profilePictureURL);
+      return;
+    }
+
+    // If the account context has not been fetched yet, fall back to
+    // local storage:
+    setUsername(localStorage.getItem(USERNAME_LOCAL_STORAGE_KEY));
+    setProfilePictureURL(
+      localStorage.getItem(PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY),
+    );
+  }, [accountContext.account]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickDocument);

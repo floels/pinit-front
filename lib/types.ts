@@ -18,5 +18,5 @@ export type AccountType = {
   username: string;
   displayName: string;
   initial: string;
-  profilePictureURL?: string;
+  profilePictureURL: string | null;
 };

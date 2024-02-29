@@ -7,7 +7,10 @@ import {
   MockLocalStorage,
   getNextImageSrcRegexFromURL,
 } from "@/lib/utils/testing";
-import { PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY } from "@/lib/constants";
+import {
+  PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
+  USERNAME_LOCAL_STORAGE_KEY,
+} from "@/lib/constants";
 import { AccountContext } from "@/contexts/accountContext";
 import { TypesOfAccount } from "@/lib/types";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
@@ -137,30 +140,36 @@ profile picture URL is available in account context`, () => {
   expect(profilePicture.src).toMatch(srcPattern);
 });
 
-it(`displays profile picture in 'Your profile' link if no profile picture URL
-was found in account context but one was found in local storage`, () => {
+it(`displays profile picture in 'Your profile' link if account context
+is not yet available, but a username and a profile picture URL were found in
+local storage`, async () => {
   const profilePictureURL = "https://some.domain.com/profile-picture.jpb";
 
+  localStorage.setItem(USERNAME_LOCAL_STORAGE_KEY, "johndoe");
   localStorage.setItem(
     PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
     profilePictureURL,
   );
 
-  renderComponent({ value: { account: { username: "johndoe" } } });
+  renderComponent({ value: { account: null } });
 
-  const profilePicture = screen.getByTestId(
-    "profile-picture",
-  ) as HTMLImageElement;
+  await waitFor(() => {
+    const profilePicture = screen.getByTestId(
+      "profile-picture",
+    ) as HTMLImageElement;
 
-  const srcPattern = getNextImageSrcRegexFromURL(profilePictureURL);
+    const srcPattern = getNextImageSrcRegexFromURL(profilePictureURL);
 
-  expect(profilePicture.src).toMatch(srcPattern);
+    expect(profilePicture.src).toMatch(srcPattern);
+  });
 });
 
-it(`displays icon in 'Your profile' link if no profile picture URL
-was found in account context or in local storage, but username
-was found in account context`, () => {
-  renderComponent({ value: { account: { username: "johndoe" } } });
+it(`displays icon in 'Your profile' link if account context is not
+yet available, no profile picture URL was found in local storage,
+but username was found in local storage`, () => {
+  localStorage.setItem(USERNAME_LOCAL_STORAGE_KEY, "johndoe");
+
+  renderComponent({ value: { account: null } });
 
   screen.getByTestId("profile-link-icon");
 });
