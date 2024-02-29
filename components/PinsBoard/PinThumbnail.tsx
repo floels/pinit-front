@@ -11,22 +11,32 @@ import SavePinFlyout from "./SavePinFlyout";
 
 type PinThumbnailProps = {
   pin: Pin;
+  boards: Board[];
   isHovered: boolean;
   isSaveFlyoutOpen: boolean;
+  isSaving: boolean;
   handleMouseEnter: () => void;
   handleMouseLeave: () => void;
   handleClickSave: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  getClickHandlerForBoard: ({
+    boardIndex,
+  }: {
+    boardIndex: number;
+  }) => () => void;
 };
 
 const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
 
 const PinThumbnail = ({
   pin,
+  boards,
   isHovered,
   isSaveFlyoutOpen,
+  isSaving,
   handleMouseEnter,
   handleMouseLeave,
   handleClickSave,
+  getClickHandlerForBoard,
 }: PinThumbnailProps) => {
   const t = useTranslations("PinsBoard");
 
@@ -82,7 +92,13 @@ const PinThumbnail = ({
         )}
         <span className={styles.authorName}>{pin.authorDisplayName}</span>
       </Link>
-      {isSaveFlyoutOpen && <SavePinFlyout />}
+      {isSaveFlyoutOpen && (
+        <SavePinFlyout
+          boards={boards}
+          isSaving={isSaving}
+          getClickHandlerForBoard={getClickHandlerForBoard}
+        />
+      )}
     </div>
   );
 };

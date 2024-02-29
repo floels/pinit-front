@@ -11,6 +11,8 @@ import {
 export const POST = async (request: Request) => {
   const { email, password } = await request.json();
 
+  const backendRequestBody = JSON.stringify({ email, password });
+
   let backendResponse;
 
   try {
@@ -21,10 +23,7 @@ export const POST = async (request: Request) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: backendRequestBody,
       },
     );
   } catch {

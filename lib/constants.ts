@@ -8,6 +8,7 @@ export const API_ROUTE_PIN_SUGGESTIONS = "/api/pin-suggestions";
 export const API_ROUTE_SEARCH = "/api/search";
 export const API_ROUTE_SEARCH_SUGGESTIONS = "/api/search-suggestions";
 export const API_ROUTE_CREATE_PIN = "/api/create-pin";
+export const API_ROUTE_SAVE_PIN = "/api/save-pin";
 export const API_ROUTE_LOG_OUT = "/api/user/log-out";
 
 // API base URL and endpoints
@@ -22,6 +23,7 @@ export const API_ENDPOINT_PIN_DETAILS = "pins";
 export const API_ENDPOINT_ACCOUNT_DETAILS = "accounts";
 export const API_ENDPOINT_OWNED_ACCOUNTS = "owned-accounts";
 export const API_ENDPOINT_CREATE_PIN = "create-pin";
+export const API_ENDPOINT_SAVE_PIN = "save-pin";
 export const API_ENDPOINT_MY_ACCOUNT_DETAILS = "accounts/me";
 
 // API error codes

@@ -38,3 +38,20 @@
 .boardsLabel {
   font-size: var(--font-size-100);
 }
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-background-light-transparent-overlay);
+  border-radius: var(--border-radius-container);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  color: var(--color-loading-spinner);
+}

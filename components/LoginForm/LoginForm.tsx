@@ -112,6 +112,11 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
   };
 
   const fetchTokens = async () => {
+    const requestBody = JSON.stringify({
+      email: credentials.email,
+      password: credentials.password,
+    });
+
     let response;
 
     try {
@@ -120,10 +125,7 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: credentials.email,
-          password: credentials.password,
-        }),
+        body: requestBody,
       });
     } catch {
       throw new Error(ERROR_CODE_FETCH_FAILED);
