@@ -24,6 +24,7 @@ import { ACCESS_TOKEN_COOKIE_KEY } from "@/lib/constants";
 import QueryClientProvider from "@/components/QueryClientProvider/QueryClientProvider";
 import { LogOutContextProvider } from "@/contexts/logOutContext";
 import { AccountContextProvider } from "@/contexts/accountContext";
+import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 
 type Props = {
   children: React.ReactNode;
@@ -61,13 +62,15 @@ const Layout = ({ children, params: { locale } }: Props) => {
           <QueryClientProvider>
             <LogOutContextProvider>
               <AccountContextProvider>
-                {isAuthenticated && <AuthenticatedSetupBuilder />}
-                {isAuthenticated ? (
-                  <HeaderAuthenticatedContainer />
-                ) : (
-                  <HeaderUnauthenticated />
-                )}
-                {children}
+                <HeaderSearchBarContextProvider>
+                  {isAuthenticated && <AuthenticatedSetupBuilder />}
+                  {isAuthenticated ? (
+                    <HeaderAuthenticatedContainer />
+                  ) : (
+                    <HeaderUnauthenticated />
+                  )}
+                  {children}
+                </HeaderSearchBarContextProvider>
               </AccountContextProvider>
             </LogOutContextProvider>
           </QueryClientProvider>
