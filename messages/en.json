@@ -106,7 +106,8 @@
   "PinsBoard": {
     "ERROR_DISPLAY_PINS": "An error occurred while attempting to display pins.",
     "ALT_PIN_BY": "Pin by",
-    "ALT_PROFILE_PICTURE_OF": "Profile picture of"
+    "ALT_PROFILE_PICTURE_OF": "Profile picture of",
+    "PIN_THUMBNAIL_SAVE_BUTTON_TEXT": "Save"
   },
   "PinDetails": {
     "ERROR_PIN_NOT_FOUND": "We couldn't find the pin you are looking for.",

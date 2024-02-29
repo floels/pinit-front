@@ -5,11 +5,11 @@ import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { appendQueryParam } from "@/lib/utils/strings";
 import PinsBoard from "./PinsBoard";
-import { PinType } from "@/lib/types";
-import { getPinsWithCamelCaseKeys } from "@/lib/utils/serializers";
+import { Pin } from "@/lib/types";
+import { serializePinsWithAuthorData } from "@/lib/utils/serializers";
 
 type PinsBoardContainerProps = {
-  initialPins: PinType[];
+  initialPins: Pin[];
   fetchPinsAPIRoute: string;
   emptyResultsMessageKey?: string;
 };
@@ -22,7 +22,7 @@ const PinsBoardContainer = ({
   const t = useTranslations("Common");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pins, setPins] = useState<PinType[]>(initialPins);
+  const [pins, setPins] = useState<Pin[]>(initialPins);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
 
@@ -57,7 +57,7 @@ const PinsBoardContainer = ({
     }
 
     const nextPinsResponseData = await response.json();
-    const newPins = getPinsWithCamelCaseKeys(nextPinsResponseData.results);
+    const newPins = serializePinsWithAuthorData(nextPinsResponseData.results);
     setPins((currentPins) => [...currentPins, ...newPins]);
 
     setFetchFailed(false);

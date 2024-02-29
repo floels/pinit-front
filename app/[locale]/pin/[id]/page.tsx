@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import PinDetailsView from "@/components/PinDetailsView/PinDetailsView";
 import { API_BASE_URL, API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
-import { getPinWithCamelCaseKeys } from "@/lib/utils/serializers";
+import { serializePinWithAuthorData } from "@/lib/utils/serializers";
 import { Response404Error, ResponseKOError } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
 
@@ -24,7 +24,7 @@ const fetchPinDetails = async ({ pinId }: { pinId: string }) => {
 
   const responseData = await response.json();
 
-  return getPinWithCamelCaseKeys(responseData);
+  return serializePinWithAuthorData(responseData);
 };
 
 const Page = async ({ params }: PageProps) => {

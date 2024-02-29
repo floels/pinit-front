@@ -5,11 +5,11 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { PinType } from "@/lib/types";
+import { Pin } from "@/lib/types";
 import styles from "./PinDetailsView.module.css";
 
 type PinDetailsViewProps = {
-  pin: PinType;
+  pin: Pin;
 };
 
 const AUTHOR_PROFILE_PICTURE_SIZE_PX = 48;

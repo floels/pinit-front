@@ -1,4 +1,4 @@
-export type PinType = {
+export type Pin = {
   id: string;
   title: string;
   imageURL: string;
@@ -13,10 +13,26 @@ export enum TypesOfAccount {
   BUSINESS = "business",
 }
 
-export type AccountType = {
+export type AccountPublicDetails = {
+  type: TypesOfAccount;
+  username: string;
+  displayName: string;
+  profilePictureURL: string | null;
+  backgroundPictureURL: string | null;
+  description: string | null;
+};
+
+export type AccountPrivateDetails = {
   type: TypesOfAccount;
   username: string;
   displayName: string;
   initial: string;
   profilePictureURL: string | null;
+  ownerEmail: string;
+  boards: Board[];
+};
+
+export type Board = {
+  title: string;
+  coverPictureURL: string | null;
 };
