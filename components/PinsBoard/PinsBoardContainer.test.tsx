@@ -2,7 +2,7 @@ import { render, waitFor, act, screen } from "@testing-library/react";
 import en from "@/messages/en.json";
 import PinsBoardContainer from "./PinsBoardContainer";
 import { toast } from "react-toastify";
-import { PinType } from "@/lib/types";
+import { Pin } from "@/lib/types";
 import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 import { mockIntersectionObserver } from "@/lib/utils/testing";
 
@@ -24,7 +24,7 @@ const initialPins = Array.from(
     authorUsername: "johndoe",
     authorDisplayName: "John Doe",
   }),
-) as PinType[];
+) as Pin[];
 
 const simulateScrollToBottomOfPage = () => {
   const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];

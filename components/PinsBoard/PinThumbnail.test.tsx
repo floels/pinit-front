@@ -14,7 +14,15 @@ it("renders all required elements", () => {
     description: "Pin description",
   };
 
-  render(<PinThumbnail pin={pin} />);
+  render(
+    <PinThumbnail
+      pin={pin}
+      isHovered={false}
+      boards={[]}
+      handleMouseEnter={() => {}}
+      handleMouseLeave={() => {}}
+    />,
+  );
 
   const pinImage = screen.getByAltText("Pin title");
   expect(pinImage).toHaveAttribute("src", "https://pin.url");

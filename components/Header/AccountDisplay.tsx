@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { AccountType, TypesOfAccount } from "@/lib/types";
+import { AccountPublicDetails, TypesOfAccount } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import styles from "./AccountDisplay.module.css";
 
 export type AccountDisplayProps = {
-  account: AccountType;
+  account: AccountPublicDetails;
   isActive?: boolean;
   onClick?: () => void;
 };

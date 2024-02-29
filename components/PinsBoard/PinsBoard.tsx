@@ -6,12 +6,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import styles from "./PinsBoard.module.css";
-import PinThumbnail from "./PinThumbnail";
+import PinThumbnailContainer from "./PinThumbnailContainer";
 import { useViewportWidth } from "@/lib/utils/custom-hooks";
-import { PinType } from "@/lib/types";
+import { Pin } from "@/lib/types";
 
 type PinsBoardProps = {
-  pins: PinType[];
+  pins: Pin[];
   isFetching: boolean;
   fetchFailed: boolean;
   emptyResultsMessageKey?: string;
@@ -101,7 +101,7 @@ const PinsBoard = ({
                   className={styles.pinThumbnail}
                   key={`pin-thumbnail-${pinIndex + 1}`}
                 >
-                  <PinThumbnail pin={pin} />
+                  <PinThumbnailContainer pin={pin} />
                 </div>
               );
             }

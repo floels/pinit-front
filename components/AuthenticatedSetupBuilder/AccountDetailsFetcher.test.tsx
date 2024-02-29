@@ -8,7 +8,7 @@ import {
 import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
 import { LogOutContext } from "@/contexts/logOutContext";
 import { AccountContext } from "@/contexts/accountContext";
-import { getAccountWithCamelCaseKeys } from "@/lib/utils/serializers";
+import { serializeAccountPrivateDetails } from "@/lib/utils/serializers";
 
 (localStorage as any) = new MockLocalStorage();
 
@@ -34,6 +34,7 @@ const accountDetails = {
   display_name: "John Doe",
   initial: "J",
   profile_picture_url: "https://example.com/profile-picture.jpg",
+  boards: [{ id: "1234", title: "Board title", cover_picture_url: null }],
 };
 
 it(`calls 'setAccount' with proper arguments and persists 
@@ -47,7 +48,7 @@ relevant data upon successful fetch`, async () => {
 
   await waitFor(() => {
     expect(mockSetAccount).toHaveBeenCalledWith(
-      getAccountWithCamelCaseKeys(accountDetails),
+      serializeAccountPrivateDetails(accountDetails),
     );
 
     expect(localStorage.getItem(USERNAME_LOCAL_STORAGE_KEY)).toEqual(

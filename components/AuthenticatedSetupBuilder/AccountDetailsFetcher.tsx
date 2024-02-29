@@ -6,8 +6,8 @@ import {
   USERNAME_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
 import { Response401Error, ResponseKOError } from "@/lib/customErrors";
-import { AccountType } from "@/lib/types";
-import { getAccountWithCamelCaseKeys } from "@/lib/utils/serializers";
+import { AccountPrivateDetails } from "@/lib/types";
+import { serializeAccountPrivateDetails } from "@/lib/utils/serializers";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -29,16 +29,16 @@ const AccountDetailsFetcher = () => {
 
     const responseData = await response.json();
 
-    return getAccountWithCamelCaseKeys(responseData);
+    return serializeAccountPrivateDetails(responseData);
   };
 
-  const persistAccountData = (data: AccountType) => {
+  const persistAccountData = (data: AccountPrivateDetails) => {
     const { username, profilePictureURL } = data;
 
     persistUsername(username);
 
-    if (data.profilePictureURL) {
-      persistProfilePictureURL(data.profilePictureURL);
+    if (profilePictureURL) {
+      persistProfilePictureURL(profilePictureURL);
     }
   };
 
