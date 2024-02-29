@@ -128,7 +128,6 @@ const HeaderSearchBarContainer = () => {
   const debouncedFetchSearchSuggestions = debounce(
     fetchSearchSuggestions,
     AUTOCOMPLETE_DEBOUNCE_TIME_MS,
-    { leading: true, trailing: false },
   );
 
   useEffect(() => {
