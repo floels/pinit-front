@@ -34,12 +34,14 @@
   --font-size-500: 28px;
   --font-size-600: 36px;
 
-  --font-weight-normal: 400;
   --font-weight-semibold: 600;
 
   --color-border-container: #cdcdcd;
 
-  --elevation-floating: 0 0 8px rgba(0, 0, 0, 0.1);
+  --box-shadow-elevation-floating: 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
+  --box-shadow-focused-input: 0 0 0 4px rgba(0, 132, 255, 0.5);
+
+  --border-radius-container: 16px;
 
   --font-family-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -53,6 +55,7 @@
 body {
   margin: 0;
   font-family: var(--font-family-main);
+  color: var(--color-text-default);
 }
 
 button {

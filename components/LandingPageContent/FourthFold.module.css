@@ -51,10 +51,6 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.secondaryPictureTextSubtitle {
-  font-weight: var(--font-weight-normal);
-}
-
 .textArea {
   width: 50%;
   min-width: 400px;

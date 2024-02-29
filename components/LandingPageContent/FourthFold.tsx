@@ -44,9 +44,7 @@ const FourthFold = () => {
             <span className={styles.secondaryPictureTextTitle}>
               {t("FourthFold.SECONDARY_PICTURE_TEXT_TITLE")}
             </span>
-            <span className={styles.secondaryPictureTextSubtitle}>
-              {t("FourthFold.SECONDARY_PICTURE_TEXT_SUBTITLE")}
-            </span>
+            <span>{t("FourthFold.SECONDARY_PICTURE_TEXT_SUBTITLE")}</span>
           </div>
         </div>
       </div>

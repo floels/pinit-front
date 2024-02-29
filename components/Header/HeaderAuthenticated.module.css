@@ -81,7 +81,7 @@
   background-color: var(--color-gray-500);
   color: var(--color-text-inverse);
   font-size: var(--font-size-100);
-  box-shadow: var(--elevation-floating);
+  box-shadow: var(--box-shadow-elevation-floating);
   z-index: 10; /* so it appears above the page content */
 }
 

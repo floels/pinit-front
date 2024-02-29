@@ -10,20 +10,24 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 type PinThumbnailProps = {
   pin: Pin;
-  isHovered: boolean;
   boards: Board[];
+  isHovered: boolean;
+  isSaveFlyoutOpen: boolean;
   handleMouseEnter: () => void;
   handleMouseLeave: () => void;
+  handleClickSave: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
 
 const PinThumbnail = ({
   pin,
-  isHovered,
   boards,
+  isHovered,
+  isSaveFlyoutOpen,
   handleMouseEnter,
   handleMouseLeave,
+  handleClickSave,
 }: PinThumbnailProps) => {
   const t = useTranslations("PinsBoard");
 
@@ -31,7 +35,7 @@ const PinThumbnail = ({
 
   const hoverOverlay = (
     <div className={styles.hoverOverlay}>
-      <button className={styles.saveButton}>
+      <button className={styles.saveButton} onClick={handleClickSave}>
         <span className={styles.saveButtonText}>
           {t("PIN_THUMBNAIL_SAVE_BUTTON_TEXT")}
         </span>
@@ -39,6 +43,19 @@ const PinThumbnail = ({
           <FontAwesomeIcon icon={faAngleDown} size="lg" />
         )}
       </button>
+    </div>
+  );
+
+  const saveFlyout = (
+    <div className={styles.saveFlyout}>
+      <span className={styles.saveFlyoutTitle}>
+        {t("PIN_THUMBNAIL_SAVE_FLYOUT_TITLE")}
+      </span>
+      <div className={styles.boardsLabelAndList}>
+        <span className={styles.boardsLabel}>
+          {t("PIN_THUMBNAIL_SAVE_FLYOUT_BOARDS_LABEL")}
+        </span>
+      </div>
     </div>
   );
 
@@ -83,6 +100,7 @@ const PinThumbnail = ({
         )}
         <span className={styles.authorName}>{pin.authorDisplayName}</span>
       </Link>
+      {isSaveFlyoutOpen && saveFlyout}
     </div>
   );
 };
