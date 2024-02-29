@@ -8,13 +8,43 @@
   'display: inline-block' by default. */
   position: relative; /* because overlay child will have
   'position: absolute' */
+  cursor: zoom-in;
 }
 
 .image {
+  display: block; /* otherwise for some reason, the container
+  and the overlay end up being a few pixels taller than the image */
   width: 100%;
   min-height: 120px;
   border-radius: 16px;
   cursor: zoom-in;
+}
+
+.hoverOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-background-gray-transparent);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border-radius: 16px;
+}
+
+.saveButton {
+  background: none;
+  padding: 6px;
+  margin-top: 16px;
+  margin-right: 6px;
+  color: var(--color-text-inverse);
+}
+
+.saveButtonText {
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-semibold);
+  margin-right: 6px;
 }
 
 .title {
@@ -48,16 +78,4 @@
 .authorName {
   margin: 0;
   font-size: var(--font-size-200);
-}
-
-.hoverOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--color-background-gray-transparent);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
