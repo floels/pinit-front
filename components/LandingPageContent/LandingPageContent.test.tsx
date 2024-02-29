@@ -93,9 +93,10 @@ it("does not move to third fold if user scrolls twice within debounce time", asy
 
   expect(content.className).toEqual("content contentSecondFoldActive");
 
-  jest.advanceTimersByTime(0.5 * SCROLLING_DEBOUNCING_TIME_MS);
-
-  fireEvent.wheel(document, { deltaY: 100 });
+  act(() => {
+    jest.advanceTimersByTime(0.5 * SCROLLING_DEBOUNCING_TIME_MS);
+    fireEvent.wheel(document, { deltaY: 100 });
+  });
 
   expect(content.className).toEqual("content contentSecondFoldActive");
 
