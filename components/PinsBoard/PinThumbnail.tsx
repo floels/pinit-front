@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import styles from "./PinThumbnail.module.css";
 import { Board, Pin } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 type PinThumbnailProps = {
   pin: Pin;
@@ -27,18 +27,17 @@ const PinThumbnail = ({
 }: PinThumbnailProps) => {
   const t = useTranslations("PinsBoard");
 
-  const shouldShowBoardsDropdownInHoverOverlay = boards.length > 0;
+  const shouldShowDropdownInHoverOverlay = boards.length > 0;
 
   const hoverOverlay = (
     <div className={styles.hoverOverlay}>
-      {shouldShowBoardsDropdownInHoverOverlay && (
-        <div className={styles.boardsDropdown}>
-          <span className={styles.firstBoardTitle}>{boards[0].title}</span>
-          <FontAwesomeIcon icon={faChevronDown} />
-        </div>
-      )}
       <button className={styles.saveButton}>
-        {t("PIN_THUMBNAIL_SAVE_BUTTON_TEXT")}
+        <span className={styles.saveButtonText}>
+          {t("PIN_THUMBNAIL_SAVE_BUTTON_TEXT")}
+        </span>
+        {shouldShowDropdownInHoverOverlay && (
+          <FontAwesomeIcon icon={faAngleDown} size="lg" />
+        )}
       </button>
     </div>
   );
