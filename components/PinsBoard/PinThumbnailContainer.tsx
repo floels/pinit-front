@@ -1,15 +1,19 @@
 import { useAccountContext } from "@/contexts/accountContext";
+import { toast } from "react-toastify";
 import { Board, Pin } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
 import { NetworkError, ResponseKOError } from "@/lib/customErrors";
+import { useTranslations } from "next-intl";
 
 type PinThumbnailContainerProps = {
   pin: Pin;
 };
 
 const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
+  const t = useTranslations();
+
   const { account } = useAccountContext();
 
   const boards = account?.boards || [];
@@ -65,7 +69,7 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     try {
       await fetchSavePinInBoard({ board, pin });
     } catch (error) {
-      // TODO: display error toast (depending on error type)
+      handleSaveError(error as Error);
       return;
     } finally {
       setIsSaving(false);
@@ -108,6 +112,19 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     setIndexBoardWhereJustSaved(boardIndex);
 
     setIsSaveFlyoutOpen(false);
+  };
+
+  const handleSaveError = (error: Error) => {
+    if (error instanceof NetworkError) {
+      toast.warn(t("Common.CONNECTION_ERROR"), {
+        toastId: "toast-pin-save-connection-error",
+      });
+      return;
+    }
+
+    toast.warn(t("PinsBoard.PIN_SAVE_ERROR_MESSAGE"), {
+      toastId: "toast-pin-save-error",
+    });
   };
 
   useEffect(() => {

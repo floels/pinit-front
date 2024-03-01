@@ -151,7 +151,7 @@ it("displays relevant error upon fetch error", async () => {
   await userEvent.type(emailInput, "test@example.com");
   await userEvent.type(passwordInput, "Pa$$w0rd");
 
-  fetchMock.mockRejectOnce(new Error("Network failure"));
+  fetchMock.mockRejectOnce();
 
   await userEvent.click(submitButton);
 

@@ -12,6 +12,7 @@ import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 import userEvent from "@testing-library/user-event";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
 import en from "@/messages/en.json";
+import { ToastContainer } from "react-toastify";
 
 const pin = {
   id: "999999999999999999",
@@ -65,6 +66,7 @@ const renderComponent = () => {
 
   render(
     <AccountContext.Provider value={accountContext}>
+      <ToastContainer />
       <PinThumbnailContainer pin={pin} />
     </AccountContext.Provider>,
   );
@@ -174,5 +176,37 @@ successful save`, async () => {
     screen.getByText("Board 1 title");
 
     screen.getByText(en.PinsBoard.PIN_THUMBNAIL_SAVED_LABEL_TEXT);
+  });
+});
+
+it("displays appropriate error toast upon KO response on saving pin", async () => {
+  renderComponent();
+
+  await clickSaveButton();
+
+  const firstBoardButton = getFirstBoardButton();
+
+  fetchMock.mockOnceIf(API_ROUTE_SAVE_PIN, JSON.stringify({}), { status: 404 });
+
+  await userEvent.click(firstBoardButton);
+
+  await waitFor(() => {
+    screen.getByText(en.PinsBoard.PIN_SAVE_ERROR_MESSAGE);
+  });
+});
+
+it("displays appropriate error toast upon KO response on saving pin", async () => {
+  renderComponent();
+
+  await clickSaveButton();
+
+  const firstBoardButton = getFirstBoardButton();
+
+  fetchMock.mockRejectOnce();
+
+  await userEvent.click(firstBoardButton);
+
+  await waitFor(() => {
+    screen.getByText(en.Common.CONNECTION_ERROR);
   });
 });
