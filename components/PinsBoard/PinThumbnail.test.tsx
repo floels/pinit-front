@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import en from "@/messages/en.json";
 import PinThumbnail from "./PinThumbnail";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 
@@ -17,10 +16,15 @@ it("renders all required elements", () => {
   render(
     <PinThumbnail
       pin={pin}
-      isHovered={false}
       boards={[]}
+      isHovered={false}
+      isSaveFlyoutOpen={false}
+      isSaving={false}
       handleMouseEnter={() => {}}
       handleMouseLeave={() => {}}
+      handleClickSave={() => {}}
+      getClickHandlerForBoard={() => () => {}}
+      handleClickOutOfSaveFlyout={() => {}}
     />,
   );
 

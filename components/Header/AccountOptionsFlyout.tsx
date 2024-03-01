@@ -1,12 +1,12 @@
-import React from "react";
 import { useTranslations } from "next-intl";
 import styles from "./AccountOptionsFlyout.module.css";
+import { forwardRef } from "react";
 
 type AccountOptionsFlyoutProps = {
   handleClickLogOut: () => void;
 };
 
-const AccountOptionsFlyout = React.forwardRef<
+const AccountOptionsFlyout = forwardRef<
   HTMLDivElement,
   AccountOptionsFlyoutProps
 >((props, ref) => {

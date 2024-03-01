@@ -9,7 +9,7 @@ type AccountOptionsFlyoutContainerProps = {
 const AccountOptionsFlyoutContainer = ({
   handleClickOutOfAccountOptionsFlyout,
 }: AccountOptionsFlyoutContainerProps) => {
-  const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [clickedLogOut, setClickedLogOut] = useState(false);
 
@@ -20,10 +20,9 @@ const AccountOptionsFlyoutContainer = ({
   const handleClickDocument = (event: MouseEvent) => {
     const target = event.target as Node;
 
-    const userClickedOutOfAccountOptionsFlyout =
-      !accountOptionsFlyoutRef.current?.contains(target);
+    const userClickedOut = !ref.current?.contains(target);
 
-    if (userClickedOutOfAccountOptionsFlyout) {
+    if (userClickedOut) {
       handleClickOutOfAccountOptionsFlyout();
     }
   };
@@ -41,10 +40,7 @@ const AccountOptionsFlyoutContainer = ({
   }
 
   return (
-    <AccountOptionsFlyout
-      ref={accountOptionsFlyoutRef}
-      handleClickLogOut={handleClickLogOut}
-    />
+    <AccountOptionsFlyout ref={ref} handleClickLogOut={handleClickLogOut} />
   );
 };
 

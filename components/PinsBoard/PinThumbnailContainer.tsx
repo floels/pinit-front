@@ -1,7 +1,7 @@
 import { useAccountContext } from "@/contexts/accountContext";
 import { Board, Pin } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
 import { NetworkError, ResponseKOError } from "@/lib/customErrors";
 
@@ -33,6 +33,16 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     event.preventDefault(); // otherwise we'll navigate to pin details
 
     setIsSaveFlyoutOpen(true);
+  };
+
+  const handleClickOutOfSaveFlyout = () => {
+    setIsSaveFlyoutOpen(false);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setIsSaveFlyoutOpen(false);
+    }
   };
 
   const getClickHandlerForBoard = ({ boardIndex }: { boardIndex: number }) => {
@@ -96,6 +106,14 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     return response;
   };
 
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <PinThumbnail
       pin={pin}
@@ -107,6 +125,7 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
       handleMouseLeave={handleMouseLeave}
       handleClickSave={handleClickSave}
       getClickHandlerForBoard={getClickHandlerForBoard}
+      handleClickOutOfSaveFlyout={handleClickOutOfSaveFlyout}
     />
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { forwardRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -19,7 +19,7 @@ type LabelledTextInputProps = {
   withPasswordShowIcon?: boolean;
 };
 
-const LabelledTextInput = React.forwardRef<
+const LabelledTextInput = forwardRef<
   HTMLInputElement,
   LabelledTextInputProps & React.ComponentPropsWithoutRef<"input">
 >(

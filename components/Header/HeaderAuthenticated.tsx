@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -8,6 +7,7 @@ import HeaderSearchBarContainer from "./HeaderSearchBarContainer";
 import styles from "./HeaderAuthenticated.module.css";
 import { useLocale, useTranslations } from "next-intl";
 import AccountOptionsFlyoutContainer from "./AccountOptionsFlyoutContainer";
+import { forwardRef } from "react";
 
 type HeaderAuthenticatedProps = {
   username: string | null;
@@ -23,7 +23,7 @@ type HeaderAuthenticatedProps = {
   handleClickOutOfAccountOptionsFlyout: () => void;
 };
 
-const HeaderAuthenticated = React.forwardRef<
+const HeaderAuthenticated = forwardRef<
   HTMLButtonElement,
   HeaderAuthenticatedProps
 >((props, ref) => {

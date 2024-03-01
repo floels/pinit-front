@@ -1,9 +1,9 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import { usePathname } from "next/navigation";
 import HeaderAuthenticated from "./HeaderAuthenticated";
 import en from "@/messages/en.json";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
+import { createRef } from "react";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
@@ -27,9 +27,10 @@ const renderComponent = () => {
     handleClickAccountOptionsButton: jest.fn(),
     handleMouseEnterAccountOptionsButton: jest.fn(),
     handleMouseLeaveAccountOptionsButton: jest.fn(),
+    handleClickOutOfAccountOptionsFlyout: jest.fn(),
   };
 
-  const mockRef = React.createRef();
+  const mockRef = createRef<HTMLButtonElement>();
 
   render(
     <HeaderSearchBarContextProvider>
