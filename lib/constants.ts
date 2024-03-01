@@ -28,7 +28,6 @@ export const API_ENDPOINT_MY_ACCOUNT_DETAILS = "accounts/me";
 
 // API error codes
 export const ERROR_CODE_UNAUTHORIZED = "unauthorized";
-export const ERROR_CODE_INVALID_REFRESH_TOKEN = "invalid_refresh_token";
 export const ERROR_CODE_INVALID_EMAIL = "invalid_email";
 export const ERROR_CODE_INVALID_PASSWORD = "invalid_password";
 export const ERROR_CODE_INVALID_BIRTHDATE = "invalid_birthdate";

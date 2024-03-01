@@ -1,7 +1,7 @@
 import { Pin } from "@/lib/types";
 import { render, screen } from "@testing-library/react";
 import PinsBoard from "./PinsBoard";
-import { mockIntersectionObserver } from "@/lib/utils/testing";
+import { mockIntersectionObserver } from "@/lib/testing-utils/misc";
 import en from "@/messages/en.json";
 
 const VIEWPORT_WIDTH_PX = 1200;

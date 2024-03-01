@@ -6,6 +6,10 @@ import {
   ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
   API_ROUTE_OBTAIN_TOKEN,
 } from "@/lib/constants";
+import {
+  MOCK_API_RESPONSES,
+  MOCK_API_RESPONSES_JSON,
+} from "@/lib/testing-utils/mockAPIResponses";
 
 const messages = en.LandingPageContent;
 
@@ -74,13 +78,9 @@ it("sets the access token's expiration date in local storage and reload the page
   await userEvent.type(emailInput, "test@example.com");
   await userEvent.type(passwordInput, "Pa$$w0rd");
 
-  const ACCESS_TOKEN_EXPIRATION_DATE = "2024-04-12T14:30:00Z";
-
   fetchMock.mockOnceIf(
     API_ROUTE_OBTAIN_TOKEN,
-    JSON.stringify({
-      access_token_expiration_utc: ACCESS_TOKEN_EXPIRATION_DATE,
-    }),
+    MOCK_API_RESPONSES[API_ROUTE_OBTAIN_TOKEN],
   );
 
   Object.defineProperty(window, "localStorage", {
@@ -94,7 +94,7 @@ it("sets the access token's expiration date in local storage and reload the page
 
   expect(window.localStorage.setItem).toHaveBeenLastCalledWith(
     ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
-    ACCESS_TOKEN_EXPIRATION_DATE,
+    MOCK_API_RESPONSES_JSON[API_ROUTE_OBTAIN_TOKEN].access_token_expiration_utc,
   );
 
   expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
@@ -131,7 +131,7 @@ it("displays relevant errors when receiving KO responses", async () => {
   await userEvent.click(submitButton);
   screen.getByText(messages.LoginForm.INVALID_PASSWORD_LOGIN);
 
-  fetchMock.mockOnceIf(API_ROUTE_OBTAIN_TOKEN, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_OBTAIN_TOKEN, "{}", {
     status: 400,
   });
   await userEvent.clear(passwordInput);

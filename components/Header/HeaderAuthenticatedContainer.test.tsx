@@ -6,7 +6,7 @@ import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import {
   MockLocalStorage,
   getNextImageSrcRegexFromURL,
-} from "@/lib/utils/testing";
+} from "@/lib/testing-utils/misc";
 import {
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
   USERNAME_LOCAL_STORAGE_KEY,

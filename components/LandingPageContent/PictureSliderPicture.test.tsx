@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
+import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
 import PictureSliderPicture, { IMAGE_URLS } from "./PictureSliderPicture";
 
 it("renders <img> element with proper 'src' attribute", () => {

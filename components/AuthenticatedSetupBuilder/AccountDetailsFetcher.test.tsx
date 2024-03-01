@@ -5,10 +5,14 @@ import {
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
   USERNAME_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
-import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
+import { MockLocalStorage, withQueryClient } from "@/lib/testing-utils/misc";
 import { LogOutContext } from "@/contexts/logOutContext";
 import { AccountContext } from "@/contexts/accountContext";
 import { serializeAccountPrivateDetails } from "@/lib/utils/serializers";
+import {
+  MOCK_API_RESPONSES,
+  MOCK_API_RESPONSES_SERIALIZED,
+} from "@/lib/testing-utils/mockAPIResponses";
 
 (localStorage as any) = new MockLocalStorage();
 
@@ -28,41 +32,33 @@ const renderComponent = () => {
   );
 };
 
-const accountDetails = {
-  type: "personal",
-  username: "johndoe",
-  display_name: "John Doe",
-  initial: "J",
-  profile_picture_url: "https://example.com/profile-picture.jpg",
-  boards: [{ id: "1234", title: "Board title", cover_picture_url: null }],
-};
-
 it(`calls 'setAccount' with proper arguments and persists 
 relevant data upon successful fetch`, async () => {
   fetchMock.mockOnceIf(
     API_ROUTE_MY_ACCOUNT_DETAILS,
-    JSON.stringify(accountDetails),
+    MOCK_API_RESPONSES[API_ROUTE_MY_ACCOUNT_DETAILS],
   );
 
   renderComponent();
 
+  const responseSerialized =
+    MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_MY_ACCOUNT_DETAILS];
+
   await waitFor(() => {
-    expect(mockSetAccount).toHaveBeenCalledWith(
-      serializeAccountPrivateDetails(accountDetails),
-    );
+    expect(mockSetAccount).toHaveBeenCalledWith(responseSerialized);
 
     expect(localStorage.getItem(USERNAME_LOCAL_STORAGE_KEY)).toEqual(
-      accountDetails.username,
+      responseSerialized.username,
     );
 
     expect(localStorage.getItem(PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY)).toEqual(
-      accountDetails.profile_picture_url,
+      responseSerialized.profilePictureURL,
     );
   });
 });
 
 it("triggers logout upon 401 response", async () => {
-  fetchMock.mockOnceIf(API_ROUTE_MY_ACCOUNT_DETAILS, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_MY_ACCOUNT_DETAILS, "{}", {
     status: 401,
   });
 

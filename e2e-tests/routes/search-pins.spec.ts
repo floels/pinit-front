@@ -2,7 +2,8 @@ import { test, expect } from "@playwright/test";
 import { Request, Response, Express } from "express";
 import en from "@/messages/en.json";
 import { launchMockAPIServer } from "../utils";
-import { PIN_IMAGE_URL } from "../fixtures/constants";
+import { MOCK_API_RESPONSES_JSON } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ENDPOINT_SEARCH_PINS } from "@/lib/constants";
 
 const NUMBER_SEARCH_RESULTS = 50;
 
@@ -11,18 +12,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
     const searchParam = request.query.q;
 
     if (searchParam === "mysearch") {
-      response.json({
-        results: Array.from({ length: NUMBER_SEARCH_RESULTS }, (_, index) => ({
-          unique_id: index + 1,
-          image_url: PIN_IMAGE_URL,
-          title: "",
-          description: "",
-          author: {
-            username: "johndoe",
-            display_name: "John Doe",
-          },
-        })),
-      });
+      response.json(MOCK_API_RESPONSES_JSON[API_ENDPOINT_SEARCH_PINS]);
     } else {
       response.status(400).json({});
     }

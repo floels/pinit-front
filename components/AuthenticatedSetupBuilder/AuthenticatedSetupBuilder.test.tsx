@@ -1,4 +1,4 @@
-import { withQueryClient } from "@/lib/utils/testing";
+import { withQueryClient } from "@/lib/testing-utils/misc";
 import { render, waitFor } from "@testing-library/react";
 import AuthenticatedSetupBuilder from "./AuthenticatedSetupBuilder";
 import {

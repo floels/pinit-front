@@ -16,10 +16,10 @@ export const serializePinsWithAuthorData = (pins: any) => {
 
 export const serializeAccountPublicDetails = (account: any) => {
   return {
-    type: account.type,
     username: account.username,
     displayName: account.display_name,
     profilePictureURL: account.profile_picture_url,
+    boards: serializeBoards(account.boards),
     backgroundPictureURL: account.background_picture_url,
     description: account.description,
   };
@@ -27,13 +27,9 @@ export const serializeAccountPublicDetails = (account: any) => {
 
 export const serializeAccountPrivateDetails = (account: any) => {
   return {
+    ...serializeAccountPublicDetails(account),
     type: account.type,
-    username: account.username,
-    displayName: account.display_name,
     initial: account.initial,
-    profilePictureURL: account.profile_picture_url,
-    ownerEmail: account.owner_email,
-    boards: serializeBoards(account.boards),
   };
 };
 
