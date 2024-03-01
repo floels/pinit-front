@@ -208,7 +208,7 @@ it("displays error toast and disable loading state in case of fetch error when p
 
   await dropImageFile();
 
-  fetchMock.mockRejectOnce(new Error("Network failure"));
+  fetchMock.mockRejectOnce();
 
   const submitButton = screen.getByTestId("pin-creation-submit-button");
 

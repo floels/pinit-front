@@ -3,6 +3,8 @@ import SavePinFlyout from "./SavePinFlyout";
 import { useEffect, useRef } from "react";
 
 type SavePinFlyoutContainerProps = {
+  isInFirstColumn: boolean;
+  isInLastColumn: boolean;
   boards: Board[];
   isSaving: boolean;
   getClickHandlerForBoard: ({
@@ -14,6 +16,8 @@ type SavePinFlyoutContainerProps = {
 };
 
 const SavePinFlyoutContainer = ({
+  isInFirstColumn,
+  isInLastColumn,
   boards,
   isSaving,
   getClickHandlerForBoard,
@@ -41,6 +45,8 @@ const SavePinFlyoutContainer = ({
 
   return (
     <SavePinFlyout
+      isInFirstColumn={isInFirstColumn}
+      isInLastColumn={isInLastColumn}
       boards={boards}
       isSaving={isSaving}
       getClickHandlerForBoard={getClickHandlerForBoard}

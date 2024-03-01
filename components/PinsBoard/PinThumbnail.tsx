@@ -8,13 +8,17 @@ import { Board, Pin } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import SavePinFlyoutContainer from "./SavePinFlyoutContainer";
+import { ellipsizeText } from "@/lib/utils/strings";
 
 type PinThumbnailProps = {
   pin: Pin;
+  isInFirstColumn: boolean;
+  isInLastColumn: boolean;
   boards: Board[];
   isHovered: boolean;
   isSaveFlyoutOpen: boolean;
   isSaving: boolean;
+  indexBoardWhereJustSaved: number | null;
   handleMouseEnter: () => void;
   handleMouseLeave: () => void;
   handleClickSave: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -30,10 +34,13 @@ const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
 
 const PinThumbnail = ({
   pin,
+  isInFirstColumn,
+  isInLastColumn,
   boards,
   isHovered,
   isSaveFlyoutOpen,
   isSaving,
+  indexBoardWhereJustSaved,
   handleMouseEnter,
   handleMouseLeave,
   handleClickSave,
@@ -42,20 +49,46 @@ const PinThumbnail = ({
 }: PinThumbnailProps) => {
   const t = useTranslations("PinsBoard");
 
-  const hoverOverlay = (
-    <div className={styles.hoverOverlay}>
-      <button
-        className={styles.saveButton}
-        onClick={handleClickSave}
-        data-testid="pin-thumbnail-save-button"
-      >
-        <span className={styles.saveButtonText}>
-          {t("PIN_THUMBNAIL_SAVE_BUTTON_TEXT")}
-        </span>
-        <FontAwesomeIcon icon={faAngleDown} size="lg" />
-      </button>
-    </div>
-  );
+  const hasSaved = indexBoardWhereJustSaved !== null;
+
+  let hoverOverlay;
+
+  if (hasSaved) {
+    const boardTitle = boards[indexBoardWhereJustSaved].title;
+
+    const boardTitleShort = ellipsizeText({
+      text: boardTitle,
+      maxLength: 20,
+    });
+
+    hoverOverlay = (
+      <div className={styles.hoverOverlay}>
+        <div className={styles.hoverOverlayContentSaved}>
+          <span className={styles.boardTitle}>{boardTitleShort}</span>
+          <span className={styles.savedLabel}>
+            {t("PIN_THUMBNAIL_SAVED_LABEL_TEXT")}
+          </span>
+        </div>
+      </div>
+    );
+  } else {
+    hoverOverlay = (
+      <div className={styles.hoverOverlay}>
+        <div className={styles.hoverOverlayContentNotSaved}>
+          <button
+            className={styles.saveButton}
+            onClick={handleClickSave}
+            data-testid="pin-thumbnail-save-button"
+          >
+            <span className={styles.saveButtonText}>
+              {t("PIN_THUMBNAIL_SAVE_BUTTON_TEXT")}
+            </span>
+            <FontAwesomeIcon icon={faAngleDown} size="lg" />
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -100,6 +133,8 @@ const PinThumbnail = ({
       </Link>
       {isSaveFlyoutOpen && (
         <SavePinFlyoutContainer
+          isInFirstColumn={isInFirstColumn}
+          isInLastColumn={isInLastColumn}
           boards={boards}
           isSaving={isSaving}
           getClickHandlerForBoard={getClickHandlerForBoard}

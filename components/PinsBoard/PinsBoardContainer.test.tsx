@@ -1,18 +1,12 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
 import en from "@/messages/en.json";
 import PinsBoardContainer from "./PinsBoardContainer";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { Pin } from "@/lib/types";
 import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 import { mockIntersectionObserver } from "@/lib/utils/testing";
 
 const SUGGESTIONS_ENDPOINT_PAGE_SIZE = 50;
-
-jest.mock("react-toastify", () => ({
-  toast: {
-    warn: jest.fn(),
-  },
-}));
 
 const initialPins = Array.from(
   { length: SUGGESTIONS_ENDPOINT_PAGE_SIZE },
@@ -39,10 +33,13 @@ beforeEach(() => {
 
 const renderComponent = () => {
   render(
-    <PinsBoardContainer
-      initialPins={initialPins}
-      fetchPinsAPIRoute={API_ROUTE_PIN_SUGGESTIONS}
-    />,
+    <>
+      <ToastContainer />
+      <PinsBoardContainer
+        initialPins={initialPins}
+        fetchPinsAPIRoute={API_ROUTE_PIN_SUGGESTIONS}
+      />
+    </>,
   );
 };
 
@@ -108,16 +105,13 @@ it("displays error message in case of KO response upon new thumbnails fetch", as
 });
 
 it("displays toast in case of fetch failure upon new thumbnails fetch", async () => {
-  fetchMock.mockRejectOnce(new Error("Network failure"));
+  fetchMock.mockRejectOnce();
 
   renderComponent();
 
   simulateScrollToBottomOfPage();
 
   await waitFor(() => {
-    expect(toast.warn).toHaveBeenLastCalledWith(
-      en.Common.CONNECTION_ERROR,
-      expect.anything(), // we don't really care about the options argument here
-    );
+    screen.getByText(en.Common.CONNECTION_ERROR);
   });
 });

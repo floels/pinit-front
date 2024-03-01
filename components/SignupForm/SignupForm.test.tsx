@@ -169,7 +169,7 @@ it("displays relevant error upon fetch error", async () => {
   await userEvent.type(passwordInput, "Pa$$w0rd");
   await userEvent.type(birthdateInput, "1970-01-01");
 
-  fetchMock.mockRejectOnce(new Error("Network failure"));
+  fetchMock.mockRejectOnce();
 
   await userEvent.click(submitButton);
 

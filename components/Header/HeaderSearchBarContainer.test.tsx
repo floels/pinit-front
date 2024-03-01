@@ -236,7 +236,7 @@ it("does not display any suggestion in case of fetch error", async () => {
     screen.getByTestId("search-suggestions-list");
   });
 
-  fetchMock.mockRejectOnce(new Error("Network failure"));
+  fetchMock.mockRejectOnce();
 
   await typeSearchTerm("bar");
 

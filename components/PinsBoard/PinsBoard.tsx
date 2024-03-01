@@ -89,25 +89,34 @@ const PinsBoard = ({
   // which translates the logic above.
   const thumbnailsGrid = (
     <div className={styles.thumbnailsGrid}>
-      {Array.from({ length: castedNumberOfColumns }).map((_, columnIndex) => (
-        <div
-          key={`thumbnails-column-${columnIndex + 1}`}
-          data-testid="thumbnails-column"
-        >
-          {pins.map((pin, pinIndex) => {
-            if (pinIndex % castedNumberOfColumns === columnIndex) {
-              return (
-                <div
-                  className={styles.pinThumbnail}
-                  key={`pin-thumbnail-${pinIndex + 1}`}
-                >
-                  <PinThumbnailContainer pin={pin} />
-                </div>
-              );
-            }
-          })}
-        </div>
-      ))}
+      {Array.from({ length: castedNumberOfColumns }).map((_, columnIndex) => {
+        const isFirstColumn = columnIndex === 0;
+        const isLastColumn = columnIndex === castedNumberOfColumns - 1;
+
+        return (
+          <div
+            key={`thumbnails-column-${columnIndex + 1}`}
+            data-testid="thumbnails-column"
+          >
+            {pins.map((pin, pinIndex) => {
+              if (pinIndex % castedNumberOfColumns === columnIndex) {
+                return (
+                  <div
+                    className={styles.pinThumbnail}
+                    key={`pin-thumbnail-${pinIndex + 1}`}
+                  >
+                    <PinThumbnailContainer
+                      pin={pin}
+                      isInFirstColumn={isFirstColumn}
+                      isInLastColumn={isLastColumn}
+                    />
+                  </div>
+                );
+              }
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 

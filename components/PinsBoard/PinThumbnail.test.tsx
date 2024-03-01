@@ -16,8 +16,11 @@ it("renders all required elements", () => {
   render(
     <PinThumbnail
       pin={pin}
+      isInFirstColumn={false}
+      isInLastColumn={false}
       boards={[]}
       isHovered={false}
+      indexBoardWhereJustSaved={null}
       isSaveFlyoutOpen={false}
       isSaving={false}
       handleMouseEnter={() => {}}

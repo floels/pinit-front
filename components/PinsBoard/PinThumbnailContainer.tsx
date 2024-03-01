@@ -1,15 +1,25 @@
 import { useAccountContext } from "@/contexts/accountContext";
+import { toast } from "react-toastify";
 import { Board, Pin } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
 import { NetworkError, ResponseKOError } from "@/lib/customErrors";
+import { useTranslations } from "next-intl";
 
 type PinThumbnailContainerProps = {
   pin: Pin;
+  isInFirstColumn: boolean;
+  isInLastColumn: boolean;
 };
 
-const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
+const PinThumbnailContainer = ({
+  pin,
+  isInFirstColumn,
+  isInLastColumn,
+}: PinThumbnailContainerProps) => {
+  const t = useTranslations();
+
   const { account } = useAccountContext();
 
   const boards = account?.boards || [];
@@ -17,7 +27,7 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSaveFlyoutOpen, setIsSaveFlyoutOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [indexBoardWhereJustSaved, setindexBoardWhereJustSaved] = useState<
+  const [indexBoardWhereJustSaved, setIndexBoardWhereJustSaved] = useState<
     number | null
   >(null);
 
@@ -65,15 +75,13 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     try {
       await fetchSavePinInBoard({ board, pin });
     } catch (error) {
-      // TODO: display error toast (depending on error type)
+      handleSaveError(error as Error);
       return;
     } finally {
       setIsSaving(false);
     }
 
-    setindexBoardWhereJustSaved(boardIndex);
-
-    console.warn("saved pin in board", board.title);
+    handleSaveSuccess({ boardIndex });
   };
 
   const fetchSavePinInBoard = async ({
@@ -106,6 +114,25 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     return response;
   };
 
+  const handleSaveSuccess = ({ boardIndex }: { boardIndex: number }) => {
+    setIndexBoardWhereJustSaved(boardIndex);
+
+    setIsSaveFlyoutOpen(false);
+  };
+
+  const handleSaveError = (error: Error) => {
+    if (error instanceof NetworkError) {
+      toast.warn(t("Common.CONNECTION_ERROR"), {
+        toastId: "toast-pin-save-connection-error",
+      });
+      return;
+    }
+
+    toast.warn(t("PinsBoard.PIN_SAVE_ERROR_MESSAGE"), {
+      toastId: "toast-pin-save-error",
+    });
+  };
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
@@ -117,10 +144,13 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
   return (
     <PinThumbnail
       pin={pin}
+      isInFirstColumn={isInFirstColumn}
+      isInLastColumn={isInLastColumn}
       boards={boards}
       isHovered={isHovered}
       isSaveFlyoutOpen={isSaveFlyoutOpen}
       isSaving={isSaving}
+      indexBoardWhereJustSaved={indexBoardWhereJustSaved}
       handleMouseEnter={handleMouseEnter}
       handleMouseLeave={handleMouseLeave}
       handleClickSave={handleClickSave}
