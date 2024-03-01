@@ -8,7 +8,6 @@ import {
 import { MockLocalStorage, withQueryClient } from "@/lib/testing-utils/misc";
 import { LogOutContext } from "@/contexts/logOutContext";
 import { AccountContext } from "@/contexts/accountContext";
-import { serializeAccountPrivateDetails } from "@/lib/utils/serializers";
 import {
   MOCK_API_RESPONSES,
   MOCK_API_RESPONSES_SERIALIZED,

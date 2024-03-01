@@ -1,9 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import SignupForm from "./SignupForm";
+import SignupFormContainer from "./SignupFormContainer";
 import en from "@/messages/en.json";
-import { API_ROUTE_SIGN_UP } from "@/lib/constants";
-import { MOCK_API_RESPONSES } from "@/lib/testing-utils/mockAPIResponses";
+import {
+  ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+  API_ROUTE_SIGN_UP,
+} from "@/lib/constants";
+import {
+  MOCK_API_RESPONSES,
+  MOCK_API_RESPONSES_JSON,
+} from "@/lib/testing-utils/mockAPIResponses";
 
 const messages = en.LandingPageContent;
 
@@ -18,15 +24,14 @@ jest.mock("next/navigation", () => ({
 }));
 
 const renderComponent = () => {
-  render(<SignupForm onClickAlreadyHaveAccount={onClickAlreadyHaveAccount} />);
+  render(
+    <SignupFormContainer
+      onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
+    />,
+  );
 };
 
-it("displays relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
-  fetchMock.mockOnceIf(
-    API_ROUTE_SIGN_UP,
-    MOCK_API_RESPONSES[API_ROUTE_SIGN_UP],
-  );
-
+it("displays relevant input errors", async () => {
   renderComponent();
 
   screen.getByText(messages.SignupForm.FIND_NEW_IDEAS);
@@ -89,9 +94,35 @@ it("displays relevant input errors, send request only when inputs are valid, and
   expect(
     screen.queryByText(messages.SignupForm.INVALID_BIRTHDATE_INPUT),
   ).toBeNull();
+});
 
-  // Submit with correct inputs:
+it(`sets the access token's expiration date in local storage 
+and reloads the page upon successful response`, async () => {
+  renderComponent();
+
+  const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
+  const passwordInput = screen.getByLabelText(messages.SignupForm.PASSWORD);
+  const birthdateInput = screen.getByLabelText(messages.SignupForm.BIRTHDATE);
+  const submitButton = screen.getByText(messages.SignupForm.CONTINUE);
+
+  await userEvent.type(emailInput, "test@example.com");
+  await userEvent.type(passwordInput, "Pa$$w0rd");
+  await userEvent.type(birthdateInput, "1970-01-01");
+
+  fetchMock.mockOnceIf(
+    API_ROUTE_SIGN_UP,
+    MOCK_API_RESPONSES[API_ROUTE_SIGN_UP],
+    { status: 201 },
+  );
+
   await userEvent.click(submitButton);
+
+  expect(
+    localStorage.getItem(ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY),
+  ).toEqual(
+    MOCK_API_RESPONSES_JSON[API_ROUTE_SIGN_UP].access_token_expiration_utc,
+  );
+
   expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
 });
 

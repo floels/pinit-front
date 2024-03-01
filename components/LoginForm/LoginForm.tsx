@@ -1,168 +1,48 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import {
-  ERROR_CODE_INVALID_PASSWORD,
-  ERROR_CODE_INVALID_EMAIL,
-  ERROR_CODE_FETCH_FAILED,
-  API_ROUTE_OBTAIN_TOKEN,
-} from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
-import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
-import { setAccessTokenExpirationDate } from "@/lib/utils/authentication";
+
+type Credentials = {
+  email: string;
+  password: string;
+};
+
+export type FormErrors = {
+  email?: string;
+  password?: string;
+  other?: string;
+};
 
 type LoginFormProps = {
+  credentials: Credentials;
+  formErrors: FormErrors;
+  showFormErrors: boolean;
+  isLoading: boolean;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onClickNoAccountYet: () => void;
 };
 
-const computeFormErrors = (values: { email: string; password: string }) => {
-  if (!values.email) {
-    return { email: "MISSING_EMAIL" };
-  }
-
-  if (!isValidEmail(values.email)) {
-    return { email: "INVALID_EMAIL_INPUT" };
-  }
-
-  if (!isValidPassword(values.password)) {
-    return { password: "INVALID_PASSWORD_INPUT" };
-  }
-
-  return {};
-};
-
-const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
+const LoginForm = ({
+  credentials,
+  formErrors,
+  showFormErrors,
+  isLoading,
+  handleInputChange,
+  handleSubmit,
+  onClickNoAccountYet,
+}: LoginFormProps) => {
   const t = useTranslations();
 
-  const router = useRouter();
-
   const emailInputRef = useRef<HTMLInputElement>(null);
-
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
-  const [formErrors, setFormErrors] = useState<{
-    email?: string;
-    password?: string;
-    other?: string;
-  }>({ email: "MISSING_EMAIL" });
-  const [showFormErrors, setShowFormErrors] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     emailInputRef.current?.focus();
   }, []);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    const newCredentials = { ...credentials, [name]: value };
-
-    setCredentials(newCredentials);
-
-    setFormErrors(computeFormErrors(newCredentials));
-
-    setShowFormErrors(false);
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    setShowFormErrors(true);
-
-    if (formErrors.email || formErrors.password) {
-      // Invalid inputs: no need to make a request
-      return;
-    }
-
-    setIsLoading(true);
-
-    let response;
-
-    try {
-      response = await fetchTokens();
-    } catch (error) {
-      const errorCode = (error as Error).message;
-      updateFormErrorsFromErrorCode(errorCode);
-      return;
-    }
-
-    let responseData;
-
-    try {
-      responseData = await response.json();
-    } catch {
-      // We couldn't retrieve the access token expiration date
-      // By default, clear it:
-      setAccessTokenExpirationDate("");
-
-      router.refresh();
-
-      return;
-    }
-
-    setAccessTokenExpirationDate(responseData.access_token_expiration_utc);
-
-    router.refresh();
-  };
-
-  const fetchTokens = async () => {
-    const requestBody = JSON.stringify({
-      email: credentials.email,
-      password: credentials.password,
-    });
-
-    let response;
-
-    try {
-      response = await fetch(API_ROUTE_OBTAIN_TOKEN, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: requestBody,
-      });
-    } catch {
-      throw new Error(ERROR_CODE_FETCH_FAILED);
-    } finally {
-      setIsLoading(false);
-    }
-
-    if (!response.ok) {
-      const data = await response.json();
-
-      if (data?.errors?.length > 0) {
-        const firstErrorCode = data.errors[0]?.code;
-
-        throw new Error(firstErrorCode);
-      }
-
-      throw new Error();
-    }
-
-    return response;
-  };
-
-  const updateFormErrorsFromErrorCode = (errorCode: string) => {
-    switch (errorCode) {
-      case ERROR_CODE_FETCH_FAILED:
-        setFormErrors({ other: "CONNECTION_ERROR" });
-        break;
-      case ERROR_CODE_INVALID_EMAIL:
-        setFormErrors({ email: "INVALID_EMAIL_LOGIN" });
-        break;
-      case ERROR_CODE_INVALID_PASSWORD:
-        setFormErrors({ password: "INVALID_PASSWORD_LOGIN" });
-        break;
-      default:
-        setFormErrors({ other: "UNFORESEEN_ERROR" });
-    }
-  };
 
   let displayFormErrorsOther;
 
@@ -227,7 +107,11 @@ const LoginForm = ({ onClickNoAccountYet }: LoginFormProps) => {
           />
         </div>
         {showFormErrors && displayFormErrorsOther}
-        <button type="submit" className={styles.submitButton}>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          data-testid="login-form-submit-button"
+        >
           {t("LandingPageContent.LoginForm.LOG_IN")}
         </button>
       </form>
