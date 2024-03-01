@@ -140,7 +140,8 @@ it("posts to API route when user clicks submit", async () => {
   });
 });
 
-it("displays success toast with proper link and reset form in case of OK response upon posting", async () => {
+it(`displays success toast with proper link and resets form 
+upon successful creation`, async () => {
   renderComponent();
 
   await dropImageFile();
@@ -156,7 +157,7 @@ it("displays success toast with proper link and reset form in case of OK respons
 
   const successMessage = screen.getByTestId("success-toast-message");
   const pinLink = within(successMessage).getByRole("link") as HTMLAnchorElement;
-  expect(pinLink.href).toMatch(/\/pin\/0123456789012345$/);
+  expect(pinLink.href).toMatch(/\/pin\/000000000000000001$/);
 
   // Check form was reset:
   screen.getByText(messages.DROPZONE_INSTRUCTION);

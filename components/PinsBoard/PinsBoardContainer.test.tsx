@@ -72,11 +72,9 @@ it("displays loading spinner while fetching new thumbnails", () => {
 });
 
 it("displays error message in case of KO response upon new thumbnails fetch", async () => {
-  fetchMock.mockOnceIf(
-    `${API_ROUTE_PIN_SUGGESTIONS}?page=2`,
-    JSON.stringify({}),
-    { status: 400 },
-  );
+  fetchMock.mockOnceIf(`${API_ROUTE_PIN_SUGGESTIONS}?page=2`, "{}", {
+    status: 400,
+  });
 
   renderComponent();
 

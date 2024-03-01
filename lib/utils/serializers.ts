@@ -1,4 +1,11 @@
-export const serializePinWithAuthorData = (pin: any) => {
+import {
+  AccountPrivateDetails,
+  AccountPublicDetails,
+  Board,
+  Pin,
+} from "../types";
+
+export const serializePinWithAuthorData = (pin: any): Pin => {
   return {
     id: pin.unique_id,
     imageURL: pin.image_url,
@@ -10,11 +17,13 @@ export const serializePinWithAuthorData = (pin: any) => {
   };
 };
 
-export const serializePinsWithAuthorData = (pins: any) => {
+export const serializePinsWithAuthorData = (pins: any): Pin[] => {
   return pins.map(serializePinWithAuthorData);
 };
 
-export const serializeAccountPublicDetails = (account: any) => {
+export const serializeAccountPublicDetails = (
+  account: any,
+): AccountPublicDetails => {
   return {
     username: account.username,
     displayName: account.display_name,
@@ -25,7 +34,9 @@ export const serializeAccountPublicDetails = (account: any) => {
   };
 };
 
-export const serializeAccountPrivateDetails = (account: any) => {
+export const serializeAccountPrivateDetails = (
+  account: any,
+): AccountPrivateDetails => {
   return {
     ...serializeAccountPublicDetails(account),
     type: account.type,
@@ -33,7 +44,7 @@ export const serializeAccountPrivateDetails = (account: any) => {
   };
 };
 
-export const serializeBoard = (board: any) => {
+export const serializeBoard = (board: any): Board => {
   return {
     id: board.unique_id,
     title: board.title,
@@ -41,6 +52,6 @@ export const serializeBoard = (board: any) => {
   };
 };
 
-export const serializeBoards = (boards: any) => {
+export const serializeBoards = (boards: any): Board[] => {
   return boards.map(serializeBoard);
 };
