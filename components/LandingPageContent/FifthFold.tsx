@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import styles from "./FifthFold.module.css";
-import SignupForm from "../SignupForm/SignupForm";
-import LoginForm from "../LoginForm/LoginForm";
+import SignupFormContainer from "../SignupForm/SignupFormContainer";
+import LoginFormContainer from "../LoginForm/LoginFormContainer";
 import FifthFoldPicturesBackground from "./FifthFoldPicturesBackground";
 
 type FifthFoldProps = {
@@ -46,12 +46,14 @@ const FifthFold = ({ heroRef, onClickBackToTop }: FifthFoldProps) => {
           <div className={styles.formArea}>
             <div className={styles.formContainer}>
               {!showLoginInsteadOfSignup && (
-                <SignupForm
+                <SignupFormContainer
                   onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
                 />
               )}
               {showLoginInsteadOfSignup && (
-                <LoginForm onClickNoAccountYet={handleClickNoAccountYet} />
+                <LoginFormContainer
+                  onClickNoAccountYet={handleClickNoAccountYet}
+                />
               )}
             </div>
           </div>

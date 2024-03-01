@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import OverlayModal from "../OverlayModal/OverlayModal";
-import LoginForm from "../LoginForm/LoginForm";
-import SignupForm from "../SignupForm/SignupForm";
+import LoginFormContainer from "../LoginForm/LoginFormContainer";
+import SignupFormContainer from "../SignupForm/SignupFormContainer";
 import styles from "./HeaderUnauthenticated.module.css";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -80,12 +80,12 @@ const HeaderUnauthenticated = () => {
       </div>
       {isLoginModalOpen && (
         <OverlayModal onClose={handleCloseLoginModal}>
-          <LoginForm onClickNoAccountYet={handleClickNoAccountYet} />
+          <LoginFormContainer onClickNoAccountYet={handleClickNoAccountYet} />
         </OverlayModal>
       )}
       {isSignupModalOpen && (
         <OverlayModal onClose={handleCloseSignupModal}>
-          <SignupForm
+          <SignupFormContainer
             onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
           />
         </OverlayModal>

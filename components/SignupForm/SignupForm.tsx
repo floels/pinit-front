@@ -1,166 +1,50 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import {
-  API_ROUTE_SIGN_UP,
-  ERROR_CODE_EMAIL_ALREADY_SIGNED_UP,
-  ERROR_CODE_FETCH_FAILED,
-  ERROR_CODE_INVALID_BIRTHDATE,
-  ERROR_CODE_INVALID_EMAIL,
-  ERROR_CODE_INVALID_PASSWORD,
-} from "../../lib/constants";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./SignupForm.module.css";
-import {
-  isValidBirthdate,
-  isValidEmail,
-  isValidPassword,
-} from "../../lib/utils/validation";
 
-type SignupFormProps = {
-  onClickAlreadyHaveAccount: () => void;
-};
-
-const computeFormErrors = (values: {
+type FormData = {
   email: string;
   password: string;
   birthdate: string;
-}) => {
-  if (!values.email) {
-    return { email: "MISSING_EMAIL" };
-  }
-
-  if (!isValidEmail(values.email)) {
-    return { email: "INVALID_EMAIL_INPUT" };
-  }
-
-  if (!isValidPassword(values.password)) {
-    return { password: "INVALID_PASSWORD_INPUT" };
-  }
-
-  if (!isValidBirthdate(values.birthdate)) {
-    return { birthdate: "INVALID_BIRTHDATE_INPUT" };
-  }
-
-  return {};
 };
 
-const SignupForm = ({ onClickAlreadyHaveAccount }: SignupFormProps) => {
+export type FormErrors = {
+  email?: string;
+  password?: string;
+  birthdate?: string;
+  other?: string;
+};
+
+type SignupFormProps = {
+  formData: FormData;
+  formErrors: FormErrors;
+  showFormErrors: boolean;
+  isLoading: boolean;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onClickAlreadyHaveAccount: () => void;
+};
+
+const SignupForm = ({
+  formErrors,
+  formData,
+  handleInputChange,
+  handleSubmit,
+  isLoading,
+  onClickAlreadyHaveAccount,
+  showFormErrors,
+}: SignupFormProps) => {
   const t = useTranslations();
 
-  const router = useRouter();
-
   const emailInputRef = useRef<HTMLInputElement>(null);
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    birthdate: "",
-  });
-  const [formErrors, setFormErrors] = useState<{
-    email?: string;
-    password?: string;
-    birthdate?: string;
-    other?: string;
-  }>({ email: "MISSING_EMAIL" });
-  const [showFormErrors, setShowFormErrors] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     emailInputRef.current?.focus();
   }, []);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    const newFormData = { ...formData, [name]: value };
-
-    setFormData(newFormData);
-
-    setFormErrors(computeFormErrors(newFormData));
-
-    setShowFormErrors(false);
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    setShowFormErrors(true);
-
-    if (formErrors.email || formErrors.password || formErrors.birthdate) {
-      // Invalid inputs: no need to make a request
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      await fetchSignup();
-    } catch (error) {
-      const errorCode = (error as Error).message;
-      updateFormErrorsFromErrorCode(errorCode);
-      return;
-    }
-
-    router.refresh();
-  };
-
-  const fetchSignup = async () => {
-    const requestBody = JSON.stringify(formData);
-
-    let response;
-
-    try {
-      response = await fetch(API_ROUTE_SIGN_UP, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: requestBody,
-      });
-    } catch {
-      throw new Error(ERROR_CODE_FETCH_FAILED);
-    } finally {
-      setIsLoading(false);
-    }
-
-    if (!response.ok) {
-      const data = await response.json();
-
-      if (data?.errors?.length > 0) {
-        const firstErrorCode = data.errors[0]?.code;
-
-        throw new Error(firstErrorCode);
-      }
-
-      throw new Error();
-    }
-  };
-
-  const updateFormErrorsFromErrorCode = (errorCode: string) => {
-    switch (errorCode) {
-      case ERROR_CODE_FETCH_FAILED:
-        setFormErrors({ other: "CONNECTION_ERROR" });
-        break;
-      case ERROR_CODE_INVALID_EMAIL:
-        setFormErrors({ email: "INVALID_EMAIL_SIGNUP" });
-        break;
-      case ERROR_CODE_INVALID_PASSWORD:
-        setFormErrors({ password: "INVALID_PASSWORD_SIGNUP" });
-        break;
-      case ERROR_CODE_INVALID_BIRTHDATE:
-        setFormErrors({ birthdate: "INVALID_BIRTHDATE_SIGNUP" });
-        break;
-      case ERROR_CODE_EMAIL_ALREADY_SIGNED_UP:
-        setFormErrors({ other: "EMAIL_ALREADY_SIGNED_UP" });
-        break;
-      default:
-        setFormErrors({ other: "UNFORESEEN_ERROR" });
-    }
-  };
 
   let displayFormErrorsOther;
 
