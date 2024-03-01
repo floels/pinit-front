@@ -43,14 +43,4 @@ it("renders <LogoutTrigger /> upon clicking 'Log out'", async () => {
   screen.getByTestId("mock-logout-trigger");
 });
 
-it("calls 'handleClickOutOfAccountOptionsFlyout' when clicking outside of the flyout", async () => {
-  renderComponent();
-
-  const triggerClickOut = screen.getByTestId("trigger-click-out");
-
-  userEvent.click(triggerClickOut);
-
-  await waitFor(() => {
-    expect(mockHandleClickOutOfAccountOptionsFlyout).toHaveBeenCalledTimes(1);
-  });
-});
+// NB: the "click out" behavior is tested in "HeaderAuthenticatedContainer.test.tsx"
