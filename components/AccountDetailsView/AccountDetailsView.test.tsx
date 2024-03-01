@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import AccountDetailsView from "./AccountDetailsView";
 import en from "@/messages/en.json";
-import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
+import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
 
 const accountDetailsWithoutBackgroundPictureURL = {
   displayName: "Brian Brown",

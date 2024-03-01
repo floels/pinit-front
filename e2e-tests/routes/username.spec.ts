@@ -2,18 +2,12 @@ import { test } from "@playwright/test";
 import { Response, Express } from "express";
 import { launchMockAPIServer } from "../utils";
 import en from "@/messages/en.json";
+import { MOCK_API_RESPONSES_JSON } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 
 const configureAPIResponses = (mockAPIApp: Express) => {
   mockAPIApp.get(`/api/accounts/johndoe/`, (_, response: Response) => {
-    response.json({
-      username: "johndoe",
-      type: "personal",
-      display_name: "John Doe",
-      profile_picture_url:
-        "https://i.pinimg.com/75x75_RS/62/92/1c/62921c97019ba8fa790ce3074ccaf3c6.jpg",
-      background_picture_url: null,
-      description: "John Doe account description",
-    });
+    response.json(MOCK_API_RESPONSES_JSON[API_ENDPOINT_ACCOUNT_DETAILS]);
   });
 
   mockAPIApp.get("/api/accounts/badrequest/", (_, response: Response) => {
@@ -40,7 +34,7 @@ test("should display account details", async ({ page }) => {
 
   await page.waitForSelector('text="John Doe"');
   await page.waitForSelector('text="johndoe"');
-  await page.waitForSelector('text="John Doe account description"');
+  await page.waitForSelector('text="Description for account of John Doe."');
 });
 
 test("should display 'account not found' error in case of 404 response from the API", async ({

@@ -2,25 +2,15 @@ import { test } from "@playwright/test";
 import { Response, Express } from "express";
 import en from "@/messages/en.json";
 import { launchMockAPIServer } from "../utils";
-import { PIN_IMAGE_URL } from "../fixtures/constants";
+import { MOCK_API_RESPONSES_JSON } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
 
 const PIN_ID_OK = "123456789012345";
 const PIN_ID_400 = "400400400400400";
 
 const configureAPIResponses = (mockAPIApp: Express) => {
   mockAPIApp.get(`/api/pins/${PIN_ID_OK}/`, (_, response: Response) => {
-    response.json({
-      unique_id: PIN_ID_OK,
-      image_url: PIN_IMAGE_URL,
-      title: "Pin title",
-      description: "This is the pin's description.",
-      author: {
-        username: "johndoe",
-        display_name: "John Doe",
-        profile_picture_url:
-          "https://i.pinimg.com/75x75_RS/62/92/1c/62921c97019ba8fa790ce3074ccaf3c6.jpg",
-      },
-    });
+    response.json(MOCK_API_RESPONSES_JSON[API_ENDPOINT_PIN_DETAILS]);
   });
 
   mockAPIApp.get(`/api/pins/${PIN_ID_400}/`, (_, response: Response) => {
@@ -45,13 +35,15 @@ test("should display pin details in case of successful response from the API", a
 
   await page.waitForSelector(`text=${en.HeaderUnauthenticated.LOG_IN}`);
 
-  await page.waitForSelector(`img[src="${PIN_IMAGE_URL}"]`);
+  await page.waitForSelector(
+    `img[src="${MOCK_API_RESPONSES_JSON[API_ENDPOINT_PIN_DETAILS].image_url}"]`,
+  );
 
   await page.waitForSelector('text="Pin title"');
-  await page.waitForSelector('text="This is the pin\'s description."');
+  await page.waitForSelector('text="Pin description."');
 
   await page.waitForSelector('text="John Doe"');
-  await page.waitForSelector('img[alt="Profile picture of John Doe"]');
+  await page.waitForSelector('img[alt="Pin title"]');
 });
 
 test("should display 'pin not found' error in case of 404 response from the API", async ({

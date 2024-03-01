@@ -2,6 +2,8 @@ import { test } from "@playwright/test";
 import { Response, Express } from "express";
 import en from "@/messages/en.json";
 import { launchMockAPIServer } from "@/e2e-tests/utils";
+import { MOCK_API_RESPONSES_JSON } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 
 const EMAIL_FIXTURE = "john.doe@example.com";
 const PASSWORD_FIXTURE = "Pa$$w0rd";
@@ -15,9 +17,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   });
 
   mockAPIApp.get("/api/pin-suggestions/", (_, response: Response) => {
-    response.json({
-      results: [],
-    });
+    response.json(MOCK_API_RESPONSES_JSON[API_ROUTE_PIN_SUGGESTIONS]);
   });
 };
 

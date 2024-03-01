@@ -6,7 +6,11 @@ import { render, waitFor, screen } from "@testing-library/react";
 import AccessTokenRefresher, {
   TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION,
 } from "./AccessTokenRefresher";
-import { MockLocalStorage, withQueryClient } from "@/lib/utils/testing";
+import { MockLocalStorage, withQueryClient } from "@/lib/testing-utils/misc";
+import {
+  MOCK_API_RESPONSES,
+  MOCK_API_RESPONSES_JSON,
+} from "@/lib/testing-utils/mockAPIResponses";
 
 jest.mock("js-cookie");
 
@@ -55,13 +59,9 @@ if expiration date is beyond buffer`, () => {
 it(`refreshes access token, persists new expiration date
 in local storage, and calls 'handleFinishedFetching' if no 
 expiration date was found in local storage`, async () => {
-  const expirationDateUTC = "2024-02-09T07:09:45+00:00";
-
   fetchMock.mockOnceIf(
     API_ROUTE_REFRESH_TOKEN,
-    JSON.stringify({
-      access_token_expiration_utc: expirationDateUTC,
-    }),
+    MOCK_API_RESPONSES[API_ROUTE_REFRESH_TOKEN],
   );
 
   renderComponent();
@@ -69,7 +69,10 @@ expiration date was found in local storage`, async () => {
   await waitFor(() => {
     expect(
       localStorage.getItem(ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY),
-    ).toEqual(expirationDateUTC);
+    ).toEqual(
+      MOCK_API_RESPONSES_JSON[API_ROUTE_REFRESH_TOKEN]
+        .access_token_expiration_utc,
+    );
   });
 
   expect(mockHandleFinishedFetching).toHaveBeenCalledTimes(1);
@@ -115,7 +118,7 @@ it("refreshes access token if expiration date in local storage is within buffer"
 
 it(`calls 'handleFinishedFetching' upon KO response
 if no expiration date was found in local storage`, async () => {
-  fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_REFRESH_TOKEN, "{}", {
     status: 401,
   });
 

@@ -7,42 +7,23 @@ import {
 } from "@testing-library/react";
 import PinThumbnailContainer from "./PinThumbnailContainer";
 import { AccountContext } from "@/contexts/accountContext";
-import { TypesOfAccount } from "@/lib/types";
-import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
+import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
 import userEvent from "@testing-library/user-event";
-import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
+import {
+  API_ROUTE_MY_ACCOUNT_DETAILS,
+  API_ROUTE_PIN_SUGGESTIONS,
+  API_ROUTE_SAVE_PIN,
+} from "@/lib/constants";
 import en from "@/messages/en.json";
 import { ToastContainer } from "react-toastify";
+import {
+  MOCK_API_RESPONSES,
+  MOCK_API_RESPONSES_SERIALIZED,
+} from "@/lib/testing-utils/mockAPIResponses";
 
-const pin = {
-  id: "999999999999999999",
-  title: "Pin title",
-  imageURL: "https://pin.url",
-  authorUsername: "john.doe",
-  authorDisplayName: "John Doe",
-  authorProfilePictureURL: "https://profile.picture.url",
-  description: "Pin description",
-};
+const pin = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_PIN_SUGGESTIONS].results[0];
 
-const account = {
-  type: TypesOfAccount.PERSONAL,
-  username: "johndoe",
-  displayName: "John Doe",
-  initial: "J",
-  profilePictureURL: "https://example.com/profile-picture.jpg",
-  boards: [
-    {
-      id: "1234",
-      title: "Board 1 title",
-      coverPictureURL: "https://some.domain.come/image-1.jpb",
-    },
-    {
-      id: "5678",
-      title: "Board 2 title",
-      coverPictureURL: "https://some.domain.come/image-2.jpb",
-    },
-  ],
-};
+const account = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_MY_ACCOUNT_DETAILS];
 
 const clickSaveButton = async () => {
   fireEvent.mouseEnter(screen.getByTestId("pin-thumbnail"));
@@ -169,7 +150,7 @@ successful save`, async () => {
 
   fetchMock.mockOnceIf(
     API_ROUTE_SAVE_PIN,
-    JSON.stringify({ board_id: account.boards[0].id, pin_id: pin.id }),
+    MOCK_API_RESPONSES[API_ROUTE_SAVE_PIN],
   );
 
   await userEvent.click(firstBoardButton);
@@ -190,7 +171,7 @@ it("displays appropriate error toast upon KO response on saving pin", async () =
 
   const firstBoardButton = getFirstBoardButton();
 
-  fetchMock.mockOnceIf(API_ROUTE_SAVE_PIN, JSON.stringify({}), { status: 404 });
+  fetchMock.mockOnceIf(API_ROUTE_SAVE_PIN, "{}", { status: 404 });
 
   await userEvent.click(firstBoardButton);
 

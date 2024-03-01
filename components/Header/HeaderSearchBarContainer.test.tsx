@@ -5,6 +5,10 @@ import HeaderSearchBarContainer, {
 } from "./HeaderSearchBarContainer";
 import { API_ROUTE_SEARCH_SUGGESTIONS } from "@/lib/constants";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
+import {
+  MOCK_API_RESPONSES,
+  MOCK_API_RESPONSES_JSON,
+} from "@/lib/testing-utils/mockAPIResponses";
 
 const mockPush = jest.fn();
 
@@ -25,13 +29,6 @@ jest.mock("next/link", () => {
 
   return MockedLink;
 });
-
-const NUMBER_MOCK_SUGGESTIONS = 12;
-
-const MOCK_SUGGESTIONS = Array.from(
-  { length: NUMBER_MOCK_SUGGESTIONS },
-  (_, index) => `foo suggestion ${index + 1}`,
-); // i.e. ["foo suggestion 1", "foo suggestion 2", ..., "foo suggestion 12"]
 
 const typeSearchTerm = async (searchTerm: string) => {
   const searchInput = screen.getByTestId("search-bar-input");
@@ -112,7 +109,7 @@ it("hides icon when input gets focus", async () => {
 it("displays search suggestions with search term as first suggestion", async () => {
   fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
-    JSON.stringify({ results: MOCK_SUGGESTIONS }),
+    MOCK_API_RESPONSES[API_ROUTE_SEARCH_SUGGESTIONS],
   );
 
   renderComponent();
@@ -124,7 +121,7 @@ it("displays search suggestions with search term as first suggestion", async () 
       "search-suggestions-list-item",
     );
 
-    expect(searchSuggestionsListItems).toHaveLength(NUMBER_MOCK_SUGGESTIONS);
+    expect(searchSuggestionsListItems).toHaveLength(7);
 
     expect(searchSuggestionsListItems[0]).toHaveTextContent("foo");
     expect(searchSuggestionsListItems[1]).toHaveTextContent("foo suggestion 1");
@@ -137,7 +134,7 @@ it("displays search suggestions as such if search term is already among suggesti
     JSON.stringify({
       results: [
         "foo",
-        ...MOCK_SUGGESTIONS.slice(0, NUMBER_MOCK_SUGGESTIONS - 1),
+        ...MOCK_API_RESPONSES_JSON[API_ROUTE_SEARCH_SUGGESTIONS].results,
       ],
     }),
   );
@@ -151,6 +148,8 @@ it("displays search suggestions as such if search term is already among suggesti
       "search-suggestions-list-item",
     );
 
+    expect(searchSuggestionsListItems).toHaveLength(7);
+
     expect(searchSuggestionsListItems[0]).toHaveTextContent("foo");
     expect(searchSuggestionsListItems[1]).toHaveTextContent("foo suggestion 1");
   });
@@ -159,7 +158,7 @@ it("displays search suggestions as such if search term is already among suggesti
 it("navigates to search route when user clicks suggestion", async () => {
   fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
-    JSON.stringify({ results: MOCK_SUGGESTIONS }),
+    MOCK_API_RESPONSES[API_ROUTE_SEARCH_SUGGESTIONS],
   );
 
   renderComponent();
@@ -198,7 +197,7 @@ it("does not display any suggestion in case of KO response from the API", async 
   // initial state change:
   fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
-    JSON.stringify({ results: MOCK_SUGGESTIONS }),
+    MOCK_API_RESPONSES[API_ROUTE_SEARCH_SUGGESTIONS],
   );
 
   await typeSearchTerm("foo");
@@ -207,11 +206,9 @@ it("does not display any suggestion in case of KO response from the API", async 
     screen.getByTestId("search-suggestions-list");
   });
 
-  fetchMock.mockOnceIf(
-    `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foobar`,
-    JSON.stringify({}),
-    { status: 400 },
-  );
+  fetchMock.mockOnceIf(`${API_ROUTE_SEARCH_SUGGESTIONS}?search=foobar`, "{}", {
+    status: 400,
+  });
 
   await typeSearchTerm("bar");
 
@@ -227,7 +224,7 @@ it("does not display any suggestion in case of fetch error", async () => {
   // initial state change:
   fetchMock.mockOnceIf(
     `${API_ROUTE_SEARCH_SUGGESTIONS}?search=foo`,
-    JSON.stringify({ results: MOCK_SUGGESTIONS }),
+    MOCK_API_RESPONSES[API_ROUTE_SEARCH_SUGGESTIONS],
   );
 
   await typeSearchTerm("foo");

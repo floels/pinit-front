@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import SignupForm from "./SignupForm";
 import en from "@/messages/en.json";
 import { API_ROUTE_SIGN_UP } from "@/lib/constants";
+import { MOCK_API_RESPONSES } from "@/lib/testing-utils/mockAPIResponses";
 
 const messages = en.LandingPageContent;
 
@@ -23,7 +24,7 @@ const renderComponent = () => {
 it("displays relevant input errors, send request only when inputs are valid, and reload the page on successful response", async () => {
   fetchMock.mockOnceIf(
     API_ROUTE_SIGN_UP,
-    JSON.stringify({ access: "access", refresh: "refresh" }),
+    MOCK_API_RESPONSES[API_ROUTE_SIGN_UP],
   );
 
   renderComponent();
@@ -147,7 +148,7 @@ it("displays relevant error when receiving KO responses", async () => {
 
   screen.getByText(messages.SignupForm.EMAIL_ALREADY_SIGNED_UP);
 
-  fetchMock.mockOnceIf(API_ROUTE_SIGN_UP, JSON.stringify({}), {
+  fetchMock.mockOnceIf(API_ROUTE_SIGN_UP, "{}", {
     status: 400,
   });
   await userEvent.clear(passwordInput);

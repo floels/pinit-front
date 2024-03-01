@@ -11,8 +11,9 @@ import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 import { FetchMock } from "jest-fetch-mock";
-import { getObjectFromFormData } from "@/lib/utils/testing";
+import { getObjectFromFormData } from "@/lib/testing-utils/misc";
 import { ToastContainer, toast } from "react-toastify";
+import { MOCK_API_RESPONSES } from "@/lib/testing-utils/mockAPIResponses";
 
 const messages = en.PinCreation;
 
@@ -146,8 +147,8 @@ it("displays success toast with proper link and reset form in case of OK respons
 
   fetchMock.mockOnceIf(
     `${API_ROUTE_CREATE_PIN}`,
-    JSON.stringify({ unique_id: "0123456789012345" }),
-    { status: 200 },
+    MOCK_API_RESPONSES[API_ROUTE_CREATE_PIN],
+    { status: 201 },
   );
 
   const submitButton = screen.getByTestId("pin-creation-submit-button");
@@ -189,7 +190,7 @@ it("displays error toast in case of KO response upon posting", async () => {
 
   await dropImageFile();
 
-  fetchMock.mockOnceIf(`${API_ROUTE_CREATE_PIN}`, JSON.stringify({}), {
+  fetchMock.mockOnceIf(`${API_ROUTE_CREATE_PIN}`, "{}", {
     status: 400,
   });
 

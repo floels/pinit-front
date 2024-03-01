@@ -1,18 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import PinThumbnail from "./PinThumbnail";
-import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
+import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
+import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 
-it("renders all required elements", () => {
-  const pin = {
-    id: "999999999999999999",
-    title: "Pin title",
-    imageURL: "https://pin.url",
-    authorUsername: "john.doe",
-    authorDisplayName: "John Doe",
-    authorProfilePictureURL: "https://profile.picture.url",
-    description: "Pin description",
-  };
+const pin = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_PIN_SUGGESTIONS].results[0];
 
+const renderComponent = () => {
   render(
     <PinThumbnail
       pin={pin}
@@ -30,9 +24,13 @@ it("renders all required elements", () => {
       handleClickOutOfSaveFlyout={() => {}}
     />,
   );
+};
 
-  const pinImage = screen.getByAltText("Pin title");
-  expect(pinImage).toHaveAttribute("src", "https://pin.url");
+it("renders all required elements", () => {
+  renderComponent();
+
+  const pinImage = screen.getByAltText(pin.title);
+  expect(pinImage).toHaveAttribute("src", pin.imageURL);
 
   screen.getByText(pin.title);
 
@@ -42,7 +40,7 @@ it("renders all required elements", () => {
     "Profile picture of John Doe",
   ) as HTMLImageElement;
   const expectedPatternAuthorProfilePictureSrc = getNextImageSrcRegexFromURL(
-    "https://profile.picture.url",
+    pin.authorProfilePictureURL,
   );
   expect(authorProfilePicture.src).toMatch(
     expectedPatternAuthorProfilePictureSrc,

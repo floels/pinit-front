@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import FifthFoldPicturesBackground, {
   PICTURE_URLS,
 } from "./FifthFoldPicturesBackground";
-import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
+import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
 
 it("renders <img> elements with proper 'src' attribute", () => {
   render(<FifthFoldPicturesBackground />);

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
-import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
+import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
 import en from "@/messages/en.json";
 
 const messages = en.PinDetails;
