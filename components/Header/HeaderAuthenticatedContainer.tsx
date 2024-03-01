@@ -9,13 +9,7 @@ import {
 import { useAccountContext } from "@/contexts/accountContext";
 
 const HeaderAuthenticatedContainer = () => {
-  const accountOptionsFlyoutRef = useRef<HTMLDivElement>(null);
   const accountOptionsButtonRef = useRef<HTMLButtonElement>(null);
-
-  const refs = {
-    accountOptionsFlyoutRef,
-    accountOptionsButtonRef,
-  };
 
   const [username, setUsername] = useState<string | null>(null);
   const [profilePictureURL, setProfilePictureURL] = useState<string | null>(
@@ -49,21 +43,14 @@ const HeaderAuthenticatedContainer = () => {
     setIsAccountOptionsFlyoutOpen(!isAccountOptionsFlyoutOpen);
   };
 
-  const handleClickDocument = (event: MouseEvent) => {
-    const target = event.target as Node;
-    const userClickedOutOfAccountOptionsFlyoutOrButton =
-      !accountOptionsFlyoutRef.current?.contains(target) &&
-      !accountOptionsButtonRef.current?.contains(target);
-
-    if (userClickedOutOfAccountOptionsFlyoutOrButton) {
-      setIsAccountOptionsFlyoutOpen(false);
-    }
-  };
-
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       setIsAccountOptionsFlyoutOpen(false);
     }
+  };
+
+  const handleClickOutOfAccountOptionsFlyout = () => {
+    setIsAccountOptionsFlyoutOpen(false);
   };
 
   useEffect(() => {
@@ -84,11 +71,9 @@ const HeaderAuthenticatedContainer = () => {
   }, [accountContext.account]);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickDocument);
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickDocument);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
@@ -109,7 +94,10 @@ const HeaderAuthenticatedContainer = () => {
       handleMouseLeaveAccountOptionsButton={
         handleMouseLeaveAccountOptionsButton
       }
-      ref={refs as any}
+      handleClickOutOfAccountOptionsFlyout={
+        handleClickOutOfAccountOptionsFlyout
+      }
+      ref={accountOptionsButtonRef}
     />
   );
 };

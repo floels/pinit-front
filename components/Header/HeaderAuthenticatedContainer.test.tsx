@@ -104,20 +104,6 @@ it("displays account options flyout upon click on corresponding button, and clos
   expect(screen.queryByTestId("mock-account-options-flyout")).toBeNull();
 });
 
-it("closes account options button when clicking out", async () => {
-  renderComponent();
-
-  const accountOptionsButton = screen.getByTestId("account-options-button");
-
-  await userEvent.click(accountOptionsButton);
-
-  screen.getByTestId("mock-account-options-flyout");
-
-  fireEvent.mouseDown(document.body);
-
-  expect(screen.queryByTestId("mock-account-options-flyout")).toBeNull();
-});
-
 it(`displays profile link with proper 'href' attribute
 when username is available in account context`, async () => {
   renderComponent();

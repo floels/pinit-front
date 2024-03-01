@@ -12,7 +12,6 @@ const ThirdFold = () => {
   const textAndLinkLabels = {
     header: t("ThirdFold.HEADER"),
     paragraph: t("ThirdFold.PARAGRAPH"),
-    link: t("ThirdFold.LINK"),
   };
 
   return (
