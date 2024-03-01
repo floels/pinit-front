@@ -5,7 +5,7 @@ import styles from "./AccountDetailsView.module.css";
 type AccountDetailsViewProps = {
   username: string;
   displayName: string;
-  profilePictureURL: string;
+  profilePictureURL: string | null;
   backgroundPictureURL: string | null;
   description: string | null;
 };
@@ -43,7 +43,7 @@ const AccountDetailsView = ({
 
   // Structure of pictures block depends on whether we have a background picture URL:
 
-  if (backgroundPictureURL) {
+  if (backgroundPictureURL && profilePictureURL) {
     picturesBlock = (
       <div className={styles.picturesContainer}>
         <Image
@@ -62,7 +62,7 @@ const AccountDetailsView = ({
         />
       </div>
     );
-  } else {
+  } else if (profilePictureURL) {
     picturesBlock = (
       <Image
         src={profilePictureURL}

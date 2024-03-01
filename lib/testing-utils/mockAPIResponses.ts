@@ -8,7 +8,6 @@ import {
   API_ROUTE_PIN_SUGGESTIONS,
   API_ROUTE_REFRESH_TOKEN,
   API_ROUTE_SAVE_PIN,
-  API_ROUTE_SEARCH,
   API_ROUTE_SEARCH_SUGGESTIONS,
   API_ROUTE_SIGN_UP,
 } from "../constants";
@@ -32,8 +31,10 @@ export const MOCK_API_RESPONSES_JSON = {
       title: `Pin ${index + 1} title`,
       description: "",
       author: {
-        user_name: "johndoe",
+        username: "johndoe",
         display_name: "John Doe",
+        profile_picture_url:
+          "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
       },
     })),
   },
@@ -46,13 +47,13 @@ export const MOCK_API_RESPONSES_JSON = {
     description: null,
     boards: [
       {
-        unique_id: "0000000000000000001",
+        unique_id: "000000000000000001",
         title: "Board 1 title",
         cover_picture_url:
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
       },
       {
-        unique_id: "0000000000000000002",
+        unique_id: "000000000000000002",
         title: "Board 2 title",
         cover_picture_url:
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
@@ -71,10 +72,16 @@ export const MOCK_API_RESPONSES_JSON = {
       "foo suggestion 6",
     ],
   },
-  [API_ROUTE_CREATE_PIN]: { unique_id: "0123456789012345" },
+  [API_ROUTE_CREATE_PIN]: {
+    unique_id: "000000000000000001",
+    image_url:
+      "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+    title: "Pin title",
+    description: "Pin description",
+  },
   [API_ROUTE_SAVE_PIN]: {
-    board_id: "0000000000000000001",
-    pin_id: "0000000000000000001",
+    board_id: "000000000000000001",
+    pin_id: "000000000000000001",
   },
 
   [API_ENDPOINT_SEARCH_PINS]: {
@@ -85,20 +92,24 @@ export const MOCK_API_RESPONSES_JSON = {
       title: `Pin ${index + 1} title`,
       description: "",
       author: {
-        user_name: "johndoe",
+        username: "johndoe",
         display_name: "John Doe",
+        profile_picture_url:
+          "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
       },
     })),
   },
   [API_ENDPOINT_PIN_DETAILS]: {
-    unique_id: "0000000000000000001",
+    unique_id: "000000000000000001",
     image_url:
       "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
     title: "Pin title",
     description: "Pin description.",
     author: {
-      user_name: "johndoe",
+      username: "johndoe",
       display_name: "John Doe",
+      profile_picture_url:
+        "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
     },
   },
   [API_ENDPOINT_ACCOUNT_DETAILS]: {
@@ -110,13 +121,13 @@ export const MOCK_API_RESPONSES_JSON = {
     description: "Description for account of John Doe.",
     boards: [
       {
-        unique_id: "0000000000000000001",
+        unique_id: "000000000000000001",
         title: "Board 1 title",
         cover_picture_url:
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
       },
       {
-        unique_id: "0000000000000000002",
+        unique_id: "000000000000000002",
         title: "Board 2 title",
         cover_picture_url:
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
@@ -138,13 +149,13 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
     description: null,
     boards: [
       {
-        id: "0000000000000000001",
+        id: "000000000000000001",
         title: "Board 1 title",
         coverPictureURL:
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
       },
       {
-        id: "0000000000000000002",
+        id: "000000000000000002",
         title: "Board 2 title",
         coverPictureURL:
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
