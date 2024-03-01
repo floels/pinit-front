@@ -44,7 +44,11 @@ const PinThumbnail = ({
 
   const hoverOverlay = (
     <div className={styles.hoverOverlay}>
-      <button className={styles.saveButton} onClick={handleClickSave}>
+      <button
+        className={styles.saveButton}
+        onClick={handleClickSave}
+        data-testid="pin-thumbnail-save-button"
+      >
         <span className={styles.saveButtonText}>
           {t("PIN_THUMBNAIL_SAVE_BUTTON_TEXT")}
         </span>

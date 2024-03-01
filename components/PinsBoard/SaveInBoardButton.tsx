@@ -49,7 +49,9 @@ const SaveInBoardButton = ({
   const textShortEllipsis = ellipsizeText({ text: title, maxLength: 20 });
 
   const saveButton = (
-    <span className={styles.saveButton}>{t("SAVE_IN_BOARD_BUTTON_TEXT")}</span>
+    <span className={styles.saveButton} data-testid="board-button-save-button">
+      {t("SAVE_IN_BOARD_BUTTON_TEXT")}
+    </span>
   );
 
   return (

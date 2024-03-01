@@ -23,12 +23,11 @@ export type AccountPublicDetails = {
 };
 
 export type AccountPrivateDetails = {
-  type: TypesOfAccount;
   username: string;
+  type: TypesOfAccount;
   displayName: string;
   initial: string;
   profilePictureURL: string | null;
-  ownerEmail: string;
   boards: Board[];
 };
 
