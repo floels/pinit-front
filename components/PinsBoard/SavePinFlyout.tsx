@@ -23,7 +23,7 @@ const SavePinFlyout = forwardRef<HTMLDivElement, SavePinFlyoutProps>(
     const t = useTranslations("PinsBoard");
 
     const saveInBoardButtons = (
-      <div>
+      <div data-testid="save-pin-flyout-board-buttons">
         {boards.map((board, index) => (
           <div
             key={`board-${index}`}

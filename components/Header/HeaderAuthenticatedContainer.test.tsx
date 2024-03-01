@@ -113,7 +113,7 @@ it("closes account options button when clicking out", async () => {
 
   screen.getByTestId("mock-account-options-flyout");
 
-  fireEvent.click(document.body);
+  await userEvent.click(document.body);
 
   expect(screen.queryByTestId("mock-account-options-flyout")).toBeNull();
 });
