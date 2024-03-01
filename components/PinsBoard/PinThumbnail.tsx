@@ -7,7 +7,7 @@ import styles from "./PinThumbnail.module.css";
 import { Board, Pin } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import SavePinFlyout from "./SavePinFlyout";
+import SavePinFlyoutContainer from "./SavePinFlyoutContainer";
 
 type PinThumbnailProps = {
   pin: Pin;
@@ -23,6 +23,7 @@ type PinThumbnailProps = {
   }: {
     boardIndex: number;
   }) => () => void;
+  handleClickOutOfSaveFlyout: () => void;
 };
 
 const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
@@ -37,6 +38,7 @@ const PinThumbnail = ({
   handleMouseLeave,
   handleClickSave,
   getClickHandlerForBoard,
+  handleClickOutOfSaveFlyout,
 }: PinThumbnailProps) => {
   const t = useTranslations("PinsBoard");
 
@@ -93,10 +95,11 @@ const PinThumbnail = ({
         <span className={styles.authorName}>{pin.authorDisplayName}</span>
       </Link>
       {isSaveFlyoutOpen && (
-        <SavePinFlyout
+        <SavePinFlyoutContainer
           boards={boards}
           isSaving={isSaving}
           getClickHandlerForBoard={getClickHandlerForBoard}
+          handleClickOutOfSaveFlyout={handleClickOutOfSaveFlyout}
         />
       )}
     </div>

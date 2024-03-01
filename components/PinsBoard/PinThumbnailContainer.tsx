@@ -35,6 +35,10 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     setIsSaveFlyoutOpen(true);
   };
 
+  const handleClickOutOfSaveFlyout = () => {
+    setIsSaveFlyoutOpen(false);
+  };
+
   const getClickHandlerForBoard = ({ boardIndex }: { boardIndex: number }) => {
     return () => {
       savePinInBoard({ boardIndex, pin });
@@ -107,6 +111,7 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
       handleMouseLeave={handleMouseLeave}
       handleClickSave={handleClickSave}
       getClickHandlerForBoard={getClickHandlerForBoard}
+      handleClickOutOfSaveFlyout={handleClickOutOfSaveFlyout}
     />
   );
 };
