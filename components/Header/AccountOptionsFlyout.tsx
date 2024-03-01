@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslations } from "next-intl";
 import styles from "./AccountOptionsFlyout.module.css";
-import LogoutTrigger from "../LogoutTrigger/LogoutTrigger";
 
-const AccountOptionsFlyout = React.forwardRef<HTMLDivElement>((_, ref) => {
+type AccountOptionsFlyoutProps = {
+  handleClickLogOut: () => void;
+};
+
+const AccountOptionsFlyout = React.forwardRef<
+  HTMLDivElement,
+  AccountOptionsFlyoutProps
+>((props, ref) => {
+  const { handleClickLogOut } = props;
+
   const t = useTranslations("HeaderAuthenticated");
-
-  const [clickedLogOut, setClickedLogOut] = useState(false);
-
-  const handleClickLogOut = () => {
-    setClickedLogOut(true);
-  };
-
-  if (clickedLogOut) {
-    return <LogoutTrigger />;
-  }
 
   return (
     <div

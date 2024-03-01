@@ -12,7 +12,6 @@ const FourthFold = () => {
   const textAndLinkLabels = {
     header: t("FourthFold.HEADER"),
     paragraph: t("FourthFold.PARAGRAPH"),
-    link: t("FourthFold.LINK"),
   };
 
   return (
