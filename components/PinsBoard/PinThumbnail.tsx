@@ -12,6 +12,8 @@ import { ellipsizeText } from "@/lib/utils/strings";
 
 type PinThumbnailProps = {
   pin: Pin;
+  isInFirstColumn: boolean;
+  isInLastColumn: boolean;
   boards: Board[];
   isHovered: boolean;
   isSaveFlyoutOpen: boolean;
@@ -32,6 +34,8 @@ const AUTHOR_PROFILE_PICTURE_SIZE_PX = 32;
 
 const PinThumbnail = ({
   pin,
+  isInFirstColumn,
+  isInLastColumn,
   boards,
   isHovered,
   isSaveFlyoutOpen,
@@ -129,6 +133,8 @@ const PinThumbnail = ({
       </Link>
       {isSaveFlyoutOpen && (
         <SavePinFlyoutContainer
+          isInFirstColumn={isInFirstColumn}
+          isInLastColumn={isInLastColumn}
           boards={boards}
           isSaving={isSaving}
           getClickHandlerForBoard={getClickHandlerForBoard}

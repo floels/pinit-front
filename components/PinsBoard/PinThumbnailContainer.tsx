@@ -9,9 +9,15 @@ import { useTranslations } from "next-intl";
 
 type PinThumbnailContainerProps = {
   pin: Pin;
+  isInFirstColumn: boolean;
+  isInLastColumn: boolean;
 };
 
-const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
+const PinThumbnailContainer = ({
+  pin,
+  isInFirstColumn,
+  isInLastColumn,
+}: PinThumbnailContainerProps) => {
   const t = useTranslations();
 
   const { account } = useAccountContext();
@@ -138,6 +144,8 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
   return (
     <PinThumbnail
       pin={pin}
+      isInFirstColumn={isInFirstColumn}
+      isInLastColumn={isInLastColumn}
       boards={boards}
       isHovered={isHovered}
       isSaveFlyoutOpen={isSaveFlyoutOpen}

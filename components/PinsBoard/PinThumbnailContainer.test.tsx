@@ -67,7 +67,11 @@ const renderComponent = () => {
   render(
     <AccountContext.Provider value={accountContext}>
       <ToastContainer />
-      <PinThumbnailContainer pin={pin} />
+      <PinThumbnailContainer
+        pin={pin}
+        isInFirstColumn={false}
+        isInLastColumn={false}
+      />
     </AccountContext.Provider>,
   );
 };

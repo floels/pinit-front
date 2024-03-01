@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 type SavePinFlyoutProps = {
+  isInFirstColumn: boolean;
+  isInLastColumn: boolean;
   boards: Board[];
   isSaving: boolean;
   getClickHandlerForBoard: ({
@@ -18,7 +20,13 @@ type SavePinFlyoutProps = {
 
 const SavePinFlyout = forwardRef<HTMLDivElement, SavePinFlyoutProps>(
   (props, ref) => {
-    const { boards, isSaving, getClickHandlerForBoard } = props;
+    const {
+      isInFirstColumn,
+      isInLastColumn,
+      boards,
+      isSaving,
+      getClickHandlerForBoard,
+    } = props;
 
     const t = useTranslations("PinsBoard");
 
@@ -35,8 +43,18 @@ const SavePinFlyout = forwardRef<HTMLDivElement, SavePinFlyoutProps>(
       </div>
     );
 
+    const containerStyles = [styles.container];
+
+    if (isInFirstColumn) {
+      containerStyles.push(styles.containerAlignedLeft);
+    } else if (isInLastColumn) {
+      containerStyles.push(styles.containerAlignedRight);
+    } else {
+      containerStyles.push(styles.containerCentered);
+    }
+
     return (
-      <div className={styles.container}>
+      <div className={containerStyles.join(" ")}>
         <span className={styles.title}>
           {t("PIN_THUMBNAIL_SAVE_FLYOUT_TITLE")}
         </span>
