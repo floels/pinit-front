@@ -11,6 +11,7 @@ import { TypesOfAccount } from "@/lib/types";
 import { getNextImageSrcRegexFromURL } from "@/lib/utils/testing";
 import userEvent from "@testing-library/user-event";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
+import en from "@/messages/en.json";
 
 const pin = {
   id: "999999999999999999",
@@ -152,7 +153,8 @@ it("displays 'Save' button in board button only when hovered", async () => {
   within(firstBoardButton).getByTestId("board-button-save-button");
 });
 
-it("displays 'Saved' label with board title upon successful save", async () => {
+it(`closes flyout and displays 'Saved' label with board title upon
+successful save`, async () => {
   renderComponent();
 
   await clickSaveButton();
@@ -166,5 +168,11 @@ it("displays 'Saved' label with board title upon successful save", async () => {
 
   await userEvent.click(firstBoardButton);
 
-  // TODO: check that the label is displayed
+  await waitFor(() => {
+    expect(screen.queryByTestId("save-pin-flyout-board-buttons")).toBeNull();
+
+    screen.getByText("Board 1 title");
+
+    screen.getByText(en.PinsBoard.PIN_THUMBNAIL_SAVED_LABEL_TEXT);
+  });
 });

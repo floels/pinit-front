@@ -17,7 +17,7 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSaveFlyoutOpen, setIsSaveFlyoutOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [indexBoardWhereJustSaved, setindexBoardWhereJustSaved] = useState<
+  const [indexBoardWhereJustSaved, setIndexBoardWhereJustSaved] = useState<
     number | null
   >(null);
 
@@ -71,9 +71,7 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
       setIsSaving(false);
     }
 
-    setindexBoardWhereJustSaved(boardIndex);
-
-    console.warn("saved pin in board", board.title);
+    handleSaveSuccess({ boardIndex });
   };
 
   const fetchSavePinInBoard = async ({
@@ -106,6 +104,12 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
     return response;
   };
 
+  const handleSaveSuccess = ({ boardIndex }: { boardIndex: number }) => {
+    setIndexBoardWhereJustSaved(boardIndex);
+
+    setIsSaveFlyoutOpen(false);
+  };
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
@@ -121,6 +125,7 @@ const PinThumbnailContainer = ({ pin }: PinThumbnailContainerProps) => {
       isHovered={isHovered}
       isSaveFlyoutOpen={isSaveFlyoutOpen}
       isSaving={isSaving}
+      indexBoardWhereJustSaved={indexBoardWhereJustSaved}
       handleMouseEnter={handleMouseEnter}
       handleMouseLeave={handleMouseLeave}
       handleClickSave={handleClickSave}

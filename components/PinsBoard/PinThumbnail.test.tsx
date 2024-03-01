@@ -18,6 +18,7 @@ it("renders all required elements", () => {
       pin={pin}
       boards={[]}
       isHovered={false}
+      indexBoardWhereJustSaved={null}
       isSaveFlyoutOpen={false}
       isSaving={false}
       handleMouseEnter={() => {}}
