@@ -1,11 +1,17 @@
-export type Pin = {
+type Pin = {
   id: string;
   title: string;
   imageURL: string;
-  authorUsername?: string;
-  authorDisplayName?: string;
-  authorProfilePictureURL?: string;
-  description?: string;
+};
+
+export type PinWithAuthorDetails = Pin & {
+  authorUsername: string;
+  authorDisplayName: string;
+  authorProfilePictureURL: string;
+};
+
+export type PinWithFullDetails = PinWithAuthorDetails & {
+  description: string;
 };
 
 export enum TypesOfAccount {
@@ -13,18 +19,19 @@ export enum TypesOfAccount {
   BUSINESS = "business",
 }
 
-export type AccountPublicDetails = {
+export type Account = {
   username: string;
   displayName: string;
   profilePictureURL: string | null;
+  boards: Board[];
+  initial: string;
   backgroundPictureURL: string | null;
   description: string | null;
-  boards: Board[];
 };
 
-export type AccountPrivateDetails = AccountPublicDetails & {
+export type AccountWithPrivateDetails = Account & {
   type: TypesOfAccount;
-  initial: string;
+  ownerEmail: string;
 };
 
 export type Board = {

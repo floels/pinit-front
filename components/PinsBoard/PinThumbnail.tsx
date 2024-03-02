@@ -4,14 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import styles from "./PinThumbnail.module.css";
-import { Board, Pin } from "@/lib/types";
+import { Board, PinWithAuthorDetails } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import SavePinFlyoutContainer from "./SavePinFlyoutContainer";
 import { ellipsizeText } from "@/lib/utils/strings";
 
 type PinThumbnailProps = {
-  pin: Pin;
+  pin: PinWithAuthorDetails;
   isInFirstColumn: boolean;
   isInLastColumn: boolean;
   boards: Board[];

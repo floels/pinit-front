@@ -1,6 +1,6 @@
 "use client";
 
-import { AccountPrivateDetails } from "@/lib/types";
+import { AccountWithPrivateDetails } from "@/lib/types";
 import {
   Dispatch,
   SetStateAction,
@@ -10,8 +10,8 @@ import {
 } from "react";
 
 type AccountContextType = {
-  account: AccountPrivateDetails | null;
-  setAccount: Dispatch<SetStateAction<AccountPrivateDetails | null>>;
+  account: AccountWithPrivateDetails | null;
+  setAccount: Dispatch<SetStateAction<AccountWithPrivateDetails | null>>;
 };
 
 export const AccountContext = createContext<AccountContextType>({
@@ -24,7 +24,9 @@ export const AccountContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [account, setAccount] = useState<AccountPrivateDetails | null>(null);
+  const [account, setAccount] = useState<AccountWithPrivateDetails | null>(
+    null,
+  );
 
   return (
     <AccountContext.Provider value={{ account, setAccount }}>

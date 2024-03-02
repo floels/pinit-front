@@ -1,6 +1,6 @@
 import { useAccountContext } from "@/contexts/accountContext";
 import { toast } from "react-toastify";
-import { Board, Pin } from "@/lib/types";
+import { Board, PinWithAuthorDetails } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
@@ -8,7 +8,7 @@ import { NetworkError, ResponseKOError } from "@/lib/customErrors";
 import { useTranslations } from "next-intl";
 
 type PinThumbnailContainerProps = {
-  pin: Pin;
+  pin: PinWithAuthorDetails;
   isInFirstColumn: boolean;
   isInLastColumn: boolean;
 };
@@ -66,7 +66,7 @@ const PinThumbnailContainer = ({
     pin,
   }: {
     boardIndex: number;
-    pin: Pin;
+    pin: PinWithAuthorDetails;
   }) => {
     const board = boards[boardIndex];
 
@@ -89,7 +89,7 @@ const PinThumbnailContainer = ({
     pin,
   }: {
     board: Board;
-    pin: Pin;
+    pin: PinWithAuthorDetails;
   }) => {
     const requestBody = JSON.stringify({
       pin_id: pin.id,

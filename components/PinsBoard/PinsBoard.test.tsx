@@ -1,4 +1,4 @@
-import { Pin } from "@/lib/types";
+import { PinWithAuthorDetails } from "@/lib/types";
 import { render, screen } from "@testing-library/react";
 import PinsBoard from "./PinsBoard";
 import { mockIntersectionObserver } from "@/lib/testing-utils/misc";
@@ -21,7 +21,7 @@ const pins = Array.from({ length: NUMBER_PINS }, (_, index) => ({
   description: "",
   authorUsername: "johndoe",
   authorDisplayName: "John Doe",
-})) as Pin[];
+})) as PinWithAuthorDetails[];
 
 beforeEach(() => {
   mockIntersectionObserver();

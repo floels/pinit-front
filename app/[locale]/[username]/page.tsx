@@ -2,7 +2,7 @@ import { API_BASE_URL, API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 import AccountDetailsView from "@/components/AccountDetailsView/AccountDetailsView";
 import { Response404Error, ResponseKOError } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
-import { serializeAccountPublicDetails } from "@/lib/utils/serializers";
+import { serializeAccount } from "@/lib/utils/serializers";
 
 type PageProps = {
   params: { username: string };
@@ -23,7 +23,7 @@ const fetchAccountDetails = async ({ username }: { username: string }) => {
 
   const responseData = await response.json();
 
-  return serializeAccountPublicDetails(responseData);
+  return serializeAccount(responseData);
 };
 
 const Page = async ({ params }: PageProps) => {

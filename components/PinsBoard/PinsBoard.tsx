@@ -8,10 +8,10 @@ import { useTranslations } from "next-intl";
 import styles from "./PinsBoard.module.css";
 import PinThumbnailContainer from "./PinThumbnailContainer";
 import { useViewportWidth } from "@/lib/utils/custom-hooks";
-import { Pin } from "@/lib/types";
+import { PinWithAuthorDetails } from "@/lib/types";
 
 type PinsBoardProps = {
-  pins: Pin[];
+  pins: PinWithAuthorDetails[];
   isFetching: boolean;
   fetchFailed: boolean;
   emptyResultsMessageKey?: string;
