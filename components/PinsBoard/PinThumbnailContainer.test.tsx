@@ -179,19 +179,3 @@ it("displays appropriate error toast upon KO response on saving pin", async () =
     screen.getByText(en.PinsBoard.PIN_SAVE_ERROR_MESSAGE);
   });
 });
-
-it("displays appropriate error toast upon KO response on saving pin", async () => {
-  renderComponent();
-
-  await clickSaveButton();
-
-  const firstBoardButton = getFirstBoardButton();
-
-  fetchMock.mockRejectOnce();
-
-  await userEvent.click(firstBoardButton);
-
-  await waitFor(() => {
-    screen.getByText(en.Common.CONNECTION_ERROR);
-  });
-});

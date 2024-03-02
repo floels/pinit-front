@@ -189,26 +189,7 @@ it("displays relevant error when receiving KO responses", async () => {
   screen.getByText(en.Common.UNFORESEEN_ERROR);
 });
 
-it("displays relevant error upon fetch error", async () => {
-  renderComponent();
-
-  const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);
-  const passwordInput = screen.getByLabelText(messages.SignupForm.PASSWORD);
-  const birthdateInput = screen.getByLabelText(messages.SignupForm.BIRTHDATE);
-  const submitButton = screen.getByText(messages.SignupForm.CONTINUE);
-
-  await userEvent.type(emailInput, "test@example.com");
-  await userEvent.type(passwordInput, "Pa$$w0rd");
-  await userEvent.type(birthdateInput, "1970-01-01");
-
-  fetchMock.mockRejectOnce();
-
-  await userEvent.click(submitButton);
-
-  screen.getByText(en.Common.CONNECTION_ERROR);
-});
-
-it("displays loading state while expecting network response", async () => {
+it("displays loading state while expecting response", async () => {
   renderComponent();
 
   const emailInput = screen.getByLabelText(messages.SignupForm.EMAIL);

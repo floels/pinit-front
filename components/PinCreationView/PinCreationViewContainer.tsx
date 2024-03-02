@@ -11,8 +11,6 @@ const SUCCESS_TOAST_MIN_WIDTH = "380px";
 
 const PinCreationViewContainer = () => {
   const t = useTranslations("PinCreation");
-  const translatedConnectionErrorMessage =
-    useTranslations("Common")("CONNECTION_ERROR");
 
   const [pinImageFile, setPinImageFile] = useState<File | null>(null);
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null);

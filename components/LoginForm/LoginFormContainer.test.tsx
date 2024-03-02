@@ -147,19 +147,6 @@ it("displays relevant errors when receiving KO responses", async () => {
   screen.getByText(en.Common.UNFORESEEN_ERROR);
 });
 
-it("displays relevant error upon fetch error", async () => {
-  renderComponent();
-
-  await typeInEmailInput("test@example.com");
-  await typeInPasswordInput("Pa$$w0rd");
-
-  fetchMock.mockRejectOnce();
-
-  await submit();
-
-  screen.getByText(en.Common.CONNECTION_ERROR);
-});
-
 it("displays loading state while expecting network response", async () => {
   renderComponent();
 
