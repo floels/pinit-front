@@ -6,8 +6,8 @@ import {
   USERNAME_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
 import { Response401Error, ResponseKOError } from "@/lib/customErrors";
-import { AccountPrivateDetails } from "@/lib/types";
-import { serializeAccountPrivateDetails } from "@/lib/utils/serializers";
+import { AccountWithPrivateDetails } from "@/lib/types";
+import { serializeAccountWithPrivateDetails } from "@/lib/utils/serializers";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -29,10 +29,10 @@ const AccountDetailsFetcher = () => {
 
     const responseData = await response.json();
 
-    return serializeAccountPrivateDetails(responseData);
+    return serializeAccountWithPrivateDetails(responseData);
   };
 
-  const persistAccountData = (data: AccountPrivateDetails) => {
+  const persistAccountData = (data: AccountWithPrivateDetails) => {
     const { username, profilePictureURL } = data;
 
     persistUsername(username);

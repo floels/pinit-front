@@ -5,11 +5,11 @@ import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { appendQueryParam } from "@/lib/utils/strings";
 import PinsBoard from "./PinsBoard";
-import { Pin } from "@/lib/types";
-import { serializePinsWithAuthorData } from "@/lib/utils/serializers";
+import { PinWithAuthorDetails } from "@/lib/types";
+import { serializePinsWithAuthorDetails } from "@/lib/utils/serializers";
 
 type PinsBoardContainerProps = {
-  initialPins: Pin[];
+  initialPins: PinWithAuthorDetails[];
   fetchPinsAPIRoute: string;
   emptyResultsMessageKey?: string;
 };
@@ -22,7 +22,7 @@ const PinsBoardContainer = ({
   const t = useTranslations("Common");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pins, setPins] = useState<Pin[]>(initialPins);
+  const [pins, setPins] = useState<PinWithAuthorDetails[]>(initialPins);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
 
@@ -57,7 +57,9 @@ const PinsBoardContainer = ({
     }
 
     const nextPinsResponseData = await response.json();
-    const newPins = serializePinsWithAuthorData(nextPinsResponseData.results);
+    const newPins = serializePinsWithAuthorDetails(
+      nextPinsResponseData.results,
+    );
     setPins((currentPins) => [...currentPins, ...newPins]);
 
     setFetchFailed(false);

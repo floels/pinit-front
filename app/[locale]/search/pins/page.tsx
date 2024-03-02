@@ -7,7 +7,7 @@ import {
 import { ResponseKOError } from "@/lib/customErrors";
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import ErrorView from "@/components/ErrorView/ErrorView";
-import { serializePinsWithAuthorData } from "@/lib/utils/serializers";
+import { serializePinsWithAuthorDetails } from "@/lib/utils/serializers";
 
 type PageProps = {
   searchParams: { q: string };
@@ -28,7 +28,7 @@ const fetchInitialSearchResults = async ({
 
   const responseData = await response.json();
 
-  const initialSearchResults = serializePinsWithAuthorData(
+  const initialSearchResults = serializePinsWithAuthorDetails(
     responseData.results,
   );
 

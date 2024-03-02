@@ -1,46 +1,56 @@
 import {
-  AccountPrivateDetails,
-  AccountPublicDetails,
+  AccountWithPrivateDetails,
+  Account,
   Board,
-  Pin,
+  PinWithAuthorDetails,
+  PinWithFullDetails,
 } from "../types";
 
-export const serializePinWithAuthorData = (pin: any): Pin => {
+export const serializePinWithAuthorDetails = (
+  pin: any,
+): PinWithAuthorDetails => {
   return {
     id: pin.unique_id,
-    imageURL: pin.image_url,
     title: pin.title,
-    description: pin.description,
+    imageURL: pin.image_url,
     authorUsername: pin.author.username,
     authorDisplayName: pin.author.display_name,
     authorProfilePictureURL: pin.author.profile_picture_url,
   };
 };
 
-export const serializePinsWithAuthorData = (pins: any): Pin[] => {
-  return pins.map(serializePinWithAuthorData);
+export const serializePinsWithAuthorDetails = (
+  pins: any,
+): PinWithAuthorDetails[] => {
+  return pins.map(serializePinWithAuthorDetails);
 };
 
-export const serializeAccountPublicDetails = (
-  account: any,
-): AccountPublicDetails => {
+export const serializePinWithFullDetails = (pin: any): PinWithFullDetails => {
+  return {
+    ...serializePinWithAuthorDetails(pin),
+    description: pin.description,
+  };
+};
+
+export const serializeAccount = (account: any): Account => {
   return {
     username: account.username,
     displayName: account.display_name,
     profilePictureURL: account.profile_picture_url,
+    initial: account.initial,
     boards: serializeBoards(account.boards),
     backgroundPictureURL: account.background_picture_url,
     description: account.description,
   };
 };
 
-export const serializeAccountPrivateDetails = (
+export const serializeAccountWithPrivateDetails = (
   account: any,
-): AccountPrivateDetails => {
+): AccountWithPrivateDetails => {
   return {
-    ...serializeAccountPublicDetails(account),
+    ...serializeAccount(account),
     type: account.type,
-    initial: account.initial,
+    ownerEmail: account.owner_email,
   };
 };
 
