@@ -34,7 +34,7 @@ const AccountDetailsView = ({ account }: AccountDetailsViewProps) => {
             <span>{username}</span>
           </div>
         </div>
-        <div className={styles.description}>{description}</div>
+        {description && <div className={styles.description}>{description}</div>}
       </div>
     </div>
   );

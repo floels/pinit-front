@@ -21,7 +21,7 @@ const AccountPictures = ({ account }: AccountPicturesProps) => {
 
   let backgroudPicture;
 
-  if (backgroundPictureURL) {
+  if (profilePictureURL && backgroundPictureURL) {
     backgroudPicture = (
       <Image
         src={backgroundPictureURL}
@@ -55,14 +55,8 @@ const AccountPictures = ({ account }: AccountPicturesProps) => {
     profilePicture = <span className={styles.initialContainer}>{initial}</span>;
   }
 
-  const containerStyles = [styles.container];
-
-  if (backgroundPictureURL) {
-    containerStyles.push(styles.containerWithBackgroundPicture);
-  }
-
   return (
-    <div className={containerStyles.join(" ")}>
+    <div className={styles.container}>
       {backgroudPicture}
       {profilePicture}
     </div>
