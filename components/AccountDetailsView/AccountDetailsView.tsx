@@ -1,20 +1,10 @@
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 import styles from "./AccountDetailsView.module.css";
+import { Account } from "@/lib/types";
+import AccountPictures from "./AccountPictures";
 
 type AccountDetailsViewProps = {
-  username: string;
-  displayName: string;
-  profilePictureURL: string | null;
-  backgroundPictureURL: string | null;
-  description: string | null;
+  account: Account;
 };
-
-const BACKGROUND_PICTURE_WIDTH_PX = 656;
-const BACKGROUND_PICTURE_HEIGHT_PX = 370;
-
-const PROFILE_PICTURE_WIDTH_PX = 120;
-const PROFILE_PICTURE_HEIGHT_PX = 120;
 
 const Logo = (props: any) => (
   <svg
@@ -30,54 +20,13 @@ const Logo = (props: any) => (
   </svg>
 );
 
-const AccountDetailsView = ({
-  username,
-  displayName,
-  profilePictureURL,
-  backgroundPictureURL,
-  description,
-}: AccountDetailsViewProps) => {
-  const t = useTranslations("AccountDetails");
-
-  let picturesBlock;
-
-  // Structure of pictures block depends on whether we have a background picture URL:
-
-  if (backgroundPictureURL && profilePictureURL) {
-    picturesBlock = (
-      <div className={styles.picturesContainer}>
-        <Image
-          src={backgroundPictureURL}
-          width={BACKGROUND_PICTURE_WIDTH_PX}
-          height={BACKGROUND_PICTURE_HEIGHT_PX}
-          alt={`${t("ALT_BACKGROUND_PICTURE_OF")} ${displayName}`}
-          className={styles.backgroundPicture}
-        />
-        <Image
-          src={profilePictureURL}
-          width={PROFILE_PICTURE_WIDTH_PX}
-          height={PROFILE_PICTURE_HEIGHT_PX}
-          alt={`${t("ALT_PROFILE_PICTURE_OF")} ${displayName}`}
-          className={`${styles.profilePicture} ${styles.profilePictureOverBackgroundPicture}`}
-        />
-      </div>
-    );
-  } else if (profilePictureURL) {
-    picturesBlock = (
-      <Image
-        src={profilePictureURL}
-        width={PROFILE_PICTURE_WIDTH_PX}
-        height={PROFILE_PICTURE_HEIGHT_PX}
-        alt={`${t("ALT_PROFILE_PICTURE_OF")} ${displayName}`}
-        className={styles.profilePicture}
-      />
-    );
-  }
+const AccountDetailsView = ({ account }: AccountDetailsViewProps) => {
+  const { username, displayName, description } = account;
 
   return (
     <div className={styles.container}>
       <div className={styles.accountDetails}>
-        {picturesBlock}
+        <AccountPictures account={account} />
         <div className={styles.namesContainer}>
           <h1 className={styles.displayName}>{displayName}</h1>
           <div className={styles.logoAndUsername}>

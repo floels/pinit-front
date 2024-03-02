@@ -45,7 +45,7 @@ const Page = async ({ params }: PageProps) => {
     );
   }
 
-  return <AccountDetailsView {...accountDetails} />;
+  return <AccountDetailsView account={accountDetails} />;
 };
 
 export default Page;
