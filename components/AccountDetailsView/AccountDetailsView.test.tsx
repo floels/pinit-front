@@ -2,54 +2,42 @@ import { render, screen } from "@testing-library/react";
 import AccountDetailsView from "./AccountDetailsView";
 import en from "@/messages/en.json";
 import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
+import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 
-const accountDetailsWithoutBackgroundPictureURL = {
-  displayName: "Brian Brown",
-  username: "brian_brown",
-  description: "Description for Brian Brown.",
-  profilePictureURL: "https://profile.picture.url",
-};
+const account = MOCK_API_RESPONSES_SERIALIZED[API_ENDPOINT_ACCOUNT_DETAILS];
 
-it("renders relevant details when provided", () => {
-  render(
-    <AccountDetailsView
-      {...accountDetailsWithoutBackgroundPictureURL}
-      backgroundPictureURL="https://background.picture.url"
-    />,
-  );
+it("renders all relevant details", () => {
+  render(<AccountDetailsView account={account} />);
 
-  screen.getByText(accountDetailsWithoutBackgroundPictureURL.displayName);
-  screen.getByText(accountDetailsWithoutBackgroundPictureURL.username);
-  screen.getByText(accountDetailsWithoutBackgroundPictureURL.description);
+  screen.getByText(account.displayName);
+  screen.getByText(account.username);
+  screen.getByText(account.description);
 
   const profilePicture = screen.getByAltText(
-    `${en.AccountDetails.ALT_PROFILE_PICTURE_OF} Brian Brown`,
+    `${en.AccountDetails.ALT_PROFILE_PICTURE_OF} John Doe`,
   ) as HTMLImageElement;
   const expectedPatternProfilePictureSrc = getNextImageSrcRegexFromURL(
-    "https://profile.picture.url",
+    account.profilePictureURL,
   );
   expect(profilePicture.src).toMatch(expectedPatternProfilePictureSrc);
 
   const backgroundPicture = screen.getByAltText(
-    `${en.AccountDetails.ALT_BACKGROUND_PICTURE_OF} Brian Brown`,
+    `${en.AccountDetails.ALT_BACKGROUND_PICTURE_OF} John Doe`,
   ) as HTMLImageElement;
   const expectedPatternBackgroundPictureSrc = getNextImageSrcRegexFromURL(
-    "https://background.picture.url",
+    account.backgroundPictureURL,
   );
   expect(backgroundPicture.src).toMatch(expectedPatternBackgroundPictureSrc);
 });
 
-it("does not display background picture when corresponding URL is not provided", () => {
-  render(
-    <AccountDetailsView
-      {...accountDetailsWithoutBackgroundPictureURL}
-      backgroundPictureURL={null}
-    />,
-  );
+it("displays initial when profile picture is not provided", () => {
+  const accountWithoutProfilePictureURL = {
+    ...account,
+    profilePictureURL: null,
+  };
 
-  expect(
-    screen.queryByAltText(
-      `${en.AccountDetails.ALT_BACKGROUND_PICTURE_OF} Brian Brown`,
-    ),
-  ).toBeNull();
+  render(<AccountDetailsView account={accountWithoutProfilePictureURL} />);
+
+  screen.getByText("J");
 });
