@@ -131,9 +131,6 @@ const LoginFormContainer = ({
 
   const updateFormErrorsFromErrorCode = (errorCode: string) => {
     switch (errorCode) {
-      case ERROR_CODE_FETCH_FAILED:
-        setFormErrors({ other: "CONNECTION_ERROR" });
-        break;
       case ERROR_CODE_INVALID_EMAIL:
         setFormErrors({ email: "INVALID_EMAIL_LOGIN" });
         break;

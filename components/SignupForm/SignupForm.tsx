@@ -52,9 +52,6 @@ const SignupForm = ({
     let text;
 
     switch (formErrors.other) {
-      case "CONNECTION_ERROR":
-        text = t("Common.CONNECTION_ERROR");
-        break;
       case "EMAIL_ALREADY_SIGNED_UP":
         text = t("LandingPageContent.SignupForm.EMAIL_ALREADY_SIGNED_UP");
         break;

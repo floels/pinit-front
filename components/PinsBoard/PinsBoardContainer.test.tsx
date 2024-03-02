@@ -84,15 +84,3 @@ it("displays error message in case of KO response upon new thumbnails fetch", as
     screen.getByText(en.PinsBoard.ERROR_DISPLAY_PINS);
   });
 });
-
-it("displays toast in case of fetch failure upon new thumbnails fetch", async () => {
-  fetchMock.mockRejectOnce();
-
-  renderComponent();
-
-  simulateScrollToBottomOfPage();
-
-  await waitFor(() => {
-    screen.getByText(en.Common.CONNECTION_ERROR);
-  });
-});

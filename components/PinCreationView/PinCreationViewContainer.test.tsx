@@ -204,21 +204,3 @@ it("displays error toast in case of KO response upon posting", async () => {
   expect(submitButton).toHaveTextContent(messages.PUBLISH);
   expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
 });
-
-it("displays error toast and disable loading state in case of fetch error when posting", async () => {
-  renderComponent();
-
-  await dropImageFile();
-
-  fetchMock.mockRejectOnce();
-
-  const submitButton = screen.getByTestId("pin-creation-submit-button");
-
-  await userEvent.click(submitButton);
-
-  screen.getByText(en.Common.CONNECTION_ERROR);
-
-  // Assert loading state was deactivated:
-  expect(submitButton).toHaveTextContent(messages.PUBLISH);
-  expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
-});

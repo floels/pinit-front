@@ -47,15 +47,12 @@ const LoginForm = ({
   let displayFormErrorsOther;
 
   if (formErrors.other) {
-    const text =
-      formErrors.other === "CONNECTION_ERROR"
-        ? t("Common.CONNECTION_ERROR")
-        : t("Common.UNFORESEEN_ERROR");
-
     displayFormErrorsOther = (
       <div className={styles.otherErrorMessage}>
         <FontAwesomeIcon icon={faCircleXmark} />
-        <div className={styles.otherErrorText}>{text}</div>
+        <div className={styles.otherErrorText}>
+          {t("Common.UNFORESEEN_ERROR")}
+        </div>
       </div>
     );
   }
