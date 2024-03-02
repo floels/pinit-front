@@ -6,28 +6,29 @@ import {
   USERNAME_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
 import { MockLocalStorage, withQueryClient } from "@/lib/testing-utils/misc";
-import { LogOutContext } from "@/contexts/logOutContext";
 import { AccountContext } from "@/contexts/accountContext";
 import {
   MOCK_API_RESPONSES,
   MOCK_API_RESPONSES_SERIALIZED,
 } from "@/lib/testing-utils/mockAPIResponses";
 
-(localStorage as any) = new MockLocalStorage();
-
 const mockLogOut = jest.fn();
+
+jest.mock("@/lib/hooks/useLogOut", () => ({
+  useLogOut: () => mockLogOut,
+}));
+
+(localStorage as any) = new MockLocalStorage();
 
 const mockSetAccount = jest.fn();
 
 const renderComponent = () => {
   render(
-    <LogOutContext.Provider value={{ logOut: mockLogOut }}>
-      <AccountContext.Provider
-        value={{ account: null, setAccount: mockSetAccount }}
-      >
-        {withQueryClient(<AccountDetailsFetcher />)};
-      </AccountContext.Provider>
-    </LogOutContext.Provider>,
+    <AccountContext.Provider
+      value={{ account: null, setAccount: mockSetAccount }}
+    >
+      {withQueryClient(<AccountDetailsFetcher />)};
+    </AccountContext.Provider>,
   );
 };
 
