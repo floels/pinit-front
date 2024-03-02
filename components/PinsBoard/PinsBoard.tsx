@@ -95,8 +95,8 @@ const PinsBoard = ({
 
         return (
           <div
-            key={`thumbnails-column-${columnIndex + 1}`}
-            data-testid="thumbnails-column"
+            key={`thumbnails-column-${columnIndex}`}
+            data-testid={`thumbnails-column-${columnIndex}`}
           >
             {pins.map((pin, pinIndex) => {
               if (pinIndex % castedNumberOfColumns === columnIndex) {
