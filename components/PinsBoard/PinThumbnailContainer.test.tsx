@@ -26,9 +26,11 @@ const pin = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_PIN_SUGGESTIONS].results[0];
 const account = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_MY_ACCOUNT_DETAILS];
 
 const clickSaveButton = async () => {
-  fireEvent.mouseEnter(screen.getByTestId("pin-thumbnail"));
+  fireEvent.mouseEnter(screen.getByTestId("pin-thumbnail-image"));
 
-  await userEvent.click(screen.getByTestId("pin-thumbnail-save-button"));
+  const saveButton = screen.getByTestId("pin-thumbnail-save-button");
+
+  await userEvent.click(saveButton);
 };
 
 const getFirstBoardButton = () => {
@@ -63,9 +65,11 @@ it("displays 'Save' button only upon hover", () => {
   const saveButton = screen.queryByTestId("pin-thumbnail-save-button");
   expect(saveButton).toBeNull();
 
-  fireEvent.mouseEnter(screen.getByTestId("pin-thumbnail"));
-
+  fireEvent.mouseEnter(screen.getByTestId("pin-thumbnail-image"));
   screen.getByTestId("pin-thumbnail-save-button");
+
+  fireEvent.mouseLeave(screen.getByTestId("pin-thumbnail-image"));
+  expect(screen.queryByTestId("pin-thumbnail-save-button")).toBeNull();
 });
 
 it("displays boards list in flyout when user clicks 'Save' button", async () => {

@@ -19,8 +19,8 @@ type PinThumbnailProps = {
   isSaveFlyoutOpen: boolean;
   isSaving: boolean;
   indexBoardWhereJustSaved: number | null;
-  handleMouseEnter: () => void;
-  handleMouseLeave: () => void;
+  handleMouseEnterImage: () => void;
+  handleMouseLeaveImage: () => void;
   handleClickSave: (event: React.MouseEvent<HTMLButtonElement>) => void;
   getClickHandlerForBoard: ({
     boardIndex,
@@ -41,8 +41,8 @@ const PinThumbnail = ({
   isSaveFlyoutOpen,
   isSaving,
   indexBoardWhereJustSaved,
-  handleMouseEnter,
-  handleMouseLeave,
+  handleMouseEnterImage,
+  handleMouseLeaveImage,
   handleClickSave,
   getClickHandlerForBoard,
   handleClickOutOfSaveFlyout,
@@ -91,13 +91,14 @@ const PinThumbnail = ({
   }
 
   return (
-    <div
-      className={styles.container}
-      data-testid="pin-thumbnail"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <Link href={`/pin/${pin.id}`} className={styles.imageContainer}>
+    <div className={styles.container} data-testid="pin-thumbnail">
+      <Link
+        href={`/pin/${pin.id}`}
+        className={styles.imageContainer}
+        onMouseEnter={handleMouseEnterImage}
+        onMouseLeave={handleMouseLeaveImage}
+        data-testid="pin-thumbnail-image"
+      >
         {/* We don't use Next's Image component because we don't know the image's display height in advance. */}
         <img
           alt={

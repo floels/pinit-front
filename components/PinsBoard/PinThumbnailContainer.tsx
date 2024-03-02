@@ -25,19 +25,19 @@ const PinThumbnailContainer = ({
 
   const boards = account?.boards || [];
 
-  const [isHovered, setIsHovered] = useState(false);
+  const [isImageHovered, setIsImageHovered] = useState(false);
   const [isSaveFlyoutOpen, setIsSaveFlyoutOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [indexBoardWhereJustSaved, setIndexBoardWhereJustSaved] = useState<
     number | null
   >(null);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
+  const handleMouseEnterImage = () => {
+    setIsImageHovered(true);
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
+  const handleMouseLeaveImage = () => {
+    setIsImageHovered(false);
   };
 
   const handleClickSave = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -133,12 +133,12 @@ const PinThumbnailContainer = ({
       isInFirstColumn={isInFirstColumn}
       isInLastColumn={isInLastColumn}
       boards={boards}
-      isHovered={isHovered}
+      isHovered={isImageHovered}
       isSaveFlyoutOpen={isSaveFlyoutOpen}
       isSaving={isSaving}
       indexBoardWhereJustSaved={indexBoardWhereJustSaved}
-      handleMouseEnter={handleMouseEnter}
-      handleMouseLeave={handleMouseLeave}
+      handleMouseEnterImage={handleMouseEnterImage}
+      handleMouseLeaveImage={handleMouseLeaveImage}
       handleClickSave={handleClickSave}
       getClickHandlerForBoard={getClickHandlerForBoard}
       handleClickOutOfSaveFlyout={handleClickOutOfSaveFlyout}

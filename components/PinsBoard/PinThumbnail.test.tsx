@@ -17,8 +17,8 @@ const renderComponent = () => {
       indexBoardWhereJustSaved={null}
       isSaveFlyoutOpen={false}
       isSaving={false}
-      handleMouseEnter={() => {}}
-      handleMouseLeave={() => {}}
+      handleMouseEnterImage={() => {}}
+      handleMouseLeaveImage={() => {}}
       handleClickSave={() => {}}
       getClickHandlerForBoard={() => () => {}}
       handleClickOutOfSaveFlyout={() => {}}

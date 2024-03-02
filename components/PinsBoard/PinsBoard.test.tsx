@@ -1,8 +1,10 @@
 import { PinWithAuthorDetails } from "@/lib/types";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import PinsBoard from "./PinsBoard";
 import { mockIntersectionObserver } from "@/lib/testing-utils/misc";
 import en from "@/messages/en.json";
+import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 
 const VIEWPORT_WIDTH_PX = 1200;
 
@@ -14,20 +16,9 @@ Object.defineProperty(window, "innerWidth", {
 
 const NUMBER_PINS = 50;
 
-const pins = Array.from({ length: NUMBER_PINS }, (_, index) => ({
-  id: String(index + 1),
-  imageURL: "https://pin.url",
-  title: "",
-  description: "",
-  authorUsername: "johndoe",
-  authorDisplayName: "John Doe",
-})) as PinWithAuthorDetails[];
+const pins = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_PIN_SUGGESTIONS].results;
 
-beforeEach(() => {
-  mockIntersectionObserver();
-});
-
-it("renders the thumbnails with the right number of columns", () => {
+const renderComponent = () => {
   render(
     <PinsBoard
       pins={pins}
@@ -36,14 +27,37 @@ it("renders the thumbnails with the right number of columns", () => {
       onScrolledToBottom={jest.fn()}
     />,
   );
+};
+
+beforeEach(() => {
+  mockIntersectionObserver();
+});
+
+it("renders the thumbnails with the right number of columns", () => {
+  renderComponent();
 
   const renderedPins = screen.getAllByTestId("pin-thumbnail");
 
   expect(renderedPins).toHaveLength(NUMBER_PINS);
 
-  const thumbnailsColumns = screen.getAllByTestId("thumbnails-column");
+  const thumbnailsColumns = screen.queryAllByTestId(/thumbnails-column-\d+/);
 
   expect(thumbnailsColumns).toHaveLength(4); // given `const VIEWPORT_WIDTH_PX = 1200;`
+});
+
+it("renders the right thumbnails in the right columns", () => {
+  renderComponent();
+
+  const firstColumn = screen.getByTestId("thumbnails-column-0");
+  const secondColumn = screen.getByTestId("thumbnails-column-1");
+  const thirdColumn = screen.getByTestId("thumbnails-column-2");
+  const fourthColumn = screen.getByTestId("thumbnails-column-3");
+
+  within(firstColumn).queryByText("Pin 1 title");
+  within(secondColumn).queryByText("Pin 2 title");
+  within(thirdColumn).queryByText("Pin 3 title");
+  within(fourthColumn).queryByText("Pin 4 title");
+  within(firstColumn).queryByText("Pin 5 title");
 });
 
 it("renders empty results message when pins table is empty", () => {
