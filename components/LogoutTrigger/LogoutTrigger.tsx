@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 import styles from "./LogoutTrigger.module.css";
-import { useLogOutContext } from "@/contexts/logOutContext";
+import { useLogOut } from "@/lib/hooks/useLogOut";
 
 const LogoutTrigger = () => {
-  const { logOut } = useLogOutContext();
+  const logOut = useLogOut();
 
   useEffect(() => {
     logOut();

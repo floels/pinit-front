@@ -8,6 +8,7 @@ import { ResponseKOError } from "@/lib/customErrors";
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import ErrorView from "@/components/ErrorView/ErrorView";
 import { serializePinsWithAuthorDetails } from "@/lib/utils/serializers";
+import { throwIfKO } from "@/lib/utils/fetch";
 
 type PageProps = {
   searchParams: { q: string };
@@ -22,9 +23,7 @@ const fetchInitialSearchResults = async ({
     `${API_BASE_URL}/${API_ENDPOINT_SEARCH_PINS}/?q=${searchTerm}`,
   );
 
-  if (!response.ok) {
-    throw new ResponseKOError();
-  }
+  throwIfKO(response);
 
   const responseData = await response.json();
 

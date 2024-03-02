@@ -6,6 +6,7 @@ import PinsBoard from "./PinsBoard";
 import { PinWithAuthorDetails } from "@/lib/types";
 import { serializePinsWithAuthorDetails } from "@/lib/utils/serializers";
 import { ResponseKOError } from "@/lib/customErrors";
+import { throwIfKO } from "@/lib/utils/fetch";
 
 type PinsBoardContainerProps = {
   initialPins: PinWithAuthorDetails[];
@@ -44,9 +45,7 @@ const PinsBoardContainer = ({
 
     const response = await fetch(url);
 
-    if (!response.ok) {
-      throw new ResponseKOError();
-    }
+    throwIfKO(response);
 
     const responseData = await response.json();
 

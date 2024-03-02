@@ -7,8 +7,8 @@ import {
 import { useTranslations } from "next-intl";
 import styles from "./PinsBoard.module.css";
 import PinThumbnailContainer from "./PinThumbnailContainer";
-import { useViewportWidth } from "@/lib/utils/custom-hooks";
 import { PinWithAuthorDetails } from "@/lib/types";
+import { useViewportWidth } from "@/lib/hooks/useViewportWidth";
 
 type PinsBoardProps = {
   pins: PinWithAuthorDetails[];

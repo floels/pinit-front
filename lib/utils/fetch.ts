@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "../constants";
+import { ResponseKOError } from "../customErrors";
 
 export const fetchWithAuthentication = async ({
   endpoint,
@@ -16,4 +17,10 @@ export const fetchWithAuthentication = async ({
       Authorization: `Bearer ${accessToken}`,
     },
   });
+};
+
+export const throwIfKO = (response: Response) => {
+  if (!response.ok) {
+    throw new ResponseKOError();
+  }
 };

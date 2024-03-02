@@ -3,6 +3,7 @@ import AccountDetailsView from "@/components/AccountDetailsView/AccountDetailsVi
 import { Response404Error, ResponseKOError } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
 import { serializeAccount } from "@/lib/utils/serializers";
+import { throwIfKO } from "@/lib/utils/fetch";
 
 type PageProps = {
   params: { username: string };
@@ -17,9 +18,7 @@ const fetchAccountDetails = async ({ username }: { username: string }) => {
     throw new Response404Error();
   }
 
-  if (!response.ok) {
-    throw new ResponseKOError();
-  }
+  throwIfKO(response);
 
   const responseData = await response.json();
 

@@ -6,6 +6,7 @@ import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 import { toast } from "react-toastify";
 import SuccessToastMessage from "./SuccessToastMessage";
 import PinCreationView from "./PinCreationView";
+import { throwIfKO } from "@/lib/utils/fetch";
 
 const SUCCESS_TOAST_MIN_WIDTH = "380px";
 
@@ -52,70 +53,71 @@ const PinCreationViewContainer = () => {
     setPinDetails({ title: "", description: "" });
   };
 
-  const displayPinCreationErrorToast = () => {
-    toast.warn(t("ERROR_POSTING_PIN"), {
-      toastId: "toast-pin-creation-error",
-    });
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = buildFormData();
+
+    postFormDataAndUpdateUI(formData);
   };
 
-  const displaySuccessToast = ({ pinId }: { pinId: string }) => {
-    toast.success(() => <SuccessToastMessage pinId={pinId} />, {
-      position: "bottom-center",
-      toastId: "pin-creation-success",
-      style: { minWidth: SUCCESS_TOAST_MIN_WIDTH },
-    });
+  const buildFormData = () => {
+    const formData = new FormData();
+
+    if (hasDroppedFile) {
+      formData.append("image_file", pinImageFile);
+    }
+
+    formData.append("title", pinDetails.title);
+    formData.append("description", pinDetails.description);
+
+    return formData;
   };
 
-  const postFormData = async (formData: FormData) => {
-    let response;
+  const postFormDataAndUpdateUI = async (formData: FormData) => {
+    setIsPosting(true);
+
+    let responseData;
 
     try {
-      response = await fetch(API_ROUTE_CREATE_PIN, {
-        method: "POST",
-        body: formData,
-      });
+      responseData = await postFormData(formData);
     } catch {
-      toast.warn(translatedConnectionErrorMessage, {
-        toastId: "toast-pin-creation-connection-error",
-      });
+      handleCreationError();
       return;
     } finally {
       setIsPosting(false);
     }
 
-    if (!response.ok) {
-      displayPinCreationErrorToast();
-      return;
-    }
-
-    let responseData;
-
-    try {
-      responseData = await response.json();
-    } catch {
-      displayPinCreationErrorToast();
-      return;
-    }
-
-    displaySuccessToast({ pinId: responseData.unique_id });
-
-    resetForm();
+    handleCreationSuccess(responseData);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const postFormData = async (formData: FormData) => {
+    const response = await fetch(API_ROUTE_CREATE_PIN, {
+      method: "POST",
+      body: formData,
+    });
 
-    const formData = new FormData();
+    throwIfKO(response);
 
-    if (hasDroppedFile) {
-      setIsPosting(true);
+    const responseData = await response.json();
 
-      formData.append("image_file", pinImageFile);
-      formData.append("title", pinDetails.title);
-      formData.append("description", pinDetails.description);
+    return { pinId: responseData.unique_id };
+  };
 
-      postFormData(formData);
-    }
+  const handleCreationError = () => {
+    toast.warn(t("ERROR_POSTING_PIN"), {
+      toastId: "toast-pin-creation-error",
+    });
+  };
+
+  const handleCreationSuccess = ({ pinId }: { pinId: string }) => {
+    toast.success(() => <SuccessToastMessage pinId={pinId} />, {
+      position: "bottom-center",
+      toastId: "pin-creation-success",
+      style: { minWidth: SUCCESS_TOAST_MIN_WIDTH },
+    });
+
+    resetForm();
   };
 
   return (

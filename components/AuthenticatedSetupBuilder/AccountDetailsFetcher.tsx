@@ -1,18 +1,19 @@
 import { useAccountContext } from "@/contexts/accountContext";
-import { useLogOutContext } from "@/contexts/logOutContext";
 import {
   API_ROUTE_MY_ACCOUNT_DETAILS,
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
   USERNAME_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
 import { Response401Error, ResponseKOError } from "@/lib/customErrors";
+import { useLogOut } from "@/lib/hooks/useLogOut";
 import { AccountWithPrivateDetails } from "@/lib/types";
+import { throwIfKO } from "@/lib/utils/fetch";
 import { serializeAccountWithPrivateDetails } from "@/lib/utils/serializers";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 const AccountDetailsFetcher = () => {
-  const { logOut } = useLogOutContext();
+  const logOut = useLogOut();
 
   const { setAccount } = useAccountContext();
 
@@ -23,9 +24,7 @@ const AccountDetailsFetcher = () => {
       throw new Response401Error();
     }
 
-    if (!response.ok) {
-      throw new ResponseKOError();
-    }
+    throwIfKO(response);
 
     const responseData = await response.json();
 

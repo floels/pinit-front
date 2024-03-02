@@ -4,6 +4,7 @@ import { API_BASE_URL, API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
 import { serializePinWithFullDetails } from "@/lib/utils/serializers";
 import { Response404Error, ResponseKOError } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
+import { throwIfKO } from "@/lib/utils/fetch";
 
 type PageProps = {
   params: { id: string };
@@ -18,9 +19,7 @@ const fetchPinDetails = async ({ pinId }: { pinId: string }) => {
     throw new Response404Error();
   }
 
-  if (!response.ok) {
-    throw new ResponseKOError();
-  }
+  throwIfKO(response);
 
   const responseData = await response.json();
 

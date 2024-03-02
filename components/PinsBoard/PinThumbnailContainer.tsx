@@ -4,8 +4,9 @@ import { Board, PinWithAuthorDetails } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
-import { NetworkError, ResponseKOError } from "@/lib/customErrors";
+import { ResponseKOError } from "@/lib/customErrors";
 import { useTranslations } from "next-intl";
+import { throwIfKO } from "@/lib/utils/fetch";
 
 type PinThumbnailContainerProps = {
   pin: PinWithAuthorDetails;
@@ -96,20 +97,12 @@ const PinThumbnailContainer = ({
       board_id: board.id,
     });
 
-    let response;
+    const response = await fetch(API_ROUTE_SAVE_PIN, {
+      method: "POST",
+      body: requestBody,
+    });
 
-    try {
-      response = await fetch(API_ROUTE_SAVE_PIN, {
-        method: "POST",
-        body: requestBody,
-      });
-    } catch {
-      throw new NetworkError();
-    }
-
-    if (!response.ok) {
-      throw new ResponseKOError();
-    }
+    throwIfKO(response);
 
     return response;
   };
@@ -121,13 +114,6 @@ const PinThumbnailContainer = ({
   };
 
   const handleSaveError = (error: Error) => {
-    if (error instanceof NetworkError) {
-      toast.warn(t("Common.CONNECTION_ERROR"), {
-        toastId: "toast-pin-save-connection-error",
-      });
-      return;
-    }
-
     toast.warn(t("PinsBoard.PIN_SAVE_ERROR_MESSAGE"), {
       toastId: "toast-pin-save-error",
     });

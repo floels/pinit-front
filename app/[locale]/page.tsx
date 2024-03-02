@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
-import { fetchWithAuthentication } from "@/lib/utils/fetch";
+import { fetchWithAuthentication, throwIfKO } from "@/lib/utils/fetch";
 import {
   API_ROUTE_PIN_SUGGESTIONS,
   API_ENDPOINT_PIN_SUGGESTIONS,
@@ -30,9 +30,7 @@ const fetchInitialPinSuggestions = async ({
     throw new Response401Error();
   }
 
-  if (!response.ok) {
-    throw new ResponseKOError();
-  }
+  throwIfKO(response);
 
   const { results } = await response.json();
 
