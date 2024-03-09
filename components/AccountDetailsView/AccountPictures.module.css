@@ -6,10 +6,12 @@
 }
 
 .backgroundPicture {
+  object-fit: cover;
   border-radius: 32px;
 }
 
 .profilePicture {
+  object-fit: cover;
   border-radius: 60px;
 }
 

@@ -29,12 +29,12 @@ const CreatedAndSavedPins = ({ account }: CreatedAndSavedPinsProps) => {
 
   const createdTabButtonClasses = [
     styles.tabButton,
-    activeTab === TAB.CREATED ? "" : styles.tabButtonInactive,
+    activeTab === TAB.CREATED ? null : styles.tabButtonInactive,
   ];
 
   const savedTabButtonClasses = [
     styles.tabButton,
-    activeTab === TAB.SAVED ? "" : styles.tabButtonInactive,
+    activeTab === TAB.SAVED ? null : styles.tabButtonInactive,
     styles.tabButtonSaved,
   ];
 
