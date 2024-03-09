@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { PICTURE_SLIDER_TOPICS } from "./PictureSlider";
 import styles from "./PictureSliderPicture.module.css";
+import { PICTURE_SLIDER_TOPICS } from "./PictureSliderPictures";
 
 const DURATION_TRANSITION_OUT_IMAGES_MS = 1500;
 export const IMAGE_FADE_LAG_MS = 100;
@@ -71,9 +71,9 @@ export const IMAGE_URLS = {
 type PictureSliderPictureProps = {
   topicIndex: number;
   imageIndex: number;
-  timeSinceLastStepChange: number;
   currentStep: number;
   previousStep: number | null;
+  timeSinceLastStepChange: number;
 };
 
 const computeImageClasses = ({
@@ -113,9 +113,9 @@ const computeImageClasses = ({
 const PictureSliderPicture = ({
   topicIndex,
   imageIndex,
-  timeSinceLastStepChange,
   currentStep,
   previousStep,
+  timeSinceLastStepChange,
 }: PictureSliderPictureProps) => {
   // We introduce a lag on the 'timeSinceLastStepChange', which
   // depends on the 'imageIndex'. This is to create the visual effect

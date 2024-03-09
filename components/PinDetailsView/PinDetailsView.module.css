@@ -6,6 +6,8 @@
 }
 
 .backButton {
+  cursor: pointer;
+  border: none;
   position: absolute;
   left: 20px;
   width: 48px;

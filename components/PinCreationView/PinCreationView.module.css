@@ -35,6 +35,8 @@
 }
 
 .submitButton {
+  cursor: pointer;
+  border: none;
   margin-left: auto;
   padding: 0 16px;
   height: 48px;

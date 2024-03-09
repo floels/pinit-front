@@ -6,8 +6,6 @@
 
 import { act, render, screen } from "@testing-library/react";
 import PictureSlider, {
-  TopicsType,
-  PICTURE_SLIDER_TOPICS,
   TIMER_TIME_STEP_MS,
   TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS,
 } from "./PictureSlider";
@@ -15,6 +13,7 @@ import { IMAGE_FADE_LAG_MS, IMAGE_URLS } from "./PictureSliderPicture";
 import en from "@/messages/en.json";
 import _ from "lodash";
 import userEvent from "@testing-library/user-event";
+import { PICTURE_SLIDER_TOPICS, TopicsType } from "./PictureSliderPictures";
 
 const messages = en.LandingPageContent.PictureSlider;
 
