@@ -1,0 +1,81 @@
+"use client";
+
+import { useState } from "react";
+import styles from "./CreatedAndSavedPins.module.css";
+import { useTranslations } from "next-intl";
+import CreatedPins from "./CreatedPins";
+import SavedPins from "./SavedPins";
+import { Account } from "@/lib/types";
+
+enum TAB {
+  CREATED = "CREATED",
+  SAVED = "SAVED",
+}
+
+type CreatedAndSavedPinsProps = {
+  account: Account;
+};
+
+const CreatedAndSavedPins = ({ account }: CreatedAndSavedPinsProps) => {
+  const t = useTranslations("AccountDetails");
+
+  const [activeTab, setActiveTab] = useState<TAB>(TAB.CREATED);
+
+  const getTabHandler =
+    ({ tab }: { tab: TAB }) =>
+    () => {
+      setActiveTab(tab);
+    };
+
+  const createdTabButtonClasses = [
+    styles.tabButton,
+    activeTab === TAB.CREATED ? "" : styles.tabButtonInactive,
+  ];
+
+  const savedTabButtonClasses = [
+    styles.tabButton,
+    activeTab === TAB.SAVED ? "" : styles.tabButtonInactive,
+    styles.tabButtonSaved,
+  ];
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.tabs}>
+        <div>
+          <button
+            onClick={getTabHandler({ tab: TAB.CREATED })}
+            className={createdTabButtonClasses.join(" ")}
+          >
+            {t("TAB_CREATED")}
+          </button>
+          <div
+            className={
+              activeTab === TAB.CREATED
+                ? styles.tabUnderlineActive
+                : styles.tabUnderlineInactive
+            }
+          />
+        </div>
+        <div className={styles.savedTabButtonContainer}>
+          <button
+            onClick={getTabHandler({ tab: TAB.SAVED })}
+            className={savedTabButtonClasses.join(" ")}
+          >
+            {t("TAB_SAVED")}
+          </button>
+          <div
+            className={
+              activeTab === TAB.SAVED
+                ? styles.tabUnderlineActive
+                : styles.tabUnderlineInactive
+            }
+          />
+        </div>
+      </div>
+      {activeTab === TAB.CREATED && <CreatedPins />}
+      {activeTab === TAB.SAVED && <SavedPins boards={account.boards} />}
+    </div>
+  );
+};
+
+export default CreatedAndSavedPins;

@@ -11,7 +11,7 @@ import FifthFold from "./FifthFold";
 
 const NUMBER_FOLDS = 5;
 
-export enum FOLDS_ENUM {
+export enum FOLD {
   FIRST = 1,
   SECOND = 2,
   THIRD = 3,

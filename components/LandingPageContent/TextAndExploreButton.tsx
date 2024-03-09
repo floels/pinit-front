@@ -1,38 +1,34 @@
 import Link from "next/link";
-import { FOLDS_ENUM } from "./LandingPageContent";
+import { FOLD } from "./LandingPageContent";
 import styles from "./TextAndExploreButton.module.css";
 import { useTranslations } from "next-intl";
 
 type TextAndExploreButtonProps = {
-  foldNumber: FOLDS_ENUM;
+  foldNumber: FOLD;
   linkTarget: string;
   labels: { [key: string]: string };
 };
 
-const computeContainerClasses = ({
-  foldNumber,
-}: {
-  foldNumber: FOLDS_ENUM;
-}) => {
-  if (foldNumber === FOLDS_ENUM.SECOND) {
+const computeContainerClasses = ({ foldNumber }: { foldNumber: FOLD }) => {
+  if (foldNumber === FOLD.SECOND) {
     return `${styles.container} ${styles.containerSecondFold}`;
   }
-  if (foldNumber === FOLDS_ENUM.THIRD) {
+  if (foldNumber === FOLD.THIRD) {
     return `${styles.container} ${styles.containerThirdFold}`;
   }
-  if (foldNumber === FOLDS_ENUM.FOURTH) {
+  if (foldNumber === FOLD.FOURTH) {
     return `${styles.container} ${styles.containerFourthFold}`;
   }
 };
 
-const computeButtonClasses = ({ foldNumber }: { foldNumber: FOLDS_ENUM }) => {
-  if (foldNumber === FOLDS_ENUM.SECOND) {
+const computeButtonClasses = ({ foldNumber }: { foldNumber: FOLD }) => {
+  if (foldNumber === FOLD.SECOND) {
     return `${styles.button} ${styles.buttonSecondFold}`;
   }
-  if (foldNumber === FOLDS_ENUM.THIRD) {
+  if (foldNumber === FOLD.THIRD) {
     return `${styles.button} ${styles.buttonThirdFold}`;
   }
-  if (foldNumber === FOLDS_ENUM.FOURTH) {
+  if (foldNumber === FOLD.FOURTH) {
     return `${styles.button} ${styles.buttonFourthFold}`;
   }
 };

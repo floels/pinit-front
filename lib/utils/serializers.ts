@@ -58,7 +58,7 @@ export const serializeBoard = (board: any): Board => {
   return {
     id: board.unique_id,
     title: board.title,
-    coverPictureURL: board.cover_picture_url,
+    firstImageURLs: board.first_image_urls,
   };
 };
 

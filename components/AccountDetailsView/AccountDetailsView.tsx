@@ -1,6 +1,7 @@
 import styles from "./AccountDetailsView.module.css";
 import { Account } from "@/lib/types";
 import AccountPictures from "./AccountPictures";
+import CreatedAndSavedPins from "./CreatedAndSavedPins";
 
 type AccountDetailsViewProps = {
   account: Account;
@@ -36,6 +37,7 @@ const AccountDetailsView = ({ account }: AccountDetailsViewProps) => {
         </div>
         {description && <div className={styles.description}>{description}</div>}
       </div>
+      <CreatedAndSavedPins account={account} />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import TextAndExploreButton from "./TextAndExploreButton";
 import styles from "./ThirdFold.module.css";
-import { FOLDS_ENUM } from "./LandingPageContent";
+import { FOLD } from "./LandingPageContent";
 
 const ThirdFold = () => {
   const t = useTranslations("LandingPageContent");
@@ -18,7 +18,7 @@ const ThirdFold = () => {
     <div className={styles.container} data-testid="landing-page-third-fold">
       <div className={styles.textArea}>
         <TextAndExploreButton
-          foldNumber={FOLDS_ENUM.THIRD}
+          foldNumber={FOLD.THIRD}
           linkTarget={exploreLinkTarget}
           labels={textAndLinkLabels}
         />
