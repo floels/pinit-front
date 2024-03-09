@@ -62,9 +62,9 @@ body {
   color: var(--color-text-default);
 }
 
-button {
-  cursor: pointer;
-  border: none;
+main {
+  position: relative; /* because child <HeaderSearchBarFocusedOverlay />
+  will have 'position: absolute;' */
 }
 
 /* https://fkhadra.github.io/react-toastify/how-to-style#override-existing-css-classes */

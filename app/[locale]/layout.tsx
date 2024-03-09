@@ -68,8 +68,10 @@ const Layout = ({ children, params: { locale } }: Props) => {
                 ) : (
                   <HeaderUnauthenticated />
                 )}
-                <HeaderSearchBarFocusedOverlay />
-                {children}
+                <main>
+                  {children}
+                  <HeaderSearchBarFocusedOverlay />
+                </main>
               </HeaderSearchBarContextProvider>
             </AccountContextProvider>
           </QueryClientProvider>

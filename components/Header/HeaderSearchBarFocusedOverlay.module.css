@@ -1,6 +1,6 @@
 .overlay {
   position: absolute;
-  top: var(--header-height);
+  top: 0;
   bottom: 0;
   width: 100%;
   background-color: var(--color-background-gray-transparent);
