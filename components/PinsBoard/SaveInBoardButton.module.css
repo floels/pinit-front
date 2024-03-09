@@ -1,4 +1,6 @@
 .container {
+  cursor: pointer;
+  border: none;
   border-radius: 12px;
   display: flex;
   align-items: center;

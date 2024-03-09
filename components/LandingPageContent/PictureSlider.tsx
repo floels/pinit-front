@@ -4,21 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import styles from "./PictureSlider.module.css";
-import PictureSliderPicture from "./PictureSliderPicture";
-
-export enum TopicsType {
-  FOOD = "FOOD",
-  HOME = "HOME",
-  OUTFIT = "OUTFIT",
-  GARDENING = "GARDENING",
-}
-
-export const PICTURE_SLIDER_TOPICS: TopicsType[] = [
-  TopicsType.FOOD,
-  TopicsType.HOME,
-  TopicsType.OUTFIT,
-  TopicsType.GARDENING,
-];
+import PictureSliderPictures, {
+  PICTURE_SLIDER_TOPICS,
+  TopicsType,
+} from "./PictureSliderPictures";
 
 type PictureSliderProps = {
   onClickSeeBelow: () => void;
@@ -139,11 +128,11 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
   }, []);
 
   const moveToStep = (newStep: number) => {
-    setState({
-      previousStep: state.currentStep,
+    setState((prevState) => ({
+      previousStep: prevState.currentStep,
       currentStep: newStep,
       timeSinceLastStepChange: 0,
-    });
+    }));
   };
 
   const topicHeaders = PICTURE_SLIDER_TOPICS.map((topic, topicIndex) => {
@@ -188,6 +177,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
 
   return (
     <div className={styles.container}>
+      <PictureSliderPictures {...state} />
       <div className={styles.slider}>
         <div className={styles.headerAndStepper}>
           <div className={styles.headersContainer}>
@@ -198,103 +188,9 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
           </div>
           <ul className={styles.stepper}>{stepperButtons}</ul>
         </div>
-        <div className={styles.picturesContainer}>
-          {PICTURE_SLIDER_TOPICS.map((topic, index) => {
-            const commonPictureProps = { ...state, topicIndex: index };
-
-            return (
-              <div
-                key={`pictures-container-${topic.toLowerCase()}`}
-                className={styles.topicPicturesContainer}
-              >
-                <div className={styles.picturesColumn}>
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={0}
-                  />
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={1}
-                  />
-                </div>
-                <div
-                  className={styles.picturesColumn}
-                  style={{ paddingTop: 120 }}
-                >
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={2}
-                  />
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={3}
-                  />
-                </div>
-                <div
-                  className={styles.picturesColumn}
-                  style={{ paddingTop: 200 }}
-                >
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={4}
-                  />
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={5}
-                  />
-                </div>
-                <div
-                  className={styles.picturesColumn}
-                  style={{ paddingTop: 360 }}
-                >
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={6}
-                  />
-                </div>
-                <div
-                  className={styles.picturesColumn}
-                  style={{ paddingTop: 200 }}
-                >
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={7}
-                  />
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={8}
-                  />
-                </div>
-                <div
-                  className={styles.picturesColumn}
-                  style={{ paddingTop: 120 }}
-                >
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={9}
-                  />
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={10}
-                  />
-                </div>
-                <div className={styles.picturesColumn}>
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={11}
-                  />
-                  <PictureSliderPicture
-                    {...commonPictureProps}
-                    imageIndex={12}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </div>
       <div className={styles.footerCarretAndBlur}>
-        <div
+        <button
           className={carretClasses}
           onClick={onClickSeeBelow}
           data-testid="picture-slider-carret"
@@ -305,7 +201,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
             size="2x"
             data-testid="picture-slider-carret-icon"
           />
-        </div>
+        </button>
         <div className={styles.footer} onClick={onClickSeeBelow}>
           <div className={styles.footerTextAndIcon}>
             {t("PictureSlider.HOW_IT_WORKS")}

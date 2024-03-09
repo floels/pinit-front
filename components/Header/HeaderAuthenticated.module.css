@@ -89,16 +89,14 @@
   right: 20px;
 }
 
-.accountOptionsButtonTooltip {
-  right: 2px;
-}
-
 .accountOptionsButton {
+  cursor: pointer;
+  border: none;
   border-radius: 50%;
   width: 24px;
   height: 24px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
   background-color: transparent;
   transition: transform 0.1s;
@@ -110,4 +108,8 @@
 
 .accountOptionsButton:hover {
   background-color: var(--color-background-secondary);
+}
+
+.accountOptionsButtonTooltip {
+  right: 2px;
 }
