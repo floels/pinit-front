@@ -113,7 +113,7 @@ const LandingPageContent = () => {
   const contentClass = computeContentClass({ currentFold });
 
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       <div className={contentClass} data-testid="landing-page-content">
         <div className={styles.hero} ref={heroRef}>
           <PictureSlider onClickSeeBelow={handleClickHeroSeeBelow} />
@@ -123,7 +123,7 @@ const LandingPageContent = () => {
         <FourthFold />
         <FifthFold heroRef={heroRef} onClickBackToTop={handleClickBackToTop} />
       </div>
-    </main>
+    </div>
   );
 };
 

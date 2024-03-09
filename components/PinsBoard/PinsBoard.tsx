@@ -127,7 +127,7 @@ const PinsBoard = ({
     pins.length === 0;
 
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       {shouldRenderPinThumbnailsAndSentinelDiv && thumbnailsGrid}
       {shouldRenderPinThumbnailsAndSentinelDiv && (
         <div ref={scrolledToBottomSentinel} style={{ height: "1px" }}></div>
@@ -163,7 +163,7 @@ const PinsBoard = ({
           {t("PinsBoard.ERROR_DISPLAY_PINS")}
         </div>
       )}
-    </main>
+    </div>
   );
 };
 
