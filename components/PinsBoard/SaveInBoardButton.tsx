@@ -21,7 +21,7 @@ const SaveInBoardButton = ({
 }: SaveInBoardButtonProps) => {
   const t = useTranslations("PinsBoard");
 
-  const { title, firstImageURLs } = board;
+  const { name, firstImageURLs } = board;
 
   const coverPictureURL = firstImageURLs.length > 0 ? firstImageURLs[0] : null;
 
@@ -31,7 +31,7 @@ const SaveInBoardButton = ({
     boardThumbnail = (
       <Image
         src={coverPictureURL}
-        alt={title}
+        alt={name}
         width={40}
         height={40}
         className={styles.thumbnailImage}
@@ -45,8 +45,8 @@ const SaveInBoardButton = ({
     );
   }
 
-  const textLongEllipsis = ellipsizeText({ text: title, maxLength: 40 });
-  const textShortEllipsis = ellipsizeText({ text: title, maxLength: 20 });
+  const textLongEllipsis = ellipsizeText({ text: name, maxLength: 40 });
+  const textShortEllipsis = ellipsizeText({ text: name, maxLength: 20 });
 
   const saveButton = (
     <span className={styles.saveButton} data-testid="board-button-save-button">

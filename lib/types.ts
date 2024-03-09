@@ -36,6 +36,7 @@ export type AccountWithPrivateDetails = Account & {
 
 export type Board = {
   id: string;
-  title: string;
+  name: string;
+  slug: string;
   firstImageURLs: string[];
 };

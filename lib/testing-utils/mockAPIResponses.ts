@@ -45,7 +45,8 @@ export const MOCK_API_RESPONSES_JSON = {
     boards: [
       {
         unique_id: "000000000000000001",
-        title: "Board 1 title",
+        name: "Board 1 name",
+        slug: "board-1",
         first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
@@ -53,7 +54,8 @@ export const MOCK_API_RESPONSES_JSON = {
       },
       {
         unique_id: "000000000000000002",
-        title: "Board 2 title",
+        name: "Board 2 name",
+        slug: "board-2",
         first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
@@ -123,17 +125,17 @@ export const MOCK_API_RESPONSES_JSON = {
     boards: [
       {
         unique_id: "000000000000000001",
-        title: "Board 1 title",
+        name: "Board 1 name",
+        slug: "board-1",
         first_image_urls: [
-          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
       },
       {
         unique_id: "000000000000000002",
-        title: "Board 2 title",
+        name: "Board 2 name",
+        slug: "board-2",
         first_image_urls: [
-          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
       },
@@ -157,7 +159,8 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
     boards: [
       {
         id: "000000000000000001",
-        title: "Board 1 title",
+        name: "Board 1 name",
+        slug: "board-1",
         firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
@@ -165,7 +168,8 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
       },
       {
         id: "000000000000000002",
-        title: "Board 2 title",
+        name: "Board 2 name",
+        slug: "board-2",
         firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
@@ -185,7 +189,8 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
     boards: [
       {
         id: "000000000000000001",
-        title: "Board 1 title",
+        name: "Board 1 name",
+        slug: "board-1",
         firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
@@ -193,7 +198,8 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
       },
       {
         id: "000000000000000002",
-        title: "Board 2 title",
+        name: "Board 2 name",
+        slug: "board-2",
         firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",

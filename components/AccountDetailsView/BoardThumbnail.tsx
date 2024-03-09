@@ -5,13 +5,14 @@ import styles from "./BoardThumbnail.module.css";
 import { useState } from "react";
 
 type BoardThumbnailProps = {
+  username: string;
   board: Board;
 };
 
 const COVER_PICTURE_SIZE_PX = 160;
 const SECONDARY_PICTURE_SIZE_PX = 80;
 
-const BoardThumbnail = ({ board }: BoardThumbnailProps) => {
+const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -22,7 +23,7 @@ const BoardThumbnail = ({ board }: BoardThumbnailProps) => {
     setIsHovered(false);
   };
 
-  const { id, title, firstImageURLs } = board;
+  const { slug, name, firstImageURLs } = board;
 
   const coverImageURL = firstImageURLs.length > 0 ? firstImageURLs[0] : null;
 
@@ -32,7 +33,7 @@ const BoardThumbnail = ({ board }: BoardThumbnailProps) => {
     coverImage = (
       <Image
         src={coverImageURL}
-        alt={title}
+        alt={name}
         width={COVER_PICTURE_SIZE_PX}
         height={COVER_PICTURE_SIZE_PX}
         className={styles.coverPicture}
@@ -59,7 +60,7 @@ const BoardThumbnail = ({ board }: BoardThumbnailProps) => {
       return (
         <Image
           src={imageURL}
-          alt={title}
+          alt={name}
           width={SECONDARY_PICTURE_SIZE_PX}
           height={imageHeight}
           className={imageClasses.join(" ")}
@@ -78,7 +79,7 @@ const BoardThumbnail = ({ board }: BoardThumbnailProps) => {
   return (
     <div className={styles.container}>
       <Link
-        href={`/boards/${id}`}
+        href={`/${username}/${slug}`}
         className={styles.content}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -91,7 +92,7 @@ const BoardThumbnail = ({ board }: BoardThumbnailProps) => {
           </div>
           {isHovered && <div className={styles.overlay} />}
         </div>
-        <span className={styles.title}>{title}</span>
+        <span className={styles.title}>{name}</span>
       </Link>
     </div>
   );
