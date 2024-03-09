@@ -8,11 +8,7 @@ import {
   ACCESS_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
 import { serializePinsWithAuthorDetails } from "@/lib/utils/serializers";
-import {
-  MalformedResponseError,
-  Response401Error,
-  ResponseKOError,
-} from "@/lib/customErrors";
+import { MalformedResponseError, Response401Error } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
 import LogoutTrigger from "@/components/LogoutTrigger/LogoutTrigger";
 
@@ -22,7 +18,7 @@ const fetchInitialPinSuggestions = async ({
   accessToken: string;
 }) => {
   const response = await fetchWithAuthentication({
-    endpoint: `${API_ENDPOINT_PIN_SUGGESTIONS}/`,
+    endpoint: API_ENDPOINT_PIN_SUGGESTIONS,
     accessToken,
   });
 

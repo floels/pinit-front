@@ -20,7 +20,7 @@ const fetchInitialSearchResults = async ({
   searchTerm: string;
 }) => {
   const response = await fetch(
-    `${API_BASE_URL}/${API_ENDPOINT_SEARCH_PINS}/?q=${searchTerm}`,
+    `${API_BASE_URL}/${API_ENDPOINT_SEARCH_PINS}?q=${searchTerm}`,
   );
 
   throwIfKO(response);

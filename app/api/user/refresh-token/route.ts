@@ -4,22 +4,26 @@ import {
   ACCESS_TOKEN_COOKIE_KEY,
   API_BASE_URL,
   API_ENDPOINT_REFRESH_TOKEN,
-  ERROR_CODE_FETCH_BACKEND_FAILED,
-  ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
 } from "@/lib/constants";
+import {
+  getNextResponse,
+  getNextResponseBackendFetchFailed,
+  getNextResponseUnparsableBackendResponse,
+} from "@/lib/utils/apiRoutes";
 
 const ERROR_CODE_MISSING_REFRESH_TOKEN = "missing_refresh_token";
 
+const getNextResponseMissingRefreshToken = () =>
+  new NextResponse(
+    JSON.stringify({ errors: [ERROR_CODE_MISSING_REFRESH_TOKEN] }),
+    { status: 400 },
+  );
+
 export const POST = async () => {
-  // See https://nextjs.org/docs/app/building-your-application/routing/route-handlers#cookies
-  const cookieStore = cookies();
-  const refreshToken = cookieStore.get("refreshToken")?.value;
+  const refreshToken = cookies().get("refreshToken")?.value;
 
   if (!refreshToken) {
-    return new NextResponse(
-      JSON.stringify({ errors: [ERROR_CODE_MISSING_REFRESH_TOKEN] }),
-      { status: 400 },
-    );
+    return getNextResponseMissingRefreshToken();
   }
 
   const backendRequestBody = JSON.stringify({ refresh_token: refreshToken });
@@ -28,20 +32,15 @@ export const POST = async () => {
 
   try {
     backendResponse = await fetch(
-      `${API_BASE_URL}/${API_ENDPOINT_REFRESH_TOKEN}/`,
+      `${API_BASE_URL}/${API_ENDPOINT_REFRESH_TOKEN}`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: backendRequestBody,
+        headers: { "Content-Type": "application/json" },
       },
     );
   } catch {
-    return new NextResponse(
-      JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
-      { status: 500 },
-    );
+    return getNextResponseBackendFetchFailed();
   }
 
   let backendResponseData;
@@ -49,17 +48,14 @@ export const POST = async () => {
   try {
     backendResponseData = await backendResponse.json();
   } catch {
-    return new NextResponse(
-      JSON.stringify({ errors: [ERROR_CODE_UNEXPECTED_SERVER_RESPONSE] }),
-      { status: 500 },
-    );
+    return getNextResponseUnparsableBackendResponse();
   }
 
   if (!backendResponse.ok) {
-    return new NextResponse(
-      JSON.stringify({ errors: backendResponseData.errors }),
-      { status: backendResponse.status },
-    );
+    return getNextResponse({
+      backendResponseData,
+      status: backendResponse.status,
+    });
   }
 
   const {

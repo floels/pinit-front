@@ -3,10 +3,12 @@ import {
   ACCESS_TOKEN_COOKIE_KEY,
   API_BASE_URL,
   API_ENDPOINT_OBTAIN_TOKEN,
-  ERROR_CODE_FETCH_BACKEND_FAILED,
-  ERROR_CODE_UNEXPECTED_SERVER_RESPONSE,
   REFRESH_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
+import {
+  getNextResponseBackendFetchFailed,
+  getNextResponseUnparsableBackendResponse,
+} from "@/lib/utils/apiRoutes";
 
 export const POST = async (request: Request) => {
   const { email, password } = await request.json();
@@ -16,21 +18,15 @@ export const POST = async (request: Request) => {
   let backendResponse;
 
   try {
-    backendResponse = await fetch(
-      `${API_BASE_URL}/${API_ENDPOINT_OBTAIN_TOKEN}/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: backendRequestBody,
-      },
-    );
+    const url = `${API_BASE_URL}/${API_ENDPOINT_OBTAIN_TOKEN}`;
+
+    backendResponse = await fetch(url, {
+      method: "POST",
+      body: backendRequestBody,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch {
-    return new NextResponse(
-      JSON.stringify({ errors: [ERROR_CODE_FETCH_BACKEND_FAILED] }),
-      { status: 500 },
-    );
+    return getNextResponseBackendFetchFailed();
   }
 
   let backendResponseData;
@@ -38,10 +34,7 @@ export const POST = async (request: Request) => {
   try {
     backendResponseData = await backendResponse.json();
   } catch {
-    return new NextResponse(
-      JSON.stringify({ errors: [ERROR_CODE_UNEXPECTED_SERVER_RESPONSE] }),
-      { status: 500 },
-    );
+    return getNextResponseUnparsableBackendResponse();
   }
 
   if (!backendResponse.ok) {
