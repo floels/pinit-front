@@ -1,12 +1,12 @@
-// https://nextjs.org/docs/testing#setting-up-jest-with-the-rust-compiler
+// See https://nextjs.org/docs/pages/building-your-application/testing/jest
+import type { Config } from "jest";
 import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
   dir: "./",
 });
 
-/** @type {import('jest').Config} */
-const config = {
+const config: Config = {
   // https://github.com/jefflau/jest-fetch-mock#to-setup-for-all-tests
   setupFiles: ["./setupJest.js"],
   setupFilesAfterEnv: ["./setupJestAfterEnv.js"],
@@ -15,8 +15,7 @@ const config = {
   coveragePathIgnorePatterns: [
     "<rootDir>/lib/constants.ts",
     "<rootDir>/lib/customErrors.ts",
-    "<rootDir>/lib/utils/testing.tsx",
-    "<rootDir>/contexts/",
+    "<rootDir>/lib/testing-utils/",
   ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",

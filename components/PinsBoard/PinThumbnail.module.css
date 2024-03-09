@@ -101,6 +101,7 @@
 }
 
 .authorProfilePicture {
+  object-fit: cover;
   border-radius: 50%;
   display: block;
   margin-right: 6px;

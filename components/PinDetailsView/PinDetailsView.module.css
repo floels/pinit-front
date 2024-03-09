@@ -72,6 +72,7 @@
 }
 
 .authorProfilePicture {
+  object-fit: cover;
   border-radius: 50%;
   margin-right: 8px;
 }
