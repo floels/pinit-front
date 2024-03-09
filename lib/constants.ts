@@ -12,9 +12,10 @@ export const API_ROUTE_SAVE_PIN = "/api/save-pin";
 export const API_ROUTE_LOG_OUT = "/api/user/log-out";
 
 // API base URL and endpoints
-export const API_BASE_URL = "http://127.0.0.1:8000/api";
-// export const API_BASE_URL =
-//   "http://pinit-api-staging.eu-north-1.elasticbeanstalk.com/api";
+export const API_BASE_URL =
+  process.env.ENVIRONMENT === "staging"
+    ? "http://pinit-api-staging.eu-north-1.elasticbeanstalk.com/api"
+    : "http://127.0.0.1:8000/api";
 export const API_ENDPOINT_OBTAIN_TOKEN = "token/obtain/";
 export const API_ENDPOINT_REFRESH_TOKEN = "token/refresh/";
 export const API_ENDPOINT_SIGN_UP = "signup/";
