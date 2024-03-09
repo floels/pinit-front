@@ -34,15 +34,17 @@ it(`should switch to login form upon click on 'Already have an account',
 and back to signup form upon click on 'No account yet'`, async () => {
   render(fifthFold);
 
-  const alreadyHaveAccountButton = screen.getByText(messages.SignupForm.LOG_IN);
+  const alreadyHaveAccountButton = screen.getByText(
+    messages.SignupForm.ALREADY_HAVE_ACCOUNT_CTA,
+  );
   await userEvent.click(alreadyHaveAccountButton);
 
-  screen.getByText(messages.LoginForm.NO_ACCOUNT_YET);
-
-  const noAccountYetButton = screen.getByText(messages.LoginForm.SIGN_UP);
+  const noAccountYetButton = screen.getByText(
+    messages.LoginForm.NO_ACCOUNT_YET_CTA,
+  );
   await userEvent.click(noAccountYetButton);
 
-  screen.getByText(messages.SignupForm.ALREADY_HAVE_ACCOUNT);
+  screen.getByText(messages.SignupForm.ALREADY_HAVE_ACCOUNT_CTA);
 });
 
 it("calls onClickBackToTop when corresponding button is clicked", async () => {

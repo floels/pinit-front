@@ -2,9 +2,9 @@ import { API_BASE_URL, API_ENDPOINT_OBTAIN_DEMO_TOKEN } from "@/lib/constants";
 import {
   getNextResponse,
   getNextResponseBackendFetchFailed,
+  getNextResponseObtainTokenSuccess,
   getNextResponseUnparsableBackendResponse,
 } from "@/lib/utils/apiRoutes";
-import { getNextResponseSuccess } from "../obtain-token/route";
 
 export const GET = async () => {
   let backendResponse;
@@ -32,5 +32,5 @@ export const GET = async () => {
     });
   }
 
-  return getNextResponseSuccess({ backendResponseData });
+  return getNextResponseObtainTokenSuccess({ backendResponseData });
 };

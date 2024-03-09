@@ -6,6 +6,7 @@ import {
   ERROR_CODE_BACKEND_FETCH_FAILED,
   ERROR_CODE_MISSING_ACCESS_TOKEN,
   ERROR_CODE_UNPARSABLE_BACKEND_RESPONSE,
+  REFRESH_TOKEN_COOKIE_KEY,
 } from "../constants";
 import { MissingAccessTokenError } from "../customErrors";
 
@@ -118,3 +119,41 @@ export const getNextResponse = ({
       "Content-Type": "application/json",
     },
   });
+
+export const getNextResponseObtainTokenSuccess = ({
+  backendResponseData,
+}: {
+  backendResponseData: { [key: string]: string };
+}) => {
+  const {
+    access_token: accessToken,
+    refresh_token: refreshToken,
+    access_token_expiration_utc: accessTokenExpirationDate,
+  } = backendResponseData;
+
+  const accessTokenCookie = {
+    name: ACCESS_TOKEN_COOKIE_KEY,
+    value: accessToken,
+    path: "/",
+    secure: true,
+    httpOnly: true,
+  };
+
+  const refreshTokenCookie = {
+    name: REFRESH_TOKEN_COOKIE_KEY,
+    value: refreshToken,
+    path: "/",
+    secure: true,
+    httpOnly: true,
+  };
+
+  // See https://nextjs.org/docs/app/api-reference/functions/next-response#setname-value
+  const response = new NextResponse(
+    JSON.stringify({ access_token_expiration_utc: accessTokenExpirationDate }),
+  );
+
+  response.cookies.set(accessTokenCookie);
+  response.cookies.set(refreshTokenCookie);
+
+  return response;
+};

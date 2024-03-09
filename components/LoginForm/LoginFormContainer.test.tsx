@@ -4,6 +4,7 @@ import LoginFormContainer from "./LoginFormContainer";
 import en from "@/messages/en.json";
 import {
   ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
+  API_ROUTE_OBTAIN_DEMO_TOKEN,
   API_ROUTE_OBTAIN_TOKEN,
 } from "@/lib/constants";
 import {
@@ -56,6 +57,10 @@ const renderComponent = () => {
   );
 };
 
+beforeEach(() => {
+  mockRouterRefresh.mockClear();
+});
+
 it("displays relevant input errors", async () => {
   renderComponent();
 
@@ -102,6 +107,27 @@ and reloads the page upon successful response`, async () => {
   );
 
   await submit();
+
+  expect(
+    localStorage.getItem(ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY),
+  ).toEqual(
+    MOCK_API_RESPONSES_JSON[API_ROUTE_OBTAIN_TOKEN].access_token_expiration_utc,
+  );
+
+  expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
+});
+
+it(`sets the access token's expiration date in local storage 
+and reloads the page upon successful response for demo login`, async () => {
+  renderComponent();
+
+  fetchMock.mockOnceIf(
+    API_ROUTE_OBTAIN_DEMO_TOKEN,
+    MOCK_API_RESPONSES[API_ROUTE_OBTAIN_TOKEN],
+  );
+
+  const demoLoginButton = screen.getByText(messages.LoginForm.LOG_IN_AS_DEMO);
+  await userEvent.click(demoLoginButton);
 
   expect(
     localStorage.getItem(ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY),

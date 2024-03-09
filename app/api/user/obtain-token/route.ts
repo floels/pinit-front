@@ -1,13 +1,8 @@
-import { NextResponse } from "next/server";
-import {
-  ACCESS_TOKEN_COOKIE_KEY,
-  API_BASE_URL,
-  API_ENDPOINT_OBTAIN_TOKEN,
-  REFRESH_TOKEN_COOKIE_KEY,
-} from "@/lib/constants";
+import { API_BASE_URL, API_ENDPOINT_OBTAIN_TOKEN } from "@/lib/constants";
 import {
   getNextResponse,
   getNextResponseBackendFetchFailed,
+  getNextResponseObtainTokenSuccess,
   getNextResponseUnparsableBackendResponse,
 } from "@/lib/utils/apiRoutes";
 
@@ -45,43 +40,5 @@ export const POST = async (request: Request) => {
     });
   }
 
-  return getNextResponseSuccess({ backendResponseData });
-};
-
-export const getNextResponseSuccess = ({
-  backendResponseData,
-}: {
-  backendResponseData: { [key: string]: string };
-}) => {
-  const {
-    access_token: accessToken,
-    refresh_token: refreshToken,
-    access_token_expiration_utc: accessTokenExpirationDate,
-  } = backendResponseData;
-
-  const accessTokenCookie = {
-    name: ACCESS_TOKEN_COOKIE_KEY,
-    value: accessToken,
-    path: "/",
-    secure: true,
-    httpOnly: true,
-  };
-
-  const refreshTokenCookie = {
-    name: REFRESH_TOKEN_COOKIE_KEY,
-    value: refreshToken,
-    path: "/",
-    secure: true,
-    httpOnly: true,
-  };
-
-  // See https://nextjs.org/docs/app/api-reference/functions/next-response#setname-value
-  const response = new NextResponse(
-    JSON.stringify({ access_token_expiration_utc: accessTokenExpirationDate }),
-  );
-
-  response.cookies.set(accessTokenCookie);
-  response.cookies.set(refreshTokenCookie);
-
-  return response;
+  return getNextResponseObtainTokenSuccess({ backendResponseData });
 };

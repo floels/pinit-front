@@ -41,7 +41,8 @@ it("renders without search bar when pathname is '/'", () => {
   expect(screen.queryByTestId("header-search-bar")).toBeNull();
 });
 
-it("opens login modal when user clicks on Login button, and switch to signup modal when user clicks on 'Sign up'", async () => {
+it(`opens login modal when user clicks on Login button,
+and switches to signup modal when user clicks on 'Sign up'`, async () => {
   renderComponent();
 
   const logInButton = screen.getByTestId("header-log-in-button");
@@ -52,22 +53,17 @@ it("opens login modal when user clicks on Login button, and switch to signup mod
 
   within(modal).getByText(messages.LoginForm.WELCOME_TO_PINIT);
 
-  const noAccountYetDiv = within(modal).getByText(
-    messages.LoginForm.NO_ACCOUNT_YET,
-  );
+  const noAccountYet = screen.getByText(messages.LoginForm.NO_ACCOUNT_YET_CTA);
 
-  const noAccountYetSignupButton = within(noAccountYetDiv).getByText(
-    messages.LoginForm.SIGN_UP,
-  );
-
-  await userEvent.click(noAccountYetSignupButton);
+  await userEvent.click(noAccountYet);
 
   modal = screen.getByTestId("overlay-modal");
 
   within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
 });
 
-it("opens signup modal when user clicks on Signup button, and switch to login modal when user clicks on 'Log in'", async () => {
+it(`opens signup modal when user clicks on Signup button,
+and switches to login modal when user clicks on 'Log in'`, async () => {
   renderComponent();
 
   const signUpButton = screen.getByTestId("header-sign-up-button");
@@ -78,15 +74,11 @@ it("opens signup modal when user clicks on Signup button, and switch to login mo
 
   within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
 
-  const alreadyHaveAccountDiv = within(modal).getByText(
-    messages.SignupForm.ALREADY_HAVE_ACCOUNT,
+  const alreadyHaveAccount = screen.getByText(
+    messages.SignupForm.ALREADY_HAVE_ACCOUNT_CTA,
   );
 
-  const alreadyHaveAccountSignupButton = within(
-    alreadyHaveAccountDiv,
-  ).getByText(messages.SignupForm.LOG_IN);
-
-  await userEvent.click(alreadyHaveAccountSignupButton);
+  await userEvent.click(alreadyHaveAccount);
 
   modal = screen.getByTestId("overlay-modal");
 
