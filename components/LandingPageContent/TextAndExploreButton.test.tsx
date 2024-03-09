@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import TextAndExploreButton from "./TextAndExploreButton";
-import { FOLDS_ENUM } from "./LandingPageContent";
+import { FOLD } from "./LandingPageContent";
 
 it("renders elements with the proper classes", () => {
   const props = {
-    foldNumber: FOLDS_ENUM.SECOND,
+    foldNumber: FOLD.SECOND,
     linkTarget: "/search/pins?q=food",
     labels: { header: "", paragraph: "", link: "" },
   };

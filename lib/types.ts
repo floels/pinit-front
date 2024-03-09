@@ -37,5 +37,5 @@ export type AccountWithPrivateDetails = Account & {
 export type Board = {
   id: string;
   title: string;
-  coverPictureURL: string | null;
+  firstImageURLs: string[];
 };

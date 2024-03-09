@@ -21,13 +21,13 @@ const SaveInBoardButton = ({
 }: SaveInBoardButtonProps) => {
   const t = useTranslations("PinsBoard");
 
-  const { title, coverPictureURL } = board;
+  const { title, firstImageURLs } = board;
 
-  const hasCoverPictureURL = !!coverPictureURL;
+  const coverPictureURL = firstImageURLs.length > 0 ? firstImageURLs[0] : null;
 
   let boardThumbnail;
 
-  if (hasCoverPictureURL) {
+  if (coverPictureURL) {
     boardThumbnail = (
       <Image
         src={coverPictureURL}

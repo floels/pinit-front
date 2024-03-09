@@ -46,14 +46,18 @@ export const MOCK_API_RESPONSES_JSON = {
       {
         unique_id: "000000000000000001",
         title: "Board 1 title",
-        cover_picture_url:
+        first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
       {
         unique_id: "000000000000000002",
         title: "Board 2 title",
-        cover_picture_url:
+        first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
     ],
     initial: "J",
@@ -120,14 +124,18 @@ export const MOCK_API_RESPONSES_JSON = {
       {
         unique_id: "000000000000000001",
         title: "Board 1 title",
-        cover_picture_url:
+        first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
       {
         unique_id: "000000000000000002",
         title: "Board 2 title",
-        cover_picture_url:
+        first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
     ],
     initial: "J",
@@ -150,14 +158,18 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
       {
         id: "000000000000000001",
         title: "Board 1 title",
-        coverPictureURL:
+        firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
       {
         id: "000000000000000002",
         title: "Board 2 title",
-        coverPictureURL:
+        firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
     ],
     initial: "J",
@@ -174,14 +186,18 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
       {
         id: "000000000000000001",
         title: "Board 1 title",
-        coverPictureURL:
+        firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
       {
         id: "000000000000000002",
         title: "Board 2 title",
-        coverPictureURL:
+        firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        ],
       },
     ],
     initial: "J",

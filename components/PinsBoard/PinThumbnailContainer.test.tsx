@@ -124,7 +124,7 @@ it("displays relevant data in board buttons", async () => {
   ) as HTMLImageElement;
 
   const srcPattern = getNextImageSrcRegexFromURL(
-    account.boards[0].coverPictureURL,
+    account.boards[0].firstImageURLs[0],
   );
 
   expect(firstBoardThumbnail.src).toMatch(srcPattern);
