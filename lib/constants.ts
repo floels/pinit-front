@@ -1,6 +1,7 @@
 // API routes
 export const API_ROUTE_SIGN_UP = "/api/user/sign-up";
 export const API_ROUTE_OBTAIN_TOKEN = "/api/user/obtain-token";
+export const API_ROUTE_OBTAIN_DEMO_TOKEN = "/api/user/obtain-demo-token";
 export const API_ROUTE_REFRESH_TOKEN = "/api/user/refresh-token";
 export const API_ROUTE_OWNED_ACCOUNTS = "/api/user/owned-accounts";
 export const API_ROUTE_MY_ACCOUNT_DETAILS = "/api/user/account-details";
@@ -17,6 +18,7 @@ export const API_BASE_URL =
     ? "http://pinit-api-staging.eu-north-1.elasticbeanstalk.com/api"
     : "http://127.0.0.1:8000/api";
 export const API_ENDPOINT_OBTAIN_TOKEN = "token/obtain/";
+export const API_ENDPOINT_OBTAIN_DEMO_TOKEN = "token/obtain-demo/";
 export const API_ENDPOINT_REFRESH_TOKEN = "token/refresh/";
 export const API_ENDPOINT_SIGN_UP = "signup/";
 export const API_ENDPOINT_PIN_SUGGESTIONS = "pin-suggestions/";

@@ -47,12 +47,12 @@ const FifthFold = ({ heroRef, onClickBackToTop }: FifthFoldProps) => {
             <div className={styles.formContainer}>
               {!showLoginInsteadOfSignup && (
                 <SignupFormContainer
-                  onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
+                  handleClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
                 />
               )}
               {showLoginInsteadOfSignup && (
                 <LoginFormContainer
-                  onClickNoAccountYet={handleClickNoAccountYet}
+                  handleClickNoAccountYet={handleClickNoAccountYet}
                 />
               )}
             </div>

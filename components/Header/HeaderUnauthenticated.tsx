@@ -80,13 +80,15 @@ const HeaderUnauthenticated = () => {
       </div>
       {isLoginModalOpen && (
         <OverlayModal onClose={handleCloseLoginModal}>
-          <LoginFormContainer onClickNoAccountYet={handleClickNoAccountYet} />
+          <LoginFormContainer
+            handleClickNoAccountYet={handleClickNoAccountYet}
+          />
         </OverlayModal>
       )}
       {isSignupModalOpen && (
         <OverlayModal onClose={handleCloseSignupModal}>
           <SignupFormContainer
-            onClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
+            handleClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
           />
         </OverlayModal>
       )}

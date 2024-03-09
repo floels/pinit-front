@@ -19,7 +19,7 @@ import { ResponseKOError } from "@/lib/customErrors";
 import { setAccessTokenExpirationDate } from "@/lib/utils/authentication";
 
 type SignupFormContainerProps = {
-  onClickAlreadyHaveAccount: () => void;
+  handleClickAlreadyHaveAccount: () => void;
 };
 
 const computeFormErrors = (values: {
@@ -47,7 +47,7 @@ const computeFormErrors = (values: {
 };
 
 const SignupFormContainer = ({
-  onClickAlreadyHaveAccount,
+  handleClickAlreadyHaveAccount,
 }: SignupFormContainerProps) => {
   const t = useTranslations();
 
@@ -171,7 +171,7 @@ const SignupFormContainer = ({
       handleInputChange={handleInputChange}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
-      onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
+      handleClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
       showFormErrors={showFormErrors}
     />
   );

@@ -48,10 +48,12 @@ const submit = async () => {
   await userEvent.click(submitButton);
 };
 
-const onClickNoAccountYet = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
+const handleClickNoAccountYet = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
 
 const renderComponent = () => {
-  render(<LoginFormContainer onClickNoAccountYet={onClickNoAccountYet} />);
+  render(
+    <LoginFormContainer handleClickNoAccountYet={handleClickNoAccountYet} />,
+  );
 };
 
 it("displays relevant input errors", async () => {

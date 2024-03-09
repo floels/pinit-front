@@ -5,13 +5,14 @@ import {
   ERROR_CODE_INVALID_EMAIL,
   ERROR_CODE_FETCH_FAILED,
   API_ROUTE_OBTAIN_TOKEN,
+  API_ROUTE_OBTAIN_DEMO_TOKEN,
 } from "../../lib/constants";
 import { isValidEmail, isValidPassword } from "../../lib/utils/validation";
 import { setAccessTokenExpirationDate } from "@/lib/utils/authentication";
 import LoginForm, { FormErrors } from "./LoginForm";
 
 type LoginFormContainerProps = {
-  onClickNoAccountYet: () => void;
+  handleClickNoAccountYet: () => void;
 };
 
 const computeFormErrors = (values: { email: string; password: string }) => {
@@ -31,7 +32,7 @@ const computeFormErrors = (values: { email: string; password: string }) => {
 };
 
 const LoginFormContainer = ({
-  onClickNoAccountYet,
+  handleClickNoAccountYet,
 }: LoginFormContainerProps) => {
   const router = useRouter();
 
@@ -60,11 +61,17 @@ const LoginFormContainer = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setShowFormErrors(true);
+    fetchTokens();
+  };
 
-    if (formErrors.email || formErrors.password) {
-      // Invalid inputs: no need to make a request
-      return;
+  const fetchTokens = async ({ isDemo }: { isDemo?: boolean } = {}) => {
+    if (!isDemo) {
+      setShowFormErrors(true);
+
+      if (formErrors.email || formErrors.password) {
+        // Invalid inputs: no need to make a request
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -72,11 +79,12 @@ const LoginFormContainer = ({
     let response;
 
     try {
-      response = await fetchTokens();
+      response = await fetchTokensAndThrow({ isDemo });
     } catch (error) {
-      const errorCode = (error as Error).message;
-      updateFormErrorsFromErrorCode(errorCode);
+      updateFormErrorsFromFetchError({ error: error as Error });
       return;
+    } finally {
+      setIsLoading(false);
     }
 
     let responseData;
@@ -92,7 +100,11 @@ const LoginFormContainer = ({
     router.refresh();
   };
 
-  const fetchTokens = async () => {
+  const fetchTokensAndThrow = async ({
+    isDemo,
+  }: {
+    isDemo: boolean | undefined;
+  }) => {
     const requestBody = JSON.stringify({
       email: credentials.email,
       password: credentials.password,
@@ -101,17 +113,19 @@ const LoginFormContainer = ({
     let response;
 
     try {
-      response = await fetch(API_ROUTE_OBTAIN_TOKEN, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: requestBody,
-      });
+      if (isDemo) {
+        response = await fetch(API_ROUTE_OBTAIN_DEMO_TOKEN);
+      } else {
+        response = await fetch(API_ROUTE_OBTAIN_TOKEN, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestBody,
+        });
+      }
     } catch {
       throw new Error(ERROR_CODE_FETCH_FAILED);
-    } finally {
-      setIsLoading(false);
     }
 
     if (!response.ok) {
@@ -129,7 +143,9 @@ const LoginFormContainer = ({
     return response;
   };
 
-  const updateFormErrorsFromErrorCode = (errorCode: string) => {
+  const updateFormErrorsFromFetchError = ({ error }: { error: Error }) => {
+    const errorCode = error.message;
+
     switch (errorCode) {
       case ERROR_CODE_INVALID_EMAIL:
         setFormErrors({ email: "INVALID_EMAIL_LOGIN" });
@@ -142,6 +158,10 @@ const LoginFormContainer = ({
     }
   };
 
+  const handleClickLoginAsDemo = () => {
+    fetchTokens({ isDemo: true });
+  };
+
   return (
     <LoginForm
       credentials={credentials}
@@ -150,7 +170,8 @@ const LoginFormContainer = ({
       isLoading={isLoading}
       handleInputChange={handleInputChange}
       handleSubmit={handleSubmit}
-      onClickNoAccountYet={onClickNoAccountYet}
+      handleClickLoginAsDemo={handleClickLoginAsDemo}
+      handleClickNoAccountYet={handleClickNoAccountYet}
     />
   );
 };

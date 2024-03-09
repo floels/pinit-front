@@ -6,6 +6,7 @@ import {
   REFRESH_TOKEN_COOKIE_KEY,
 } from "@/lib/constants";
 import {
+  getNextResponse,
   getNextResponseBackendFetchFailed,
   getNextResponseUnparsableBackendResponse,
 } from "@/lib/utils/apiRoutes";
@@ -38,12 +39,20 @@ export const POST = async (request: Request) => {
   }
 
   if (!backendResponse.ok) {
-    return new NextResponse(
-      JSON.stringify({ errors: backendResponseData.errors }),
-      { status: backendResponse.status },
-    );
+    return getNextResponse({
+      backendResponseData,
+      status: backendResponse.status,
+    });
   }
 
+  return getNextResponseSuccess({ backendResponseData });
+};
+
+export const getNextResponseSuccess = ({
+  backendResponseData,
+}: {
+  backendResponseData: { [key: string]: string };
+}) => {
   const {
     access_token: accessToken,
     refresh_token: refreshToken,

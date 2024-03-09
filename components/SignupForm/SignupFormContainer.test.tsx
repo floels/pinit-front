@@ -13,7 +13,7 @@ import {
 
 const messages = en.LandingPageContent;
 
-const onClickAlreadyHaveAccount = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
+const handleClickAlreadyHaveAccount = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
 
 const mockRouterRefresh = jest.fn();
 
@@ -26,7 +26,7 @@ jest.mock("next/navigation", () => ({
 const renderComponent = () => {
   render(
     <SignupFormContainer
-      onClickAlreadyHaveAccount={onClickAlreadyHaveAccount}
+      handleClickAlreadyHaveAccount={handleClickAlreadyHaveAccount}
     />,
   );
 };

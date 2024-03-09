@@ -26,7 +26,7 @@ type SignupFormProps = {
   isLoading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  onClickAlreadyHaveAccount: () => void;
+  handleClickAlreadyHaveAccount: () => void;
 };
 
 const SignupForm = ({
@@ -35,7 +35,7 @@ const SignupForm = ({
   handleInputChange,
   handleSubmit,
   isLoading,
-  onClickAlreadyHaveAccount,
+  handleClickAlreadyHaveAccount,
   showFormErrors,
 }: SignupFormProps) => {
   const t = useTranslations();
@@ -137,15 +137,12 @@ const SignupForm = ({
           {t("LandingPageContent.SignupForm.CONTINUE")}
         </button>
       </form>
-      <div className={styles.alreadyHaveAccount}>
-        {t("LandingPageContent.SignupForm.ALREADY_HAVE_ACCOUNT")}
-        <button
-          className={styles.alreadyHaveAccountButton}
-          onClick={onClickAlreadyHaveAccount}
-        >
-          {t("LandingPageContent.SignupForm.LOG_IN")}
-        </button>
-      </div>
+      <button
+        className={styles.alreadyHaveAccount}
+        onClick={handleClickAlreadyHaveAccount}
+      >
+        {t("LandingPageContent.SignupForm.ALREADY_HAVE_ACCOUNT_CTA")}
+      </button>
       {isLoading && (
         <div
           className={styles.loadingOverlay}

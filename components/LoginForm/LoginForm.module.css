@@ -56,15 +56,21 @@
 
 .noAccountYet {
   margin-top: 20px;
-  display: inline-block;
-  font-size: var(--font-size-100);
-}
-
-.noAccountYetButton {
   cursor: pointer;
   border: none;
   background-color: transparent;
-  font-weight: bold;
+  font-weight: var(--font-weight-semibold);
+}
+
+.loginAsDemo {
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.loginAsDemo:hover {
+  text-decoration: underline;
 }
 
 .loadingOverlay {

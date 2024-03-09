@@ -60,15 +60,10 @@
 
 .alreadyHaveAccount {
   margin-top: 20px;
-  display: inline-block;
-  font-size: var(--font-size-100);
-}
-
-.alreadyHaveAccountButton {
   cursor: pointer;
   border: none;
   background-color: transparent;
-  font-weight: bold;
+  font-weight: var(--font-weight-semibold);
 }
 
 .loadingOverlay {

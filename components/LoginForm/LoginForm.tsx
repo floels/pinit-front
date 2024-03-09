@@ -24,7 +24,8 @@ type LoginFormProps = {
   isLoading: boolean;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  onClickNoAccountYet: () => void;
+  handleClickLoginAsDemo: () => void;
+  handleClickNoAccountYet: () => void;
 };
 
 const LoginForm = ({
@@ -34,7 +35,8 @@ const LoginForm = ({
   isLoading,
   handleInputChange,
   handleSubmit,
-  onClickNoAccountYet,
+  handleClickLoginAsDemo,
+  handleClickNoAccountYet,
 }: LoginFormProps) => {
   const t = useTranslations();
 
@@ -112,15 +114,12 @@ const LoginForm = ({
           {t("LandingPageContent.LoginForm.LOG_IN")}
         </button>
       </form>
-      <div className={styles.noAccountYet}>
-        {t("LandingPageContent.LoginForm.NO_ACCOUNT_YET")}
-        <button
-          className={styles.noAccountYetButton}
-          onClick={onClickNoAccountYet}
-        >
-          {t("LandingPageContent.LoginForm.SIGN_UP")}
-        </button>
-      </div>
+      <button className={styles.noAccountYet} onClick={handleClickNoAccountYet}>
+        {t("LandingPageContent.LoginForm.NO_ACCOUNT_YET_CTA")}
+      </button>
+      <button onClick={handleClickLoginAsDemo} className={styles.loginAsDemo}>
+        {t("LandingPageContent.LoginForm.LOG_IN_AS_DEMO")}
+      </button>
       {isLoading && (
         <div
           className={styles.loadingOverlay}
