@@ -1,10 +1,10 @@
 import styles from "./AccountDetailsView.module.css";
-import { Account } from "@/lib/types";
+import { AccountWithPublicDetails } from "@/lib/types";
 import AccountPictures from "./AccountPictures";
 import CreatedAndSavedPins from "./CreatedAndSavedPins";
 
 type AccountDetailsViewProps = {
-  account: Account;
+  account: AccountWithPublicDetails;
 };
 
 const Logo = (props: any) => (

@@ -15,7 +15,7 @@ const SuccessToastMessage = ({ pinId }: SuccessToastMessageProps) => {
       data-testid="success-toast-message"
     >
       <p>{t("PIN_PUBLISHED")}</p>
-      <Link href={`/pin/${pinId}`} className={styles.successToastMessageLink}>
+      <Link href={`/pin/${pinId}/`} className={styles.successToastMessageLink}>
         {t("VIEW")}
       </Link>
     </div>

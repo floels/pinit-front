@@ -1,6 +1,6 @@
 import { useAccountContext } from "@/contexts/accountContext";
 import { toast } from "react-toastify";
-import { Board, PinWithAuthorDetails } from "@/lib/types";
+import { BoardWithBasicDetails, PinWithAuthorDetails } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
@@ -89,7 +89,7 @@ const PinThumbnailContainer = ({
     board,
     pin,
   }: {
-    board: Board;
+    board: BoardWithBasicDetails;
     pin: PinWithAuthorDetails;
   }) => {
     const requestBody = JSON.stringify({

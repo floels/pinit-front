@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Board } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types";
 import SaveInBoardButton from "./SaveInBoardButton";
 
 type SaveInBoardButtonContainerProps = {
-  board: Board;
+  board: BoardWithBasicDetails;
 };
 
 const SaveInBoardButtonContainer = ({

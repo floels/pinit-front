@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import styles from "./PinThumbnail.module.css";
-import { Board, PinWithAuthorDetails } from "@/lib/types";
+import { BoardWithBasicDetails, PinWithAuthorDetails } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import SavePinFlyoutContainer from "./SavePinFlyoutContainer";
@@ -14,7 +14,7 @@ type PinThumbnailProps = {
   pin: PinWithAuthorDetails;
   isInFirstColumn: boolean;
   isInLastColumn: boolean;
-  boards: Board[];
+  boards: BoardWithBasicDetails[];
   isHovered: boolean;
   isSaveFlyoutOpen: boolean;
   isSaving: boolean;
@@ -93,7 +93,7 @@ const PinThumbnail = ({
   return (
     <div className={styles.container} data-testid="pin-thumbnail">
       <Link
-        href={`/pin/${pin.id}`}
+        href={`/pin/${pin.id}/`}
         className={styles.imageContainer}
         onMouseEnter={handleMouseEnterImage}
         onMouseLeave={handleMouseLeaveImage}
@@ -119,7 +119,7 @@ const PinThumbnail = ({
       <Link
         className={styles.authorDetails}
         data-testid="pin-author-details"
-        href={`/${pin.authorUsername}`}
+        href={`/${pin.authorUsername}/`}
       >
         {pin.authorProfilePictureURL && (
           <Image

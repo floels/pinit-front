@@ -2,14 +2,14 @@ import { forwardRef } from "react";
 import { useTranslations } from "next-intl";
 import SaveInBoardButtonContainer from "./SaveInBoardButtonContainer";
 import styles from "./SavePinFlyout.module.css";
-import { Board } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 type SavePinFlyoutProps = {
   isInFirstColumn: boolean;
   isInLastColumn: boolean;
-  boards: Board[];
+  boards: BoardWithBasicDetails[];
   isSaving: boolean;
   getClickHandlerForBoard: ({
     boardIndex,
