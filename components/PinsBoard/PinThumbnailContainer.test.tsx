@@ -25,6 +25,8 @@ const pin = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_PIN_SUGGESTIONS].results[0];
 
 const account = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_MY_ACCOUNT_DETAILS];
 
+const boards = account.boards;
+
 const clickSaveButton = async () => {
   fireEvent.mouseEnter(screen.getByTestId("pin-thumbnail-image"));
 
@@ -117,7 +119,7 @@ it("displays relevant data in board buttons", async () => {
 
   const firstBoardButton = getFirstBoardButton();
 
-  expect(firstBoardButton).toHaveTextContent("Board 1 title");
+  expect(firstBoardButton).toHaveTextContent(account.boards[0].name);
 
   const firstBoardThumbnail = within(firstBoardButton).getByRole(
     "img",
@@ -139,7 +141,7 @@ it("displays 'Save' button in board button only when hovered", async () => {
 
   expect(screen.queryByTestId("board-button-save-button")).toBeNull();
 
-  fireEvent.mouseEnter(screen.getByText("Board 1 title"));
+  fireEvent.mouseEnter(screen.getByText(account.boards[0].name));
 
   within(firstBoardButton).getByTestId("board-button-save-button");
 });
@@ -162,7 +164,7 @@ successful save`, async () => {
   await waitFor(() => {
     expect(screen.queryByTestId("save-pin-flyout-board-buttons")).toBeNull();
 
-    screen.getByText("Board 1 title");
+    screen.getByText(account.boards[0].name);
 
     screen.getByText(en.PinsBoard.PIN_THUMBNAIL_SAVED_LABEL_TEXT);
   });

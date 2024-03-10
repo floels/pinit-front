@@ -57,7 +57,8 @@ export const serializeAccountWithPrivateDetails = (
 export const serializeBoard = (board: any): Board => {
   return {
     id: board.unique_id,
-    title: board.title,
+    name: board.name,
+    slug: board.slug,
     firstImageURLs: board.first_image_urls,
   };
 };

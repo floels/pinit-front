@@ -1,17 +1,17 @@
-import { Board } from "@/lib/types";
+import { Account } from "@/lib/types";
 import BoardThumbnail from "./BoardThumbnail";
 import styles from "./SavedPins.module.css";
 
 type SavedPinsProps = {
-  boards: Board[];
+  account: Account;
 };
 
-const SavedPins = ({ boards }: SavedPinsProps) => {
+const SavedPins = ({ account }: SavedPinsProps) => {
   return (
     <ul className={styles.container}>
-      {boards.map((board, index) => (
+      {account.boards.map((board, index) => (
         <li key={`board-${index}`}>
-          <BoardThumbnail board={board} />
+          <BoardThumbnail board={board} username={account.username} />
         </li>
       ))}
     </ul>

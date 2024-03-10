@@ -54,17 +54,17 @@ const PinThumbnail = ({
   let hoverOverlay;
 
   if (hasSaved) {
-    const boardTitle = boards[indexBoardWhereJustSaved].title;
+    const boardName = boards[indexBoardWhereJustSaved].name;
 
-    const boardTitleShort = ellipsizeText({
-      text: boardTitle,
+    const boardNameShort = ellipsizeText({
+      text: boardName,
       maxLength: 20,
     });
 
     hoverOverlay = (
       <div className={styles.hoverOverlay}>
         <div className={styles.hoverOverlayContentSaved}>
-          <span className={styles.boardTitle}>{boardTitleShort}</span>
+          <span className={styles.boardTitle}>{boardNameShort}</span>
           <span className={styles.savedLabel}>
             {t("PIN_THUMBNAIL_SAVED_LABEL_TEXT")}
           </span>
