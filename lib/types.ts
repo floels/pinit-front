@@ -19,17 +19,20 @@ export enum TypesOfAccount {
   BUSINESS = "business",
 }
 
-export type Account = {
+type Account = {
   username: string;
   displayName: string;
   profilePictureURL: string | null;
-  boards: Board[];
+};
+
+export type AccountWithPublicDetails = Account & {
+  boards: BoardWithBasicDetails[];
   initial: string;
   backgroundPictureURL: string | null;
   description: string | null;
 };
 
-export type AccountWithPrivateDetails = Account & {
+export type AccountWithPrivateDetails = AccountWithPublicDetails & {
   type: TypesOfAccount;
   ownerEmail: string;
 };
@@ -38,5 +41,13 @@ export type Board = {
   id: string;
   name: string;
   slug: string;
+};
+
+export type BoardWithBasicDetails = Board & {
   firstImageURLs: string[];
+};
+
+export type BoardWithFullDetails = Board & {
+  author: Account;
+  pins: PinWithAuthorDetails[];
 };

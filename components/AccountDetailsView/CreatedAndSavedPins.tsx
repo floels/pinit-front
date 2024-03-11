@@ -5,7 +5,7 @@ import styles from "./CreatedAndSavedPins.module.css";
 import { useTranslations } from "next-intl";
 import CreatedPins from "./CreatedPins";
 import SavedPins from "./SavedPins";
-import { Account } from "@/lib/types";
+import { AccountWithPublicDetails } from "@/lib/types";
 
 enum TAB {
   CREATED = "CREATED",
@@ -13,7 +13,7 @@ enum TAB {
 }
 
 type CreatedAndSavedPinsProps = {
-  account: Account;
+  account: AccountWithPublicDetails;
 };
 
 const CreatedAndSavedPins = ({ account }: CreatedAndSavedPinsProps) => {

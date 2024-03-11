@@ -1,9 +1,9 @@
-import { Account } from "@/lib/types";
+import { AccountWithPublicDetails } from "@/lib/types";
 import BoardThumbnail from "./BoardThumbnail";
 import styles from "./SavedPins.module.css";
 
 type SavedPinsProps = {
-  account: Account;
+  account: AccountWithPublicDetails;
 };
 
 const SavedPins = ({ account }: SavedPinsProps) => {

@@ -1,10 +1,10 @@
 import { useTranslations } from "next-intl";
-import { Account } from "@/lib/types";
+import { AccountWithPublicDetails } from "@/lib/types";
 import Image from "next/image";
 import styles from "./AccountPictures.module.css";
 
 type AccountPicturesProps = {
-  account: Account;
+  account: AccountWithPublicDetails;
 };
 
 const BACKGROUND_PICTURE_WIDTH_PX = 656;

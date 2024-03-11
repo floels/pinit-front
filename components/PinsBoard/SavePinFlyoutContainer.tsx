@@ -1,11 +1,11 @@
-import { Board } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types";
 import SavePinFlyout from "./SavePinFlyout";
 import { useEffect, useRef } from "react";
 
 type SavePinFlyoutContainerProps = {
   isInFirstColumn: boolean;
   isInLastColumn: boolean;
-  boards: Board[];
+  boards: BoardWithBasicDetails[];
   isSaving: boolean;
   getClickHandlerForBoard: ({
     boardIndex,

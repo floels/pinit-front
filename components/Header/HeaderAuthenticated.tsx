@@ -88,7 +88,7 @@ const HeaderAuthenticated = forwardRef<
         <Link href="/" className={classHomeLink}>
           {t("NAV_ITEM_HOME")}
         </Link>
-        <Link href="/pin-creation-tool" className={classCreateLink}>
+        <Link href="/pin-creation-tool/" className={classCreateLink}>
           {t("NAV_ITEM_CREATE")}
         </Link>
         {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.

@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Board } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types";
 import styles from "./BoardThumbnail.module.css";
 import { useState } from "react";
 
 type BoardThumbnailProps = {
   username: string;
-  board: Board;
+  board: BoardWithBasicDetails;
 };
 
 const COVER_PICTURE_SIZE_PX = 160;
@@ -79,7 +79,7 @@ const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
   return (
     <div className={styles.container}>
       <Link
-        href={`/${username}/${slug}`}
+        href={`/${username}/${slug}/`}
         className={styles.content}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

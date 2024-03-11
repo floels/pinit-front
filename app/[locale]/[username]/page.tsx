@@ -1,6 +1,6 @@
 import { API_BASE_URL, API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 import AccountDetailsView from "@/components/AccountDetailsView/AccountDetailsView";
-import { Response404Error, ResponseKOError } from "@/lib/customErrors";
+import { Response404Error } from "@/lib/customErrors";
 import ErrorView from "@/components/ErrorView/ErrorView";
 import { serializeAccount } from "@/lib/utils/serializers";
 import { throwIfKO } from "@/lib/utils/fetch";

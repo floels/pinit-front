@@ -41,7 +41,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
             <p className={styles.pinDescription}>{pin.description}</p>
           )}
           <Link
-            href={`/${pin.authorUsername}`}
+            href={`/${pin.authorUsername}/`}
             className={styles.authorDetails}
             data-testid="pin-author-details"
           >

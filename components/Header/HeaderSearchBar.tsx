@@ -106,7 +106,7 @@ const HeaderSearchBar = ({
         >
           {searchSuggestions.map((suggestion, index) => (
             <Link
-              href={`/search/pins?q=${suggestion}`}
+              href={`/search/pins/?q=${suggestion}`}
               key={`search-suggestion-link-${index}`}
               className={styles.searchSuggestionsLink}
               onMouseDown={getSuggestionLinkClickHandler(suggestion)}
