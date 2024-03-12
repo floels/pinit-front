@@ -104,7 +104,7 @@ const PinThumbnail = ({
           alt={
             pin.title
               ? pin.title
-              : `${t("ALT_PIN_BY")} ${pin.authorDisplayName}`
+              : `${t("ALT_PIN_BY")} ${pin.author.displayName}`
           }
           src={pin.imageURL}
           className={styles.image}
@@ -119,18 +119,18 @@ const PinThumbnail = ({
       <Link
         className={styles.authorDetails}
         data-testid="pin-author-details"
-        href={`/${pin.authorUsername}/`}
+        href={`/${pin.author.username}/`}
       >
-        {pin.authorProfilePictureURL && (
+        {pin.author.profilePictureURL && (
           <Image
             className={styles.authorProfilePicture}
             width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
             height={AUTHOR_PROFILE_PICTURE_SIZE_PX}
-            src={pin.authorProfilePictureURL}
-            alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.authorDisplayName}`}
+            src={pin.author.profilePictureURL}
+            alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.author.displayName}`}
           />
         )}
-        <span className={styles.authorName}>{pin.authorDisplayName}</span>
+        <span className={styles.authorName}>{pin.author.displayName}</span>
       </Link>
       {isSaveFlyoutOpen && (
         <SavePinFlyoutContainer

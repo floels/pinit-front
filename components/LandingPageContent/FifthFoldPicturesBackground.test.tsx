@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import FifthFoldPicturesBackground, {
   PICTURE_URLS,
 } from "./FifthFoldPicturesBackground";
-import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
+import { checkNextImageSrc } from "@/lib/testing-utils/misc";
 
 it("renders <img> elements with proper 'src' attribute", () => {
   render(<FifthFoldPicturesBackground />);
@@ -10,8 +10,6 @@ it("renders <img> elements with proper 'src' attribute", () => {
   const images = screen.queryAllByRole("img") as HTMLImageElement[];
 
   images.map((image, index) => {
-    const srcPattern = getNextImageSrcRegexFromURL(PICTURE_URLS[index]);
-
-    expect(image.src).toMatch(srcPattern);
+    checkNextImageSrc(image, PICTURE_URLS[index]);
   });
 });

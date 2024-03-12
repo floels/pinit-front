@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
 import PictureSliderPicture, { IMAGE_URLS } from "./PictureSliderPicture";
+import { checkNextImageSrc } from "@/lib/testing-utils/misc";
 
 it("renders <img> element with proper 'src' attribute", () => {
   const props = {
@@ -15,9 +15,5 @@ it("renders <img> element with proper 'src' attribute", () => {
 
   const image = screen.getByRole("img") as HTMLImageElement;
 
-  const srcPattern = getNextImageSrcRegexFromURL(
-    `https://i.pinimg.com/${IMAGE_URLS.FOOD[0]}`,
-  );
-
-  expect(image.src).toMatch(srcPattern);
+  checkNextImageSrc(image, `https://i.pinimg.com/${IMAGE_URLS.FOOD[0]}`);
 });

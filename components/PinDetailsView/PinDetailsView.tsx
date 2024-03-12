@@ -31,7 +31,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
           alt={
             pin.title
               ? pin.title
-              : `${t("ALT_PIN_BY")} ${pin.authorDisplayName}`
+              : `${t("ALT_PIN_BY")} ${pin.author.displayName}`
           }
           className={styles.image}
         />
@@ -41,20 +41,20 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
             <p className={styles.pinDescription}>{pin.description}</p>
           )}
           <Link
-            href={`/${pin.authorUsername}/`}
+            href={`/${pin.author.username}/`}
             className={styles.authorDetails}
             data-testid="pin-author-details"
           >
-            {pin.authorProfilePictureURL && (
+            {pin.author.profilePictureURL && (
               <Image
                 className={styles.authorProfilePicture}
                 width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
                 height={AUTHOR_PROFILE_PICTURE_SIZE_PX}
-                src={pin.authorProfilePictureURL}
-                alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.authorDisplayName}`}
+                src={pin.author.profilePictureURL}
+                alt={`${t("ALT_PROFILE_PICTURE_OF")} ${pin.author.displayName}`}
               />
             )}
-            <span className={styles.authorName}>{pin.authorDisplayName}</span>
+            <span className={styles.authorName}>{pin.author.displayName}</span>
           </Link>
         </div>
       </div>
