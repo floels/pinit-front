@@ -50,6 +50,7 @@ export const MOCK_API_RESPONSES_JSON = {
         first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
       },
       {
@@ -57,6 +58,7 @@ export const MOCK_API_RESPONSES_JSON = {
         name: "Board 2 name",
         slug: "board-2",
         first_image_urls: [
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
@@ -89,7 +91,6 @@ export const MOCK_API_RESPONSES_JSON = {
     board_id: "000000000000000001",
     pin_id: "000000000000000001",
   },
-
   [API_ENDPOINT_SEARCH_PINS]: {
     results: Array.from({ length: 50 }, (_, index) => ({
       unique_id: String(index).padStart(18, "0"),
@@ -129,6 +130,8 @@ export const MOCK_API_RESPONSES_JSON = {
         slug: "board-1",
         first_image_urls: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
       },
       {
@@ -136,6 +139,8 @@ export const MOCK_API_RESPONSES_JSON = {
         name: "Board 2 name",
         slug: "board-2",
         first_image_urls: [
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
       },
@@ -151,6 +156,19 @@ export const MOCK_API_RESPONSES_JSON = {
 // 'lib/utils/serializers.ts' here because otherwise we wouldn't
 // be able to detect in the tests if there is a bug in them.
 export const MOCK_API_RESPONSES_SERIALIZED = {
+  [API_ENDPOINT_PIN_DETAILS]: {
+    id: "000000000000000001",
+    imageURL:
+      "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+    title: "Pin title",
+    author: {
+      username: "johndoe",
+      displayName: "John Doe",
+      profilePictureURL:
+        "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+    },
+    description: "Pin description.",
+  },
   [API_ENDPOINT_ACCOUNT_DETAILS]: {
     username: "johndoe",
     displayName: "John Doe",
@@ -164,6 +182,7 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
         firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
       },
       {
@@ -171,6 +190,7 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
         name: "Board 2 name",
         slug: "board-2",
         firstImageURLs: [
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
@@ -194,6 +214,7 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
         firstImageURLs: [
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
       },
       {
@@ -201,6 +222,7 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
         name: "Board 2 name",
         slug: "board-2",
         firstImageURLs: [
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
           "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
         ],
@@ -219,10 +241,12 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
       title: `Pin ${index} title`,
       imageURL:
         "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
-      authorUsername: "johndoe",
-      authorDisplayName: "John Doe",
-      authorProfilePictureURL:
-        "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+      author: {
+        username: "johndoe",
+        displayName: "John Doe",
+        profilePictureURL:
+          "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+      },
     })),
   },
 };

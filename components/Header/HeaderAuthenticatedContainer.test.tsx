@@ -3,10 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render, waitFor } from "@testing-library/react";
 import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
-import {
-  MockLocalStorage,
-  getNextImageSrcRegexFromURL,
-} from "@/lib/testing-utils/misc";
+import { MockLocalStorage, checkNextImageSrc } from "@/lib/testing-utils/misc";
 import {
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
   USERNAME_LOCAL_STORAGE_KEY,
@@ -131,13 +128,8 @@ it(`displays profile picture with proper 'src' attribute when
 profile picture URL is available in account context`, () => {
   renderComponent();
 
-  const profilePicture = screen.getByTestId(
-    "profile-picture",
-  ) as HTMLImageElement;
-
-  const srcPattern = getNextImageSrcRegexFromURL(account.profilePictureURL);
-
-  expect(profilePicture.src).toMatch(srcPattern);
+  const profilePicture = screen.getByTestId("profile-picture");
+  checkNextImageSrc(profilePicture, account.profilePictureURL);
 });
 
 it(`displays profile picture in 'Your profile' link if account context
@@ -154,13 +146,9 @@ local storage`, async () => {
   renderComponent({ value: { account: null } });
 
   await waitFor(() => {
-    const profilePicture = screen.getByTestId(
-      "profile-picture",
-    ) as HTMLImageElement;
+    const profilePicture = screen.getByTestId("profile-picture");
 
-    const srcPattern = getNextImageSrcRegexFromURL(profilePictureURL);
-
-    expect(profilePicture.src).toMatch(srcPattern);
+    checkNextImageSrc(profilePicture, profilePictureURL);
   });
 });
 

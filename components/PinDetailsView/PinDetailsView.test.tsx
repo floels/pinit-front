@@ -1,58 +1,46 @@
 import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
-import { getNextImageSrcRegexFromURL } from "@/lib/testing-utils/misc";
 import en from "@/messages/en.json";
+import { checkNextImageSrc } from "@/lib/testing-utils/misc";
+import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
+import { API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
 
 const messages = en.PinDetails;
 
+const pin = MOCK_API_RESPONSES_SERIALIZED[API_ENDPOINT_PIN_DETAILS];
+
+const renderComponent = (props?: any) => {
+  return render(<PinDetailsView pin={pin} {...props} />);
+};
+
 it("renders all required elements", () => {
-  const pin = {
-    id: "999999999999999999",
-    title: "Pin title",
-    imageURL: "https://pin.url",
-    authorUsername: "john.doe",
-    authorDisplayName: "John Doe",
-    authorProfilePictureURL: "https://profile.picture.url",
-    description: "Pin description",
-  };
+  renderComponent();
 
-  render(<PinDetailsView pin={pin} />);
-
-  const image = screen.getByAltText("Pin title");
-  expect(image).toHaveAttribute("src", "https://pin.url");
+  const image = screen.getByAltText(pin.title);
+  expect(image).toHaveAttribute("src", pin.imageURL);
 
   const title = screen.getByRole("heading", { level: 1 });
-  expect(title).toHaveTextContent("Pin title");
+  expect(title).toHaveTextContent(pin.title);
 
-  screen.getByText("Pin description");
+  screen.getByText(pin.description);
 
   screen.getByTestId("pin-author-details");
 
   const authorProfilePicture = screen.getByAltText(
     "Profile picture of John Doe",
-  ) as HTMLImageElement;
-  const expectedPatternAuthorProfilePictureSrc = getNextImageSrcRegexFromURL(
-    "https://profile.picture.url",
   );
-  expect(authorProfilePicture.src).toMatch(
-    expectedPatternAuthorProfilePictureSrc,
-  );
+  checkNextImageSrc(authorProfilePicture, pin.author.profilePictureURL);
 
-  screen.getByText(pin.authorDisplayName);
+  screen.getByText(pin.author.displayName);
 });
 
 it("renders fallback image 'alt' when title is empty", () => {
-  const pin = {
-    id: "999999999999999999",
-    title: "",
-    imageURL: "https://pin.url",
-    authorUsername: "john.doe",
-    authorDisplayName: "John Doe",
-    authorProfilePictureURL: "https://profile.picture.url",
-    description: "Pin description",
+  const pinWithoutTitle = {
+    ...pin,
+    title: null,
   };
 
-  render(<PinDetailsView pin={pin} />);
+  renderComponent({ pin: pinWithoutTitle });
 
-  screen.getByAltText(`${messages.ALT_PIN_BY} John Doe`);
+  screen.getByAltText(`${messages.ALT_PIN_BY} ${pin.author.displayName}`);
 });

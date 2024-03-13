@@ -1,4 +1,5 @@
 import {
+  Account,
   AccountWithPrivateDetails,
   AccountWithPublicDetails,
   Board,
@@ -15,9 +16,7 @@ export const serializePinWithAuthorDetails = (
     id: pin.unique_id,
     title: pin.title,
     imageURL: pin.image_url,
-    authorUsername: pin.author.username,
-    authorDisplayName: pin.author.display_name,
-    authorProfilePictureURL: pin.author.profile_picture_url,
+    author: serializeAccount(pin.author),
   };
 };
 
@@ -34,11 +33,19 @@ export const serializePinWithFullDetails = (pin: any): PinWithFullDetails => {
   };
 };
 
-export const serializeAccount = (account: any): AccountWithPublicDetails => {
+const serializeAccount = (account: any): Account => {
   return {
     username: account.username,
     displayName: account.display_name,
     profilePictureURL: account.profile_picture_url,
+  };
+};
+
+export const serializeAccountWithPublicDetails = (
+  account: any,
+): AccountWithPublicDetails => {
+  return {
+    ...serializeAccount(account),
     initial: account.initial,
     boards: serializeBoardsWithBasicDetails(account.boards),
     backgroundPictureURL: account.background_picture_url,
@@ -50,7 +57,7 @@ export const serializeAccountWithPrivateDetails = (
   account: any,
 ): AccountWithPrivateDetails => {
   return {
-    ...serializeAccount(account),
+    ...serializeAccountWithPublicDetails(account),
     type: account.type,
     ownerEmail: account.owner_email,
   };
@@ -84,7 +91,7 @@ export const serializeBoardWithFullDetails = (
 ): BoardWithFullDetails => {
   return {
     ...serializeBoard(board),
-    author: serializeAccount(board.author),
+    author: serializeAccountWithPublicDetails(board.author),
     pins: serializePinsWithAuthorDetails(board.pins),
   };
 };

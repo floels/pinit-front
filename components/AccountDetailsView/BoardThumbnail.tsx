@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { BoardWithBasicDetails } from "@/lib/types";
 import styles from "./BoardThumbnail.module.css";
-import { useState } from "react";
 
 type BoardThumbnailProps = {
   username: string;
@@ -13,16 +12,6 @@ const COVER_PICTURE_SIZE_PX = 160;
 const SECONDARY_PICTURE_SIZE_PX = 80;
 
 const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
   const { slug, name, firstImageURLs } = board;
 
   const coverImageURL = firstImageURLs.length > 0 ? firstImageURLs[0] : null;
@@ -37,10 +26,16 @@ const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
         width={COVER_PICTURE_SIZE_PX}
         height={COVER_PICTURE_SIZE_PX}
         className={styles.coverPicture}
+        data-testid="board-thumbnail-cover-picture"
       />
     );
   } else {
-    coverImage = <div className={styles.coverPicturePlaceholder} />;
+    coverImage = (
+      <div
+        className={styles.coverPicturePlaceholder}
+        data-testid="board-thumbnail-cover-picture-placeholder"
+      />
+    );
   }
 
   const SecondaryImage = ({ index }: { index: number }) => {
@@ -64,6 +59,7 @@ const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
           width={SECONDARY_PICTURE_SIZE_PX}
           height={imageHeight}
           className={imageClasses.join(" ")}
+          data-testid={`board-thumbnail-secondary-picture-${index}`}
         />
       );
     }
@@ -73,24 +69,24 @@ const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
       index === 1 ? styles.topSecondaryPicturePlaceholder : null,
     ];
 
-    return <div className={placeholderClasses.join(" ")} />;
+    return (
+      <div
+        className={placeholderClasses.join(" ")}
+        data-testid={`board-thumbnail-secondary-picture-placeholder-${index}`}
+      />
+    );
   };
 
   return (
     <div className={styles.container}>
-      <Link
-        href={`/${username}/${slug}/`}
-        className={styles.content}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+      <Link href={`/${username}/${slug}/`} className={styles.content}>
         <div className={styles.imagesContainer}>
           {coverImage}
           <div className={styles.secondaryImages}>
             <SecondaryImage index={1} />
             <SecondaryImage index={2} />
           </div>
-          {isHovered && <div className={styles.overlay} />}
+          <div className={styles.overlay} />
         </div>
         <span className={styles.title}>{name}</span>
       </Link>

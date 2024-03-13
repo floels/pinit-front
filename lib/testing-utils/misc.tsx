@@ -41,8 +41,13 @@ export const getObjectFromFormData = (formData: FormData) => {
   return object;
 };
 
-// Get the regexp against which to match `src` attributes of next/image's <Image /> elements
-export const getNextImageSrcRegexFromURL = (url: string) => {
+export const checkNextImageSrc = (image: any, expectedSrc: string) => {
+  const expectedSrcPattern = getNextImageSrcRegexFromURL(expectedSrc);
+
+  expect(image.src).toMatch(expectedSrcPattern);
+};
+
+const getNextImageSrcRegexFromURL = (url: string) => {
   const encodedUrl = encodeURIComponent(url);
 
   return new RegExp(`/_next\\/image\\?url=${encodedUrl}`);

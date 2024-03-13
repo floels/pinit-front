@@ -1,13 +1,11 @@
 type Pin = {
   id: string;
-  title: string;
+  title: string | null;
   imageURL: string;
 };
 
 export type PinWithAuthorDetails = Pin & {
-  authorUsername: string;
-  authorDisplayName: string;
-  authorProfilePictureURL: string | null;
+  author: Account;
 };
 
 export type PinWithFullDetails = PinWithAuthorDetails & {
@@ -19,7 +17,7 @@ export enum TypesOfAccount {
   BUSINESS = "business",
 }
 
-type Account = {
+export type Account = {
   username: string;
   displayName: string;
   profilePictureURL: string | null;
