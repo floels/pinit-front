@@ -27,7 +27,7 @@ export const API_ENDPOINT_SEARCH_PINS = "search/";
 export const API_ENDPOINT_PIN_DETAILS = "pins";
 export const API_ENDPOINT_ACCOUNT_DETAILS = "accounts";
 export const API_ENDPOINT_MY_ACCOUNT_DETAILS = "accounts/me/";
-export const API_ENDPOINT_BOARD_DETAILS = "boards/";
+export const API_ENDPOINT_BOARD_DETAILS = "boards";
 export const API_ENDPOINT_CREATE_PIN = "create-pin/";
 export const API_ENDPOINT_SAVE_PIN = "save-pin/";
 
