@@ -127,6 +127,10 @@
     "TAB_CREATED": "Created",
     "TAB_SAVED": "Saved"
   },
+  "BoardDetails": {
+    "ERROR_BOARD_NOT_FOUND": "We couldn't find the board you are looking for.",
+    "ERROR_FETCH_BOARD_DETAILS": "We couldn't retrieve the details of this board."
+  },
   "PinCreation": {
     "CREATE_PIN": "Create Pin",
     "DROPZONE_INSTRUCTION": "Choose a file or drag and drop it here",

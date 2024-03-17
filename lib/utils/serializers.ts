@@ -91,7 +91,7 @@ export const serializeBoardWithFullDetails = (
 ): BoardWithFullDetails => {
   return {
     ...serializeBoard(board),
-    author: serializeAccountWithPublicDetails(board.author),
+    author: serializeAccount(board.author),
     pins: serializePinsWithAuthorDetails(board.pins),
   };
 };

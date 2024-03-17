@@ -24,7 +24,13 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "components/BoardDetailsView"
+  ],
   "exclude": [
     "node_modules",
     // https://stackoverflow.com/a/69990369
