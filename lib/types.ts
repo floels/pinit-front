@@ -20,12 +20,12 @@ export enum TypesOfAccount {
 export type Account = {
   username: string;
   displayName: string;
+  initial: string;
   profilePictureURL: string | null;
 };
 
 export type AccountWithPublicDetails = Account & {
   boards: BoardWithBasicDetails[];
-  initial: string;
   backgroundPictureURL: string | null;
   description: string | null;
 };
