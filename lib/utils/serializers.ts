@@ -37,6 +37,7 @@ const serializeAccount = (account: any): Account => {
   return {
     username: account.username,
     displayName: account.display_name,
+    initial: account.initial,
     profilePictureURL: account.profile_picture_url,
   };
 };
@@ -46,7 +47,6 @@ export const serializeAccountWithPublicDetails = (
 ): AccountWithPublicDetails => {
   return {
     ...serializeAccount(account),
-    initial: account.initial,
     boards: serializeBoardsWithBasicDetails(account.boards),
     backgroundPictureURL: account.background_picture_url,
     description: account.description,
