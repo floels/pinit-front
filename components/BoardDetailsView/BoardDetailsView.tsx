@@ -1,6 +1,8 @@
 import { BoardWithFullDetails } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import styles from "./BoardDetailsView.module.css";
+import PinThumbnailsGrid from "../PinThumbnailsGrid/PinThumbnailsGrid";
 
 const AUTHOR_PROFILE_PICTURE_HEIGHT_PX = 48;
 const AUTHOR_PROFILE_PICTURE_WIDTH_PX = 48;
@@ -9,6 +11,8 @@ const BoardDetailsView = ({ board }: { board: BoardWithFullDetails }) => {
   const t = useTranslations("BoardDetails");
 
   const { name, author, pins } = board;
+
+  const numberOfPins = pins.length;
 
   const {
     profilePictureURL: authorProfilePictureURL,
@@ -25,6 +29,7 @@ const BoardDetailsView = ({ board }: { board: BoardWithFullDetails }) => {
         alt={`${t("AUTHOR_PROFILE_PICTURE_ALT")} ${authorDisplayName}`}
         height={AUTHOR_PROFILE_PICTURE_HEIGHT_PX}
         width={AUTHOR_PROFILE_PICTURE_WIDTH_PX}
+        className={styles.authorProfilePicture}
       />
     );
   } else {
@@ -32,10 +37,15 @@ const BoardDetailsView = ({ board }: { board: BoardWithFullDetails }) => {
   }
 
   return (
-    <div>
-      <h1>{name}</h1>
+    <div className={styles.container}>
+      <h1 className={styles.name}>{name}</h1>
       {displayAuthorProfilePicture}
-      <div>Pins: {JSON.stringify(pins)}</div>
+      <div className={styles.pins}>
+        <div className={styles.pinsHeader}>
+          {numberOfPins} {t("PINS")}
+        </div>
+        <PinThumbnailsGrid pins={pins} />
+      </div>
     </div>
   );
 };
