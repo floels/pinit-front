@@ -30,6 +30,7 @@ const BoardDetailsView = ({ board }: { board: BoardWithFullDetails }) => {
         height={AUTHOR_PROFILE_PICTURE_HEIGHT_PX}
         width={AUTHOR_PROFILE_PICTURE_WIDTH_PX}
         className={styles.authorProfilePicture}
+        data-testid="board-author-profile-picture"
       />
     );
   } else {

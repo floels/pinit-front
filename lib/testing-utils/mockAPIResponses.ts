@@ -1,5 +1,6 @@
 import {
   API_ENDPOINT_ACCOUNT_DETAILS,
+  API_ENDPOINT_BOARD_DETAILS,
   API_ENDPOINT_PIN_DETAILS,
   API_ENDPOINT_SEARCH_PINS,
   API_ROUTE_CREATE_PIN,
@@ -32,6 +33,7 @@ export const MOCK_API_RESPONSES_JSON = {
       author: {
         username: "johndoe",
         display_name: "John Doe",
+        initial: "J",
         profile_picture_url:
           "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
       },
@@ -113,6 +115,7 @@ export const MOCK_API_RESPONSES_JSON = {
     author: {
       username: "johndoe",
       display_name: "John Doe",
+      initial: "J",
       profile_picture_url:
         "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
     },
@@ -150,6 +153,46 @@ export const MOCK_API_RESPONSES_JSON = {
       "https://i.pinimg.com/1200x/a9/b1/51/a9b151f4593e062c012579071aa09d16.jpg",
     description: "Description for account of John Doe.",
   },
+  [API_ENDPOINT_BOARD_DETAILS]: {
+    id: "000000000000000001",
+    name: "Board 1 name",
+    slug: "board-1",
+    author: {
+      username: "johndoe",
+      display_name: "John Doe",
+      initial: "J",
+      profile_picture_url:
+        "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+    },
+    pins: [
+      {
+        unique_id: "000000000000000001",
+        image_url:
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        title: "Pin 1 title",
+        author: {
+          username: "johndoe",
+          display_name: "John Doe",
+          initial: "J",
+          profile_picture_url:
+            "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+        },
+      },
+      {
+        unique_id: "000000000000000002",
+        image_url:
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        title: "Pin 2 title",
+        author: {
+          username: "johndoe",
+          display_name: "John Doe",
+          initial: "J",
+          profile_picture_url:
+            "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+        },
+      },
+    ],
+  },
 };
 
 // NB: we don't use the serializers defined in
@@ -164,6 +207,7 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
     author: {
       username: "johndoe",
       displayName: "John Doe",
+      initial: "J",
       profilePictureURL:
         "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
     },
@@ -204,6 +248,7 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
   [API_ROUTE_MY_ACCOUNT_DETAILS]: {
     username: "johndoe",
     displayName: "John Doe",
+    initial: "J",
     profilePictureURL:
       "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
     boards: [
@@ -228,7 +273,6 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
         ],
       },
     ],
-    initial: "J",
     backgroundPictureURL:
       "https://i.pinimg.com/1200x/a9/b1/51/a9b151f4593e062c012579071aa09d16.jpg",
     description: null,
@@ -244,10 +288,51 @@ export const MOCK_API_RESPONSES_SERIALIZED = {
       author: {
         username: "johndoe",
         displayName: "John Doe",
+        initial: "J",
         profilePictureURL:
           "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
       },
     })),
+  },
+  [API_ENDPOINT_BOARD_DETAILS]: {
+    id: "000000000000000001",
+    name: "Board 1 name",
+    slug: "board-1",
+    author: {
+      username: "johndoe",
+      displayName: "John Doe",
+      initial: "J",
+      profilePictureURL:
+        "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+    },
+    pins: [
+      {
+        id: "000000000000000001",
+        imageURL:
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        title: "Pin 1 title",
+        author: {
+          username: "johndoe",
+          displayName: "John Doe",
+          initial: "J",
+          profilePictureURL:
+            "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+        },
+      },
+      {
+        id: "000000000000000002",
+        imageURL:
+          "https://i.pinimg.com/564x/fb/71/38/fb7138bb24bc5dabdaf3908a961cdfc6.jpg",
+        title: "Pin 2 title",
+        author: {
+          username: "johndoe",
+          displayName: "John Doe",
+          initial: "J",
+          profilePictureURL:
+            "https://i.pinimg.com/564x/49/ce/d2/49ced2e29b6d4945a13be722bac54642.jpg",
+        },
+      },
+    ],
   },
 };
 
