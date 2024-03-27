@@ -10,8 +10,10 @@ const renderComponent = () => {
   render(<BoardDetailsView board={board} />);
 };
 
-it("renders author's profile picture", () => {
+it("renders board details", () => {
   renderComponent();
+
+  screen.getByText(board.name);
 
   const authorProfilePicture = screen.getByTestId(
     "board-author-profile-picture",
