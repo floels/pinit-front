@@ -1,0 +1,22 @@
+version = 1
+
+test_patterns = [
+  "**/*.test.tsx",
+  "**/*.spec.tsx"
+]
+
+exclude_patterns = [
+  ".github",
+  ".husky",
+  ".vscode",
+  ".yarn",
+  "messages",
+  "public"
+]
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = ["react"]
+  environment = ["jest"]
