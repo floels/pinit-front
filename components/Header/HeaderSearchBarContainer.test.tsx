@@ -173,7 +173,7 @@ it("navigates to search route when user clicks suggestion", async () => {
     await userEvent.click(searchSuggestionsListItems[1]);
 
     expect(mockPush).toHaveBeenLastCalledWith(
-      `/search/pins?q=foo suggestion 1`,
+      "/search/pins?q=foo suggestion 1",
     );
   });
 });
@@ -187,7 +187,7 @@ it("navigates to /search/pins route when user types and presses Enter", async ()
 
   await userEvent.keyboard("[Enter]");
 
-  expect(mockPush).toHaveBeenLastCalledWith(`/search/pins?q=foo`);
+  expect(mockPush).toHaveBeenLastCalledWith("/search/pins?q=foo");
 });
 
 it("does not display any suggestion in case of KO response from the API", async () => {

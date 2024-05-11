@@ -21,15 +21,12 @@ export const getExpressApp = () => {
 export const launchMockAPIServer = (
   configureAPIResponses: (mockAPIApp: Express) => void,
 ) => {
-  return new Promise<Server>(async (resolve) => {
+  return new Promise<Server>((resolve) => {
     const mockAPIApp = getExpressApp();
 
     configureAPIResponses(mockAPIApp);
 
-    let mockAPIServer: Server;
-
-    mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER, () => {
-      // Callback called upon successful server launch:
+    const mockAPIServer = mockAPIApp.listen(PORT_MOCK_API_SERVER, () => {
       resolve(mockAPIServer);
     });
   });

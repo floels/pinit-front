@@ -1,11 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { Response, Express } from "express";
 import en from "@/messages/en.json";
-import {
-  addAccessTokenTookie,
-  addRefreshTokenTookie,
-  launchMockAPIServer,
-} from "../utils";
+import { addAccessTokenTookie, launchMockAPIServer } from "../utils";
 import {
   API_ROUTE_PIN_SUGGESTIONS,
   ERROR_CODE_UNAUTHORIZED,

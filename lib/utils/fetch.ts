@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../constants";
 import { ResponseKOError } from "../customErrors";
 
-export const fetchWithAuthentication = async ({
+export const fetchWithAuthentication = ({
   endpoint,
   accessToken,
   fetchOptions,

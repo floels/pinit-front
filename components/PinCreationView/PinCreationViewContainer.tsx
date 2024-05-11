@@ -18,7 +18,7 @@ const PinCreationViewContainer = () => {
   const [pinDetails, setPinDetails] = useState({ title: "", description: "" });
   const [isPosting, setIsPosting] = useState(false);
 
-  const hasDroppedFile = !!pinImageFile;
+  const hasDroppedFile = Boolean(pinImageFile);
 
   const handleFileDropped = (file: File) => {
     setPinImageFile(file);
@@ -53,7 +53,7 @@ const PinCreationViewContainer = () => {
     setPinDetails({ title: "", description: "" });
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = buildFormData();
@@ -64,7 +64,7 @@ const PinCreationViewContainer = () => {
   const buildFormData = () => {
     const formData = new FormData();
 
-    if (hasDroppedFile) {
+    if (pinImageFile) {
       formData.append("image_file", pinImageFile);
     }
 

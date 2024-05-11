@@ -119,11 +119,11 @@ it("displays relevant data in board buttons", async () => {
 
   const firstBoardButton = getFirstBoardButton();
 
-  expect(firstBoardButton).toHaveTextContent(account.boards[0].name);
+  expect(firstBoardButton).toHaveTextContent(boards[0].name);
 
   const firstBoardThumbnail = within(firstBoardButton).getByRole("img");
 
-  checkNextImageSrc(firstBoardThumbnail, account.boards[0].firstImageURLs[0]);
+  checkNextImageSrc(firstBoardThumbnail, boards[0].firstImageURLs[0]);
 });
 
 it("displays 'Save' button in board button only when hovered", async () => {
@@ -135,7 +135,7 @@ it("displays 'Save' button in board button only when hovered", async () => {
 
   expect(screen.queryByTestId("board-button-save-button")).toBeNull();
 
-  fireEvent.mouseEnter(screen.getByText(account.boards[0].name));
+  fireEvent.mouseEnter(screen.getByText(boards[0].name));
 
   within(firstBoardButton).getByTestId("board-button-save-button");
 });
@@ -158,7 +158,7 @@ successful save`, async () => {
   await waitFor(() => {
     expect(screen.queryByTestId("save-pin-flyout-board-buttons")).toBeNull();
 
-    screen.getByText(account.boards[0].name);
+    screen.getByText(boards[0].name);
 
     screen.getByText(en.PinsBoard.PIN_THUMBNAIL_SAVED_LABEL_TEXT);
   });

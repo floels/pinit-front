@@ -102,7 +102,7 @@ const LoginForm = ({
                 : ""
             }
             onChange={handleInputChange}
-            withPasswordShowIcon={true}
+            withPasswordShowIcon
           />
         </div>
         {showFormErrors && displayFormErrorsOther}

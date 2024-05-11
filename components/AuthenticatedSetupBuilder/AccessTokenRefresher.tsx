@@ -26,7 +26,9 @@ const AccessTokenRefresher = ({
       // since we'll use this function as the 'queryFn' of a React Query.
     }
 
-    return fetchRefreshedAccessToken();
+    const data = await fetchRefreshedAccessToken();
+
+    return data;
   };
 
   const checkShouldRefreshAccessToken = () => {

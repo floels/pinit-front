@@ -40,7 +40,7 @@ const scrollAfterDebounceTime = ({
   fireEvent.wheel(document, { deltaY });
 };
 
-it("scrolls from fold to fold, down and up", async () => {
+it("scrolls from fold to fold, down and up", () => {
   jest.useFakeTimers();
 
   render(<LandingPageContent />);
@@ -82,7 +82,7 @@ it("does not scroll down to second fold in case of lateral wheel event", () => {
   expect(content.className).toEqual("content");
 });
 
-it("does not move to third fold if user scrolls twice within debounce time", async () => {
+it("does not move to third fold if user scrolls twice within debounce time", () => {
   jest.useFakeTimers();
 
   render(<LandingPageContent />);

@@ -114,7 +114,7 @@ const SignupForm = ({
                 : ""
             }
             onChange={handleInputChange}
-            withPasswordShowIcon={true}
+            withPasswordShowIcon
           />
         </div>
         <div className={styles.birthdateInputContainer}>

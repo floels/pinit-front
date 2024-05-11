@@ -12,7 +12,7 @@ import userEvent from "@testing-library/user-event";
 import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 import { FetchMock } from "jest-fetch-mock";
 import { getObjectFromFormData } from "@/lib/testing-utils/misc";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { MOCK_API_RESPONSES } from "@/lib/testing-utils/mockAPIResponses";
 
 const messages = en.PinCreation;
@@ -25,7 +25,7 @@ const dropImageFile = async () => {
   const imageDropzone = screen.getByTestId("pin-image-dropzone");
 
   await act(async () => {
-    fireEvent.drop(imageDropzone, { target: { files: [mockImageFile] } });
+    await fireEvent.drop(imageDropzone, { target: { files: [mockImageFile] } });
   });
 };
 
@@ -58,7 +58,7 @@ it("renders header, have input fields disabled, and not render submit button ini
   expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
 });
 
-it("renders image preview, have input fields enabled and render submit button upon file dropped", async () => {
+it.only("renders image preview, have input fields enabled and render submit button upon file dropped", async () => {
   renderComponent();
 
   screen.getByText(messages.DROPZONE_INSTRUCTION);

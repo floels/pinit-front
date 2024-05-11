@@ -52,7 +52,7 @@ const Layout = ({ children, params: { locale } }: Props) => {
 
   const accessTokenCookie = cookies().get(ACCESS_TOKEN_COOKIE_KEY);
 
-  const isAuthenticated = !!accessTokenCookie;
+  const isAuthenticated = Boolean(accessTokenCookie);
 
   return (
     <html lang={locale}>

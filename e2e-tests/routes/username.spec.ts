@@ -6,7 +6,7 @@ import { MOCK_API_RESPONSES_JSON } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 
 const configureAPIResponses = (mockAPIApp: Express) => {
-  mockAPIApp.get(`/api/accounts/johndoe/`, (_, response: Response) => {
+  mockAPIApp.get("/api/accounts/johndoe/", (_, response: Response) => {
     response.json(MOCK_API_RESPONSES_JSON[API_ENDPOINT_ACCOUNT_DETAILS]);
   });
 

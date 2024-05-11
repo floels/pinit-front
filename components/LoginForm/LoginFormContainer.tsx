@@ -58,7 +58,7 @@ const LoginFormContainer = ({
     setShowFormErrors(false);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     fetchTokens();
