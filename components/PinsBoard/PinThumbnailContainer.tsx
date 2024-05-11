@@ -4,7 +4,6 @@ import { BoardWithBasicDetails, PinWithAuthorDetails } from "@/lib/types";
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
-import { ResponseKOError } from "@/lib/customErrors";
 import { useTranslations } from "next-intl";
 import { throwIfKO } from "@/lib/utils/fetch";
 
@@ -75,8 +74,8 @@ const PinThumbnailContainer = ({
 
     try {
       await fetchSavePinInBoard({ board, pin });
-    } catch (error) {
-      handleSaveError(error as Error);
+    } catch {
+      handleSaveError();
       return;
     } finally {
       setIsSaving(false);
@@ -113,7 +112,7 @@ const PinThumbnailContainer = ({
     setIsSaveFlyoutOpen(false);
   };
 
-  const handleSaveError = (error: Error) => {
+  const handleSaveError = () => {
     toast.warn(t("PinsBoard.PIN_SAVE_ERROR_MESSAGE"), {
       toastId: "toast-pin-save-error",
     });

@@ -36,7 +36,7 @@ const AccountPictures = ({ account }: AccountPicturesProps) => {
   let profilePicture;
 
   if (profilePictureURL) {
-    let profilePictureStyles = [styles.profilePicture];
+    const profilePictureStyles = [styles.profilePicture];
 
     if (backgroundPictureURL) {
       profilePictureStyles.push(styles.profilePictureWithBackgroundPicture);

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 import {
   API_ROUTE_SIGN_UP,
   ERROR_CODE_EMAIL_ALREADY_SIGNED_UP,
@@ -49,8 +48,6 @@ const computeFormErrors = (values: {
 const SignupFormContainer = ({
   handleClickAlreadyHaveAccount,
 }: SignupFormContainerProps) => {
-  const t = useTranslations();
-
   const router = useRouter();
 
   const [formData, setFormData] = useState({

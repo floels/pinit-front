@@ -116,7 +116,7 @@ it("closes account options button when clicking out", async () => {
 });
 
 it(`displays profile link with proper 'href' attribute
-when username is available in account context`, async () => {
+when username is available in account context`, () => {
   renderComponent();
 
   const profileLink = screen.getByTestId("profile-link");

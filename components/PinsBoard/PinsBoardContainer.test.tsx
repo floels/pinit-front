@@ -1,8 +1,7 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
 import en from "@/messages/en.json";
 import PinsBoardContainer from "./PinsBoardContainer";
-import { ToastContainer, toast } from "react-toastify";
-import { PinWithAuthorDetails } from "@/lib/types";
+import { ToastContainer } from "react-toastify";
 import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 import { mockIntersectionObserver } from "@/lib/testing-utils/misc";
 import {

@@ -45,7 +45,7 @@ const PinsBoard = ({
   }, []);
 
   const shouldRenderEmptyResultsMessage =
-    !!emptyResultsMessageKey &&
+    Boolean(emptyResultsMessageKey) &&
     !isFetching &&
     !fetchFailed &&
     pins.length === 0;
@@ -53,7 +53,7 @@ const PinsBoard = ({
   return (
     <div className={styles.container}>
       <PinThumbnailsGrid pins={pins} />
-      <div ref={scrolledToBottomSentinel} style={{ height: "1px" }}></div>
+      <div ref={scrolledToBottomSentinel} style={{ height: "1px" }} />
       {shouldRenderEmptyResultsMessage && (
         <div className={styles.errorMessage}>
           <FontAwesomeIcon

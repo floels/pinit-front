@@ -1,4 +1,3 @@
-import { PinWithAuthorDetails } from "@/lib/types";
 import { render, screen, within } from "@testing-library/react";
 import PinsBoard from "./PinsBoard";
 import { mockIntersectionObserver } from "@/lib/testing-utils/misc";

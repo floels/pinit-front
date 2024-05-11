@@ -49,7 +49,7 @@ test("it calls 'onFileDropped' when user drops image file", async () => {
 
   const dropzone = screen.getByTestId("pin-image-dropzone");
 
-  await act(async () => {
+  await act(() => {
     fireEvent.drop(dropzone, { target: { files: [mockImageFile] } });
   });
 

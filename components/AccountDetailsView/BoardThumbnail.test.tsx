@@ -45,7 +45,7 @@ if only one element in 'firstImageURLs'`, () => {
   screen.getByTestId("board-thumbnail-secondary-picture-placeholder-2");
 });
 
-it(`renders three placeholders if 'firstImageURLs' is empty`, () => {
+it("renders three placeholders if 'firstImageURLs' is empty", () => {
   const board =
     MOCK_API_RESPONSES_SERIALIZED[API_ENDPOINT_ACCOUNT_DETAILS].boards[0];
 
