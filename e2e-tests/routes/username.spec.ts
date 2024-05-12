@@ -1,3 +1,4 @@
+import { Server } from "http";
 import { test } from "@playwright/test";
 import { Response, Express } from "express";
 import { launchMockAPIServer } from "../utils";
@@ -15,7 +16,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   });
 };
 
-let mockAPIServer: any;
+let mockAPIServer: Server;
 
 test.beforeAll(async () => {
   mockAPIServer = await launchMockAPIServer(configureAPIResponses);

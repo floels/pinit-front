@@ -42,6 +42,10 @@
   cursor: pointer;
 }
 
+.clearIconContainer.clearIconContainerHidden {
+  display: none;
+}
+
 .clearIconContainer:hover {
   background-color: var(--color-gray-200);
 }
@@ -59,19 +63,18 @@
   z-index: 10; /* so it appears above the overlay */
 }
 
-.searchSuggestionsLink {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.searchSuggestionsLink:hover {
-  background-color: var(--color-gray-100);
+.searchSuggestionsList.searchSuggestionsListHidden {
+  display: none;
 }
 
 .searchSuggestionsListItem {
   display: flex;
   padding: 16px 0;
+  cursor: pointer;
+}
+
+.searchSuggestionsListItem:hover {
+  background-color: var(--color-gray-100);
 }
 
 .searchSuggestionSearchIcon {

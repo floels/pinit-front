@@ -5,12 +5,14 @@ import en from "@/messages/en.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import { MockLocalStorage, checkNextImageSrc } from "@/lib/testing-utils/misc";
 import {
+  API_ROUTE_MY_ACCOUNT_DETAILS,
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
   USERNAME_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
 import { AccountContext } from "@/contexts/accountContext";
-import { TypesOfAccount } from "@/lib/types";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
+import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
+import { AccountWithPrivateDetails } from "@/lib/types";
 
 const messages = en.HeaderAuthenticated;
 
@@ -30,22 +32,18 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-(localStorage as any) = new MockLocalStorage();
+localStorage = new MockLocalStorage() as Storage;
 
-const account = {
-  type: TypesOfAccount.PERSONAL,
-  username: "johndoe",
-  displayName: "John Doe",
-  initial: "J",
-  profilePictureURL: "https://example.com/profile-picture.jpg",
-};
+const defaultAccount =
+  MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_MY_ACCOUNT_DETAILS];
 
-const renderComponent = (accountContextProviderProps?: any) => {
+const renderComponent = ({
+  account = defaultAccount,
+}: {
+  account?: AccountWithPrivateDetails | null;
+} = {}) => {
   render(
-    <AccountContext.Provider
-      value={{ account, setAccount: jest.fn() }}
-      {...accountContextProviderProps}
-    >
+    <AccountContext.Provider value={{ account, setAccount: jest.fn() }}>
       <HeaderSearchBarContextProvider>
         <HeaderAuthenticatedContainer />
       </HeaderSearchBarContextProvider>
@@ -121,7 +119,7 @@ when username is available in account context`, () => {
 
   const profileLink = screen.getByTestId("profile-link");
 
-  expect(profileLink).toHaveAttribute("href", `/${account.username}`);
+  expect(profileLink).toHaveAttribute("href", `/${defaultAccount.username}`);
 });
 
 it(`displays profile picture with proper 'src' attribute when
@@ -129,7 +127,7 @@ profile picture URL is available in account context`, () => {
   renderComponent();
 
   const profilePicture = screen.getByTestId("profile-picture");
-  checkNextImageSrc(profilePicture, account.profilePictureURL);
+  checkNextImageSrc(profilePicture, defaultAccount.profilePictureURL);
 });
 
 it(`displays profile picture in 'Your profile' link if account context
@@ -143,7 +141,7 @@ local storage`, async () => {
     profilePictureURL,
   );
 
-  renderComponent({ value: { account: null } });
+  renderComponent({ account: null });
 
   await waitFor(() => {
     const profilePicture = screen.getByTestId("profile-picture");
@@ -157,7 +155,7 @@ yet available, no profile picture URL was found in local storage,
 but username was found in local storage`, () => {
   localStorage.setItem(USERNAME_LOCAL_STORAGE_KEY, "johndoe");
 
-  renderComponent({ value: { account: null } });
+  renderComponent({ account: null });
 
   screen.getByTestId("profile-link-icon");
 });

@@ -58,7 +58,7 @@ it("renders header, have input fields disabled, and not render submit button ini
   expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
 });
 
-it.only("renders image preview, have input fields enabled and render submit button upon file dropped", async () => {
+it("renders image preview, have input fields enabled and render submit button upon file dropped", async () => {
   renderComponent();
 
   screen.getByText(messages.DROPZONE_INSTRUCTION);
