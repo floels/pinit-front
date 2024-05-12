@@ -1,10 +1,10 @@
 import { FormEvent, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import styles from "./HeaderSearchBar.module.css";
+import classNames from "classnames";
 
 type HeaderSearchBarProps = {
   inputValue: string;
@@ -61,9 +61,9 @@ const HeaderSearchBar = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`${styles.container}
-          ${isInputFocused ? styles.containerInputFocused : ""} 
-        `}
+      className={classNames(styles.container, {
+        [styles.containerInputFocused]: isInputFocused,
+      })}
       data-testid="header-search-bar"
     >
       {!isInputFocused && (
@@ -87,41 +87,35 @@ const HeaderSearchBar = ({
         onBlur={onInputBlur}
         data-testid="search-bar-input"
       />
-      {isInputFocused && (
-        /* We need to attach `handleClickClearIcon` to `onMouseDown` instead of the usual `onClick`,
-        because otherwise there is a race condition between `handleClickClearIcon` and `handleBlurSearchBarInput`,
-        resulting in ``handleClickClearIcon` not being called. For some reason this doesn't happen with `onMouseDown`.*/
-        <div
-          className={styles.clearIconContainer}
-          onMouseDown={onClickClearIcon}
-          data-testid="clear-icon"
-        >
-          <FontAwesomeIcon icon={faCircleXmark} size="lg" />
-        </div>
-      )}
-      {isInputFocused && searchSuggestions.length > 0 && (
+      <div
+        className={classNames(styles.clearIconContainer, {
+          [styles.clearIconContainerHidden]: !isInputFocused,
+        })}
+        onClick={onClickClearIcon}
+        data-testid="clear-icon"
+      >
+        <FontAwesomeIcon icon={faCircleXmark} size="lg" />
+      </div>
+      {searchSuggestions.length > 0 && (
         <ul
-          className={styles.searchSuggestionsList}
+          className={classNames(styles.searchSuggestionsList, {
+            [styles.searchSuggestionsListHidden]: !isInputFocused,
+          })}
           data-testid="search-suggestions-list"
         >
           {searchSuggestions.map((suggestion, index) => (
-            <Link
-              href={`/search/pins/?q=${suggestion}`}
-              key={`search-suggestion-link-${index}`}
-              className={styles.searchSuggestionsLink}
-              onMouseDown={getSuggestionLinkClickHandler(suggestion)}
+            <li
+              className={styles.searchSuggestionsListItem}
+              key={`search-suggestion-${index}`}
+              data-testid="search-suggestions-list-item"
+              onClick={getSuggestionLinkClickHandler(suggestion)}
             >
-              <li
-                className={styles.searchSuggestionsListItem}
-                data-testid="search-suggestions-list-item"
-              >
-                <FontAwesomeIcon
-                  icon={faSearch}
-                  className={styles.searchSuggestionSearchIcon}
-                />
-                {suggestion}
-              </li>
-            </Link>
+              <FontAwesomeIcon
+                icon={faSearch}
+                className={styles.searchSuggestionSearchIcon}
+              />
+              {suggestion}
+            </li>
           ))}
         </ul>
       )}

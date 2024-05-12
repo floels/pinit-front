@@ -53,16 +53,12 @@ const HeaderSearchBarContainer = () => {
     dispatch({ type: "BLUR_INPUT" });
   };
 
-  // We need this additional handler when the user clicks a suggestion link,
-  // in order to circumvent a race condition. Without this event handler, when the user
-  // clicks on a suggestion <Link /> (see below), this `handleBlurInput` handler
-  // is called. This will immediately set isInputFocused to false and unmount the <Link />,
-  // and the transition to the target route will not take place.
   const getSuggestionLinkClickHandler = (suggestion: string) => {
     return () => {
-      dispatch({ type: "SET_INPUT_VALUE", payload: suggestion }); // Theoretically this shouldn't
-      // be necessary since the input's value is automatically updated based on the route, but
-      // updating it here will give a better impression of reactivity.
+      dispatch({ type: "SET_INPUT_VALUE", payload: suggestion }); // Theoretically
+      // this shouldn't be necessary since the input's value is automatically
+      // updated based on the route, but updating it here will give a better
+      // impression of reactivity.
 
       router.push(`/search/pins?q=${suggestion}`);
     };

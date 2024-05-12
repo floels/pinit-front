@@ -20,16 +20,6 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-jest.mock("next/link", () => {
-  const MockedLink = ({ children, ...props }: any) => (
-    <div {...props}>{children}</div>
-  );
-
-  MockedLink.displayName = "Link";
-
-  return MockedLink;
-});
-
 const typeSearchTerm = async (searchTerm: string) => {
   const searchInput = screen.getByTestId("search-bar-input");
 
@@ -54,7 +44,7 @@ beforeEach(() => {
   fetchMock.resetMocks();
 });
 
-it("resets input value and blur input upon pressing Escape", async () => {
+it("resets input value and blurs input upon pressing 'Escape'", async () => {
   renderComponent();
 
   const searchInput = screen.getByTestId("search-bar-input");
@@ -73,7 +63,7 @@ it("resets input value and blur input upon pressing Escape", async () => {
   });
 });
 
-it("resets input value, blurs input and hides 'Clear' icon upon pressing 'Clear' icon", async () => {
+it("resets input value and blurs input upon pressing 'Clear' icon", async () => {
   renderComponent();
 
   const searchInput = screen.getByTestId("search-bar-input");
@@ -91,12 +81,10 @@ it("resets input value, blurs input and hides 'Clear' icon upon pressing 'Clear'
     expect(searchInput).toHaveValue("");
 
     expect(document.activeElement).not.toEqual(searchInput);
-
-    expect(screen.queryByTestId("clear-icon")).toBeNull();
   });
 });
 
-it("hides icon when input gets focus", async () => {
+it("hides search icon when input gets focus", async () => {
   renderComponent();
 
   screen.getByTestId("search-icon");

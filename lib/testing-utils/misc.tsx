@@ -70,6 +70,15 @@ export const mockIntersectionObserver = () => {
 export class MockLocalStorage {
   store: { [key: string]: string } = {};
 
+  get length(): number {
+    return Object.keys(this.store).length;
+  }
+
+  key(index: number) {
+    const keys = Object.keys(this.store);
+    return keys[index] || null;
+  }
+
   clear() {
     this.store = {};
   }
@@ -80,5 +89,9 @@ export class MockLocalStorage {
 
   setItem(key: string, value: string) {
     this.store[key] = value.toString();
+  }
+
+  removeItem(key: string): void {
+    delete this.store[key];
   }
 }

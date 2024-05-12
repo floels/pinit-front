@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-type AccountContextType = {
+export type AccountContextType = {
   account: AccountWithPrivateDetails | null;
   setAccount: Dispatch<SetStateAction<AccountWithPrivateDetails | null>>;
 };
