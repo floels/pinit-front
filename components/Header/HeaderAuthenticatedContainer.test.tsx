@@ -32,7 +32,7 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-localStorage = new MockLocalStorage() as Storage;
+localStorage = new MockLocalStorage();
 
 const defaultAccount =
   MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_MY_ACCOUNT_DETAILS];

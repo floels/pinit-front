@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import PinImageDropzone from "./PinImageDropzone";
 import en from "@/messages/en.json";
 import { act } from "react-dom/test-utils";
@@ -7,13 +7,24 @@ const messages = en.PinCreation;
 
 const mockOnFileDropped = jest.fn();
 
-test("it renders file upload zone if 'imagePreviewURL' props is null", () => {
-  render(
+const mockOnClickDeleteImage = jest.fn();
+
+const renderComponent = ({
+  imagePreviewURL,
+}: {
+  imagePreviewURL: string | null;
+}) => {
+  return render(
     <PinImageDropzone
-      imagePreviewURL={null}
+      imagePreviewURL={imagePreviewURL}
       onFileDropped={mockOnFileDropped}
+      onClickDeleteImage={mockOnClickDeleteImage}
     />,
   );
+};
+
+test("it renders file upload zone if 'imagePreviewURL' props is null", () => {
+  renderComponent({ imagePreviewURL: null });
 
   screen.getByText(messages.DROPZONE_INSTRUCTION);
 });
@@ -21,12 +32,7 @@ test("it renders file upload zone if 'imagePreviewURL' props is null", () => {
 test("it renders image preview if 'imagePreviewURL' props is not null", () => {
   const imagePreviewURL = "data:image/png;base64,acbdefg";
 
-  render(
-    <PinImageDropzone
-      imagePreviewURL={imagePreviewURL}
-      onFileDropped={mockOnFileDropped}
-    />,
-  );
+  renderComponent({ imagePreviewURL });
 
   expect(screen.queryByText(messages.DROPZONE_INSTRUCTION)).toBeNull();
 
@@ -40,17 +46,12 @@ test("it calls 'onFileDropped' when user drops image file", async () => {
     type: "image/png",
   });
 
-  render(
-    <PinImageDropzone
-      imagePreviewURL={null}
-      onFileDropped={mockOnFileDropped}
-    />,
-  );
+  renderComponent({ imagePreviewURL: null });
 
   const dropzone = screen.getByTestId("pin-image-dropzone");
 
-  await act(() => {
-    fireEvent.drop(dropzone, { target: { files: [mockImageFile] } });
+  await act(async () => {
+    await fireEvent.drop(dropzone, { target: { files: [mockImageFile] } });
   });
 
   expect(mockOnFileDropped).toHaveBeenCalled();

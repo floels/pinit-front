@@ -67,20 +67,25 @@ const PinThumbnailsGrid = ({ pins }: PinThumbnailsGridProps) => {
             data-testid={`thumbnails-column-${columnIndex}`}
           >
             {pins.map((pin, pinIndex) => {
-              if (pinIndex % castedNumberOfColumns === columnIndex) {
-                return (
-                  <div
-                    className={styles.pinThumbnail}
-                    key={`pin-thumbnail-${pinIndex + 1}`}
-                  >
-                    <PinThumbnailContainer
-                      pin={pin}
-                      isInFirstColumn={isFirstColumn}
-                      isInLastColumn={isLastColumn}
-                    />
-                  </div>
-                );
+              const pinBelongsToColumn =
+                pinIndex % castedNumberOfColumns === columnIndex;
+
+              if (!pinBelongsToColumn) {
+                return null;
               }
+
+              return (
+                <div
+                  className={styles.pinThumbnail}
+                  key={`pin-thumbnail-${pinIndex + 1}`}
+                >
+                  <PinThumbnailContainer
+                    pin={pin}
+                    isInFirstColumn={isFirstColumn}
+                    isInLastColumn={isLastColumn}
+                  />
+                </div>
+              );
             })}
           </div>
         );

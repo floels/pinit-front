@@ -4,7 +4,7 @@ import {
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
   USERNAME_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
-import { Response401Error, ResponseKOError } from "@/lib/customErrors";
+import { Response401Error } from "@/lib/customErrors";
 import { useLogOut } from "@/lib/hooks/useLogOut";
 import { AccountWithPrivateDetails } from "@/lib/types";
 import { throwIfKO } from "@/lib/utils/fetch";

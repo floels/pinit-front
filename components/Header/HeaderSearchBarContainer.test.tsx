@@ -169,8 +169,6 @@ it("navigates to search route when user clicks suggestion", async () => {
 it("navigates to /search/pins route when user types and presses Enter", async () => {
   renderComponent();
 
-  const searchInput = screen.getByTestId("search-bar-input");
-
   await typeSearchTerm("foo");
 
   await userEvent.keyboard("[Enter]");

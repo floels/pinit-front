@@ -2,35 +2,12 @@ import Link from "next/link";
 import { FOLD } from "./LandingPageContent";
 import styles from "./TextAndExploreButton.module.css";
 import { useTranslations } from "next-intl";
+import classNames from "classnames";
 
 type TextAndExploreButtonProps = {
   foldNumber: FOLD;
   linkTarget: string;
   labels: { [key: string]: string };
-};
-
-const computeContainerClasses = ({ foldNumber }: { foldNumber: FOLD }) => {
-  if (foldNumber === FOLD.SECOND) {
-    return `${styles.container} ${styles.containerSecondFold}`;
-  }
-  if (foldNumber === FOLD.THIRD) {
-    return `${styles.container} ${styles.containerThirdFold}`;
-  }
-  if (foldNumber === FOLD.FOURTH) {
-    return `${styles.container} ${styles.containerFourthFold}`;
-  }
-};
-
-const computeButtonClasses = ({ foldNumber }: { foldNumber: FOLD }) => {
-  if (foldNumber === FOLD.SECOND) {
-    return `${styles.button} ${styles.buttonSecondFold}`;
-  }
-  if (foldNumber === FOLD.THIRD) {
-    return `${styles.button} ${styles.buttonThirdFold}`;
-  }
-  if (foldNumber === FOLD.FOURTH) {
-    return `${styles.button} ${styles.buttonFourthFold}`;
-  }
 };
 
 const TextAndExploreButton = ({
@@ -40,9 +17,17 @@ const TextAndExploreButton = ({
 }: TextAndExploreButtonProps) => {
   const t = useTranslations("LandingPageContent");
 
-  const containerClasses = computeContainerClasses({ foldNumber });
+  const containerClasses = classNames(styles.container, {
+    [styles.containerSecondFold]: foldNumber === FOLD.SECOND,
+    [styles.containerThirdFold]: foldNumber === FOLD.THIRD,
+    [styles.containerFourthFold]: foldNumber === FOLD.FOURTH,
+  });
 
-  const buttonClasses = computeButtonClasses({ foldNumber });
+  const buttonClasses = classNames(styles.button, {
+    [styles.buttonSecondFold]: foldNumber === FOLD.SECOND,
+    [styles.buttonThirdFold]: foldNumber === FOLD.THIRD,
+    [styles.buttonFourthFold]: foldNumber === FOLD.FOURTH,
+  });
 
   return (
     <div

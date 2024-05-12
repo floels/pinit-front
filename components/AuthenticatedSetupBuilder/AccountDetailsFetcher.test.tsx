@@ -18,7 +18,7 @@ jest.mock("@/lib/hooks/useLogOut", () => ({
   useLogOut: () => mockLogOut,
 }));
 
-(localStorage as any) = new MockLocalStorage();
+localStorage = new MockLocalStorage();
 
 const mockSetAccount = jest.fn();
 

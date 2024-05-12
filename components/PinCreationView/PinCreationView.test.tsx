@@ -9,10 +9,9 @@ it("renders", () => {
     pinDetails: { title: "", description: "" },
     isPosting: false,
     handleFileDropped: () => {},
-    handleInputChange: (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {},
-    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => {},
+    handleInputChange: () => {},
+    handleSubmit: () => {},
+    handleClickDeleteImage: () => {},
   };
 
   render(<PinCreationView {...props} />);

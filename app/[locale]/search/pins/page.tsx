@@ -4,7 +4,6 @@ import {
   API_ENDPOINT_SEARCH_PINS,
   API_BASE_URL,
 } from "@/lib/constants";
-import { ResponseKOError } from "@/lib/customErrors";
 import PinsBoardContainer from "@/components/PinsBoard/PinsBoardContainer";
 import ErrorView from "@/components/ErrorView/ErrorView";
 import { serializePinsWithAuthorDetails } from "@/lib/utils/serializers";

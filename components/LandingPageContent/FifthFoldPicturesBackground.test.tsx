@@ -9,7 +9,7 @@ it("renders <img> elements with proper 'src' attribute", () => {
 
   const images = screen.queryAllByRole("img") as HTMLImageElement[];
 
-  images.map((image, index) => {
+  images.forEach((image, index) => {
     checkNextImageSrc(image, PICTURE_URLS[index]);
   });
 });
