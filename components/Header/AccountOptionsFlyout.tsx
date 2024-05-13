@@ -22,13 +22,13 @@ const AccountOptionsFlyout = forwardRef<
     >
       <div className={styles.moreOptionsContainer}>
         <div className={styles.moreOptionsLabel}>{t("MORE_OPTIONS")}</div>
-        <div
+        <button
           onClick={handleClickLogOut}
           className={styles.logoutButton}
           data-testid="account-options-flyout-log-out-button"
         >
           {t("LOG_OUT")}
-        </div>
+        </button>
       </div>
     </div>
   );

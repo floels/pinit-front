@@ -15,6 +15,12 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
     }
   };
 
+  const handleClickModal = (event: React.MouseEvent<HTMLDivElement>) => {
+    // We need to stop the propagation of a click event on the modal itself,
+    // otherwise it will trigger 'onClose':
+    event.stopPropagation();
+  };
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
@@ -29,14 +35,7 @@ const OverlayModal = ({ onClose, children }: OverlayModalProps) => {
       data-testid="overlay-modal"
       onClick={onClose}
     >
-      <div
-        className={styles.modal}
-        onClick={
-          // We need to stop the propagation of a click event on the modal itself,
-          // otherwise it will trigger onClose
-          (event) => event.stopPropagation()
-        }
-      >
+      <div className={styles.modal} onClick={handleClickModal}>
         <div className={styles.closeButtonContainer}>
           <button
             className={styles.closeButton}

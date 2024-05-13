@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 type SaveInBoardButtonProps = {
   board: BoardWithBasicDetails;
   isHovered: boolean;
+  handleClick: () => void;
   handleMouseEnter: () => void;
   handleMouseLeave: () => void;
 };
@@ -16,6 +17,7 @@ type SaveInBoardButtonProps = {
 const SaveInBoardButton = ({
   board,
   isHovered,
+  handleClick,
   handleMouseEnter,
   handleMouseLeave,
 }: SaveInBoardButtonProps) => {
@@ -57,6 +59,7 @@ const SaveInBoardButton = ({
   return (
     <button
       className={styles.container}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
