@@ -4,7 +4,7 @@ import {
 } from "@/lib/constants";
 import { NextResponse } from "next/server";
 
-export const POST = async () => {
+export const POST = () => {
   const clearedAccessTokenCookie = {
     name: ACCESS_TOKEN_COOKIE_KEY,
     value: "",

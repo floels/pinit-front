@@ -1,10 +1,10 @@
-import { forwardRef } from "react";
 import { useTranslations } from "next-intl";
 import SaveInBoardButtonContainer from "./SaveInBoardButtonContainer";
 import styles from "./SavePinFlyout.module.css";
 import { BoardWithBasicDetails } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { forwardRef } from "react";
 
 type SavePinFlyoutProps = {
   isInFirstColumn: boolean;
@@ -54,7 +54,7 @@ const SavePinFlyout = forwardRef<HTMLDivElement, SavePinFlyoutProps>(
     }
 
     return (
-      <div className={containerStyles.join(" ")}>
+      <div className={containerStyles.join(" ")} ref={ref}>
         <span className={styles.title}>
           {t("PIN_THUMBNAIL_SAVE_FLYOUT_TITLE")}
         </span>

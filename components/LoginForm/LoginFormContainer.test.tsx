@@ -13,7 +13,7 @@ import {
 } from "@/lib/testing-utils/mockAPIResponses";
 import { MockLocalStorage } from "@/lib/testing-utils/misc";
 
-(localStorage as any) = new MockLocalStorage();
+localStorage = new MockLocalStorage();
 
 const mockRouterRefresh = jest.fn();
 
@@ -65,8 +65,6 @@ it("displays relevant input errors", async () => {
   renderComponent();
 
   screen.getByText(messages.LoginForm.WELCOME_TO_PINIT);
-
-  const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
 
   // Submit without any input:
   await submit();

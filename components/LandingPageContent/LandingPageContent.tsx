@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, MouseEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import debounce from "lodash/debounce";
 import PictureSlider from "./PictureSlider";
 import styles from "./LandingPageContent.module.css";

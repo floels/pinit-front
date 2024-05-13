@@ -2,7 +2,7 @@ import {
   ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
   API_ROUTE_REFRESH_TOKEN,
 } from "@/lib/constants";
-import { render, waitFor, screen } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import AccessTokenRefresher, {
   TOKEN_REFRESH_BUFFER_BEFORE_EXPIRATION,
 } from "./AccessTokenRefresher";
@@ -26,7 +26,7 @@ const renderComponent = () => {
   );
 };
 
-(localStorage as any) = new MockLocalStorage();
+localStorage = new MockLocalStorage();
 
 beforeEach(() => {
   fetchMock.resetMocks();

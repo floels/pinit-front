@@ -42,7 +42,7 @@ styles elements with proper color upon initial render`, () => {
     "topicHeader topicHeaderFood topicHeaderVisible topicHeaderCenterPosition",
   );
 
-  PICTURE_SLIDER_TOPICS.map((topic) => {
+  PICTURE_SLIDER_TOPICS.forEach((topic) => {
     if (topic !== TopicsType.FOOD) {
       const headerText = messages[`HEADER_${topic}`];
       const header = screen.getByText(headerText);
@@ -58,7 +58,7 @@ styles elements with proper color upon initial render`, () => {
     "stepperButton stepperButtonFood stepperButtonActive",
   );
 
-  PICTURE_SLIDER_TOPICS.map((_, index) => {
+  PICTURE_SLIDER_TOPICS.forEach((_, index) => {
     if (index > 0) {
       const stepperButton = screen.getByTestId(`stepper-button-${index}`);
       expect(stepperButton).not.toHaveClass("stepperButtonActive");
@@ -88,7 +88,7 @@ should style elements with proper color`, () => {
     "topicHeader topicHeaderHome topicHeaderVisible topicHeaderCenterPosition",
   );
 
-  PICTURE_SLIDER_TOPICS.map((topic) => {
+  PICTURE_SLIDER_TOPICS.forEach((topic) => {
     if (topic === TopicsType.FOOD) {
       const headerFood = screen.getByText(messages.HEADER_FOOD);
       expect(headerFood.className).toEqual(
@@ -109,7 +109,7 @@ should style elements with proper color`, () => {
     "stepperButton stepperButtonHome stepperButtonActive",
   );
 
-  PICTURE_SLIDER_TOPICS.map((_, index) => {
+  PICTURE_SLIDER_TOPICS.forEach((_, index) => {
     if (index !== 1) {
       const stepperButton = screen.getByTestId(`stepper-button-${index}`);
       expect(stepperButton).not.toHaveClass("stepperButtonActive");
