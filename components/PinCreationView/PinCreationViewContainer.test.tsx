@@ -48,6 +48,10 @@ const renderComponent = () => {
   );
 };
 
+beforeEach(() => {
+  fetchMock.mockClear();
+});
+
 it("renders header, have input fields disabled, and not render submit button initially", () => {
   renderComponent();
 
@@ -84,7 +88,7 @@ it("renders image preview, have input fields enabled and render submit button up
   });
 });
 
-it("renders dropzone again and hide submit button upon click on 'delete image'", async () => {
+it("renders dropzone again and hides submit button upon click on 'delete image'", async () => {
   renderComponent();
 
   await dropImageFile();

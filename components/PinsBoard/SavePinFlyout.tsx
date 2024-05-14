@@ -5,6 +5,7 @@ import { BoardWithBasicDetails } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { forwardRef } from "react";
+import classNames from "classnames";
 
 type SavePinFlyoutProps = {
   isInFirstColumn: boolean;
@@ -33,28 +34,23 @@ const SavePinFlyout = forwardRef<HTMLDivElement, SavePinFlyoutProps>(
     const saveInBoardButtons = (
       <div data-testid="save-pin-flyout-board-buttons">
         {boards.map((board, index) => (
-          <div
+          <SaveInBoardButtonContainer
+            board={board}
             key={`board-${index}`}
-            onClick={getClickHandlerForBoard({ boardIndex: index })}
-          >
-            <SaveInBoardButtonContainer board={board} />
-          </div>
+            handleClick={getClickHandlerForBoard({ boardIndex: index })}
+          />
         ))}
       </div>
     );
 
-    const containerStyles = [styles.container];
-
-    if (isInFirstColumn) {
-      containerStyles.push(styles.containerAlignedLeft);
-    } else if (isInLastColumn) {
-      containerStyles.push(styles.containerAlignedRight);
-    } else {
-      containerStyles.push(styles.containerCentered);
-    }
+    const containerStyles = classNames(styles.container, {
+      [styles.containerAlignedLeft]: isInFirstColumn,
+      [styles.containerAlignedRight]: isInLastColumn,
+      [styles.containerCentered]: !isInFirstColumn && !isInLastColumn,
+    });
 
     return (
-      <div className={containerStyles.join(" ")} ref={ref}>
+      <div className={containerStyles} ref={ref}>
         <span className={styles.title}>
           {t("PIN_THUMBNAIL_SAVE_FLYOUT_TITLE")}
         </span>

@@ -48,13 +48,13 @@ const PinImageDropzone = ({
           alt={t("ALT_IMAGE_PREVIEW")}
           className={styles.imagePreview}
         />
-        <div
+        <button
           className={styles.deleteIconContainer}
           onClick={onClickDeleteImage}
           data-testid="pin-image-dropzone-delete-image-button"
         >
           <FontAwesomeIcon icon={faTrash} size="lg" />
-        </div>
+        </button>
       </div>
     );
   }

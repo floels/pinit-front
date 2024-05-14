@@ -87,7 +87,7 @@ const HeaderSearchBar = ({
         onBlur={onInputBlur}
         data-testid="search-bar-input"
       />
-      <div
+      <button
         className={classNames(styles.clearIconContainer, {
           [styles.clearIconContainerHidden]: !isInputFocused,
         })}
@@ -95,7 +95,7 @@ const HeaderSearchBar = ({
         data-testid="clear-icon"
       >
         <FontAwesomeIcon icon={faCircleXmark} size="lg" />
-      </div>
+      </button>
       {searchSuggestions.length > 0 && (
         <ul
           className={classNames(styles.searchSuggestionsList, {

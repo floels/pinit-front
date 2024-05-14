@@ -58,7 +58,7 @@ const FifthFold = ({ heroRef, onClickBackToTop }: FifthFoldProps) => {
             </div>
           </div>
         </div>
-        <div
+        <button
           className={styles.backToTopButton}
           onClick={onClickBackToTop}
           data-testid="back-to-top-button"
@@ -68,7 +68,7 @@ const FifthFold = ({ heroRef, onClickBackToTop }: FifthFoldProps) => {
             className={styles.backToTopButtonIcon}
             size="2x"
           />
-        </div>
+        </button>
       </div>
       <footer className={styles.footer}>
         <a href="#" className={styles.footerLink}>

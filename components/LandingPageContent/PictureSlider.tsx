@@ -150,6 +150,10 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
   });
 
   const stepperButtons = PICTURE_SLIDER_TOPICS.map((_, stepperButtonIndex) => {
+    const handleClickStepperButton = () => {
+      moveToStep(stepperButtonIndex + 1);
+    };
+
     const classes = computeStepperButtonClasses({
       stepperButtonIndex,
       currentStep: state.currentStep,
@@ -161,9 +165,7 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
         className={styles.stepperListItem}
       >
         <button
-          onClick={() => {
-            moveToStep(stepperButtonIndex + 1);
-          }}
+          onClick={handleClickStepperButton}
           className={classes}
           data-testid={`stepper-button-${stepperButtonIndex}`}
         />
@@ -202,11 +204,14 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
             data-testid="picture-slider-carret-icon"
           />
         </button>
-        <div className={styles.footer} onClick={onClickSeeBelow}>
-          <div className={styles.footerTextAndIcon}>
+        <div className={styles.footer}>
+          <button
+            className={styles.footerTextAndIcon}
+            onClick={onClickSeeBelow}
+          >
             {t("PictureSlider.HOW_IT_WORKS")}
             <FontAwesomeIcon icon={faAngleDown} className={styles.footerIcon} />
-          </div>
+          </button>
         </div>
       </div>
     </div>
