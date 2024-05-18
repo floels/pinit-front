@@ -4,6 +4,7 @@ import en from "@/messages/en.json";
 import { launchMockAPIServer } from "../utils";
 import { MOCK_API_RESPONSES_JSON } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_SEARCH_PINS } from "@/lib/constants";
+import { Server } from "http";
 
 const NUMBER_SEARCH_RESULTS = 50;
 
@@ -19,7 +20,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   });
 };
 
-let mockAPIServer: any;
+let mockAPIServer: Server;
 
 test.beforeAll(async () => {
   mockAPIServer = await launchMockAPIServer(configureAPIResponses);

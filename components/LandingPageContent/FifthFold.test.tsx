@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import en from "@/messages/en.json";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -11,7 +12,7 @@ const heroRef = {
   current: {
     scrollIntoView: mockScrollIntoView,
   },
-} as any;
+} as unknown as RefObject<HTMLDivElement>;
 
 const mockOnClickBackToTop = jest.fn();
 

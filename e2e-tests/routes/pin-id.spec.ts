@@ -4,6 +4,7 @@ import en from "@/messages/en.json";
 import { launchMockAPIServer } from "../utils";
 import { MOCK_API_RESPONSES_JSON } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
+import { Server } from "http";
 
 const PIN_ID_OK = "123456789012345";
 const PIN_ID_400 = "400400400400400";
@@ -18,7 +19,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   });
 };
 
-let mockAPIServer: any;
+let mockAPIServer: Server;
 
 test.beforeAll(async () => {
   mockAPIServer = await launchMockAPIServer(configureAPIResponses);
