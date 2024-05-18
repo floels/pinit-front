@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BoardWithBasicDetails } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import styles from "./BoardThumbnail.module.css";
 
 type BoardThumbnailProps = {

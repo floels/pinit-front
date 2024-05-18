@@ -12,7 +12,7 @@ import {
   API_ROUTE_SEARCH_SUGGESTIONS,
   API_ROUTE_SIGN_UP,
 } from "../constants";
-import { TypesOfAccount } from "../types";
+import { TypesOfAccount } from "../types/frontendTypes";
 
 export const MOCK_API_RESPONSES_JSON = {
   [API_ROUTE_SIGN_UP]: {

@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import styles from "./PinsBoard.module.css";
-import { PinWithAuthorDetails } from "@/lib/types";
+import { PinWithAuthorDetails } from "@/lib/types/frontendTypes";
 import PinThumbnailsGrid from "../PinThumbnailsGrid/PinThumbnailsGrid";
 
 type PinsBoardProps = {

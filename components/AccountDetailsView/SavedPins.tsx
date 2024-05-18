@@ -1,4 +1,4 @@
-import { AccountWithPublicDetails } from "@/lib/types";
+import { AccountWithPublicDetails } from "@/lib/types/frontendTypes";
 import BoardThumbnail from "./BoardThumbnail";
 import styles from "./SavedPins.module.css";
 

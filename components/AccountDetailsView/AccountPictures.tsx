@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { AccountWithPublicDetails } from "@/lib/types";
+import { AccountWithPublicDetails } from "@/lib/types/frontendTypes";
 import Image from "next/image";
 import styles from "./AccountPictures.module.css";
 

@@ -6,7 +6,7 @@ import {
 } from "@/lib/constants";
 import { Response401Error } from "@/lib/customErrors";
 import { useLogOut } from "@/lib/hooks/useLogOut";
-import { AccountWithPrivateDetails } from "@/lib/types";
+import { AccountWithPrivateDetails } from "@/lib/types/frontendTypes";
 import { throwIfKO } from "@/lib/utils/fetch";
 import { serializeAccountWithPrivateDetails } from "@/lib/utils/serializers";
 import { useQuery } from "@tanstack/react-query";

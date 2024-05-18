@@ -1,6 +1,9 @@
 import { useAccountContext } from "@/contexts/accountContext";
 import { toast } from "react-toastify";
-import { BoardWithBasicDetails, PinWithAuthorDetails } from "@/lib/types";
+import {
+  BoardWithBasicDetails,
+  PinWithAuthorDetails,
+} from "@/lib/types/frontendTypes";
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";

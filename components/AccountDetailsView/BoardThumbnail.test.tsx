@@ -1,4 +1,4 @@
-import { BoardWithBasicDetails } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import BoardThumbnail from "./BoardThumbnail";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";

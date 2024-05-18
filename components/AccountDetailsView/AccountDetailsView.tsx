@@ -1,5 +1,5 @@
 import styles from "./AccountDetailsView.module.css";
-import { AccountWithPublicDetails } from "@/lib/types";
+import { AccountWithPublicDetails } from "@/lib/types/frontendTypes";
 import AccountPictures from "./AccountPictures";
 import CreatedAndSavedPins from "./CreatedAndSavedPins";
 

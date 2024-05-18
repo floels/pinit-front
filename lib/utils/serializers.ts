@@ -1,4 +1,14 @@
 import {
+  AccountFromAPI,
+  AccountWithPrivateDetailsFromAPI,
+  AccountWithPublicDetailsFromAPI,
+  BoardFromAPI,
+  BoardWithBasicDetailsFromAPI,
+  BoardWithFullDetailsFromAPI,
+  PinWithAuthorDetailsFromAPI,
+  PinWithFullDetailsFromAPI,
+} from "../types/backendTypes";
+import {
   Account,
   AccountWithPrivateDetails,
   AccountWithPublicDetails,
@@ -7,10 +17,10 @@ import {
   BoardWithFullDetails,
   PinWithAuthorDetails,
   PinWithFullDetails,
-} from "../types";
+} from "../types/frontendTypes";
 
-export const serializePinWithAuthorDetails = (
-  pin: any,
+const serializePinWithAuthorDetails = (
+  pin: PinWithAuthorDetailsFromAPI,
 ): PinWithAuthorDetails => {
   return {
     id: pin.unique_id,
@@ -21,19 +31,21 @@ export const serializePinWithAuthorDetails = (
 };
 
 export const serializePinsWithAuthorDetails = (
-  pins: any,
+  pins: PinWithAuthorDetailsFromAPI[],
 ): PinWithAuthorDetails[] => {
   return pins.map(serializePinWithAuthorDetails);
 };
 
-export const serializePinWithFullDetails = (pin: any): PinWithFullDetails => {
+export const serializePinWithFullDetails = (
+  pin: PinWithFullDetailsFromAPI,
+): PinWithFullDetails => {
   return {
     ...serializePinWithAuthorDetails(pin),
     description: pin.description,
   };
 };
 
-const serializeAccount = (account: any): Account => {
+const serializeAccount = (account: AccountFromAPI): Account => {
   return {
     username: account.username,
     displayName: account.display_name,
@@ -43,7 +55,7 @@ const serializeAccount = (account: any): Account => {
 };
 
 export const serializeAccountWithPublicDetails = (
-  account: any,
+  account: AccountWithPublicDetailsFromAPI,
 ): AccountWithPublicDetails => {
   return {
     ...serializeAccount(account),
@@ -54,7 +66,7 @@ export const serializeAccountWithPublicDetails = (
 };
 
 export const serializeAccountWithPrivateDetails = (
-  account: any,
+  account: AccountWithPrivateDetailsFromAPI,
 ): AccountWithPrivateDetails => {
   return {
     ...serializeAccountWithPublicDetails(account),
@@ -63,7 +75,7 @@ export const serializeAccountWithPrivateDetails = (
   };
 };
 
-const serializeBoard = (board: any): Board => {
+const serializeBoard = (board: BoardFromAPI): Board => {
   return {
     id: board.unique_id,
     name: board.name,
@@ -72,7 +84,7 @@ const serializeBoard = (board: any): Board => {
 };
 
 export const serializeBoardWithBasicDetails = (
-  board: any,
+  board: BoardWithBasicDetailsFromAPI,
 ): BoardWithBasicDetails => {
   return {
     ...serializeBoard(board),
@@ -81,13 +93,13 @@ export const serializeBoardWithBasicDetails = (
 };
 
 export const serializeBoardsWithBasicDetails = (
-  boards: any,
+  boards: BoardWithBasicDetailsFromAPI[],
 ): BoardWithBasicDetails[] => {
   return boards.map(serializeBoardWithBasicDetails);
 };
 
 export const serializeBoardWithFullDetails = (
-  board: any,
+  board: BoardWithFullDetailsFromAPI,
 ): BoardWithFullDetails => {
   return {
     ...serializeBoard(board),

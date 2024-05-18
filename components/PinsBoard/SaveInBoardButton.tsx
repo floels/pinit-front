@@ -1,4 +1,4 @@
-import { BoardWithBasicDetails } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import styles from "./SaveInBoardButton.module.css";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

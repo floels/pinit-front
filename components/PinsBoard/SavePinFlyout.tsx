@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import SaveInBoardButtonContainer from "./SaveInBoardButtonContainer";
 import styles from "./SavePinFlyout.module.css";
-import { BoardWithBasicDetails } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { forwardRef } from "react";

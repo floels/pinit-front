@@ -1,4 +1,4 @@
-import { BoardWithBasicDetails } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import SavePinFlyout from "./SavePinFlyout";
 import { useEffect, useRef } from "react";
 
