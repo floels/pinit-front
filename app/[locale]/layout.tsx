@@ -43,7 +43,7 @@ const locales = ["en"];
 
 const Layout = ({ children, params: { locale } }: Props) => {
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale)) {
     notFound();
   }
 

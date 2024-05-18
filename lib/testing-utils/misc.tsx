@@ -23,28 +23,10 @@ export const withQueryClient = (children: React.ReactElement) => {
   );
 };
 
-// Get an object from form data
-export const getObjectFromFormData = (formData: FormData) => {
-  const object = {} as any;
-
-  formData.forEach((value, key) => {
-    if (object[key]) {
-      if (!Array.isArray(object[key])) {
-        object[key] = [object[key]];
-      }
-      object[key].push(value);
-    } else {
-      object[key] = value;
-    }
-  });
-
-  return object;
-};
-
-export const checkNextImageSrc = (image: any, expectedSrc: string) => {
+export const checkNextImageSrc = (image: HTMLElement, expectedSrc: string) => {
   const expectedSrcPattern = getNextImageSrcRegexFromURL(expectedSrc);
 
-  expect(image.src).toMatch(expectedSrcPattern);
+  expect(image.getAttribute("src")).toMatch(expectedSrcPattern);
 };
 
 const getNextImageSrcRegexFromURL = (url: string) => {

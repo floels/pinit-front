@@ -3,6 +3,7 @@ import { Request, Response, Express } from "express";
 import en from "@/messages/en.json";
 import { addAccessTokenTookie, launchMockAPIServer } from "../utils";
 import path from "path";
+import { Server } from "http";
 
 const ID_CREATED_PIN = "123456789012345";
 
@@ -20,7 +21,7 @@ const configureAPIResponses = (mockAPIApp: Express) => {
   });
 };
 
-let mockAPIServer: any;
+let mockAPIServer: Server;
 
 test.beforeAll(async () => {
   mockAPIServer = await launchMockAPIServer(configureAPIResponses);

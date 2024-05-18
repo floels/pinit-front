@@ -11,14 +11,8 @@ const renderComponent = () => {
 };
 
 it(`refreshes access token if no expiration date in local storage,
-and only then fetches account details`, async () => {
-  let resolvePromise: any;
-
-  const controlledPromise = new Promise<Response>((resolve) => {
-    resolvePromise = resolve;
-  });
-
-  fetchMock.mockImplementationOnce(() => controlledPromise);
+and then fetches account details`, async () => {
+  fetchMock.mockResolvedValueOnce(new Response());
 
   renderComponent();
 
@@ -29,8 +23,6 @@ and only then fetches account details`, async () => {
   });
 
   expect(fetch).toHaveBeenCalledTimes(1);
-
-  resolvePromise();
 
   await waitFor(() => {
     expect(fetch).toHaveBeenCalledWith(API_ROUTE_MY_ACCOUNT_DETAILS);

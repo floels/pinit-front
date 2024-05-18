@@ -110,7 +110,7 @@ export const getNextResponse = ({
   backendResponseData,
   status,
 }: {
-  backendResponseData: { [key: string]: any };
+  backendResponseData: { [key: string]: unknown };
   status: number;
 }) =>
   new NextResponse(JSON.stringify(backendResponseData), {

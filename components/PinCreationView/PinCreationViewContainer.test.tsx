@@ -11,7 +11,6 @@ import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 import { FetchMock } from "jest-fetch-mock";
-import { getObjectFromFormData } from "@/lib/testing-utils/misc";
 import { ToastContainer } from "react-toastify";
 import { MOCK_API_RESPONSES } from "@/lib/testing-utils/mockAPIResponses";
 
@@ -134,7 +133,7 @@ it("posts to API route when user clicks submit", async () => {
 
     const formData = mockedFetch.mock.calls[0][1]?.body as FormData;
 
-    const formDataObject = getObjectFromFormData(formData);
+    const formDataObject = Object.fromEntries(formData.entries());
 
     expect(formDataObject).toMatchObject({
       title: "Pin title",
