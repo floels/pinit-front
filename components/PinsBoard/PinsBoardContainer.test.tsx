@@ -14,7 +14,11 @@ const initialPins =
   MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_PIN_SUGGESTIONS].results;
 
 const simulateScrollToBottomOfPage = () => {
-  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[0][0];
+  const callback = (global.IntersectionObserver as jest.Mock).mock.calls[1][0]; // here
+  // we pick the second call because a first intersection will be detected upon
+  // initial render, but will not trigger a fetch. It's the second intersection event
+  // that should trigger the fetch.
+
   act(() => {
     callback([{ isIntersecting: true }]);
   });
@@ -44,7 +48,7 @@ it("fetches new thumbnails when user scrolls to bottom", async () => {
 
   renderComponent();
 
-  simulateScrollToBottomOfPage();
+  await simulateScrollToBottomOfPage();
 
   await waitFor(() => {
     const renderedPinThumbnails = screen.getAllByTestId("pin-thumbnail");

@@ -204,15 +204,12 @@ const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
             data-testid="picture-slider-carret-icon"
           />
         </button>
-        <div className={styles.footer}>
-          <button
-            className={styles.footerTextAndIcon}
-            onClick={onClickSeeBelow}
-          >
+        <button className={styles.footer} onClick={onClickSeeBelow}>
+          <span className={styles.footerTextAndIcon}>
             {t("PictureSlider.HOW_IT_WORKS")}
             <FontAwesomeIcon icon={faAngleDown} className={styles.footerIcon} />
-          </button>
-        </div>
+          </span>
+        </button>
       </div>
     </div>
   );

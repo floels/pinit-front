@@ -28,10 +28,16 @@ const PinsBoard = ({
 
   const scrolledToBottomSentinel = useRef(null);
 
+  const boardIsEmpty = pins.length === 0;
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        onScrolledToBottom();
+        if (!boardIsEmpty) {
+          // We only call 'onScrolledToBottom' if the board is not empty,
+          // otherwise it gets called on the inital render.
+          onScrolledToBottom();
+        }
       }
     });
 
@@ -42,7 +48,7 @@ const PinsBoard = ({
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [boardIsEmpty, onScrolledToBottom]);
 
   const shouldRenderEmptyResultsMessage =
     Boolean(emptyResultsMessageKey) &&
