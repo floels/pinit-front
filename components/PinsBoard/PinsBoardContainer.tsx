@@ -19,7 +19,7 @@ const PinsBoardContainer = ({
   emptyResultsMessageKey,
 }: PinsBoardContainerProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pins, setPins] = useState<PinWithAuthorDetails[]>(initialPins);
+  const [pins, setPins] = useState<PinWithAuthorDetails[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
 
