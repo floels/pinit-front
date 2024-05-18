@@ -1,4 +1,4 @@
-import { BoardWithFullDetails } from "@/lib/types";
+import { BoardWithFullDetails } from "@/lib/types/frontendTypes";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import styles from "./BoardDetailsView.module.css";

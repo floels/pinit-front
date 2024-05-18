@@ -4,7 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import styles from "./PinThumbnail.module.css";
-import { BoardWithBasicDetails, PinWithAuthorDetails } from "@/lib/types";
+import {
+  BoardWithBasicDetails,
+  PinWithAuthorDetails,
+} from "@/lib/types/frontendTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import SavePinFlyoutContainer from "./SavePinFlyoutContainer";

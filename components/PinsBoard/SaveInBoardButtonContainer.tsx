@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BoardWithBasicDetails } from "@/lib/types";
+import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import SaveInBoardButton from "./SaveInBoardButton";
 
 type SaveInBoardButtonContainerProps = {

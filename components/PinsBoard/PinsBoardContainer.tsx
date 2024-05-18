@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { appendQueryParam } from "@/lib/utils/strings";
 import PinsBoard from "./PinsBoard";
-import { PinWithAuthorDetails } from "@/lib/types";
+import { PinWithAuthorDetails } from "@/lib/types/frontendTypes";
 import { serializePinsWithAuthorDetails } from "@/lib/utils/serializers";
 import { throwIfKO } from "@/lib/utils/fetch";
 

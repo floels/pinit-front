@@ -1,6 +1,6 @@
 "use client";
 
-import { PinWithAuthorDetails } from "@/lib/types";
+import { PinWithAuthorDetails } from "@/lib/types/frontendTypes";
 import PinThumbnailContainer from "../PinsBoard/PinThumbnailContainer";
 import { useEffect, useState } from "react";
 import { useViewportWidth } from "@/lib/hooks/useViewportWidth";

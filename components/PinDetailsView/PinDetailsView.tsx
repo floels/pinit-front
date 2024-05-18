@@ -5,7 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { PinWithFullDetails } from "@/lib/types";
+import { PinWithFullDetails } from "@/lib/types/frontendTypes";
 import styles from "./PinDetailsView.module.css";
 
 type PinDetailsViewProps = {

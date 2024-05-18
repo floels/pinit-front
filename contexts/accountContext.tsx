@@ -1,6 +1,6 @@
 "use client";
 
-import { AccountWithPrivateDetails } from "@/lib/types";
+import { AccountWithPrivateDetails } from "@/lib/types/frontendTypes";
 import {
   Dispatch,
   SetStateAction,

@@ -12,7 +12,7 @@ import {
 import { AccountContext } from "@/contexts/accountContext";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
-import { AccountWithPrivateDetails } from "@/lib/types";
+import { AccountWithPrivateDetails } from "@/lib/types/frontendTypes";
 
 const messages = en.HeaderAuthenticated;
 
