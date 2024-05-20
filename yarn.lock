@@ -6024,7 +6024,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^14.1.0":
+"next@npm:^14.2.3":
   version: 14.2.3
   resolution: "next@npm:14.2.3"
   dependencies:
@@ -6531,7 +6531,7 @@ __metadata:
     jest-fetch-mock: ^3.0.3
     js-cookie: ^3.0.5
     lodash: ^4.17.21
-    next: ^14.1.0
+    next: ^14.2.3
     next-intl: ^3.14.0
     prettier: ^3.2.5
     react: ^18.3.1
