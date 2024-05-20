@@ -18,7 +18,7 @@ type PinThumbnailProps = {
   isInFirstColumn: boolean;
   isInLastColumn: boolean;
   boards: BoardWithBasicDetails[];
-  isHovered: boolean;
+  isImageHovered: boolean;
   isSaveFlyoutOpen: boolean;
   isSaving: boolean;
   indexBoardWhereJustSaved: number | null;
@@ -40,7 +40,7 @@ const PinThumbnail = ({
   isInFirstColumn,
   isInLastColumn,
   boards,
-  isHovered,
+  isImageHovered,
   isSaveFlyoutOpen,
   isSaving,
   indexBoardWhereJustSaved,
@@ -54,7 +54,7 @@ const PinThumbnail = ({
 
   const hasSaved = indexBoardWhereJustSaved !== null;
 
-  let hoverOverlay;
+  let imageOverlay;
 
   if (hasSaved) {
     const boardName = boards[indexBoardWhereJustSaved].name;
@@ -64,7 +64,7 @@ const PinThumbnail = ({
       maxLength: 20,
     });
 
-    hoverOverlay = (
+    imageOverlay = (
       <div className={styles.hoverOverlay}>
         <div className={styles.hoverOverlayContentSaved}>
           <span className={styles.boardTitle}>{boardNameShort}</span>
@@ -75,7 +75,7 @@ const PinThumbnail = ({
       </div>
     );
   } else {
-    hoverOverlay = (
+    imageOverlay = (
       <div className={styles.hoverOverlay}>
         <div className={styles.hoverOverlayContentNotSaved}>
           <button
@@ -92,6 +92,8 @@ const PinThumbnail = ({
       </div>
     );
   }
+
+  const shouldShowImageOverlay = isImageHovered || isSaveFlyoutOpen;
 
   return (
     <div className={styles.container} data-testid="pin-thumbnail">
@@ -112,7 +114,7 @@ const PinThumbnail = ({
           src={pin.imageURL}
           className={styles.image}
         />
-        {isHovered && hoverOverlay}
+        {shouldShowImageOverlay && imageOverlay}
       </Link>
       {pin.title && (
         <Link href={`/pin/${pin.id}`} className={styles.title}>
