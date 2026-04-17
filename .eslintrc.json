@@ -16,6 +16,18 @@
     "es2020": true
   },
   "rules": {
-    "react/react-in-jsx-scope": "off"
-  }
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.{ts,tsx}", "setupJest.js", "setupJestAfterEnv.js"],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "no-global-assign": "off"
+      }
+    }
+  ]
 }
