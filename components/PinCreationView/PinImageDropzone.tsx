@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 // Component structure is inspired by https://react-dropzone.js.org/ (see 'Usage' section)
 
 import { useTranslations } from "next-intl";
