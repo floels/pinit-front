@@ -12,29 +12,18 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "jsx": "react-jsx",
     "paths": {
       "@/*": ["./*"]
     },
-    "baseUrl": ".",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "baseUrl": "."
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "components/BoardDetailsView"
+    "**/*.tsx"
   ],
   "exclude": [
     "node_modules",
-    // https://stackoverflow.com/a/69990369
-    "./cypress.config.ts",
     "cypress"
   ]
 }

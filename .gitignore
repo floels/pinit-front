@@ -12,12 +12,8 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
+# vite
+/dist
 
 # VS Code
 .DS_Store
