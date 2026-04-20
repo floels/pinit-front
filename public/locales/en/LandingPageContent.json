@@ -25,7 +25,7 @@
     "MISSING_EMAIL": "You missed a spot! Don't forget to add your email.",
     "INVALID_EMAIL_INPUT": "Hmm... that doesn't look like an email address.",
     "INVALID_PASSWORD_INPUT": "The password you entered is incorrect.",
-    "INVALID_BIRTHDATE_INPUT": "You missed a spot. Don't forget to add your birthdate.",
+    "INVALID_BIRTHDATE_INPUT": "You missed a spot. Don\u2019t forget to add your birthdate.",
     "INVALID_EMAIL_SIGNUP": "The email you entered is incorrect.",
     "INVALID_PASSWORD_SIGNUP": "The password you entered is incorrect.",
     "INVALID_BIRTHDATE_SIGNUP": "The birthdate you entered is incorrect.",
