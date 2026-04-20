@@ -10,12 +10,12 @@ import PictureSlider, {
   TIME_BEFORE_AUTOMATIC_STEP_CHANGE_MS,
 } from "./PictureSlider";
 import { IMAGE_FADE_LAG_MS, IMAGE_URLS } from "./PictureSliderPicture";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/LandingPageContent.json";
 import _ from "lodash";
 import userEvent from "@testing-library/user-event";
 import { PICTURE_SLIDER_TOPICS, TopicsType } from "./PictureSliderPictures";
 
-const messages = en.LandingPageContent.PictureSlider;
+const messages = en.PictureSlider;
 
 const NUMBER_IMAGES_PER_TOPIC = IMAGE_URLS.FOOD.length;
 

@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SignupFormContainer from "./SignupFormContainer";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/LandingPageContent.json";
+import enCommon from "@/public/locales/en/Common.json";
 import {
   ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
   API_ROUTE_SIGN_UP,
@@ -11,7 +12,7 @@ import {
   MOCK_API_RESPONSES_JSON,
 } from "@/lib/testing-utils/mockAPIResponses";
 
-const messages = en.LandingPageContent;
+const messages = en;
 
 const handleClickAlreadyHaveAccount = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
 
@@ -186,7 +187,7 @@ it("displays relevant error when receiving KO responses", async () => {
   await userEvent.type(passwordInput, "IsRight");
   await userEvent.click(submitButton);
 
-  screen.getByText(en.Common.UNFORESEEN_ERROR);
+  screen.getByText(enCommon.UNFORESEEN_ERROR);
 });
 
 it("displays loading state while expecting response", async () => {

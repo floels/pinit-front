@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { usePathname } from "next/navigation";
 import HeaderAuthenticated from "./HeaderAuthenticated";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/HeaderAuthenticated.json";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 import { createRef } from "react";
 
@@ -11,7 +11,7 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-const messages = en.HeaderAuthenticated;
+const messages = en;
 
 const mockedUsePathname = usePathname as jest.Mock;
 

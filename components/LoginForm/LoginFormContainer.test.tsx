@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LoginFormContainer from "./LoginFormContainer";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/LandingPageContent.json";
+import enCommon from "@/public/locales/en/Common.json";
 import {
   ACCESS_TOKEN_EXPIRATION_DATE_LOCAL_STORAGE_KEY,
   API_ROUTE_OBTAIN_DEMO_TOKEN,
@@ -23,7 +24,7 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-const messages = en.LandingPageContent;
+const messages = en;
 
 const typeInEmailInput = async (text: string) => {
   const emailInput = screen.getByLabelText(messages.LoginForm.EMAIL);
@@ -170,7 +171,7 @@ it("displays relevant errors when receiving KO responses", async () => {
   await typeInPasswordInput("IsRight");
 
   await submit();
-  screen.getByText(en.Common.UNFORESEEN_ERROR);
+  screen.getByText(enCommon.UNFORESEEN_ERROR);
 });
 
 it("displays loading state while expecting network response", async () => {

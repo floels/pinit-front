@@ -1,5 +1,5 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/PinsBoard.json";
 import PinsBoardContainer from "./PinsBoardContainer";
 import { ToastContainer } from "react-toastify";
 import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
@@ -84,6 +84,6 @@ it("displays error message in case of KO response upon new thumbnails fetch", as
   simulateScrollToBottomOfPage();
 
   await waitFor(() => {
-    screen.getByText(en.PinsBoard.ERROR_DISPLAY_PINS);
+    screen.getByText(en.ERROR_DISPLAY_PINS);
   });
 });

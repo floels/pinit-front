@@ -1,7 +1,7 @@
 import React from "react";
 import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render, waitFor } from "@testing-library/react";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/HeaderAuthenticated.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import { MockLocalStorage, checkNextImageSrc } from "@/lib/testing-utils/misc";
 import {
@@ -14,7 +14,7 @@ import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContex
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { AccountWithPrivateDetails } from "@/lib/types/frontendTypes";
 
-const messages = en.HeaderAuthenticated;
+const messages = en;
 
 jest.mock("@/components/Header/AccountOptionsFlyout", () => {
   const MockedAccountOptionsFlyout = React.forwardRef(() => (

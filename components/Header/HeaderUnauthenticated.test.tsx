@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/LandingPageContent.json";
 import HeaderUnauthenticated from "./HeaderUnauthenticated";
 import { usePathname } from "next/navigation";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
@@ -11,7 +11,7 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-const messages = en.LandingPageContent;
+const messages = en;
 
 const renderComponent = () => {
   render(

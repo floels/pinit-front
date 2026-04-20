@@ -6,7 +6,7 @@ import {
   within,
 } from "@testing-library/react";
 import PinCreationViewContainer from "./PinCreationViewContainer";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/PinCreation.json";
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
@@ -14,7 +14,7 @@ import { FetchMock } from "jest-fetch-mock";
 import { ToastContainer } from "react-toastify";
 import { MOCK_API_RESPONSES } from "@/lib/testing-utils/mockAPIResponses";
 
-const messages = en.PinCreation;
+const messages = en;
 
 const mockImageFile = new File(["mockImage"], "MockImage.png", {
   type: "image/png",

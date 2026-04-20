@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/PinDetails.json";
 import { checkNextImageSrc } from "@/lib/testing-utils/misc";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
 import { PinWithFullDetails } from "@/lib/types/frontendTypes";
 
-const messages = en.PinDetails;
+const messages = en;
 
 const defaultPin = MOCK_API_RESPONSES_SERIALIZED[API_ENDPOINT_PIN_DETAILS];
 

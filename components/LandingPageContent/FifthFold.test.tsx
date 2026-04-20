@@ -1,10 +1,10 @@
 import { RefObject } from "react";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/LandingPageContent.json";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FifthFold from "./FifthFold";
 
-const messages = en.LandingPageContent;
+const messages = en;
 
 const mockScrollIntoView = jest.fn();
 
