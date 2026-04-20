@@ -7,7 +7,7 @@ import {
 import PinThumbnail from "./PinThumbnail";
 import { useEffect, useState } from "react";
 import { API_ROUTE_SAVE_PIN } from "@/lib/constants";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { throwIfKO } from "@/lib/utils/fetch";
 
 type PinThumbnailContainerProps = {
@@ -21,7 +21,7 @@ const PinThumbnailContainer = ({
   isInFirstColumn,
   isInLastColumn,
 }: PinThumbnailContainerProps) => {
-  const t = useTranslations();
+  const { t } = useTranslation("PinsBoard");
 
   const { account } = useAccountContext();
 
@@ -116,7 +116,7 @@ const PinThumbnailContainer = ({
   };
 
   const handleSaveError = () => {
-    toast.warn(t("PinsBoard.PIN_SAVE_ERROR_MESSAGE"), {
+    toast.warn(t("PIN_SAVE_ERROR_MESSAGE"), {
       toastId: "toast-pin-save-error",
     });
   };

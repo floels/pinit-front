@@ -138,7 +138,7 @@ it("posts to API route when user clicks submit", async () => {
     expect(formDataObject).toMatchObject({
       title: "Pin title",
       description: "Pin description",
-      image_file: { path: "MockImage.png" },
+      image_file: expect.objectContaining({ name: "MockImage.png" }),
     });
   });
 });

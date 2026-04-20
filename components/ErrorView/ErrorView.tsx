@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import styles from "./ErrorView.module.css";
@@ -8,12 +8,14 @@ type ErrorViewProps = {
 };
 
 const ErrorView = ({ errorMessageKey }: ErrorViewProps) => {
-  const t = useTranslations();
+  const { t } = useTranslation();
+
+  const [ns, ...rest] = errorMessageKey.split(".");
 
   return (
     <div className={styles.container}>
       <FontAwesomeIcon icon={faWarning} className={styles.icon} />
-      {t(errorMessageKey)}
+      {t(rest.join("."), { ns })}
     </div>
   );
 };

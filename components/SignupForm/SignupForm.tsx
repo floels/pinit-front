@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./SignupForm.module.css";
 
@@ -38,7 +38,7 @@ const SignupForm = ({
   handleClickAlreadyHaveAccount,
   showFormErrors,
 }: SignupFormProps) => {
-  const t = useTranslations();
+  const { t } = useTranslation(["LandingPageContent", "Common"]);
 
   const emailInputRef = useRef<HTMLInputElement>(null);
 
@@ -53,10 +53,10 @@ const SignupForm = ({
 
     switch (formErrors.other) {
       case "EMAIL_ALREADY_SIGNED_UP":
-        text = t("LandingPageContent.SignupForm.EMAIL_ALREADY_SIGNED_UP");
+        text = t("SignupForm.EMAIL_ALREADY_SIGNED_UP");
         break;
       default:
-        text = t("Common.UNFORESEEN_ERROR");
+        text = t("Common:UNFORESEEN_ERROR");
     }
 
     displayFormErrorsOther = (
@@ -77,23 +77,23 @@ const SignupForm = ({
         className={styles.logo}
       />
       <h1 className={styles.title}>
-        {t("LandingPageContent.SignupForm.WELCOME_TO_PINIT")}
+        {t("SignupForm.WELCOME_TO_PINIT")}
       </h1>
       <div className={styles.subtitle}>
-        {t("LandingPageContent.SignupForm.FIND_NEW_IDEAS")}
+        {t("SignupForm.FIND_NEW_IDEAS")}
       </div>
       <form noValidate onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.emailInputContainer}>
           <LabelledTextInput
             name="email"
-            label={t("LandingPageContent.SignupForm.EMAIL")}
-            placeholder={t("LandingPageContent.SignupForm.EMAIL")}
+            label={t("SignupForm.EMAIL")}
+            placeholder={t("SignupForm.EMAIL")}
             type="email"
             value={formData.email}
             autoComplete="email"
             errorMessage={
               showFormErrors && formErrors.email
-                ? t(`LandingPageContent.SignupForm.${formErrors.email}`)
+                ? t(`SignupForm.${formErrors.email}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -103,14 +103,14 @@ const SignupForm = ({
         <div className={styles.passwordInputContainer}>
           <LabelledTextInput
             name="password"
-            label={t("LandingPageContent.SignupForm.PASSWORD")}
-            placeholder={t("LandingPageContent.SignupForm.CREATE_PASSWORD")}
+            label={t("SignupForm.PASSWORD")}
+            placeholder={t("SignupForm.CREATE_PASSWORD")}
             type="password"
             value={formData.password}
             autoComplete="new-password"
             errorMessage={
               showFormErrors && formErrors.password
-                ? t(`LandingPageContent.SignupForm.${formErrors.password}`)
+                ? t(`SignupForm.${formErrors.password}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -120,13 +120,13 @@ const SignupForm = ({
         <div className={styles.birthdateInputContainer}>
           <LabelledTextInput
             name="birthdate"
-            label={t("LandingPageContent.SignupForm.BIRTHDATE")}
+            label={t("SignupForm.BIRTHDATE")}
             type="date"
             value={formData.birthdate}
             autoComplete="bday"
             errorMessage={
               showFormErrors && formErrors.birthdate
-                ? t(`LandingPageContent.SignupForm.${formErrors.birthdate}`)
+                ? t(`SignupForm.${formErrors.birthdate}`)
                 : ""
             }
             onChange={handleInputChange}
@@ -134,14 +134,14 @@ const SignupForm = ({
         </div>
         {showFormErrors && displayFormErrorsOther}
         <button type="submit" className={styles.submitButton}>
-          {t("LandingPageContent.SignupForm.CONTINUE")}
+          {t("SignupForm.CONTINUE")}
         </button>
       </form>
       <button
         className={styles.alreadyHaveAccount}
         onClick={handleClickAlreadyHaveAccount}
       >
-        {t("LandingPageContent.SignupForm.ALREADY_HAVE_ACCOUNT_CTA")}
+        {t("SignupForm.ALREADY_HAVE_ACCOUNT_CTA")}
       </button>
       {isLoading && (
         <div

@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import styles from "./SuccessToastMessage.module.css";
 
@@ -7,7 +7,7 @@ type SuccessToastMessageProps = {
 };
 
 const SuccessToastMessage = ({ pinId }: SuccessToastMessageProps) => {
-  const t = useTranslations("PinCreation");
+  const { t } = useTranslation("PinCreation");
 
   return (
     <div

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginFormContainer from "../LoginForm/LoginFormContainer";
 import SignupFormContainer from "../SignupForm/SignupFormContainer";
@@ -13,11 +13,9 @@ import HeaderSearchBarContainer from "./HeaderSearchBarContainer";
 const HeaderUnauthenticated = () => {
   const pathname = usePathname();
 
-  const locale = useLocale();
+  const isOnHomePage = pathname === "/" || pathname === "/en";
 
-  const isOnHomePage = pathname === "/" || pathname === `/${locale}`;
-
-  const t = useTranslations("HeaderUnauthenticated");
+  const { t } = useTranslation("HeaderUnauthenticated");
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);

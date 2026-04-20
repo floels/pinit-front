@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import TextAndExploreButton from "./TextAndExploreButton";
 import styles from "./ThirdFold.module.css";
 import { FOLD } from "./LandingPageContent";
 
 const ThirdFold = () => {
-  const t = useTranslations("LandingPageContent");
+  const { t } = useTranslation("LandingPageContent");
 
   const exploreLinkTarget = "/search/pins?q=home";
 

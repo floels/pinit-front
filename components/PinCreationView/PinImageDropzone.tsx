@@ -1,6 +1,6 @@
 // Component structure is inspired by https://react-dropzone.js.org/ (see 'Usage' section)
 
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,7 @@ const PinImageDropzone = ({
   onFileDropped,
   onClickDeleteImage,
 }: PinImageDropzoneProps) => {
-  const t = useTranslations("PinCreation");
+  const { t } = useTranslation("PinCreation");
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {

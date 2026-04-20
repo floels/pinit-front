@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ import { throwIfKO } from "@/lib/utils/fetch";
 const SUCCESS_TOAST_MIN_WIDTH = "380px";
 
 const PinCreationViewContainer = () => {
-  const t = useTranslations("PinCreation");
+  const { t } = useTranslation("PinCreation");
 
   const [pinImageFile, setPinImageFile] = useState<File | null>(null);
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null);

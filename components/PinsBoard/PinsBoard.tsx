@@ -4,7 +4,7 @@ import {
   faTriangleExclamation,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./PinsBoard.module.css";
 import { PinWithAuthorDetails } from "@/lib/types/frontendTypes";
 import PinThumbnailsGrid from "../PinThumbnailsGrid/PinThumbnailsGrid";
@@ -24,7 +24,7 @@ const PinsBoard = ({
   emptyResultsMessageKey,
   onScrolledToBottom,
 }: PinsBoardProps) => {
-  const t = useTranslations();
+  const { t } = useTranslation("PinsBoard");
 
   const scrolledToBottomSentinel = useRef(null);
 
@@ -67,7 +67,10 @@ const PinsBoard = ({
             size="xs"
             className={styles.errorMessageIcon}
           />
-          {t(emptyResultsMessageKey)}
+          {emptyResultsMessageKey && (() => {
+            const [ns, ...rest] = emptyResultsMessageKey.split(".");
+            return t(rest.join("."), { ns });
+          })()}
         </div>
       )}
       {isFetching && (
@@ -88,7 +91,7 @@ const PinsBoard = ({
             size="xs"
             className={styles.errorMessageIcon}
           />
-          {t("PinsBoard.ERROR_DISPLAY_PINS")}
+          {t("ERROR_DISPLAY_PINS")}
         </div>
       )}
     </div>

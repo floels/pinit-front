@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { PinWithFullDetails } from "@/lib/types/frontendTypes";
 import styles from "./PinDetailsView.module.css";
 
@@ -13,7 +13,7 @@ type PinDetailsViewProps = {
 const AUTHOR_PROFILE_PICTURE_SIZE_PX = 48;
 
 const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
-  const t = useTranslations("PinDetails");
+  const { t } = useTranslation("PinDetails");
 
   return (
     <div className={styles.container}>

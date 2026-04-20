@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./SecondFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
 import { FOLD } from "./LandingPageContent";
 
 const SecondFold = () => {
-  const t = useTranslations("LandingPageContent");
+  const { t } = useTranslation("LandingPageContent");
 
   const exploreLinkTarget = "/search/pins?q=food";
 

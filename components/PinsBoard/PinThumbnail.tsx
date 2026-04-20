@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./PinThumbnail.module.css";
 import {
   BoardWithBasicDetails,
@@ -48,7 +48,7 @@ const PinThumbnail = ({
   getClickHandlerForBoard,
   handleClickOutOfSaveFlyout,
 }: PinThumbnailProps) => {
-  const t = useTranslations("PinsBoard");
+  const { t } = useTranslation("PinsBoard");
 
   const hasSaved = indexBoardWhereJustSaved !== null;
 

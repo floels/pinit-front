@@ -1,5 +1,5 @@
 import { BoardWithFullDetails } from "@/lib/types/frontendTypes";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import styles from "./BoardDetailsView.module.css";
 import PinThumbnailsGrid from "../PinThumbnailsGrid/PinThumbnailsGrid";
@@ -8,7 +8,7 @@ const AUTHOR_PROFILE_PICTURE_HEIGHT_PX = 48;
 const AUTHOR_PROFILE_PICTURE_WIDTH_PX = 48;
 
 const BoardDetailsView = ({ board }: { board: BoardWithFullDetails }) => {
-  const t = useTranslations("BoardDetails");
+  const { t } = useTranslation("BoardDetails");
 
   const { name, author, pins } = board;
 

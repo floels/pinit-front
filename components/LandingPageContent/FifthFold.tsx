@@ -1,7 +1,7 @@
 import { useState, useEffect, RefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./FifthFold.module.css";
 import SignupFormContainer from "../SignupForm/SignupFormContainer";
 import LoginFormContainer from "../LoginForm/LoginFormContainer";
@@ -13,7 +13,7 @@ type FifthFoldProps = {
 };
 
 const FifthFold = ({ heroRef, onClickBackToTop }: FifthFoldProps) => {
-  const t = useTranslations("LandingPageContent");
+  const { t } = useTranslation("LandingPageContent");
 
   const [showLoginInsteadOfSignup, setShowLoginInsteadOfSignup] =
     useState(false);

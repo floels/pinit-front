@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FOLD } from "./LandingPageContent";
 import styles from "./TextAndExploreButton.module.css";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 
 type TextAndExploreButtonProps = {
@@ -15,7 +15,7 @@ const TextAndExploreButton = ({
   linkTarget,
   labels,
 }: TextAndExploreButtonProps) => {
-  const t = useTranslations("LandingPageContent");
+  const { t } = useTranslation("LandingPageContent");
 
   const containerClasses = classNames(styles.container, {
     [styles.containerSecondFold]: foldNumber === FOLD.SECOND,

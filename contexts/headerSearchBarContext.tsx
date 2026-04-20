@@ -1,5 +1,3 @@
-"use client";
-
 import {
   createContext,
   useContext,
@@ -9,7 +7,6 @@ import {
   useEffect,
 } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
-import { useLocale } from "next-intl";
 
 type State = {
   inputValue: string;
@@ -56,18 +53,17 @@ export const HeaderSearchBarContextProvider = ({
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const pathname = usePathname();
-  const locale = useLocale();
   const searchParams = useSearchParams();
 
   // Initialize the input value to the search param if present:
   useEffect(() => {
-    if (pathname === `/${locale}/search/pins`) {
+    if (pathname === "/en/search/pins") {
       const searchTerm = searchParams.get("q");
       if (searchTerm) {
         dispatch({ type: "SET_INPUT_VALUE", payload: searchTerm });
       }
     }
-  }, [pathname, searchParams, locale]);
+  }, [pathname, searchParams]);
 
   return (
     <HeaderSearchBarContext.Provider value={{ state, dispatch }}>
