@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./FourthFold.module.css";
 import TextAndExploreButton from "./TextAndExploreButton";
 import { FOLD } from "./LandingPageContent";
 
 const FourthFold = () => {
-  const t = useTranslations("LandingPageContent");
+  const { t } = useTranslation("LandingPageContent");
 
   const exploreLinkTarget = "/search/pins?q=make%20up";
 

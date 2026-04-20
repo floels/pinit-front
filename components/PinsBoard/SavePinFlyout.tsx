@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import SaveInBoardButtonContainer from "./SaveInBoardButtonContainer";
 import styles from "./SavePinFlyout.module.css";
 import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
@@ -29,7 +29,7 @@ const SavePinFlyout = forwardRef<HTMLDivElement, SavePinFlyoutProps>(
       getClickHandlerForBoard,
     } = props;
 
-    const t = useTranslations("PinsBoard");
+    const { t } = useTranslation("PinsBoard");
 
     const saveInBoardButtons = (
       <div data-testid="save-pin-flyout-board-buttons">

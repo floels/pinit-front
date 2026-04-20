@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { AccountWithPublicDetails } from "@/lib/types/frontendTypes";
 import Image from "next/image";
 import styles from "./AccountPictures.module.css";
@@ -17,7 +17,7 @@ const AccountPictures = ({ account }: AccountPicturesProps) => {
   const { displayName, profilePictureURL, backgroundPictureURL, initial } =
     account;
 
-  const t = useTranslations("AccountDetails");
+  const { t } = useTranslation("AccountDetails");
 
   let backgroudPicture;
 

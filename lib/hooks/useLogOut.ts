@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 import { API_ROUTE_LOG_OUT } from "../constants";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 
 export const useLogOut = () => {
-  const t = useTranslations("Common");
+  const { t } = useTranslation("Common");
 
   const logOut = async () => {
     try {

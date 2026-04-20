@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./HeaderSearchBar.module.css";
 import classNames from "classnames";
 
@@ -31,7 +31,7 @@ const HeaderSearchBar = ({
 }: HeaderSearchBarProps) => {
   const router = useRouter();
 
-  const t = useTranslations("HeaderAuthenticated");
+  const { t } = useTranslation("HeaderAuthenticated");
 
   const inputRef = useRef<HTMLInputElement>(null);
 

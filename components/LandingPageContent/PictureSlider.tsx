@@ -2,7 +2,7 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./PictureSlider.module.css";
 import PictureSliderPictures, {
   PICTURE_SLIDER_TOPICS,
@@ -90,7 +90,7 @@ const computeCarretClasses = ({ currentStep }: { currentStep: number }) => {
 };
 
 const PictureSlider = ({ onClickSeeBelow }: PictureSliderProps) => {
-  const t = useTranslations("LandingPageContent");
+  const { t } = useTranslation("LandingPageContent");
 
   const [state, setState] = useState<PictureSliderState>({
     previousStep: null,

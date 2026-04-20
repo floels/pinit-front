@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faUser } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBarContainer from "./HeaderSearchBarContainer";
 import styles from "./HeaderAuthenticated.module.css";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import AccountOptionsFlyoutContainer from "./AccountOptionsFlyoutContainer";
 import { forwardRef } from "react";
 
@@ -43,19 +43,17 @@ const HeaderAuthenticated = forwardRef<
 
   const pathname = usePathname();
 
-  const locale = useLocale();
-
-  const t = useTranslations("HeaderAuthenticated");
+  const { t } = useTranslation("HeaderAuthenticated");
 
   let classHomeLink = styles.navigationItem;
 
-  if (pathname === `/${locale}`) {
+  if (pathname === "/en") {
     classHomeLink = `${classHomeLink} ${styles.navigationItemActive}`;
   }
 
   let classCreateLink = styles.navigationItem;
 
-  if (pathname === `/${locale}/pin-creation-tool`) {
+  if (pathname === "/en/pin-creation-tool") {
     classCreateLink = `${classCreateLink} ${styles.navigationItemActive}`;
   }
 

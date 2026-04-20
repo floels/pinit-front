@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styles from "./CreatedAndSavedPins.module.css";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import CreatedPins from "./CreatedPins";
 import SavedPins from "./SavedPins";
 import { AccountWithPublicDetails } from "@/lib/types/frontendTypes";
@@ -17,7 +17,7 @@ type CreatedAndSavedPinsProps = {
 };
 
 const CreatedAndSavedPins = ({ account }: CreatedAndSavedPinsProps) => {
-  const t = useTranslations("AccountDetails");
+  const { t } = useTranslation("AccountDetails");
 
   const [activeTab, setActiveTab] = useState<TAB>(TAB.CREATED);
 

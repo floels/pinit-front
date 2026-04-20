@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChessBoard } from "@fortawesome/free-solid-svg-icons";
 import { ellipsizeText } from "@/lib/utils/strings";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 
 type SaveInBoardButtonProps = {
   board: BoardWithBasicDetails;
@@ -21,7 +21,7 @@ const SaveInBoardButton = ({
   handleMouseEnter,
   handleMouseLeave,
 }: SaveInBoardButtonProps) => {
-  const t = useTranslations("PinsBoard");
+  const { t } = useTranslation("PinsBoard");
 
   const { name, firstImageURLs } = board;
 

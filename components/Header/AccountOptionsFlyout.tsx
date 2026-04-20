@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./AccountOptionsFlyout.module.css";
 import { forwardRef } from "react";
 
@@ -12,7 +12,7 @@ const AccountOptionsFlyout = forwardRef<
 >((props, ref) => {
   const { handleClickLogOut } = props;
 
-  const t = useTranslations("HeaderAuthenticated");
+  const { t } = useTranslation("HeaderAuthenticated");
 
   return (
     <div

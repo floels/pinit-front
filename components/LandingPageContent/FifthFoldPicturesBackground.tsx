@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./FifthFoldPicturesBackground.module.css";
 
 export const PICTURE_URLS = [
@@ -29,7 +29,7 @@ export const PICTURE_URLS = [
 ];
 
 const FifthFoldPicturesBackground = () => {
-  const t = useTranslations("LandingPageContent");
+  const { t } = useTranslation("LandingPageContent");
 
   const BackgroundPicture = ({ pictureIndex }: { pictureIndex: number }) => {
     return (

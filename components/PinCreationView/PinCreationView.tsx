@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import styles from "./PinCreationView.module.css";
 import PinImageDropzone from "./PinImageDropzone";
 
@@ -25,7 +25,7 @@ const PinCreationView = ({
   handleInputChange,
   handleSubmit,
 }: PinCreationViewProps) => {
-  const t = useTranslations("PinCreation");
+  const { t } = useTranslation("PinCreation");
 
   return (
     <div className={styles.container}>
