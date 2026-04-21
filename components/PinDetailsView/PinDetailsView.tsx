@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { PinWithFullDetails } from "@/lib/types/frontendTypes";
 import styles from "./PinDetailsView.module.css";
@@ -44,7 +43,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
             data-testid="pin-author-details"
           >
             {pin.author.profilePictureURL && (
-              <Image
+              <img
                 className={styles.authorProfilePicture}
                 width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
                 height={AUTHOR_PROFILE_PICTURE_SIZE_PX}

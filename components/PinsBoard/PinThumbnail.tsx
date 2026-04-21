@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import styles from "./PinThumbnail.module.css";
 import {
@@ -125,7 +124,7 @@ const PinThumbnail = ({
         href={`/${pin.author.username}/`}
       >
         {pin.author.profilePictureURL && (
-          <Image
+          <img
             className={styles.authorProfilePicture}
             width={AUTHOR_PROFILE_PICTURE_SIZE_PX}
             height={AUTHOR_PROFILE_PICTURE_SIZE_PX}

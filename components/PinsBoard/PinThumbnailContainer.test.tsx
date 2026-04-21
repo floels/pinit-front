@@ -7,7 +7,6 @@ import {
 } from "@testing-library/react";
 import PinThumbnailContainer from "./PinThumbnailContainer";
 import { AccountContext } from "@/contexts/accountContext";
-import { checkNextImageSrc } from "@/lib/testing-utils/misc";
 import userEvent from "@testing-library/user-event";
 import {
   API_ROUTE_MY_ACCOUNT_DETAILS,
@@ -123,7 +122,7 @@ it("displays relevant data in board buttons", async () => {
 
   const firstBoardThumbnail = within(firstBoardButton).getByRole("img");
 
-  checkNextImageSrc(firstBoardThumbnail, boards[0].firstImageURLs[0]);
+  expect(firstBoardThumbnail.getAttribute("src")).toBe(boards[0].firstImageURLs[0]);
 });
 
 it("displays 'Save' button in board button only when hovered", async () => {

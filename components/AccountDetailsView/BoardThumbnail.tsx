@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import styles from "./BoardThumbnail.module.css";
@@ -20,7 +19,7 @@ const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
 
   if (coverImageURL) {
     coverImage = (
-      <Image
+      <img
         src={coverImageURL}
         alt={name}
         width={COVER_PICTURE_SIZE_PX}
@@ -53,7 +52,7 @@ const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
       // to account for 1px bottom border
 
       return (
-        <Image
+        <img
           src={imageURL}
           alt={name}
           width={SECONDARY_PICTURE_SIZE_PX}
