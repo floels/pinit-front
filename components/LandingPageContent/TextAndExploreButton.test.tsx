@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import TextAndExploreButton from "./TextAndExploreButton";
 import { FOLD } from "./LandingPageContent";
 
@@ -9,7 +10,11 @@ it("renders elements with the proper classes", () => {
     labels: { header: "", paragraph: "", link: "" },
   };
 
-  render(<TextAndExploreButton {...props} />);
+  render(
+    <MemoryRouter>
+      <TextAndExploreButton {...props} />
+    </MemoryRouter>,
+  );
 
   const container = screen.getByTestId("text-and-explore-button-container");
   expect(container.className).toEqual("container containerSecondFold");

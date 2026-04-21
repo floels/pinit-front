@@ -3,9 +3,14 @@ import BoardThumbnail from "./BoardThumbnail";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 
 const renderComponent = ({ board }: { board: BoardWithBasicDetails }) => {
-  render(<BoardThumbnail username="johndoe" board={board} />);
+  render(
+    <MemoryRouter>
+      <BoardThumbnail username="johndoe" board={board} />
+    </MemoryRouter>,
+  );
 };
 
 it("renders cover picture and two secondary pictures if all are provided", () => {

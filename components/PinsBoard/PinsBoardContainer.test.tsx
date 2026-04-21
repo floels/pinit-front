@@ -1,4 +1,5 @@
 import { render, waitFor, act, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import en from "@/public/locales/en/PinsBoard.json";
 import PinsBoardContainer from "./PinsBoardContainer";
 import { ToastContainer } from "react-toastify";
@@ -30,13 +31,13 @@ beforeEach(() => {
 
 const renderComponent = () => {
   render(
-    <>
+    <MemoryRouter>
       <ToastContainer />
       <PinsBoardContainer
         initialPins={initialPins}
         fetchPinsAPIRoute={API_ROUTE_PIN_SUGGESTIONS}
       />
-    </>,
+    </MemoryRouter>,
   );
 };
 

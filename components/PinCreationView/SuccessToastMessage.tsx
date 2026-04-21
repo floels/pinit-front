@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import styles from "./SuccessToastMessage.module.css";
 
 type SuccessToastMessageProps = {
@@ -15,7 +15,7 @@ const SuccessToastMessage = ({ pinId }: SuccessToastMessageProps) => {
       data-testid="success-toast-message"
     >
       <p>{t("PIN_PUBLISHED")}</p>
-      <Link href={`/pin/${pinId}/`} className={styles.successToastMessageLink}>
+      <Link to={`/pin/${pinId}`} className={styles.successToastMessageLink}>
         {t("VIEW")}
       </Link>
     </div>

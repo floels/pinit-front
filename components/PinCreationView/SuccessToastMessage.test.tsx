@@ -1,8 +1,13 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import SuccessToastMessage from "./SuccessToastMessage";
 
 it("renders link with proper 'href' attribute", () => {
-  render(<SuccessToastMessage pinId="123456789" />);
+  render(
+    <MemoryRouter>
+      <SuccessToastMessage pinId="123456789" />
+    </MemoryRouter>,
+  );
 
   const link = screen.getByRole("link") as HTMLAnchorElement;
 

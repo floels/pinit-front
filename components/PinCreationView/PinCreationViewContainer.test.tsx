@@ -5,6 +5,7 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import PinCreationViewContainer from "./PinCreationViewContainer";
 import en from "@/public/locales/en/PinCreation.json";
 import { act } from "react-dom/test-utils";
@@ -38,10 +39,10 @@ const expectInputFieldsToBeDisabled = () => {
 
 const renderComponent = () => {
   render(
-    <div>
+    <MemoryRouter>
       <ToastContainer />
       <PinCreationViewContainer />
-    </div>,
+    </MemoryRouter>,
   );
 };
 

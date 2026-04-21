@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { FOLD } from "./LandingPageContent";
 import styles from "./TextAndExploreButton.module.css";
 import { useTranslation } from "react-i18next";
@@ -37,7 +37,7 @@ const TextAndExploreButton = ({
       <div className={styles.header}>{labels.header}</div>
       <div className={styles.paragraph}>{labels.paragraph}</div>
       <Link
-        href={linkTarget}
+        to={linkTarget}
         className={buttonClasses}
         data-testid="text-and-explore-button-button"
       >

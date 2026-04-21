@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { PinWithFullDetails } from "@/lib/types/frontendTypes";
 import styles from "./PinDetailsView.module.css";
@@ -16,7 +16,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
 
   return (
     <div className={styles.container}>
-      <Link href="/">
+      <Link to="/">
         <button className={styles.backButton}>
           <FontAwesomeIcon icon={faArrowLeft} size="lg" />
         </button>
@@ -38,7 +38,7 @@ const PinDetailsView = ({ pin }: PinDetailsViewProps) => {
             <p className={styles.pinDescription}>{pin.description}</p>
           )}
           <Link
-            href={`/${pin.author.username}/`}
+            to={`/${pin.author.username}`}
             className={styles.authorDetails}
             data-testid="pin-author-details"
           >

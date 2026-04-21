@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { BoardWithBasicDetails } from "@/lib/types/frontendTypes";
 import styles from "./BoardThumbnail.module.css";
 
@@ -78,7 +78,7 @@ const BoardThumbnail = ({ username, board }: BoardThumbnailProps) => {
 
   return (
     <div className={styles.container}>
-      <Link href={`/${username}/${slug}/`} className={styles.content}>
+      <Link to={`/${username}/${slug}`} className={styles.content}>
         <div className={styles.imagesContainer}>
           {coverImage}
           <div className={styles.secondaryImages}>

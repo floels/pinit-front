@@ -5,6 +5,7 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import PinThumbnailContainer from "./PinThumbnailContainer";
 import { AccountContext } from "@/contexts/accountContext";
 import userEvent from "@testing-library/user-event";
@@ -49,14 +50,16 @@ const renderComponent = () => {
   };
 
   render(
-    <AccountContext.Provider value={accountContext}>
-      <ToastContainer />
-      <PinThumbnailContainer
-        pin={pin}
-        isInFirstColumn={false}
-        isInLastColumn={false}
-      />
-    </AccountContext.Provider>,
+    <MemoryRouter>
+      <AccountContext.Provider value={accountContext}>
+        <ToastContainer />
+        <PinThumbnailContainer
+          pin={pin}
+          isInFirstColumn={false}
+          isInLastColumn={false}
+        />
+      </AccountContext.Provider>
+    </MemoryRouter>,
   );
 };
 
