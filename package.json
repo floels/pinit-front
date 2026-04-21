@@ -64,8 +64,8 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "yarn lint --fix"
+      "pnpm lint --fix"
     ]
   },
-  "packageManager": "yarn@3.5.0"
+  "packageManager": "pnpm@10.14.0"
 }
