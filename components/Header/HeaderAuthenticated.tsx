@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -58,7 +57,7 @@ const HeaderAuthenticated = forwardRef<
   }
 
   const profileLinkBadge = profilePictureURL ? (
-    <Image
+    <img
       src={profilePictureURL}
       alt={t("ALT_PROFILE_PICTURE")}
       width={24}
@@ -76,7 +75,7 @@ const HeaderAuthenticated = forwardRef<
     <nav className={styles.container}>
       <div className={styles.headerItemsContainer}>
         <Link href="/" className={styles.logoContainer}>
-          <Image
+          <img
             src="/images/logo.svg"
             alt="PinIt logo"
             width={24}

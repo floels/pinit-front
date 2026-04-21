@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render, waitFor } from "@testing-library/react";
 import en from "@/public/locales/en/HeaderAuthenticated.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
-import { MockLocalStorage, checkNextImageSrc } from "@/lib/testing-utils/misc";
+import { MockLocalStorage } from "@/lib/testing-utils/misc";
 import {
   API_ROUTE_MY_ACCOUNT_DETAILS,
   PROFILE_PICTURE_URL_LOCAL_STORAGE_KEY,
@@ -125,7 +125,7 @@ profile picture URL is available in account context`, () => {
   renderComponent();
 
   const profilePicture = screen.getByTestId("profile-picture");
-  checkNextImageSrc(profilePicture, defaultAccount.profilePictureURL);
+  expect(profilePicture.getAttribute("src")).toBe(defaultAccount.profilePictureURL);
 });
 
 it(`displays profile picture in 'Your profile' link if account context
@@ -144,7 +144,7 @@ local storage`, async () => {
   await waitFor(() => {
     const profilePicture = screen.getByTestId("profile-picture");
 
-    checkNextImageSrc(profilePicture, profilePictureURL);
+    expect(profilePicture.getAttribute("src")).toBe(profilePictureURL);
   });
 });
 

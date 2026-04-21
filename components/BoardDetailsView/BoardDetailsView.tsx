@@ -1,6 +1,5 @@
 import { BoardWithFullDetails } from "@/lib/types/frontendTypes";
 import { useTranslation } from "react-i18next";
-import Image from "next/image";
 import styles from "./BoardDetailsView.module.css";
 import PinThumbnailsGrid from "../PinThumbnailsGrid/PinThumbnailsGrid";
 
@@ -24,7 +23,7 @@ const BoardDetailsView = ({ board }: { board: BoardWithFullDetails }) => {
 
   if (authorProfilePictureURL) {
     displayAuthorProfilePicture = (
-      <Image
+      <img
         src={authorProfilePictureURL}
         alt={`${t("AUTHOR_PROFILE_PICTURE_ALT")} ${authorDisplayName}`}
         height={AUTHOR_PROFILE_PICTURE_HEIGHT_PX}

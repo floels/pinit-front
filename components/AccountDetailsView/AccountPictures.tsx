@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { AccountWithPublicDetails } from "@/lib/types/frontendTypes";
-import Image from "next/image";
 import styles from "./AccountPictures.module.css";
 
 type AccountPicturesProps = {
@@ -23,7 +22,7 @@ const AccountPictures = ({ account }: AccountPicturesProps) => {
 
   if (profilePictureURL && backgroundPictureURL) {
     backgroudPicture = (
-      <Image
+      <img
         src={backgroundPictureURL}
         width={BACKGROUND_PICTURE_WIDTH_PX}
         height={BACKGROUND_PICTURE_HEIGHT_PX}
@@ -43,7 +42,7 @@ const AccountPictures = ({ account }: AccountPicturesProps) => {
     }
 
     profilePicture = (
-      <Image
+      <img
         src={profilePictureURL}
         width={PROFILE_PICTURE_WIDTH_PX}
         height={PROFILE_PICTURE_HEIGHT_PX}

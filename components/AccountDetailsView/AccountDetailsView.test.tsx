@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import AccountDetailsView from "./AccountDetailsView";
 import en from "@/public/locales/en/AccountDetails.json";
-import { checkNextImageSrc } from "@/lib/testing-utils/misc";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_ACCOUNT_DETAILS } from "@/lib/constants";
 
@@ -17,12 +16,12 @@ it("renders all relevant details", () => {
   const profilePicture = screen.getByAltText(
     `${en.ALT_PROFILE_PICTURE_OF} John Doe`,
   );
-  checkNextImageSrc(profilePicture, account.profilePictureURL);
+  expect(profilePicture.getAttribute("src")).toBe(account.profilePictureURL);
 
   const backgroundPicture = screen.getByAltText(
     `${en.ALT_BACKGROUND_PICTURE_OF} John Doe`,
   );
-  checkNextImageSrc(backgroundPicture, account.backgroundPictureURL);
+  expect(backgroundPicture.getAttribute("src")).toBe(account.backgroundPictureURL);
 });
 
 it("displays initial when profile picture is not provided", () => {

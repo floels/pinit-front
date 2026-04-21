@@ -23,18 +23,6 @@ export const withQueryClient = (children: React.ReactElement) => {
   );
 };
 
-export const checkNextImageSrc = (image: HTMLElement, expectedSrc: string) => {
-  const expectedSrcPattern = getNextImageSrcRegexFromURL(expectedSrc);
-
-  expect(image.getAttribute("src")).toMatch(expectedSrcPattern);
-};
-
-const getNextImageSrcRegexFromURL = (url: string) => {
-  const encodedUrl = encodeURIComponent(url);
-
-  return new RegExp(`/_next\\/image\\?url=${encodedUrl}`);
-};
-
 // Mock the IntersectionObserver, used notably in 'components/PinsBoard' tests
 export const mockIntersectionObserver = () => {
   global.IntersectionObserver = jest.fn(() => ({

@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import PinDetailsView from "./PinDetailsView";
 import en from "@/public/locales/en/PinDetails.json";
-import { checkNextImageSrc } from "@/lib/testing-utils/misc";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
 import { PinWithFullDetails } from "@/lib/types/frontendTypes";
@@ -30,7 +29,7 @@ it("renders all required elements", () => {
   const authorProfilePicture = screen.getByAltText(
     "Profile picture of John Doe",
   );
-  checkNextImageSrc(authorProfilePicture, defaultPin.author.profilePictureURL);
+  expect(authorProfilePicture.getAttribute("src")).toBe(defaultPin.author.profilePictureURL);
 
   screen.getByText(defaultPin.author.displayName);
 });
