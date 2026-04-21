@@ -11,8 +11,6 @@ jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
 }));
 
-const messages = en;
-
 const mockedUsePathname = usePathname as jest.Mock;
 
 const renderComponent = () => {
@@ -44,10 +42,10 @@ it("when on home route, should mark home link as active and not mark create link
 
   renderComponent();
 
-  const homeLink = screen.getByText(messages.NAV_ITEM_HOME);
+  const homeLink = screen.getByText(en.NAV_ITEM_HOME);
   expect(homeLink).toHaveClass("navigationItemActive");
 
-  const createLink = screen.getByText(messages.NAV_ITEM_CREATE);
+  const createLink = screen.getByText(en.NAV_ITEM_CREATE);
   expect(createLink).not.toHaveClass("navigationItemActive");
 });
 
@@ -56,9 +54,9 @@ it("when on pin creation route, should mark create link as active and not mark h
 
   renderComponent();
 
-  const homeLink = screen.getByText(messages.NAV_ITEM_HOME);
+  const homeLink = screen.getByText(en.NAV_ITEM_HOME);
   expect(homeLink).not.toHaveClass("navigationItemActive");
 
-  const createLink = screen.getByText(messages.NAV_ITEM_CREATE);
+  const createLink = screen.getByText(en.NAV_ITEM_CREATE);
   expect(createLink).toHaveClass("navigationItemActive");
 });

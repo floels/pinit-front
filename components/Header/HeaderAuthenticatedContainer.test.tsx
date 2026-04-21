@@ -14,8 +14,6 @@ import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContex
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { AccountWithPrivateDetails } from "@/lib/types/frontendTypes";
 
-const messages = en;
-
 jest.mock("@/components/Header/AccountOptionsFlyout", () => {
   const MockedAccountOptionsFlyout = React.forwardRef(() => (
     <div data-testid="mock-account-options-flyout" />
@@ -60,13 +58,13 @@ it("displays tooltip for profile link upon hover", () => {
 
   const profileLink = screen.getByTestId("profile-link");
 
-  expect(screen.queryByText(messages.YOUR_PROFILE)).toBeNull();
+  expect(screen.queryByText(en.YOUR_PROFILE)).toBeNull();
 
   fireEvent.mouseEnter(profileLink);
-  screen.getByText(messages.YOUR_PROFILE);
+  screen.getByText(en.YOUR_PROFILE);
 
   fireEvent.mouseLeave(profileLink);
-  expect(screen.queryByText(messages.YOUR_PROFILE)).toBeNull();
+  expect(screen.queryByText(en.YOUR_PROFILE)).toBeNull();
 });
 
 it("displays tooltip for account options button upon hover", () => {
@@ -74,13 +72,13 @@ it("displays tooltip for account options button upon hover", () => {
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
 
-  expect(screen.queryByText(messages.ACCOUNT_OPTIONS)).toBeNull();
+  expect(screen.queryByText(en.ACCOUNT_OPTIONS)).toBeNull();
 
   fireEvent.mouseEnter(accountOptionsButton);
-  screen.getByText(messages.ACCOUNT_OPTIONS);
+  screen.getByText(en.ACCOUNT_OPTIONS);
 
   fireEvent.mouseLeave(accountOptionsButton);
-  expect(screen.queryByText(messages.ACCOUNT_OPTIONS)).toBeNull();
+  expect(screen.queryByText(en.ACCOUNT_OPTIONS)).toBeNull();
 });
 
 it("displays account options flyout upon click on corresponding button, and close upon hitting Escape key", async () => {

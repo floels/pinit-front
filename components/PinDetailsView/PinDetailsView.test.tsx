@@ -6,8 +6,6 @@ import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIRespon
 import { API_ENDPOINT_PIN_DETAILS } from "@/lib/constants";
 import { PinWithFullDetails } from "@/lib/types/frontendTypes";
 
-const messages = en;
-
 const defaultPin = MOCK_API_RESPONSES_SERIALIZED[API_ENDPOINT_PIN_DETAILS];
 
 const renderComponent = ({
@@ -46,6 +44,6 @@ it("renders fallback image 'alt' when title is empty", () => {
   renderComponent({ pin: pinWithoutTitle });
 
   screen.getByAltText(
-    `${messages.ALT_PIN_BY} ${defaultPin.author.displayName}`,
+    `${en.ALT_PIN_BY} ${defaultPin.author.displayName}`,
   );
 });

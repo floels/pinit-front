@@ -4,8 +4,6 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FifthFold from "./FifthFold";
 
-const messages = en;
-
 const mockScrollIntoView = jest.fn();
 
 const heroRef = {
@@ -36,16 +34,16 @@ and back to signup form upon click on 'No account yet'`, async () => {
   render(fifthFold);
 
   const alreadyHaveAccountButton = screen.getByText(
-    messages.SignupForm.ALREADY_HAVE_ACCOUNT_CTA,
+    en.SignupForm.ALREADY_HAVE_ACCOUNT_CTA,
   );
   await userEvent.click(alreadyHaveAccountButton);
 
   const noAccountYetButton = screen.getByText(
-    messages.LoginForm.NO_ACCOUNT_YET_CTA,
+    en.LoginForm.NO_ACCOUNT_YET_CTA,
   );
   await userEvent.click(noAccountYetButton);
 
-  screen.getByText(messages.SignupForm.ALREADY_HAVE_ACCOUNT_CTA);
+  screen.getByText(en.SignupForm.ALREADY_HAVE_ACCOUNT_CTA);
 });
 
 it("calls onClickBackToTop when corresponding button is clicked", async () => {

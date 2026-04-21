@@ -3,8 +3,6 @@ import PinImageDropzone from "./PinImageDropzone";
 import en from "@/public/locales/en/PinCreation.json";
 import { act } from "react-dom/test-utils";
 
-const messages = en;
-
 const mockOnFileDropped = jest.fn();
 
 const mockOnClickDeleteImage = jest.fn();
@@ -26,7 +24,7 @@ const renderComponent = ({
 test("it renders file upload zone if 'imagePreviewURL' props is null", () => {
   renderComponent({ imagePreviewURL: null });
 
-  screen.getByText(messages.DROPZONE_INSTRUCTION);
+  screen.getByText(en.DROPZONE_INSTRUCTION);
 });
 
 test("it renders image preview if 'imagePreviewURL' props is not null", () => {
@@ -34,7 +32,7 @@ test("it renders image preview if 'imagePreviewURL' props is not null", () => {
 
   renderComponent({ imagePreviewURL });
 
-  expect(screen.queryByText(messages.DROPZONE_INSTRUCTION)).toBeNull();
+  expect(screen.queryByText(en.DROPZONE_INSTRUCTION)).toBeNull();
 
   const pinImage = screen.getByRole("img") as HTMLImageElement;
 
