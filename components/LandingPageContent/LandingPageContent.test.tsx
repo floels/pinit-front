@@ -1,9 +1,18 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import LandingPageContent, {
   SCROLLING_DEBOUNCING_TIME_MS,
   SCROLL_DIRECTIONS,
 } from "./LandingPageContent";
 import userEvent from "@testing-library/user-event";
+
+const renderComponent = () => {
+  render(
+    <MemoryRouter>
+      <LandingPageContent />
+    </MemoryRouter>,
+  );
+};
 
 // Since the <FifthFold /> component relies on `useRouter` and other
 // specific methods, we mock the whole component for simplicity:
@@ -43,7 +52,7 @@ const scrollAfterDebounceTime = ({
 it("scrolls from fold to fold, down and up", () => {
   jest.useFakeTimers();
 
-  render(<LandingPageContent />);
+  renderComponent();
 
   const content = screen.getByTestId("landing-page-content");
   expect(content.className).toEqual("content"); // i.e. first fold active
@@ -74,7 +83,7 @@ it("scrolls from fold to fold, down and up", () => {
 });
 
 it("does not scroll down to second fold in case of lateral wheel event", () => {
-  render(<LandingPageContent />);
+  renderComponent();
 
   fireEvent.wheel(document, { deltaX: 10 });
 
@@ -85,7 +94,7 @@ it("does not scroll down to second fold in case of lateral wheel event", () => {
 it("does not move to third fold if user scrolls twice within debounce time", () => {
   jest.useFakeTimers();
 
-  render(<LandingPageContent />);
+  renderComponent();
 
   fireEvent.wheel(document, { deltaY: 100 });
 
@@ -105,7 +114,7 @@ it("does not move to third fold if user scrolls twice within debounce time", () 
 });
 
 it("scrolls to second fold when user clicks on the hero carret", async () => {
-  render(<LandingPageContent />);
+  renderComponent();
 
   const heroCarret = screen.getByTestId("picture-slider-carret-icon");
   await userEvent.click(heroCarret);
@@ -117,7 +126,7 @@ it("scrolls to second fold when user clicks on the hero carret", async () => {
 it("scrolls back to top upon click on 'send back to top'", async () => {
   jest.useFakeTimers();
 
-  render(<LandingPageContent />);
+  renderComponent();
 
   const content = screen.getByTestId("landing-page-content");
 

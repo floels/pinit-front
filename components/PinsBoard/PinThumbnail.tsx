@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styles from "./PinThumbnail.module.css";
 import {
@@ -95,7 +95,7 @@ const PinThumbnail = ({
   return (
     <div className={styles.container} data-testid="pin-thumbnail">
       <Link
-        href={`/pin/${pin.id}/`}
+        to={`/pin/${pin.id}`}
         className={styles.imageContainer}
         onMouseEnter={handleMouseEnterImage}
         onMouseLeave={handleMouseLeaveImage}
@@ -114,14 +114,14 @@ const PinThumbnail = ({
         {shouldShowImageOverlay && imageOverlay}
       </Link>
       {pin.title && (
-        <Link href={`/pin/${pin.id}`} className={styles.title}>
+        <Link to={`/pin/${pin.id}`} className={styles.title}>
           {pin.title}
         </Link>
       )}
       <Link
         className={styles.authorDetails}
         data-testid="pin-author-details"
-        href={`/${pin.author.username}/`}
+        to={`/${pin.author.username}`}
       >
         {pin.author.profilePictureURL && (
           <img

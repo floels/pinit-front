@@ -1,4 +1,9 @@
+import { TextEncoder, TextDecoder } from "util";
 import { enableMocks } from "jest-fetch-mock";
+
+// react-router-dom v7 uses TextEncoder/TextDecoder which jsdom doesn't provide
+globalThis.TextEncoder = TextEncoder;
+globalThis.TextDecoder = TextDecoder;
 import Common from "./public/locales/en/Common.json";
 import HeaderUnauthenticated from "./public/locales/en/HeaderUnauthenticated.json";
 import HeaderAuthenticated from "./public/locales/en/HeaderAuthenticated.json";

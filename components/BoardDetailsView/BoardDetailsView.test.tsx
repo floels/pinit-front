@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import BoardDetailsView from "./BoardDetailsView";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ENDPOINT_BOARD_DETAILS } from "@/lib/constants";
@@ -7,7 +8,11 @@ import en from "@/public/locales/en/BoardDetails.json";
 const board = MOCK_API_RESPONSES_SERIALIZED[API_ENDPOINT_BOARD_DETAILS];
 
 const renderComponent = () => {
-  render(<BoardDetailsView board={board} />);
+  render(
+    <MemoryRouter>
+      <BoardDetailsView board={board} />
+    </MemoryRouter>,
+  );
 };
 
 it("renders board details", () => {

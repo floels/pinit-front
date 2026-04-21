@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import PinDetailsView from "./PinDetailsView";
 import en from "@/public/locales/en/PinDetails.json";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
@@ -10,7 +11,11 @@ const defaultPin = MOCK_API_RESPONSES_SERIALIZED[API_ENDPOINT_PIN_DETAILS];
 const renderComponent = ({
   pin = defaultPin,
 }: { pin?: PinWithFullDetails } = {}) => {
-  return render(<PinDetailsView pin={pin} />);
+  return render(
+    <MemoryRouter>
+      <PinDetailsView pin={pin} />
+    </MemoryRouter>,
+  );
 };
 
 it("renders all required elements", () => {

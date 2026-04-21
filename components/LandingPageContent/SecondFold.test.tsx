@@ -1,7 +1,12 @@
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import SecondFold from "./SecondFold";
 
 // This component is purely presentational:
 it("renders", () => {
-  render(<SecondFold />);
+  render(
+    <MemoryRouter>
+      <SecondFold />
+    </MemoryRouter>,
+  );
 });

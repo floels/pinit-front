@@ -1,4 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import PinsBoard from "./PinsBoard";
 import { mockIntersectionObserver } from "@/lib/testing-utils/misc";
 import en from "@/public/locales/en/PinsSearch.json";
@@ -19,12 +20,14 @@ const pins = MOCK_API_RESPONSES_SERIALIZED[API_ROUTE_PIN_SUGGESTIONS].results;
 
 const renderComponent = () => {
   render(
-    <PinsBoard
-      pins={pins}
-      isFetching={false}
-      fetchFailed={false}
-      onScrolledToBottom={jest.fn()}
-    />,
+    <MemoryRouter>
+      <PinsBoard
+        pins={pins}
+        isFetching={false}
+        fetchFailed={false}
+        onScrolledToBottom={jest.fn()}
+      />
+    </MemoryRouter>,
   );
 };
 

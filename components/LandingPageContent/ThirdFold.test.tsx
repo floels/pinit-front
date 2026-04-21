@@ -1,7 +1,12 @@
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import ThirdFold from "./ThirdFold";
 
 // This component is purely presentational:
 it("renders", () => {
-  render(<ThirdFold />);
+  render(
+    <MemoryRouter>
+      <ThirdFold />
+    </MemoryRouter>,
+  );
 });
