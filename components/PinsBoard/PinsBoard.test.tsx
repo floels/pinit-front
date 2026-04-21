@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import PinsBoard from "./PinsBoard";
 import { mockIntersectionObserver } from "@/lib/testing-utils/misc";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/PinsSearch.json";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { API_ROUTE_PIN_SUGGESTIONS } from "@/lib/constants";
 
@@ -70,7 +70,7 @@ it("renders empty results message when pins table is empty", () => {
     />,
   );
 
-  screen.getByText(en.PinsSearch.NO_RESULTS);
+  screen.getByText(en.NO_RESULTS);
 });
 
 // The rest of the component's behavior is tested in 'PinsBoardContainer.test.tsx'.

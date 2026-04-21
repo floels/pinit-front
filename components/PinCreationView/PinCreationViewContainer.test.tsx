@@ -6,15 +6,13 @@ import {
   within,
 } from "@testing-library/react";
 import PinCreationViewContainer from "./PinCreationViewContainer";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/PinCreation.json";
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import { API_ROUTE_CREATE_PIN } from "@/lib/constants";
 import { FetchMock } from "jest-fetch-mock";
 import { ToastContainer } from "react-toastify";
 import { MOCK_API_RESPONSES } from "@/lib/testing-utils/mockAPIResponses";
-
-const messages = en.PinCreation;
 
 const mockImageFile = new File(["mockImage"], "MockImage.png", {
   type: "image/png",
@@ -54,7 +52,7 @@ beforeEach(() => {
 it("renders header, have input fields disabled, and not render submit button initially", () => {
   renderComponent();
 
-  screen.getByText(messages.CREATE_PIN);
+  screen.getByText(en.CREATE_PIN);
 
   expectInputFieldsToBeDisabled();
 
@@ -64,12 +62,12 @@ it("renders header, have input fields disabled, and not render submit button ini
 it("renders image preview, have input fields enabled and render submit button upon file dropped", async () => {
   renderComponent();
 
-  screen.getByText(messages.DROPZONE_INSTRUCTION);
+  screen.getByText(en.DROPZONE_INSTRUCTION);
 
   await dropImageFile();
 
   await waitFor(() => {
-    expect(screen.queryByText(messages.DROPZONE_INSTRUCTION)).toBeNull();
+    expect(screen.queryByText(en.DROPZONE_INSTRUCTION)).toBeNull();
 
     const pinImage = screen.getByRole("img") as HTMLImageElement;
 
@@ -99,7 +97,7 @@ it("renders dropzone again and hides submit button upon click on 'delete image'"
 
     await userEvent.click(deleteButton);
 
-    screen.getByText(messages.DROPZONE_INSTRUCTION);
+    screen.getByText(en.DROPZONE_INSTRUCTION);
 
     expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
   });
@@ -163,7 +161,7 @@ upon successful creation`, async () => {
   expect(pinLink.href).toMatch(/\/pin\/000000000000000001$/);
 
   // Check form was reset:
-  screen.getByText(messages.DROPZONE_INSTRUCTION);
+  screen.getByText(en.DROPZONE_INSTRUCTION);
   expectInputFieldsToBeDisabled();
   expect(screen.queryByTestId("pin-creation-submit-button")).toBeNull();
 });
@@ -175,7 +173,7 @@ it("displays loading overlay and change text of submit button when posting", asy
 
   const submitButton = screen.getByTestId("pin-creation-submit-button");
 
-  expect(submitButton).toHaveTextContent(messages.PUBLISH);
+  expect(submitButton).toHaveTextContent(en.PUBLISH);
 
   expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
 
@@ -184,7 +182,7 @@ it("displays loading overlay and change text of submit button when posting", asy
 
   await userEvent.click(submitButton);
 
-  expect(submitButton).toHaveTextContent(messages.PUBLISHING);
+  expect(submitButton).toHaveTextContent(en.PUBLISHING);
 
   screen.getByTestId("pin-creation-loading-overlay");
 });
@@ -201,9 +199,9 @@ it("displays error toast in case of KO response upon posting", async () => {
   const submitButton = screen.getByTestId("pin-creation-submit-button");
   await userEvent.click(submitButton);
 
-  screen.getByText(messages.ERROR_POSTING_PIN);
+  screen.getByText(en.ERROR_POSTING_PIN);
 
   // Assert loading state was deactivated:
-  expect(submitButton).toHaveTextContent(messages.PUBLISH);
+  expect(submitButton).toHaveTextContent(en.PUBLISH);
   expect(screen.queryByTestId("pin-creation-loading-overlay")).toBeNull();
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render, waitFor } from "@testing-library/react";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/HeaderAuthenticated.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import { MockLocalStorage, checkNextImageSrc } from "@/lib/testing-utils/misc";
 import {
@@ -13,8 +13,6 @@ import { AccountContext } from "@/contexts/accountContext";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 import { MOCK_API_RESPONSES_SERIALIZED } from "@/lib/testing-utils/mockAPIResponses";
 import { AccountWithPrivateDetails } from "@/lib/types/frontendTypes";
-
-const messages = en.HeaderAuthenticated;
 
 jest.mock("@/components/Header/AccountOptionsFlyout", () => {
   const MockedAccountOptionsFlyout = React.forwardRef(() => (
@@ -60,13 +58,13 @@ it("displays tooltip for profile link upon hover", () => {
 
   const profileLink = screen.getByTestId("profile-link");
 
-  expect(screen.queryByText(messages.YOUR_PROFILE)).toBeNull();
+  expect(screen.queryByText(en.YOUR_PROFILE)).toBeNull();
 
   fireEvent.mouseEnter(profileLink);
-  screen.getByText(messages.YOUR_PROFILE);
+  screen.getByText(en.YOUR_PROFILE);
 
   fireEvent.mouseLeave(profileLink);
-  expect(screen.queryByText(messages.YOUR_PROFILE)).toBeNull();
+  expect(screen.queryByText(en.YOUR_PROFILE)).toBeNull();
 });
 
 it("displays tooltip for account options button upon hover", () => {
@@ -74,13 +72,13 @@ it("displays tooltip for account options button upon hover", () => {
 
   const accountOptionsButton = screen.getByTestId("account-options-button");
 
-  expect(screen.queryByText(messages.ACCOUNT_OPTIONS)).toBeNull();
+  expect(screen.queryByText(en.ACCOUNT_OPTIONS)).toBeNull();
 
   fireEvent.mouseEnter(accountOptionsButton);
-  screen.getByText(messages.ACCOUNT_OPTIONS);
+  screen.getByText(en.ACCOUNT_OPTIONS);
 
   fireEvent.mouseLeave(accountOptionsButton);
-  expect(screen.queryByText(messages.ACCOUNT_OPTIONS)).toBeNull();
+  expect(screen.queryByText(en.ACCOUNT_OPTIONS)).toBeNull();
 });
 
 it("displays account options flyout upon click on corresponding button, and close upon hitting Escape key", async () => {

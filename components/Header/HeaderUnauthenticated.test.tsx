@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/LandingPageContent.json";
 import HeaderUnauthenticated from "./HeaderUnauthenticated";
 import { usePathname } from "next/navigation";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
@@ -10,8 +10,6 @@ jest.mock("next/navigation", () => ({
   usePathname: jest.fn(),
   useSearchParams: jest.fn(),
 }));
-
-const messages = en.LandingPageContent;
 
 const renderComponent = () => {
   render(
@@ -51,15 +49,15 @@ and switches to signup modal when user clicks on 'Sign up'`, async () => {
 
   let modal = screen.getByTestId("overlay-modal");
 
-  within(modal).getByText(messages.LoginForm.WELCOME_TO_PINIT);
+  within(modal).getByText(en.LoginForm.WELCOME_TO_PINIT);
 
-  const noAccountYet = screen.getByText(messages.LoginForm.NO_ACCOUNT_YET_CTA);
+  const noAccountYet = screen.getByText(en.LoginForm.NO_ACCOUNT_YET_CTA);
 
   await userEvent.click(noAccountYet);
 
   modal = screen.getByTestId("overlay-modal");
 
-  within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
+  within(modal).getByText(en.SignupForm.FIND_NEW_IDEAS);
 });
 
 it(`opens signup modal when user clicks on Signup button,
@@ -72,10 +70,10 @@ and switches to login modal when user clicks on 'Log in'`, async () => {
 
   let modal = screen.getByTestId("overlay-modal");
 
-  within(modal).getByText(messages.SignupForm.FIND_NEW_IDEAS);
+  within(modal).getByText(en.SignupForm.FIND_NEW_IDEAS);
 
   const alreadyHaveAccount = screen.getByText(
-    messages.SignupForm.ALREADY_HAVE_ACCOUNT_CTA,
+    en.SignupForm.ALREADY_HAVE_ACCOUNT_CTA,
   );
 
   await userEvent.click(alreadyHaveAccount);
@@ -83,10 +81,10 @@ and switches to login modal when user clicks on 'Log in'`, async () => {
   modal = screen.getByTestId("overlay-modal");
 
   expect(
-    within(modal).queryByText(messages.SignupForm.FIND_NEW_IDEAS),
+    within(modal).queryByText(en.SignupForm.FIND_NEW_IDEAS),
   ).toBeNull();
 
-  within(modal).getByText(messages.LoginForm.WELCOME_TO_PINIT);
+  within(modal).getByText(en.LoginForm.WELCOME_TO_PINIT);
 });
 
 it("closes login modal when user clicks close button", async () => {

@@ -14,7 +14,7 @@ import {
   API_ROUTE_PIN_SUGGESTIONS,
   API_ROUTE_SAVE_PIN,
 } from "@/lib/constants";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/PinsBoard.json";
 import { ToastContainer } from "react-toastify";
 import {
   MOCK_API_RESPONSES,
@@ -160,7 +160,7 @@ successful save`, async () => {
 
     screen.getByText(boards[0].name);
 
-    screen.getByText(en.PinsBoard.PIN_THUMBNAIL_SAVED_LABEL_TEXT);
+    screen.getByText(en.PIN_THUMBNAIL_SAVED_LABEL_TEXT);
   });
 });
 
@@ -176,6 +176,6 @@ it("displays appropriate error toast upon KO response on saving pin", async () =
   await userEvent.click(firstBoardButton);
 
   await waitFor(() => {
-    screen.getByText(en.PinsBoard.PIN_SAVE_ERROR_MESSAGE);
+    screen.getByText(en.PIN_SAVE_ERROR_MESSAGE);
   });
 });

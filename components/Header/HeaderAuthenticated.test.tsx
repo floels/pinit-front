@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { usePathname } from "next/navigation";
 import HeaderAuthenticated from "./HeaderAuthenticated";
-import en from "@/messages/en.json";
+import en from "@/public/locales/en/HeaderAuthenticated.json";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 import { createRef } from "react";
 
@@ -10,8 +10,6 @@ jest.mock("next/navigation", () => ({
   usePathname: jest.fn(),
   useSearchParams: jest.fn(),
 }));
-
-const messages = en.HeaderAuthenticated;
 
 const mockedUsePathname = usePathname as jest.Mock;
 
@@ -44,10 +42,10 @@ it("when on home route, should mark home link as active and not mark create link
 
   renderComponent();
 
-  const homeLink = screen.getByText(messages.NAV_ITEM_HOME);
+  const homeLink = screen.getByText(en.NAV_ITEM_HOME);
   expect(homeLink).toHaveClass("navigationItemActive");
 
-  const createLink = screen.getByText(messages.NAV_ITEM_CREATE);
+  const createLink = screen.getByText(en.NAV_ITEM_CREATE);
   expect(createLink).not.toHaveClass("navigationItemActive");
 });
 
@@ -56,9 +54,9 @@ it("when on pin creation route, should mark create link as active and not mark h
 
   renderComponent();
 
-  const homeLink = screen.getByText(messages.NAV_ITEM_HOME);
+  const homeLink = screen.getByText(en.NAV_ITEM_HOME);
   expect(homeLink).not.toHaveClass("navigationItemActive");
 
-  const createLink = screen.getByText(messages.NAV_ITEM_CREATE);
+  const createLink = screen.getByText(en.NAV_ITEM_CREATE);
   expect(createLink).toHaveClass("navigationItemActive");
 });
