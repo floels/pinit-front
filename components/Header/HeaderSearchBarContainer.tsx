@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { API_ROUTE_SEARCH_SUGGESTIONS } from "@/lib/constants";
 import HeaderSearchBar from "./HeaderSearchBar";
 import { useHeaderSearchBarContext } from "@/contexts/headerSearchBarContext";
@@ -36,7 +36,7 @@ const getSuggestionsWithSearchTermAtTop = ({
 };
 
 const HeaderSearchBarContainer = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
 
@@ -60,7 +60,7 @@ const HeaderSearchBarContainer = () => {
       // updated based on the route, but updating it here will give a better
       // impression of reactivity.
 
-      router.push(`/search/pins?q=${suggestion}`);
+      navigate(`/search/pins?q=${suggestion}`);
     };
   };
 

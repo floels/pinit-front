@@ -1,16 +1,14 @@
-"use client";
-
 import { useTranslation } from "react-i18next";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginFormContainer from "../LoginForm/LoginFormContainer";
 import SignupFormContainer from "../SignupForm/SignupFormContainer";
 import styles from "./HeaderUnauthenticated.module.css";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useLocation } from "react-router-dom";
 import HeaderSearchBarContainer from "./HeaderSearchBarContainer";
 
 const HeaderUnauthenticated = () => {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
 
   const isOnHomePage = pathname === "/" || pathname === "/en";
 

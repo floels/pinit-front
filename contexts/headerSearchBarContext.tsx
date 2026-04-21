@@ -6,7 +6,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 type State = {
   inputValue: string;
@@ -52,8 +52,8 @@ export const HeaderSearchBarContextProvider = ({
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
 
   // Initialize the input value to the search param if present:
   useEffect(() => {

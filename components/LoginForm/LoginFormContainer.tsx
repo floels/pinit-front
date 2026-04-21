@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   ERROR_CODE_INVALID_PASSWORD,
   ERROR_CODE_INVALID_EMAIL,
@@ -34,8 +33,6 @@ const computeFormErrors = (values: { email: string; password: string }) => {
 const LoginFormContainer = ({
   handleClickNoAccountYet,
 }: LoginFormContainerProps) => {
-  const router = useRouter();
-
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -97,7 +94,7 @@ const LoginFormContainer = ({
 
     setAccessTokenExpirationDate(responseData.access_token_expiration_utc);
 
-    router.refresh();
+    window.location.reload();
   };
 
   const fetchTokensAndThrow = async ({

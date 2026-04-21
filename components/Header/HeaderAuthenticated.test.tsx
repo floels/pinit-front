@@ -1,19 +1,11 @@
 import { render, screen } from "@testing-library/react";
-import { usePathname } from "next/navigation";
+import { MemoryRouter } from "react-router-dom";
 import HeaderAuthenticated from "./HeaderAuthenticated";
 import en from "@/public/locales/en/HeaderAuthenticated.json";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 import { createRef } from "react";
 
-jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  usePathname: jest.fn(),
-  useSearchParams: jest.fn(),
-}));
-
-const mockedUsePathname = usePathname as jest.Mock;
-
-const renderComponent = () => {
+const renderComponent = (pathname = "/en") => {
   const props = {
     username: "johndoe",
     profilePictureURL: null,
@@ -31,16 +23,16 @@ const renderComponent = () => {
   const mockRef = createRef<HTMLButtonElement>();
 
   render(
-    <HeaderSearchBarContextProvider>
-      <HeaderAuthenticated ref={mockRef} {...props} />
-    </HeaderSearchBarContextProvider>,
+    <MemoryRouter initialEntries={[pathname]}>
+      <HeaderSearchBarContextProvider>
+        <HeaderAuthenticated ref={mockRef} {...props} />
+      </HeaderSearchBarContextProvider>
+    </MemoryRouter>,
   );
 };
 
 it("when on home route, should mark home link as active and not mark create link as active", () => {
-  mockedUsePathname.mockReturnValue("/en");
-
-  renderComponent();
+  renderComponent("/en");
 
   const homeLink = screen.getByText(en.NAV_ITEM_HOME);
   expect(homeLink).toHaveClass("navigationItemActive");
@@ -50,9 +42,7 @@ it("when on home route, should mark home link as active and not mark create link
 });
 
 it("when on pin creation route, should mark create link as active and not mark home link as active", () => {
-  mockedUsePathname.mockReturnValue("/en/pin-creation-tool");
-
-  renderComponent();
+  renderComponent("/en/pin-creation-tool");
 
   const homeLink = screen.getByText(en.NAV_ITEM_HOME);
   expect(homeLink).not.toHaveClass("navigationItemActive");

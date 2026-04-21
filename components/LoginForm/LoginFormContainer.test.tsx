@@ -16,13 +16,11 @@ import { MockLocalStorage } from "@/lib/testing-utils/misc";
 
 localStorage = new MockLocalStorage();
 
-const mockRouterRefresh = jest.fn();
-
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    refresh: mockRouterRefresh,
-  }),
-}));
+const mockReload = jest.fn();
+Object.defineProperty(window, "location", {
+  configurable: true,
+  value: { ...window.location, reload: mockReload },
+});
 
 const typeInEmailInput = async (text: string) => {
   const emailInput = screen.getByLabelText(en.LoginForm.EMAIL);
@@ -57,7 +55,7 @@ const renderComponent = () => {
 };
 
 beforeEach(() => {
-  mockRouterRefresh.mockClear();
+  mockReload.mockClear();
 });
 
 it("displays relevant input errors", async () => {
@@ -111,7 +109,7 @@ and reloads the page upon successful response`, async () => {
     MOCK_API_RESPONSES_JSON[API_ROUTE_OBTAIN_TOKEN].access_token_expiration_utc,
   );
 
-  expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
+  expect(mockReload).toHaveBeenCalledTimes(1);
 });
 
 it(`sets the access token's expiration date in local storage 
@@ -132,7 +130,7 @@ and reloads the page upon successful response for demo login`, async () => {
     MOCK_API_RESPONSES_JSON[API_ROUTE_OBTAIN_TOKEN].access_token_expiration_utc,
   );
 
-  expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
+  expect(mockReload).toHaveBeenCalledTimes(1);
 });
 
 it("displays relevant errors when receiving KO responses", async () => {

@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styles from "./HeaderSearchBar.module.css";
 import classNames from "classnames";
@@ -29,7 +29,7 @@ const HeaderSearchBar = ({
   searchSuggestions,
   getSuggestionLinkClickHandler,
 }: HeaderSearchBarProps) => {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const { t } = useTranslation("HeaderAuthenticated");
 
@@ -38,7 +38,7 @@ const HeaderSearchBar = ({
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    router.push(`/search/pins?q=${inputValue}`);
+    navigate(`/search/pins?q=${inputValue}`);
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {

@@ -2,20 +2,16 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import en from "@/public/locales/en/LandingPageContent.json";
 import HeaderUnauthenticated from "./HeaderUnauthenticated";
-import { usePathname } from "next/navigation";
+import { MemoryRouter } from "react-router-dom";
 import { HeaderSearchBarContextProvider } from "@/contexts/headerSearchBarContext";
 
-jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  usePathname: jest.fn(),
-  useSearchParams: jest.fn(),
-}));
-
-const renderComponent = () => {
+const renderComponent = (pathname = "/some-page") => {
   render(
-    <HeaderSearchBarContextProvider>
-      <HeaderUnauthenticated />
-    </HeaderSearchBarContextProvider>,
+    <MemoryRouter initialEntries={[pathname]}>
+      <HeaderSearchBarContextProvider>
+        <HeaderUnauthenticated />
+      </HeaderSearchBarContextProvider>
+    </MemoryRouter>,
   );
 };
 
@@ -32,9 +28,7 @@ it("renders with search bar when pathname is not '/'", () => {
 });
 
 it("renders without search bar when pathname is '/'", () => {
-  (usePathname as jest.Mock).mockReturnValue("/");
-
-  renderComponent();
+  renderComponent("/");
 
   expect(screen.queryByTestId("header-search-bar")).toBeNull();
 });
