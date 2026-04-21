@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import styles from "./FifthFoldPicturesBackground.module.css";
 
@@ -33,7 +32,7 @@ const FifthFoldPicturesBackground = () => {
 
   const BackgroundPicture = ({ pictureIndex }: { pictureIndex: number }) => {
     return (
-      <Image
+      <img
         src={PICTURE_URLS[pictureIndex]}
         width={236}
         height={350}

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import TextAndExploreButton from "./TextAndExploreButton";
 import styles from "./ThirdFold.module.css";
@@ -26,11 +25,9 @@ const ThirdFold = () => {
       <div className={styles.picturesArea}>
         <div className={styles.picturesContainer}>
           <div className={styles.pictureTopLeftContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/future-home-vibes-55a673b9.png"
               alt={t("ThirdFold.FUTURE_HOME_VIBES")}
-              fill
-              sizes="4OOpx"
               className={styles.mainPicture}
             />
             <div
@@ -42,21 +39,21 @@ const ThirdFold = () => {
                 {t("ThirdFold.FUTURE_HOME_VIBES")}
               </div>
               <div className={styles.smallPicturesContainer}>
-                <Image
+                <img
                   src="https://s.pinimg.com/webapp/future-home1-f4037b6b.png"
                   alt={t("ThirdFold.FUTURE_HOME_VIBES")}
                   width={90}
                   height={130}
                   className={styles.smallPicture}
                 />
-                <Image
+                <img
                   src="https://s.pinimg.com/webapp/future-home2-c70a8738.png"
                   alt={t("ThirdFold.FUTURE_HOME_VIBES")}
                   width={90}
                   height={130}
                   className={styles.smallPicture}
                 />
-                <Image
+                <img
                   src="https://s.pinimg.com/webapp/future-home3-ac09e50f.png"
                   alt={t("ThirdFold.FUTURE_HOME_VIBES")}
                   width={90}
@@ -67,11 +64,9 @@ const ThirdFold = () => {
             </div>
           </div>
           <div className={styles.pictureTopRightContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/scandinavian-bedroom-917ad89c.png"
               alt={t("ThirdFold.SCANDINAVIAN_BEDROOM")}
-              fill
-              sizes="220px"
               className={styles.mainPicture}
             />
             <div
@@ -85,11 +80,9 @@ const ThirdFold = () => {
             </div>
           </div>
           <div className={styles.pictureMiddleRightContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/deck-of-dreams-fb527bf1.png"
               alt={t("ThirdFold.DECK_OF_MY_DREAMS")}
-              fill
-              sizes="160px"
               className={styles.mainPicture}
             />
             <div
@@ -103,11 +96,9 @@ const ThirdFold = () => {
             </div>
           </div>
           <div className={styles.pictureBottomLeftContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/serve-my-drinks-263547ea.png"
               alt={t("ThirdFold.SERVE_DRINKS")}
-              fill
-              sizes="220px"
               className={styles.mainPicture}
             />
             <div
@@ -121,11 +112,9 @@ const ThirdFold = () => {
             </div>
           </div>
           <div className={styles.pictureBottomRightContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/bathroom-upgrade-48ebb8fc.png"
               alt={t("ThirdFold.BATHROOM_UPGRADE")}
-              fill
-              sizes="220px"
               className={styles.mainPicture}
             />
             <div

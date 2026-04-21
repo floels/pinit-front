@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styles from "./PictureSliderPicture.module.css";
 import { PICTURE_SLIDER_TOPICS } from "./PictureSliderPictures";
 
@@ -135,16 +134,10 @@ const PictureSliderPicture = ({
 
   return (
     <div className={styles.container}>
-      <Image
+      <img
         src={imageURL}
         alt={topicLabel.toLowerCase()}
-        fill
-        sizes="236px"
         className={imageClasses}
-        priority={
-          topicIndex ===
-          0 /* Pre-load images of first topic to improve performance */
-        }
         data-testid={`picture-slider-picture-${topicLabel.toLowerCase()}-${imageIndex}`}
       />
     </div>

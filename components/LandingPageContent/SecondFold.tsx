@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
@@ -21,38 +20,30 @@ const SecondFold = () => {
       <div className={styles.picturesArea}>
         <div className={styles.picturesContainer}>
           <div className={styles.pictureLeftContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/left-511a9304.png"
               alt={t("SecondFold.CHICKEN_PLATE")}
-              fill
-              sizes="204px"
               className={styles.picture}
             />
           </div>
           <div className={styles.pictureTopRightContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/topRight-d0230035.png"
               alt={t("SecondFold.CHICKEN_PLATE")}
-              fill
-              sizes="178px"
               className={styles.picture}
             />
           </div>
           <div className={styles.pictureBottomRightContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/right-88044782.png"
               alt={t("SecondFold.CHICKEN_PLATE")}
-              fill
-              sizes="164px"
               className={styles.picture}
             />
           </div>
           <div className={styles.pictureCenterContainer}>
-            <Image
+            <img
               src="https://s.pinimg.com/webapp/center-77497603.png"
               alt={t("SecondFold.CHICKEN_PLATE")}
-              fill
-              sizes="298px"
               className={styles.picture}
             />
           </div>
