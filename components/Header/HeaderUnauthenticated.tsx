@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import OverlayModal from "../OverlayModal/OverlayModal";
 import LoginFormContainer from "../LoginForm/LoginFormContainer";
@@ -49,7 +48,7 @@ const HeaderUnauthenticated = () => {
   return (
     <nav className={styles.container}>
       <a href="/" className={styles.logoContainer}>
-        <Image src="/images/logo.svg" alt="PinIt logo" width={32} height={32} />
+        <img src="/images/logo.svg" alt="PinIt logo" width={32} height={32} />
         <h1 className={styles.logoHeader}>PinIt</h1>
       </a>
       {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.

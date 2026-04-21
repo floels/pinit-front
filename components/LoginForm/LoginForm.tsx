@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import LabelledTextInput from "../LabelledTextInput/LabelledTextInput";
 import styles from "./LoginForm.module.css";
@@ -61,7 +60,7 @@ const LoginForm = ({
 
   return (
     <div className={styles.container}>
-      <Image
+      <img
         src="/images/logo.svg"
         alt="PinIt logo"
         width={40}
