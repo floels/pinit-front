@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently --kill-others-on-fail --names \"vite,server\" \"vite\" \"ts-node --project server/tsconfig.json server/index.ts\"",
+    "dev:client": "vite",
+    "dev:server": "ts-node --project server/tsconfig.json server/index.ts",
     "build": "vite build",
     "start": "vite preview",
     "lint": "eslint .",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.35.1",
+    "@types/cookie-parser": "^1.4.6",
     "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
@@ -46,6 +49,8 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "@vitejs/plugin-react": "^4.0.0",
+    "concurrently": "^9.0.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.33.2",
