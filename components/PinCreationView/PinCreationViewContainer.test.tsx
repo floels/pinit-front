@@ -40,10 +40,8 @@ const expectInputFieldsToBeDisabled = () => {
 const renderComponent = () => {
   render(
     <MemoryRouter>
-      <div>
-        <ToastContainer />
-        <PinCreationViewContainer />
-      </div>
+      <ToastContainer />
+      <PinCreationViewContainer />
     </MemoryRouter>,
   );
 };
