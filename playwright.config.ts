@@ -29,7 +29,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "yarn dev",
+    command: "pnpm dev",
     url: "http://127.0.0.1:3000",
     reuseExistingServer: true,
   },
