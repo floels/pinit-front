@@ -1,6 +1,7 @@
 import React from "react";
 import userEvent from "@testing-library/user-event";
 import { screen, fireEvent, render, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import en from "@/public/locales/en/HeaderAuthenticated.json";
 import HeaderAuthenticatedContainer from "./HeaderAuthenticatedContainer";
 import { MockLocalStorage } from "@/lib/testing-utils/misc";
@@ -24,12 +25,6 @@ jest.mock("@/components/Header/AccountOptionsFlyout", () => {
   return MockedAccountOptionsFlyout;
 });
 
-jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  usePathname: jest.fn(),
-  useSearchParams: jest.fn(),
-}));
-
 localStorage = new MockLocalStorage();
 
 const defaultAccount =
@@ -41,11 +36,13 @@ const renderComponent = ({
   account?: AccountWithPrivateDetails | null;
 } = {}) => {
   render(
-    <AccountContext.Provider value={{ account, setAccount: jest.fn() }}>
-      <HeaderSearchBarContextProvider>
-        <HeaderAuthenticatedContainer />
-      </HeaderSearchBarContextProvider>
-    </AccountContext.Provider>,
+    <MemoryRouter>
+      <AccountContext.Provider value={{ account, setAccount: jest.fn() }}>
+        <HeaderSearchBarContextProvider>
+          <HeaderAuthenticatedContainer />
+        </HeaderSearchBarContextProvider>
+      </AccountContext.Provider>
+    </MemoryRouter>,
   );
 };
 

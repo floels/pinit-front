@@ -1,5 +1,5 @@
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faUser } from "@fortawesome/free-solid-svg-icons";
 import HeaderSearchBarContainer from "./HeaderSearchBarContainer";
@@ -40,7 +40,7 @@ const HeaderAuthenticated = forwardRef<
     handleClickOutOfAccountOptionsFlyout,
   } = props;
 
-  const pathname = usePathname();
+  const { pathname } = useLocation();
 
   const { t } = useTranslation("HeaderAuthenticated");
 
@@ -74,7 +74,7 @@ const HeaderAuthenticated = forwardRef<
   return (
     <nav className={styles.container}>
       <div className={styles.headerItemsContainer}>
-        <Link href="/" className={styles.logoContainer}>
+        <Link to="/" className={styles.logoContainer}>
           <img
             src="/images/logo.svg"
             alt="PinIt logo"
@@ -82,10 +82,10 @@ const HeaderAuthenticated = forwardRef<
             height={24}
           />
         </Link>
-        <Link href="/" className={classHomeLink}>
+        <Link to="/" className={classHomeLink}>
           {t("NAV_ITEM_HOME")}
         </Link>
-        <Link href="/pin-creation-tool/" className={classCreateLink}>
+        <Link to="/pin-creation-tool" className={classCreateLink}>
           {t("NAV_ITEM_CREATE")}
         </Link>
         {/* Trick: we render <HeaderSearchBar /> with a key containing the current pathname.
@@ -96,7 +96,7 @@ const HeaderAuthenticated = forwardRef<
         />
         {username && (
           <Link
-            href={`/${username}`}
+            to={`/${username}`}
             className={styles.profileLink}
             data-testid="profile-link"
             onMouseEnter={handleMouseEnterProfileLink}

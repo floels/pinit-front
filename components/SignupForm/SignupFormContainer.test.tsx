@@ -14,13 +14,11 @@ import {
 
 const handleClickAlreadyHaveAccount = () => {}; // NB: this behavior will be tested in <HeaderUnauthenticatedClient />
 
-const mockRouterRefresh = jest.fn();
-
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    refresh: mockRouterRefresh,
-  }),
-}));
+const mockReload = jest.fn();
+Object.defineProperty(window, "location", {
+  configurable: true,
+  value: { ...window.location, reload: mockReload },
+});
 
 const renderComponent = () => {
   render(
@@ -122,7 +120,7 @@ and reloads the page upon successful response`, async () => {
     MOCK_API_RESPONSES_JSON[API_ROUTE_SIGN_UP].access_token_expiration_utc,
   );
 
-  expect(mockRouterRefresh).toHaveBeenCalledTimes(1);
+  expect(mockReload).toHaveBeenCalledTimes(1);
 });
 
 it("displays relevant error when receiving KO responses", async () => {

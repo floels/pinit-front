@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   API_ROUTE_SIGN_UP,
   ERROR_CODE_EMAIL_ALREADY_SIGNED_UP,
@@ -48,8 +47,6 @@ const computeFormErrors = (values: {
 const SignupFormContainer = ({
   handleClickAlreadyHaveAccount,
 }: SignupFormContainerProps) => {
-  const router = useRouter();
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -105,7 +102,7 @@ const SignupFormContainer = ({
 
     setAccessTokenExpirationDate(responseData.access_token_expiration_utc);
 
-    router.refresh();
+    window.location.reload();
   };
 
   const fetchSignup = async () => {

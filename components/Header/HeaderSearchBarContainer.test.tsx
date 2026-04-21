@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
 import HeaderSearchBarContainer, {
   AUTOCOMPLETE_DEBOUNCE_TIME_MS,
 } from "./HeaderSearchBarContainer";
@@ -10,14 +11,11 @@ import {
   MOCK_API_RESPONSES_JSON,
 } from "@/lib/testing-utils/mockAPIResponses";
 
-const mockPush = jest.fn();
+const mockNavigate = jest.fn();
 
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: mockPush,
-  }),
-  usePathname: jest.fn(),
-  useSearchParams: jest.fn(),
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
 }));
 
 const typeSearchTerm = async (searchTerm: string) => {
@@ -34,9 +32,11 @@ const clickSearchInput = async () => {
 
 const renderComponent = () => {
   render(
-    <HeaderSearchBarContextProvider>
-      <HeaderSearchBarContainer />
-    </HeaderSearchBarContextProvider>,
+    <MemoryRouter>
+      <HeaderSearchBarContextProvider>
+        <HeaderSearchBarContainer />
+      </HeaderSearchBarContextProvider>
+    </MemoryRouter>,
   );
 };
 
@@ -160,7 +160,7 @@ it("navigates to search route when user clicks suggestion", async () => {
 
     await userEvent.click(searchSuggestionsListItems[1]);
 
-    expect(mockPush).toHaveBeenLastCalledWith(
+    expect(mockNavigate).toHaveBeenLastCalledWith(
       "/search/pins?q=foo suggestion 1",
     );
   });
@@ -173,7 +173,7 @@ it("navigates to /search/pins route when user types and presses Enter", async ()
 
   await userEvent.keyboard("[Enter]");
 
-  expect(mockPush).toHaveBeenLastCalledWith("/search/pins?q=foo");
+  expect(mockNavigate).toHaveBeenLastCalledWith("/search/pins?q=foo");
 });
 
 it("does not display any suggestion in case of KO response from the API", async () => {
